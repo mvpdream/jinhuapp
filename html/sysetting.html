@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<!--通用样式-->
+		<link rel="stylesheet"  href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet"  href="../css/jinhu.css">
+		<link rel="stylesheet" href="../css/setting.css">
+	</head>
+	<style>
+		.mui-table-view-cell{
+			padding: 11px 15px;	
+		}
+		.mui-table-view-cell:after{
+			background: transparent;
+		}
+		.mui-table-view:after{
+			background: transparent;
+		}
+		.mui-table-view:before{
+			background: transparent;
+		}
+	</style>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span>设置
+			</button>
+		</header>
+		<div class="mui-content">
+			<div class="mui-page-content">
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+
+						<ul class="mui-table-view mui-table-view-chevron">
+							<li class="mui-table-view-cell" style="border-bottom: 1px solid #E4E4E4;">
+								<a id="personalData" onclick="userProfile()" class="mui-navigate-right">个人资料</a>
+							</li>
+							<li class="mui-table-view-cell" style="border-bottom: 1px solid #E4E4E4;">
+								<a id="myNotice" onclick="noticePage()" class="mui-navigate-right">我的通知 <i class="mui-pull-right update"><span id="noticeNums"></span>未读</i></a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a id="updatePas" onclick="updatePas()" class="mui-navigate-right">修改密码</a>
+							</li>
+						</ul>
+						<ul class="mui-table-view mui-table-view-chevron">
+							<li class="mui-table-view-cell">
+								<a id="aboutJh" onclick="aboutJH()" class="mui-navigate-right">关于近乎</a>
+							</li>
+						</ul>
+
+						<div style="text-align: center;margin-top: 50px;">
+							<button id="signOut" type="button" style="width: 90%;padding: 10px;background-color: #bf0a10;" class="mui-btn mui-btn-red">退出登录</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<script src="../js/common.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/wxHelper.js"></script>
+	</body>
+	<script>
+	mui.init();
+
+	var signOut = document.getElementById("signOut");
+	var noticeNum = 0;
+	//B页面onload从服务器获取列表数据；
+	window.onload = function() {
+		//获取url中的targetId参数
+		if(mui.os.plus) {
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				noticeNum = self.noticeNum;
+				document.getElementById("noticeNums").innerHTML = noticeNum
+				//关闭等待框
+				plus.nativeUI.closeWaiting();
+				//显示当前页面
+				mui.currentWebview.show();
+			});
+		} else {
+			noticeNum = getUrlParam('noticeNum');
+			document.getElementById("noticeNums").innerHTML = noticeNum
+		}
+		if(mui.os.wechat) {
+			var currUrl = location.href.split('#')[0];
+			weChatLogin(currUrl)
+		}
+
+	}
+
+	function getNoticeNum() {
+		getDatawithToken('User/GetMyNotice?pageIndex=' + 1, {}, function(data) {
+			if(data.Type == 1) {
+				if(data.Data && typeof(data.Data) == 'object') {
+					if(data.Data.length != 0) {
+						document.getElementById("noticeNums").innerHTML = data.Data.NoticeCount
+					} else {
+						document.getElementById("noticeNums").innerHTML = "";
+					}
+
+				} else {
+					mui.toast(data.Data);
+				}
+
+			} else if(data.Type == 0) {
+				//mui.toast("请登录后再进行操作");
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(err) {
+
+		})
+	}
+	signOut.addEventListener('tap', function() {
+		var btnArray = ['取消', '确定'];
+		mui.confirm('确认退出登录？', '退出', btnArray, function(e) {
+			if(e.index == 1) {
+				showLoading();
+				postDatawithToken('User/SignOut', {}, function(data) {
+					hideLoading()
+					if(data.Type == 1) {
+						setlsData('token', '');
+						setlsData('isLogin', false);
+						if(mui.os.wechat) {
+							//window.location.href=document.referrer; 
+							var url = '../index.html' + '?isMine=' + true;
+							mui.openWindow({
+								url: url,
+								id: 'main',
+								waiting: {
+									options: {
+										loading: {
+											height: '35px'
+										}
+									}
+								}
+							})
+						} else {
+							if(mui.os.plus) {
+								var currView = plus.webview.getWebviewById('mine.html');
+								currView && currView.reload();
+							}
+							var baseUrl = 'login.html';
+							var url = mui.os.plus ? baseUrl : baseUrl + '?type=0';
+							mui.openWindow({
+								url: url,
+								id: 'login.html',
+								show: {
+									autoShow: true
+								},
+								waiting: {
+									options: {
+										loading: {
+											height: '35px'
+										}
+									}
+								},
+								extras: {
+									type: '0'
+								}
+							})
+						}
+					} else if(data.Type == 0) {
+						//登录失败
+						//mui.toast("请登录后再进行操作");
+						setlsData('isLogin', false);
+						//login();
+						mui.back();
+						return;
+					} else {
+						//逻辑错误
+						mui.toast(data.Data);
+						return;
+					}
+				}, function(data) {
+					hideLoading()
+				});
+			}
+		});
+	})
+//	document.getElementById("personalData").addEventListener('tap',function(){
+//		userProfile()
+//	})
+	function userProfile() {
+		var baseUrl = 'personalData.html';
+		var url = mui.os.plus ? baseUrl : baseUrl;
+		mui.openWindow({
+			url: url,
+			id: 'personalData.html',
+			show: {
+				autoShow: true
+			},
+			waiting: {
+				options: {
+					loading: {
+						height: '35px'
+					}
+				}
+			},
+			extras: {
+
+			}
+		})
+	}
+//	document.getElementById("myNotice").addEventListener('tap',function(){
+//		noticePage()
+//	})
+	function noticePage() {
+		var baseUrl = 'userNotice_main.html';
+		var url = mui.os.plus ? baseUrl : baseUrl;
+		mui.openWindow({
+			url: url,
+			id: 'userNotice_main.html',
+			show: {
+				autoShow: false
+			},
+			waiting: {
+				options: {
+					loading: {
+						height: '35px'
+					}
+				}
+			},
+			extras: {
+
+			}
+		})
+	}
+//	document.getElementById("updatePas").addEventListener('tap',function(){
+//		updatePas()
+//	})
+	function updatePas() {
+		var baseUrl = 'update_password.html';
+		var url = mui.os.plus ? baseUrl : baseUrl;
+		mui.openWindow({
+			url: url,
+			id: 'update_password.html',
+			show: {
+				autoShow: true
+			},
+			waiting: {
+				options: {
+					loading: {
+						height: '35px'
+					}
+				}
+			},
+			extras: {
+
+			}
+		})
+	}
+//	document.getElementById("aboutJh").addEventListener('tap',function(){
+//		aboutJH()
+//	})
+	function aboutJH() {
+		var baseUrl = 'aboutJinhu.html';
+		var url = mui.os.plus ? baseUrl : baseUrl;
+		mui.openWindow({
+			url: url,
+			id: 'aboutJinhu.html',
+			show: {
+				autoShow: true
+			},
+			waiting: {
+				options: {
+					loading: {
+						height: '35px'
+					}
+				}
+			},
+			extras: {
+
+			}
+		})
+	}
+
+
+	</script>
+
+</html>

@@ -1,0 +1,1037 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>活动详情</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/jinhu.css" />
+	</head>
+	<style>
+		.detail_content {
+			background-color: #FFFFFF;
+		}
+		
+		.creator_img_comment {
+			width: 2rem !important;
+			height: 2rem !important;
+		}
+		#reportContainer{
+			position: fixed;
+			margin-left: 5%;
+			min-height: 375px;
+			background-color: #ffffff;
+		}
+		#reportContainer button{
+			width: 50%;
+		    height: 40px;
+		    line-height: 24px;
+		    border-right: 1px solid #eff2f9;
+		    border-top: none;
+		    border-bottom: none;
+		    text-align: center;
+		    margin-right: 0px;
+		}
+		#reportContainer p {
+			margin-bottom: 0px;
+		    height: 40px;
+		    line-height: 40px;
+		    width: 100%;
+		    border-top: 1px solid #eff2f9;
+		}
+		#reportContainer ul{
+			background-color: #fff;
+			margin: 5px 5px;
+			padding: 3px;
+		}
+	</style>
+
+	<body style="background-color: #fff;">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span>活动详情
+			</a>
+			<a id="eventOpt" class="mui-icon mui-icon-bars mui-pull-right" style="color: #333;"></a>
+		</header>
+
+		<div id="popover" class="mui-popover" style="border-radius:0px;position:fixed;width: 130px;height: auto;background-color: #FFFFFF;right: 5px;top: 50px;">
+			<ul class="mui-list-unstyled jh-dropdown-list" style="margin-top:0px;border: none;">
+				<li id="editEvent" style="height: 30px;line-height: 30px;">
+					<a><i class="fa fa-edit" aria-hidden="true"></i>&nbsp;&nbsp编辑</a>
+				</li>
+				<li id="deleteEvent" style="height: 30px;line-height: 30px;padding-top: 3px;">
+					<a><i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp删除</a>
+				</li>
+				<li id="report" style="height：30px;line-height: 30px;padding-top: 3px;">
+					<a><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;&nbsp举报</a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="mui-content">
+			<div class="mui-content-padded">
+				<div class="detail_content">
+					<p>
+						<img id="imageAttachment" style="width: 100%;" src="" data-preview-src="" data-preview-group="1" />
+					</p>
+				</div>
+				<h4 class="jh-detail-title" id="eventTitle"></h4>
+				<div class="jh-activity-detail">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<ul class="mui-list-inline">
+								<li><i class="fa fa-clock-o text-muted"></i></li>
+								<li><span id="startDate"></span> 至 <span id="endDate"></span></li>
+							</ul>
+						</li>
+						<li class="mui-table-view-cell" id="eventAddress">
+							<ul class="mui-list-inline">
+								<li style="width:5%;vertical-align:top;"><i class="fa fa-map-marker text-muted"></i> </li>
+								<li style="width:90%;line-height:1.5;">
+									<a><span id="completeAddress"></span><img id="mapimg" style="width: 20px;height: 20px;margin-left: 5px;" src="../img/map-img.png" /></a>
+								</li>
+							</ul>
+						</li>
+						<li class="mui-table-view-cell" id="userAvator">
+							<ul class="mui-list-inline">
+								<li><img class="creator_img" id="author" src="" /></li>
+								<li>
+									<a id="userDisplayName"></a>
+								</li>
+							</ul>
+						</li>
+						<li class="mui-table-view-cell">
+							报名截止时间：<span id="deadline"></span>
+						</li>
+						<li class="mui-table-view-cell">
+							<ul class="mui-list-inline">
+								<li>已报名 <span class="tn-theme-color" id="attendCount"></span>/<span id="memberCount"></span></li>
+								<li class="mui-pull-right">浏览 <span id="hitTimes"></span></li>
+							</ul>
+						</li>
+					</ul>
+					<div class="mui-text-center tn-mt-10" style="padding-top: 10px;padding-bottom: 10px;">
+						<button type="button" class="mui-btn mui-btn-primary" id="signUpOpt">我要报名</button>
+						<a class="mui-pull-right" id="managerMember" style="display: none;">管理报名信息</a>
+					</div>
+				</div>
+
+				<div class="mui-bar mui-bar-tab jh-bar-comment">
+
+				</div>
+			</div>
+
+		</div>
+		<div class="jh-gray-bar" id="Stickygb"></div>
+		<div id="slider" class="mui-slider">
+			<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted jh-scroll-wrapper ">
+				<div class="mui-scroll" id="SectionType" style="padding-right: 40px;">
+					<a class="mui-control-item mui-active" href="#itemmobile" id=0>
+						活动详情
+					</a>
+					<a class="mui-control-item" href="#item1mobile" id=1>
+						已报名
+					</a>
+					<a class="mui-control-item" href="#item2mobile" id=2>
+						用户讨论
+					</a>
+				</div>
+			</div>
+
+			<div class="mui-slider-group" id="sliderGroup">
+				<div id="itemmobile" class="mui-slider-item mui-control-content mui-active" style="border: none;">
+					<div class="detail_content">
+						<p style="text-indent:2em;" class="mui-content-padded" id="eventDetail"></p>
+						<div class="tn-file-list" id="attachments" style="display: none;"></div>
+					</div>
+				</div>
+				<div id="item1mobile" class="mui-slider-item mui-control-content jh-activity-enroll" style="border: none;">
+					<ul class="mui-table-view">
+						<div class="mui-loading">
+							<div class="mui-spinner"></div>
+						</div>
+					</ul>
+				</div>
+
+				<div id="item2mobile" class="mui-slider-item mui-control-content" style="border: none;">
+					<div class="mui-loading">
+						<div class="mui-spinner"></div>
+					</div>
+					<div class="mui-content mui-content-padded" id="commentList">
+						<div id="commentArea">
+
+						</div>
+
+						<div class="mui-text-center" style="margin-top: 1rem;display: none;" id="morecomment">
+							<span class="more-news">查看更多评论</span>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div id="reportContainer" class="jh-medal-popover box mui-popover" style="background-color: #fff;display: none;padding: 0px !important;">
+			<ul class="mui-table-view jh-word-vote" id="itemContainer">
+				<span style="margin-left: 15px;">举报原因</span><span style="color: red;">*</span>
+				<form class="mui-input-group" style="background-color: #fff;margin-bottom: 0px;">
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">恶意灌水</span>
+						<input name="style" type="radio" class="mui-pull-left" id="1"/>
+					</div>
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">淫秽色情</span>
+						<input name="style" type="radio" class="mui-pull-left" id="2"/>
+					</div>
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">内容侵权</span>
+						<input name="style" type="radio" class="mui-pull-left" id="3"/>
+					</div>
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">广告诈骗</span>
+						<input name="style" type="radio" class="mui-pull-left" id="4"/>
+					</div>
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">其他</span>
+						<input name="style" type="radio" class="mui-pull-left" id="99"/>
+					</div>
+				</form>
+			</ul>
+	    	<ul class="mui-table-view">
+				<li style="padding-bottom: 0px; font-size: 16px;padding: 6px 10px;">
+					<textarea id="reason" rows="2" placeholder="请输入举报原因"></textarea>
+				</li>
+			</ul>
+			<p>
+				<button class="Fbutton" style="border-radius: 0px 0px 0px 5px;color: #999;" id="cancelReport">取消</button>
+				<button class="Fbutton" id="submitReport" style="color: #bf0a10;border-right: none;border-left:none;float: right;border-radius: 0px 0px 5px 0px;">确定</button>
+			</p>
+	    </div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.zoom.js"></script>
+		<script src="../js/mui.previewimage.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/comment.js"></script>
+		<script src="../js/share.js"></script>
+		<script src="../js/wxHelper.js"></script>
+		<script src="../js/jweixin-1.2.0.js"></script>
+		<script src="../js/jquery-2.1.0.js"></script>
+		<script src="../js/openApp.js"></script>
+		<script src="https://static.mlinks.cc/scripts/dist/mlink.min.js"></script>
+		<script src="../js/attachment.js"></script>
+		<script src="../js/coordtransform.js"></script>
+	</body>
+	<script>
+		if(!mui.os.plus) {
+			creatBanner();
+		}
+		showLoading('', '', '#FFFFFF', '50px');
+
+		if(!mui.os.wechat) {
+			mui.previewImage();
+		}
+		if(mui.os.wechat) {
+			initWx();
+			wx.ready(function() {
+				wx.checkJsApi({ 
+					jsApiList: ['previewImage','openLocation'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+					success: function(res) {
+						// 以键值对的形式返回，可用的api值true，不可用为false
+						// 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+					}
+				});
+			});
+			wx.error(function(res) {
+
+			});
+		}
+
+		var eventTitle = document.getElementById("eventTitle");
+		var author = document.getElementById("author");
+		var userDisplayName = document.getElementById("userDisplayName");
+		var userAvator = document.getElementById("userAvator");
+		var imageAttachment = document.getElementById("imageAttachment");
+		var eventOpt = document.getElementById("eventOpt");
+		var startDate = document.getElementById("startDate");
+		var endDate = document.getElementById("endDate");
+		var completeAddress = document.getElementById("completeAddress");
+		var deadline = document.getElementById("deadline");
+		var attendCount = document.getElementById("attendCount");
+		var memberCount = document.getElementById("memberCount");
+		var hitTimes = document.getElementById("hitTimes");
+		var editEvent = document.getElementById("editEvent");
+		var deleteEvent = document.getElementById("deleteEvent");
+		var signUpOpt = document.getElementById("signUpOpt");
+		var eventDetail = document.getElementById("eventDetail");
+		var eventAddress = document.getElementById("eventAddress");
+		var userid = 0;
+		//剩余报名人数
+		var remainingEnrolment = 0;
+		var address = '';
+		var mapcoord = '';
+		var isSpecial = false;
+		var attachments = document.getElementById("attachments");
+
+		var wximgEl = document.createElement("div");
+		mui('.mui-scroll-wrapper').scroll();
+		var deceleration = mui.os.ios ? 0.003 : 0.0009;
+		mui('.mui-scroll-wrapper.mui-slider-indicator.mui-segmented-control').scroll({
+			scrollY: false,
+			scrollX: true,
+			indicators: false,
+			deceleration: deceleration,
+			snap: '.mui-control-item'
+		});
+		mui.init();
+
+
+		var eventId;
+		var currId = "";
+		//B页面onload从服务器获取列表数据；
+		window.onload = function() {
+			//获取url中的targetId参数
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					eventId = self.eventId;
+					currId = self.currId;
+					getDetail(eventId)
+					//关闭等待框
+					plus.nativeUI.closeWaiting();
+					//显示当前页面
+					mui.currentWebview.show();
+				});
+			} else {
+				eventId = getUrlParam('eventId');
+				getDetail(eventId)
+			}
+			if(!mui.os.plus) {
+				initOpenApp('eventDetail', eventId)
+			}
+			if(mui.os.wechat) {
+				var currUrl = location.href.split('#')[0];
+				weChatLogin(currUrl)
+			}
+
+		}
+		managerMember.addEventListener('tap', function() {
+			var urlId = 'ManageEventMembers.html';
+			var baseUrl = 'ManageEventMembers.html?eventId=' + eventId + '&remainingEnrolment=' + remainingEnrolment;
+			mui.openWindow({
+				url: baseUrl,
+				id: urlId,
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					eventId: eventId,
+					remainingEnrolment:remainingEnrolment
+				}
+			})
+		})
+		if(mui.os.wechat) {
+			mui("#eventDetail").on('tap', 'img', function(e) {
+				var imgUrl = e.detail.target.currentSrc;
+				var imgs = [];
+				var imgels = wximgEl.querySelectorAll('img');
+				for(var i = 0; i < imgels.length; i++) {
+					imgs.push(imgels[i].src)
+				}
+				wx.previewImage({
+					current: imgUrl,
+					urls: imgs
+				});
+			})
+		}
+		userAvator.addEventListener('tap', function() {
+			var baseUrl = 'userHomepage.html';
+			var url = baseUrl + '?userId=' + userid;
+			mui.openWindow({
+				url: url,
+				id: 'userHomepage.html',
+				show: {
+					autoShow: false
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					userId: userid
+				}
+			})
+		})
+		function setPopHeight(idname) { 
+			var height = document.documentElement.clientHeight || document.body.clientHeight;
+			var popHeight = parseInt(window.getComputedStyle(document.getElementById(idname), null).minHeight);
+			document.getElementById(idname).style.top = (height - popHeight)/2 + 'px';
+		}
+		document.getElementById('report').addEventListener('tap',function(){
+			var islog = getlsData('isLogin');
+			if(islog == 'true'){
+				mui('#reportContainer').popover('toggle');
+				setPopHeight('reportContainer');
+			}else{
+				login();
+			}
+		})	
+		document.getElementById('cancelReport').addEventListener('tap',function(){
+			mui('#reportContainer').popover('toggle');
+		})
+		document.getElementById('submitReport').addEventListener('tap',function(){
+			var checked = false;
+			for(var i = 0;i<document.getElementById('itemContainer').getElementsByTagName('input').length;i++){
+				if(document.getElementById('itemContainer').getElementsByTagName('input')[i].checked == true){
+					checked = true;
+					var id = document.getElementById('itemContainer').getElementsByTagName('input')[i].id;
+				}
+			}
+			if(checked == false){
+				mui.toast("请选择举报原因");
+				return;
+			}
+			var Description = TrimAll(document.getElementById('reason').value);
+			EditReport(id,Description);
+			mui('#reportContainer').popover('toggle');
+		})
+		function EditReport(id,Description){
+			var params = {
+				TenantTypeId:101400,
+				Reason:id,
+				Title:document.getElementById('eventTitle').innerText,
+				Description:Description,
+				ReportObjectId:eventId
+			}
+			postDatawithToken('User/EditReport',params, function(data) {
+				if(data.Type == 1) {
+					mui.toast(data.Data);					
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误					
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(data) {
+				hideLoading()
+			});
+		}
+		mui("#commentArea").on('tap', '.creator_img_comment', function(e) {
+			var userid = this.getAttribute('id');
+			var baseUrl = 'userHomepage.html';
+			var url = baseUrl + '?userId=' + userid;
+			mui.openWindow({
+				url: url,
+				id: 'userHomepage.html',
+				show: {
+					autoShow: false
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					userId: userid
+				}
+			})
+
+		})
+
+		mui("#item1mobile").on('tap', '.mui-table-view-cell', function(e) {
+			var userid = this.getAttribute('id');
+			var baseUrl = 'userHomepage.html';
+			var url = baseUrl + '?userId=' + userid;
+			mui.openWindow({
+				url: url,
+				id: 'userHomepage.html',
+				show: {
+					autoShow: false
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					userId: userid
+				}
+			})
+
+		})
+		signUpOpt.addEventListener('tap', function() {
+			var islog = getlsData('isLogin');
+			if(islog == 'true') {
+				var baseUrl = 'eventSignUp.html?eventId=' + eventId + '&remainingEnrolment=' + remainingEnrolment+'&memberId='+0;
+				mui.openWindow({
+					url: baseUrl,
+					id: 'eventSignUp.html',
+					show: {
+						autoShow: true
+					},
+					waiting: {
+						options: {
+							loading: {
+								height: '35px'
+							}
+						}
+					},
+					extras: {
+						eventId: eventId,
+						remainingEnrolment: remainingEnrolment,
+						memberId:0
+					}
+				})
+			} else {
+				login();
+			}
+
+		})
+
+		eventOpt.addEventListener('tap', function() {
+			mui('#popover').popover('toggle');
+		})
+		function UpdateEvent(id){
+			var urlId = 'creatEvent.html';
+			var baseUrl = 'creatEvent.html?eventId=' + id;
+			mui.openWindow({
+				url: baseUrl,
+				id: urlId,
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					eventId: id
+				}
+			})
+		}
+
+		function DeleteEvent(id) {
+			showLoading();
+			postDatawithToken('Event/DeleteEvent?eventId=' + id, {}, function(data) {
+				hideLoading();
+				if(data.Type == 1) {
+					mui.toast(data.Data);
+					if(mui.os.plus) {
+						mui('#popover').popover('hide');
+						var wobj = plus.webview.getWebviewById(currId);
+						wobj.reload(true);
+						setTimeout(function() {
+							mui.back();
+						}, 500)
+					} else {
+						mui.back();
+					}
+
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr('','50px',false)
+			})
+		}
+
+//		function creatAttachment(data) {
+//			var fragment = document.createDocumentFragment();
+//			var div;
+//			for(var i = 0; i < data.length; i++) {
+//				var filename = data[i].FriendlyFileName;
+//				var type = filename.substring(filename.lastIndexOf('.') + 1);
+//				var typeIcon = '';
+//				var downloadUrl = '';
+//				switch(type) {
+//					case "wps":
+//					case "doc":
+//					case "docx":
+//						typeIcon = '<span class=" fa fa-file-word-o tn-blue-color"></span>';
+//						break;
+//					case "pps":
+//					case "pptx":
+//					case "ppt":
+//						typeIcon = '<span class="fa  fa-file-powerpoint-o tn-yellow-color"></span>';
+//						break;
+//					case "xls":
+//					case "xlsx":
+//						typeIcon = '<span class="fa  fa-file-excel-o tn-green-color"></span>';
+//						break;
+//					case "pdf":
+//						typeIcon = '<span class="fa  fa-file-pdf-o tn-green-color"></span>';
+//						break;
+//					case "txt":
+//						typeIcon = '<span class="fa  fa-file-text-o tn-green-color"></span>';
+//						break;
+//					case "jpg":
+//					case "png":
+//					case "bmp":
+//					case "gif":
+//						typeIcon = '<span class="fa  fa-file-image-o tn-green-color"></span>';
+//						break;
+//					case "flv":
+//					case "rmvb":
+//					case "mp4":
+//					case "3gp":
+//					case "mpeg":
+//					case "wmv":
+//					case "mov":
+//					case "avi":
+//					case "asf":
+//						typeIcon = '<span class="fa  fa-file-video-o tn-blue-color"></span>';
+//						break;
+//					case "zip":
+//					case "rar":
+//						typeIcon = '<span class="fa  fa-file-zip-o tn-red-color"></span>';
+//						break;
+//					case "mp3":
+//					case "wav":
+//					case "rm":
+//						typeIcon = '<span class="fa  fa-file-audio-o tn-red-color"></span>';
+//						break;
+//					default:
+//						typeIcon = '<span class="fa  fa-file-o tn-black-color"></span>'
+//						break;
+//				}
+//
+//				div = document.createElement('div');
+//				div.className = 'mui-row';
+//				div.innerHTML = '<div class="mui-col-xs-1">' +
+//					'' + typeIcon + '' +
+//					'</div>' +
+//					'<div class="mui-col-xs-7 mui-ellipsis">' + data[i].FriendlyFileName.substring(0, 15) + '</div>' +
+//					'<div class="mui-col-xs-2 text-muted mui-text-right">' + data[i].Size + '</div>' +
+//					'<div class="mui-col-xs-2 mui-text-right">' +
+//					'<a id=' + data[i].Url + ' title=' + data[i].FriendlyFileName + '>下载</a>' +
+//					'</div>';
+//				fragment.appendChild(div);
+//			}
+//			return fragment;
+//		};
+		mui("#attachments").on('tap', 'a', function(e) {
+			if(mui.os.plus) {
+				startDownloadTask(this.getAttribute('id'))
+			} else {
+				download(this.getAttribute('id'), this.getAttribute('title'), location.href.split('#')[0])
+			}
+
+		})
+
+		function btnOpt(text) {
+			signUpOpt.innerHTML = text;
+			signUpOpt.style.backgroundColor = '#999999';
+			signUpOpt.style.borderColor = '#999999';
+			signUpOpt.setAttribute("disabled", "disabled");
+			//signUpOpt.removeAttribute("disabled");
+		}
+		document.getElementById('item1mobile').addEventListener('scrollbottom', function() {
+			getMemberByEventId(true, eventId)
+		})
+
+		function getDetail(id) {
+			showLoading('', '', '#FFFFFF', '50px');
+			getDatawithToken('Event/EventDetail', {
+				eventId: id
+			}, function(data) {
+				hideLoading();
+				hideErr();
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						var data = data.Data;
+						setIdandType(id, 'Event', data.CommentCount)
+						userid = data.UserId;
+						author.src = data.Avatar == "" ? "../img/avatar.jpg" : getImgUrl(data.Avatar);
+						userDisplayName.innerHTML = data.UserDisplayName;
+						if(data.ImageAttachment == ""){
+							imageAttachment.style.display='none';
+						}else{
+							imageAttachment.style.display='';
+							imageAttachment.src = data.ImageAttachment == "" ? "../img/slider-1.jpg" : getImgUrl(data.ImageAttachment);
+						}
+						
+						eventTitle.innerHTML = data.Subject;
+						startDate.innerHTML = data.StartDate;
+						endDate.innerHTML = data.EndDate;
+						completeAddress.innerHTML = (data.CompleteAddress == null||data.CompleteAddress =="") ? '暂无地址' : data.CompleteAddress;
+						if(completeAddress.innerHTML=='暂无地址'){
+							document.getElementById("mapimg").style.display='none'
+						}
+						address = data.CompleteAddress;
+						mapcoord = data.MapCoord;
+						deadline.innerHTML = data.Deadline;
+						attendCount.innerHTML = data.AttendCount;
+						memberCount.innerHTML = data.MemberCount;
+						remainingEnrolment = data.MemberCount - data.AttendCount;
+						if(data.MemberCount==0){
+							memberCount.innerHTML ='无限制';
+							remainingEnrolment=99999
+						}
+						hitTimes.innerHTML = data.HitTimes;
+						
+						if(data.MemberCount!=0&&(data.AttendCount >= data.MemberCount)) {
+							btnOpt('报名人数已满')
+						};
+						if(data.IsEnded) {
+							btnOpt('报名已结束')
+						};
+						if(data.IsAttend) {
+							btnOpt('已报名')
+						};
+						var oldDate = new Date(data.Deadline);
+						var nowDate = new Date();
+						if(nowDate > oldDate) {
+							btnOpt('报名已截止')
+						};
+						eventDetail.innerHTML = '';
+						eventDetail.innerHTML = getBodyImgUrl(data.Body);
+						
+						if(data.Attachments && data.Attachments.length > 0) {
+							attachments.style.display = 'block';
+							attachments.appendChild(creatAttachment(data.Attachments));
+						} else {
+							attachments.style.display = 'none';
+						}
+						wximgEl.innerHTML = getBodyImgUrl(data.Body);
+						var item = document.getElementById("itemmobile");
+						document.getElementById("slider").style.height = 'auto';
+						item.style.paddingBottom = '50px';
+						setShareInfo(getlsData('currUrl'), data.Subject, data.Subject);
+						com.isFavorited = data.IsFavorited;
+						favorThread(data.IsFavorited);
+						managerMember.style.display = (data.IsManage) ? 'inherit' : 'none';
+						if(data.IsAllowMobileEdit){
+							if(data.IsManage||data.CanDelete){
+								editEvent.style.display='inherit'
+							}else{
+								editEvent.style.display='none'
+							}
+						}else{
+							editEvent.style.display='none'
+						}
+						deleteEvent.style.display = (data.CanDelete) ? 'inherit' : 'none';
+						var islog = getlsData('isLogin');
+						//eventOpt.style.display = (islog == 'true') ? 'inherit' : 'none';
+//						if(!data.IsManage && !data.CanDelete) {
+//							eventOpt.style.display = 'none';
+//						}
+						isSpecial = data.IsSpecial;
+						if(data.CompleteAddress == null||data.CompleteAddress ==""||mapcoord == "" || mapcoord == null){
+							completeAddress.style.color='#000000';
+							document.getElementById("mapimg").style.display='none'
+						}
+						
+						var imgs=document.getElementById("itemmobile").querySelector('.detail_content').querySelectorAll('img')
+						mui.each(imgs,function(index){
+							imgs[index].parentElement.parentElement.style.textIndent=0
+						})
+	
+						
+						
+						
+						
+						
+					} else {
+						eventOpt.style.display = 'none';
+						showErr(data.Data, '', '#FFFFFF', '50px')
+						mui.toast(data.Data);
+					}
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					eventOpt.style.display = 'none';
+					showErr(data.Data, '', '#FFFFFF', '50px')
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr()
+			})
+		}
+
+		var creatMemberElement = function(data, id) {
+			var fragment = document.getElementById(id);
+			var cfragment = fragment.firstElementChild;
+			var finel = cfragment;
+			for(var i = 0; i < data.length; i++) {
+				if(data[i].ApprovalStatus == 20 || data[i].ApprovalStatus == 30) { //"ApprovalStatus:审核状态：10=未通过，20=待审核，30=需再审核，40=通过"
+					var ApprovalStatus = data[i].ApprovalStatus == 20 ? '<span style="color: #FF9900;">待审核</span>' : '<span style="color: #FF9900;">需再审核</span>'
+				}
+				if(data[i].ApprovalStatus == 10) {
+					var ApprovalStatus = '<span style="color: #FF0000;">审核未通过</span>'
+				}
+				if(data[i].ApprovalStatus == 40) {
+					var ApprovalStatus = '<span style="color: #008000;">审核通过</span>'
+				}
+				var li;
+				var userAvator = data[i].Avatar == "" ? "../img/avatar.jpg" : getImgUrl(data[i].Avatar);
+				li = document.createElement('li');
+				li.className = 'mui-table-view-cell';
+				li.style.padding = '10px';
+				li.id = data[i].UserId;
+				li.innerHTML = '<ul class="mui-list-inline">' +
+					'<li><img class="creator_img_comment " src="' + userAvator + '" /></li>' +
+					'<li>' + data[i].UserName.substring(0,8) + '</li>' +
+					'<li style="padding-left:10px">' + data[i].DateCreated + '</li>' +
+					'<li class="mui-pull-right">' + ApprovalStatus + '</li>' +
+					'</ul>';
+				finel.appendChild(li);
+			}
+		};
+
+		var page = 1;
+
+		function getMemberByEventId(more, id) {
+			if(!more) {
+				showLoading('', '', '#FFFFFF', '100px', '1');
+			}
+			var idName = 'item1mobile';
+			var fragment = document.getElementById(idName);
+			var cfragment = fragment.firstElementChild;
+			var finel = cfragment;
+			if(more) {
+				page++;
+			} else {
+				finel.innerHTML = '';
+				page = 1;
+			}
+			var params = {
+				eventId: id,
+				pageIndex: page
+			};
+			getData('Event/GetMemberByEventId', params, function(data) {
+				hideLoading()
+				hideErr()
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						hideErrForList('', idName);
+						if(data.Data.length == 0) {
+							if(!more) {
+								var errForList = showErrForList('暂无人员', '', '10px', idName);
+								if(errForList) {
+									fragment.appendChild(showErrForList('暂无人员', '', '10px', idName))
+								}
+							}
+						}
+						creatMemberElement(data.Data, 'item1mobile');
+						var item = document.getElementById("item" + 1 + "mobile");
+						document.getElementById("slider").style.height = (item.offsetHeight + 150) + 'px';
+					} else {
+						if(!more) {
+							var errForList = showErrForList('暂无更多人员', '', '', idName);
+							if(errForList) {
+								fragment.appendChild(showErrForList('暂无更多人员', '', '', idName))
+							}
+						}
+					}
+				} else {
+					hideLoading();
+					//逻辑错误
+					var errForList = showErrForList(data.Data, '', '', idName);
+					if(errForList) {
+						fragment.appendChild(showErrForList(data.Data, '', '', idName))
+					}
+					return;
+				}
+			}, function(err) {
+				setErr()
+			})
+		}
+
+		function getComments(id) {
+			var params = {
+				eventId: id,
+				pageSize: '10',
+				pageIndex: '1'
+			};
+			var idName = 'item2mobile';
+			var fragment = document.getElementById(idName);
+			getData('Event/GetCommentByEventId', params, function(data) {
+				hideLoading();
+				hideErr();
+				if(fragment.querySelector('.mui-loading')) {
+					fragment.removeChild(fragment.querySelector('.mui-loading'));
+				}
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						hideErrForList('', idName);
+						if(data.Data.Comments.length == 0) {
+							var errForList = showErrForList('暂无数据', '', '0', idName);
+							if(errForList) {
+								fragment.appendChild(showErrForList('暂无数据', '', '0', idName))
+							}
+						}
+						if(data.Data.Comments && data.Data.Comments.length < 5) {
+							morecomment.style.display = 'none';
+						} else {
+							morecomment.style.display = 'block';
+						}
+						document.getElementById("commentArea").appendChild(createComFragment(data.Data.Comments));
+						var item = document.getElementById("item" + 1 + "mobile");
+						document.getElementById("slider").style.height = (document.getElementById("commentArea").offsetHeight + 180) + 'px';
+						setLastBoard();
+					} else {
+						if(!more) {
+							var errForList = showErrForList('暂无更多数据', '', '', idName);
+							if(errForList) {
+								fragment.appendChild(showErrForList('暂无更多数据', '', '', idName))
+							}
+						}
+					}
+				} else {
+					hideLoading();
+					//逻辑错误
+					var errForList = showErrForList(data.Data, '', '', idName);
+					if(errForList) {
+						fragment.appendChild(showErrForList(data.Data, '', '', idName))
+					}
+					return;
+				}
+			}, function(err) {
+				setErr()
+			})
+
+		}
+		mui('.mui-slider').slider().setStopped(true);
+		mui(".mui-slider").on('tap', '.mui-control-item', function(e) {
+			var index = this.getAttribute('id');
+			var item = document.getElementById("item" + index + "mobile");
+
+			if(index == 0) {
+				var itemmobile = document.getElementById("itemmobile");
+			} else {
+				var itemmobile = document.getElementById("item" + index + "mobile");
+			}
+
+			document.getElementById("slider").style.height = (itemmobile.offsetHeight + 150) + 'px';
+			if(index != 0) {
+				if(item.querySelector('.mui-loading')) {
+					if(index == 1) {
+						getMemberByEventId(false, eventId)
+					} else {
+						getComments(eventId)
+					}
+				}
+			}
+
+		})
+		mui(".mui-list-unstyled").on('tap', 'li', function(e) {
+			if(mui.os.plus) {
+				mui('#popover').popover('toggle');
+			}
+			switch(this.getAttribute('id')) {
+				case "editEvent":
+					UpdateEvent(eventId)
+					break;
+				case "deleteEvent":
+					//删除
+					mui('#popover').popover('toggle');
+					var btnArray = ['取消', '确定'];
+					mui.confirm('确认删除？', '活动', btnArray, function(e) {
+						if(e.index == 1) {
+							DeleteEvent(eventId)
+						}
+					});
+					break;
+				default:
+					break;
+			}
+
+		})
+		eventAddress.addEventListener('tap', function() {
+			if(mapcoord == "" || mapcoord == null) {
+				return
+			} else {
+				if(mui.os.plus) {
+					address = encodeURIComponent(address);
+					mapcoord = encodeURIComponent(mapcoord)
+					var baseUrl = 'eventAddressMap.html?address=' + address + '&mapcoord=' + mapcoord;
+					mui.openWindow({
+						url: baseUrl,
+						id: 'eventAddressMap.html',
+						show: {
+							autoShow: true
+						},
+						waiting: {
+							options: {
+								loading: {
+									height: '35px'
+								}
+							}
+						},
+						extras: {
+							address: address,
+							mapcoord: mapcoord
+						}
+					})
+				}else if(mui.os.wechat){
+					var lng = mapcoord.substring(0, mapcoord.indexOf(','));
+					var lat = mapcoord.substring(mapcoord.indexOf(',') + 1);
+					var bd09togcj02=coordtransform.bd09togcj02(lng, lat);
+					wx.openLocation({
+					    latitude: bd09togcj02[1], // 纬度，浮点数，范围为90 ~ -90
+					    longitude: bd09togcj02[0], // 经度，浮点数，范围为180 ~ -180。
+					    name: address, // 位置名
+					    address: address, // 地址详情说明
+					    scale: 15, // 地图缩放级别,整形值,范围从1~28。默认为最大
+					});
+				} else {
+					var lng = mapcoord.substring(0, mapcoord.indexOf(','));
+					var lat = mapcoord.substring(mapcoord.indexOf(',') + 1);
+					var MapCoord = lat + ',' + lng;
+					location.href = "http://api.map.baidu.com/marker?location=" + MapCoord + "&title=活动地点&content=" + address + "&output=html"
+				}
+			}
+
+		})
+
+//		var old_back = mui.back;
+//		mui.back = function() {
+//			if(!mui.os.plus) {
+//				if(history.length == 1) {
+//					history.replaceState(null, "", "../index.html");
+//					window.location.reload()
+//				} else {
+//					history.back(-1)
+//				}
+//			} else {
+//				old_back();
+//			}
+//		}
+	</script>
+
+</html>

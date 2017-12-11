@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--通用样式-->
+    <link rel="stylesheet" href="../css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../css/jinhu.css" />
+
+</head>
+<style>
+	.tn-position-absolute{
+		display: inline-block;
+		position: absolute;
+	}
+	.jh-medal-grid .mui-grid-view.mui-grid-9 .mui-table-view-cell{
+		min-height: 146px;
+	}
+	#medalDes{
+		position: absolute;
+		top: 34%;
+		height: 280px;
+		margin-left: 20px;
+		background-color: #f7f7f7;		
+	}
+	#medalDes h6{
+		text-align: left;
+		padding-left: 10px;
+	}
+	#medalDes p{
+		text-align: left;
+		padding-left: 10px;
+	}
+	#medalDes .mui-table-view{
+		margin-left: 20px;
+		margin-right: 20px;
+		padding-top: 10px;
+	}
+	#medalDes .mui-text-center{
+		margin-bottom: 20px;
+	}
+	.fixed{
+		height: 36px;
+	}
+	.mui-popover.mui-popover-action{
+		width: 90% !important;
+	}
+	#medalsOperate{
+		width: 100%;
+	}
+	.mui-table-view .mui-media, .mui-table-view .mui-media-body{
+		overflow: inherit !important;
+	}
+	.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-body{
+		height: auto;
+	}
+</style>
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <button class="mui-action-back mui-btn mui-btn-blue mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+            <span class="mui-icon mui-icon-left-nav"></span>勋章馆
+        </button>
+    </header>
+    <div class="mui-content jh-medal-grid">
+        <ul class="mui-table-view mui-grid-view mui-grid-9" id="contentArea">           
+        </ul>       
+    </div>
+    <script src="../js/jquery-2.1.0.js"></script>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/service.js"></script>
+	<script src="../js/wxHelper.js"></script>
+</body>
+<script>
+	var deceleration = mui.os.ios ? 0.003 : 0.0009;
+	mui('.mui-scroll-wrapper').scroll({
+		bounce: false,
+		indicators: true, //是否显示滚动条
+		deceleration: deceleration
+	});
+	window.onload = function() {
+		if(mui.os.plus) {
+			mui.plusReady(function() {
+				GetUserMedals();
+			});			
+		}else{
+			GetUserMedals();
+		}
+		if(mui.os.wechat){
+			var currUrl = location.href.split('#')[0];
+			weChatLogin(currUrl)
+		}
+	}
+	mui("#contentArea").on('tap', '.mui-table-view-cell', function(e) {
+		var AwardType = this.title;
+		var Description = this.src;
+		var src = this.getElementsByClassName('fixed')[0].src;
+		if(bigContainer.getElementsByClassName('jh-medal-popover').length > 0){
+			bigContainer.removeChild(bigContainer.getElementsByClassName('jh-medal-popover')[0])
+		}
+	    creatPopover(AwardType,Description,src);
+	    mui('.mui-scroll-wrapper').scroll({
+			deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+		});
+	    mui('#medalDes').popover('toggle');	    
+    })	
+	var creatPopover = function(type,Description,src) {
+		var type = type == 1 ? '自主申请' : '人工授予';
+        var div = document.createElement('div');
+        div.id = 'medalDes';
+        div.className = 'jh-medal-popover box mui-popover mui-popover-action';
+        div.innerHTML = '<div class="mui-scroll-wrapper">'+
+						'<div class="mui-scroll">'+
+						'<ul class="mui-table-view">'+
+        				'<div class="mui-text-center"><img src="'+ src +'"/></div>'+
+        				'<h6 class="tn-text-color">授予方式：'+ type +'</h6>'+
+        				'<h6 class="tn-text-color">说明：</h6>'+
+        				'<p class="text-muted">'+ Description +'</p>'+
+						'</ul>'+
+				'</div></div>';
+        bigContainer.appendChild(div);       
+	};
+	var operateId;
+	var medalId;
+	mui("#contentArea").on('tap', '#medalsOperate', function(e) {
+		e.stopPropagation();
+		operateId = this.parentElement;
+		medalId = this.className;		
+		if(this.getElementsByTagName('a')[0].innerText == '放弃'){
+			var type = this.title;
+			mui('#popover').popover('toggle');
+				var btnArray = ['取消', '确定'];
+				mui.confirm('确认放弃？', '勋章', btnArray, function(e) {
+					if(e.index == 0) {
+						mui('#popover').popover('hide');											
+					}else{
+						var method = 'abandoned';
+						medalId = parseInt(medalId);						
+						MedalHandle(medalId,method,type);
+						mui('#popover').popover('hide');
+					}
+				});
+		}else{
+			var type = this.getElementsByTagName('a')[0].innerText;
+			switch(type){
+			case '申请':
+				var method = 'apply';
+			break;
+			case '取消申请':
+				var method = 'cancelApply';			
+			break;
+			case '放弃':
+				var method = 'abandoned';			
+			break;
+			default:
+			break;				
+		}
+		var medalId = parseInt(medalId);
+		MedalHandle(medalId,method);
+		}				   
+    })
+	function MedalHandle(medalId,method,type){
+		postDatawithToken('User/MedalHandle?medalId=' + medalId + '&method=' + method,{}, function(data) {
+				hideLoading();
+				if(data.Type == 1) {
+					var result = data.Data;
+					switch(result){
+						case '申请成功':
+							operateId.getElementsByTagName('li')[0].style.display = 'inline-block';
+							operateId.getElementsByTagName('a')[0].innerText = '取消申请';
+						break;
+						case '取消申请成功':
+							operateId.getElementsByTagName('li')[0].style.display = 'none';
+							operateId.getElementsByTagName('a')[0].innerText = '申请';		
+						break;
+						case '放弃成功':
+							operateId.parentElement.getElementsByClassName('tn-position-absolute')[0].style.display = 'none';
+							if(type == 1){			
+								operateId.getElementsByTagName('a')[0].innerText = '申请';
+							}else{			
+								operateId.getElementsByTagName('a')[0].innerText = '';
+							}
+						break;
+						default:
+						break;				
+					}
+					if(data.Data == '申请成功'){
+						mui.toast("已申请，等待管理员审核")
+					}else{
+						mui.toast(data.Data);
+					}
+					
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					if(!mui.os.plus){
+						var data =data.Data.replace(/;/g,'<br>');
+						mui.toast(data);
+						document.getElementsByClassName('mui-toast-container mui-active')[0].style.width = '80%';
+						document.getElementsByClassName('mui-toast-message')[0].style.textAlign = 'initial';
+					}else{
+						var data =data.Data.replace(/;/g,'\n');
+						mui.toast(data);
+					}
+					
+					//document.getElementsByClassName('mui-toast-container mui-active')[0].style.width = '80%';
+					//document.getElementsByClassName('mui-toast-message')[0].style.textAlign = 'initial';
+					return;
+				}
+			}, function(err) {
+				setErr()
+			}) 
+	}
+	var creatMedalElement = function(data) {
+		var finel = document.getElementById("contentArea");	
+		for(var i = 0; i < data.length; i++) {			
+			var statusType = data[i].MedaltoUserStatus;			
+			var userStatus = 'none';
+			var status = '';
+			var dis = 'none';
+			var medalsOperate = '';
+			var color = '#00669A';
+			if(data[i].AwardType == 1){
+				if(data[i].AwardStatus == 2){
+					var userStatus = data[i].MedaltoUserStatus == 1 ?　'inline-block'　: 'none';
+					var color = '#999';
+					var status = '停止授予';
+					var dis = 'none';
+				}else{
+					var medalsOperate = 'medalsOperate';
+					switch(statusType){
+						case 0:
+							var dis = 'none';
+							var status = '申请';
+							break;
+						case 1:
+							var dis = 'none';
+							var userStatus = 'inline-block';
+							var status = '放弃';
+							break;
+						case 2:
+							var dis = 'inline-block';
+							var status = '取消申请';
+							break;
+						default:
+							break;				
+					}
+				}
+			}else{
+				var medalsOperate = 'medalsOperate';
+				var status = data[i].MedaltoUserStatus == 1 ?　'放弃'　: '';
+				var userStatus = data[i].MedaltoUserStatus == 1 ?　'inline-block'　: 'none';
+			}
+			var li = document.createElement('li');
+			li.className = 'mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3';
+			li.title = data[i].AwardType;
+			li.src = data[i].Description;
+			li.innerHTML =  '<div class="tn-position-absolute" style="display:'+ userStatus +'"><img src="../img/medal-sign.png"/></div>'+
+							'<img src="'+ getImgUrl(data[i].ImageUrl) +'" class="fixed" />'+
+							'<div class="mui-media-body">'+ data[i].MedalName +'</div>'+
+							'<ul class="mui-list-inline mui-media-state">'+
+							'<li class="text-muted" style="display:'+ dis +'">申请中</li>'+
+							'<li id="'+medalsOperate+'" class="'+ data[i].MedalId +'" title="'+ data[i].AwardType +'"><a href="#"style="color:'+color+'">'+ status +'</a></li>'+
+							'</ul>';
+			finel.appendChild(li);
+		}
+	};
+	function GetUserMedals() {
+			getDatawithToken('User/GetUserMedals', {}, function(data) {
+				hideLoading();
+				hideErr();
+				if(data.Type == 1) {
+					creatMedalElement(data.Data);
+				} else if(data.Type == 0) {
+					//登录失败
+					hideLoading();
+					setlsData('isLogin', false);
+					changeLogin(false)
+					return;
+				} else {
+					hideLoading();
+					showErr(data.Data,'','#FFFFFF','0px')
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(data) {
+				setErr('','0px')
+			});
+		}
+</script>
+</html>

@@ -1,0 +1,512 @@
+{
+  "Category": {
+    "-categoryName": "默认",
+    "-description": "默认",
+    "-displayOrder": "100",
+    "-isEnabled": "true",
+    "-emotionMaxHeight": "30",
+    "-emotionMaxWidth": "30",
+    "Emotion": [
+      {
+        "-code": "惊讶",
+        "-description": "惊讶",
+        "-fileName": "1.gif"
+      },
+      {
+        "-code": "撇嘴",
+        "-description": "撇嘴",
+        "-fileName": "2.gif"
+      },
+      {
+        "-code": "色",
+        "-description": "色",
+        "-fileName": "3.gif"
+      },
+      {
+        "-code": "发呆",
+        "-description": "发呆",
+        "-fileName": "4.gif"
+      },
+      {
+        "-code": "得意",
+        "-description": "得意",
+        "-fileName": "5.gif"
+      },
+      {
+        "-code": "害羞",
+        "-description": "害羞",
+        "-fileName": "6.gif"
+      },
+      {
+        "-code": "闭嘴",
+        "-description": "闭嘴",
+        "-fileName": "7.gif"
+      },
+      {
+        "-code": "睡",
+        "-description": "睡",
+        "-fileName": "8.gif"
+      },
+      {
+        "-code": "大哭",
+        "-description": "大哭",
+        "-fileName": "9.gif"
+      },
+      {
+        "-code": "尴尬",
+        "-description": "尴尬",
+        "-fileName": "10.gif"
+      },
+      {
+        "-code": "发怒",
+        "-description": "发怒",
+        "-fileName": "11.gif"
+      },
+      {
+        "-code": "调皮",
+        "-description": "调皮",
+        "-fileName": "12.gif"
+      },
+      {
+        "-code": "呲牙",
+        "-description": "呲牙",
+        "-fileName": "13.gif"
+      },
+      {
+        "-code": "微笑",
+        "-description": "微笑",
+        "-fileName": "14.gif"
+      },
+      {
+        "-code": "难过",
+        "-description": "难过",
+        "-fileName": "15.gif"
+      },
+      {
+        "-code": "酷",
+        "-description": "酷",
+        "-fileName": "16.gif"
+      },
+      {
+        "-code": "抓狂",
+        "-description": "抓狂",
+        "-fileName": "17.gif"
+      },
+      {
+        "-code": "吐",
+        "-description": "吐",
+        "-fileName": "18.gif"
+      },
+      {
+        "-code": "偷笑",
+        "-description": "偷笑",
+        "-fileName": "19.gif"
+      },
+      {
+        "-code": "可爱",
+        "-description": "可爱",
+        "-fileName": "20.gif"
+      },
+      {
+        "-code": "白眼",
+        "-description": "白眼",
+        "-fileName": "21.gif"
+      },
+      {
+        "-code": "傲慢",
+        "-description": "傲慢",
+        "-fileName": "22.gif"
+      },
+      {
+        "-code": "饥饿",
+        "-description": "饥饿",
+        "-fileName": "23.gif"
+      },
+      {
+        "-code": "困",
+        "-description": "困",
+        "-fileName": "24.gif"
+      },
+      {
+        "-code": "恐惧",
+        "-description": "恐惧",
+        "-fileName": "25.gif"
+      },
+      {
+        "-code": "流汗",
+        "-description": "流汗",
+        "-fileName": "26.gif"
+      },
+      {
+        "-code": "憨笑",
+        "-description": "憨笑",
+        "-fileName": "27.gif"
+      },
+      {
+        "-code": "大兵",
+        "-description": "大兵",
+        "-fileName": "28.gif"
+      },
+      {
+        "-code": "奋斗",
+        "-description": "奋斗",
+        "-fileName": "29.gif"
+      },
+      {
+        "-code": "咒骂",
+        "-description": "咒骂",
+        "-fileName": "30.gif"
+      },
+      {
+        "-code": "嘘",
+        "-description": "嘘",
+        "-fileName": "31.gif"
+      },
+      {
+        "-code": "晕",
+        "-description": "晕",
+        "-fileName": "32.gif"
+      },
+      {
+        "-code": "衰",
+        "-description": "衰",
+        "-fileName": "33.gif"
+      },
+      {
+        "-code": "骷髅",
+        "-description": "骷髅",
+        "-fileName": "34.gif"
+      },
+      {
+        "-code": "敲打",
+        "-description": "敲打",
+        "-fileName": "35.gif"
+      },
+      {
+        "-code": "再见",
+        "-description": "再见",
+        "-fileName": "36.gif"
+      },
+      {
+        "-code": "发抖",
+        "-description": "发抖",
+        "-fileName": "37.gif"
+      },
+      {
+        "-code": "爱情",
+        "-description": "爱情",
+        "-fileName": "38.gif"
+      },
+      {
+        "-code": "跳跳",
+        "-description": "跳跳",
+        "-fileName": "39.gif"
+      },
+      {
+        "-code": "猪头",
+        "-description": "猪头",
+        "-fileName": "40.gif"
+      },
+      {
+        "-code": "拥抱",
+        "-description": "拥抱",
+        "-fileName": "41.gif"
+      },
+      {
+        "-code": "蛋糕",
+        "-description": "蛋糕",
+        "-fileName": "42.gif"
+      },
+      {
+        "-code": "闪电",
+        "-description": "闪电",
+        "-fileName": "43.gif"
+      },
+      {
+        "-code": "炸弹",
+        "-description": "炸弹",
+        "-fileName": "44.gif"
+      },
+      {
+        "-code": "刀",
+        "-description": "刀",
+        "-fileName": "45.gif"
+      },
+      {
+        "-code": "足球",
+        "-description": "足球",
+        "-fileName": "46.gif"
+      },
+      {
+        "-code": "便便",
+        "-description": "便便",
+        "-fileName": "47.gif"
+      },
+      {
+        "-code": "咖啡",
+        "-description": "咖啡",
+        "-fileName": "48.gif"
+      },
+      {
+        "-code": "饭",
+        "-description": "饭",
+        "-fileName": "49.gif"
+      },
+      {
+        "-code": "玫瑰",
+        "-description": "玫瑰",
+        "-fileName": "50.gif"
+      },
+      {
+        "-code": "凋谢",
+        "-description": "凋谢",
+        "-fileName": "51.gif"
+      },
+      {
+        "-code": "爱心",
+        "-description": "爱心",
+        "-fileName": "52.gif"
+      },
+      {
+        "-code": "心碎",
+        "-description": "心碎",
+        "-fileName": "53.gif"
+      },
+      {
+        "-code": "礼物",
+        "-description": "礼物",
+        "-fileName": "54.gif"
+      },
+      {
+        "-code": "太阳",
+        "-description": "太阳",
+        "-fileName": "55.gif"
+      },
+      {
+        "-code": "月亮",
+        "-description": "月亮",
+        "-fileName": "56.gif"
+      },
+      {
+        "-code": "强",
+        "-description": "强",
+        "-fileName": "57.gif"
+      },
+      {
+        "-code": "弱",
+        "-description": "弱",
+        "-fileName": "58.gif"
+      },
+      {
+        "-code": "握手",
+        "-description": "握手",
+        "-fileName": "59.gif"
+      },
+      {
+        "-code": "飞吻",
+        "-description": "飞吻",
+        "-fileName": "60.gif"
+      },
+      {
+        "-code": "怄火",
+        "-description": "怄火",
+        "-fileName": "61.gif"
+      },
+      {
+        "-code": "西瓜",
+        "-description": "西瓜",
+        "-fileName": "62.gif"
+      },
+      {
+        "-code": "冷汗",
+        "-description": "冷汗",
+        "-fileName": "63.gif"
+      },
+      {
+        "-code": "抠鼻",
+        "-description": "抠鼻",
+        "-fileName": "64.gif"
+      },
+      {
+        "-code": "鼓掌",
+        "-description": "鼓掌",
+        "-fileName": "65.gif"
+      },
+      {
+        "-code": "糗大了",
+        "-description": "糗大了",
+        "-fileName": "66.gif"
+      },
+      {
+        "-code": "坏笑",
+        "-description": "坏笑",
+        "-fileName": "67.gif"
+      },
+      {
+        "-code": "左哼哼",
+        "-description": "左哼哼",
+        "-fileName": "68.gif"
+      },
+      {
+        "-code": "右哼哼",
+        "-description": "右哼哼",
+        "-fileName": "69.gif"
+      },
+      {
+        "-code": "哈欠",
+        "-description": "哈欠",
+        "-fileName": "70.gif"
+      },
+      {
+        "-code": "鄙视",
+        "-description": "鄙视",
+        "-fileName": "71.gif"
+      },
+      {
+        "-code": "委屈",
+        "-description": "委屈",
+        "-fileName": "72.gif"
+      },
+      {
+        "-code": "快哭了",
+        "-description": "快哭了",
+        "-fileName": "73.gif"
+      },
+      {
+        "-code": "阴险",
+        "-description": "阴险",
+        "-fileName": "74.gif"
+      },
+      {
+        "-code": "亲亲",
+        "-description": "亲亲",
+        "-fileName": "75.gif"
+      },
+      {
+        "-code": "吓",
+        "-description": "吓",
+        "-fileName": "76.gif"
+      },
+      {
+        "-code": "可怜",
+        "-description": "可怜",
+        "-fileName": "77.gif"
+      },
+      {
+        "-code": "菜刀",
+        "-description": "菜刀",
+        "-fileName": "78.gif"
+      },
+      {
+        "-code": "啤酒",
+        "-description": "啤酒",
+        "-fileName": "79.gif"
+      },
+      {
+        "-code": "篮球",
+        "-description": "篮球",
+        "-fileName": "80.gif"
+      },
+      {
+        "-code": "乒乓",
+        "-description": "乒乓",
+        "-fileName": "81.gif"
+      },
+      {
+        "-code": "示爱",
+        "-description": "示爱",
+        "-fileName": "82.gif"
+      },
+      {
+        "-code": "瓢虫",
+        "-description": "瓢虫",
+        "-fileName": "83.gif"
+      },
+      {
+        "-code": "抱拳",
+        "-description": "抱拳",
+        "-fileName": "84.gif"
+      },
+      {
+        "-code": "勾引",
+        "-description": "勾引",
+        "-fileName": "85.gif"
+      },
+      {
+        "-code": "拳头",
+        "-description": "拳头",
+        "-fileName": "86.gif"
+      },
+      {
+        "-code": "差劲",
+        "-description": "差劲",
+        "-fileName": "87.gif"
+      },
+      {
+        "-code": "爱你",
+        "-description": "爱你",
+        "-fileName": "88.gif"
+      },
+      {
+        "-code": "NO",
+        "-description": "NO",
+        "-fileName": "89.gif"
+      },
+      {
+        "-code": "OK",
+        "-description": "OK",
+        "-fileName": "90.gif"
+      },
+      {
+        "-code": "转圈",
+        "-description": "转圈",
+        "-fileName": "91.gif"
+      },
+      {
+        "-code": "磕头",
+        "-description": "磕头",
+        "-fileName": "92.gif"
+      },
+      {
+        "-code": "回头",
+        "-description": "回头",
+        "-fileName": "93.gif"
+      },
+      {
+        "-code": "跳绳",
+        "-description": "跳绳",
+        "-fileName": "94.gif"
+      },
+      {
+        "-code": "挥手",
+        "-description": "挥手",
+        "-fileName": "95.gif"
+      },
+      {
+        "-code": "激动",
+        "-description": "激动",
+        "-fileName": "96.gif"
+      },
+      {
+        "-code": "街舞",
+        "-description": "街舞",
+        "-fileName": "97.gif"
+      },
+      {
+        "-code": "接吻",
+        "-description": "接吻",
+        "-fileName": "98.gif"
+      },
+      {
+        "-code": "左太极",
+        "-description": "左太极",
+        "-fileName": "99.gif"
+      },
+      {
+        "-code": "右太极",
+        "-description": "右太极",
+        "-fileName": "100.gif"
+      }
+    ]
+  }
+}

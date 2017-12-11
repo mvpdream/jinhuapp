@@ -1,0 +1,510 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<!--通用样式-->
+<link rel="stylesheet" href="../css/mui.min.css" >
+<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css"/>
+<link rel="stylesheet"  href="../css/jinhu.css" >
+</head>
+<style>
+
+</style>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+	   			<span class="mui-icon mui-icon-left-nav"></span>评论</button>
+		</header>
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper" style="margin-bottom: 50px;">			
+			<div class="mui-scroll ">
+				<!--数据列表-->
+				<div id="commentAreas" class="mui-content-padded">
+
+				</div>
+			</div>						
+		</div>
+		<div class="mui-bar mui-bar-tab jh-bar-comment">
+			<a id="editComment">
+				<div class="jh-comment-edit" style="width: 100%;">
+					<i class="fa fa-pencil mui-icon mui-icon-bars mui-pull-right" aria-hidden="true"></i>
+				</div>
+			</a>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.zoom.js"></script>
+		<script src="../js/mui.previewimage.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/wxHelper.js"></script>
+		<script src="../js/vote.js"></script>
+	</body>
+    <script>
+//  	mui.init({
+//				pullRefresh: {
+//					container: '#pullrefresh',
+//					down: {
+//						callback: pulldownRefresh
+//					},
+//					up: {
+//						contentrefresh: '正在加载...',
+//						callback: pullupRefresh
+//					}
+//				}
+//		});
+//		function login (){
+//			if(mui.os.wechat){
+//					var currUrl = location.href.split('#')[0];
+//					getCode(currUrl)
+//			}else{
+//				mui.openWindow({
+//				url: 'user_login.html',
+//				id: 'user_login.html',
+//				waiting: {
+//					options: {
+//						loading: {
+//							height: '35px'
+//						}
+//					}
+//				},
+//				extras: {
+//					pageId: 'user_login.html'
+//				}
+//			})	
+//			}
+//			
+//		}
+//  	var editComment = document.getElementById("editComment");
+//  	var tenantTypeId = '';
+//  	var commentedObjectId;
+//  	var ii = 0;
+//  	var type = 0;   	
+//  	function creatCommentPop() {
+//			var div = document.createElement('div');
+//			div.id = 'popView_comment';
+//			div.className = 'box mui-popover mui-popover-action mui-popover-bottom';
+//			div.innerHTML = '<div class="pop_view">' +
+//				'	<textarea rows="5" autofocus="autofocus" name="textarea" placeholder="输入评论" id="comment-textarea" autofocus="autofocus"></textarea>' +
+//				'	<div class="mui-text-center" style="margin-top:-10px;">' +
+//				'		<button id="cancelCom" class="mui-btn" style="margin-right: 20px;">取消</button>' +
+//				'		<button id="sendCom" class="mui-btn mui-btn-primary" style="margin-left: 20px;">发送</button>' +
+//				'	</div>' +
+//				'</div>';
+//			bigContainer.appendChild(div);
+//		}
+//  	creatCommentPop();
+//  	function submitComment(pid,id) {
+//  		var commentText = document.getElementById("comment-textarea");
+//			var comBody = TrimAll(commentText.value);
+//			if(comBody.length == 0) {
+//				mui.toast('评论内容不能为空！');
+//				return;
+//			}
+//			var params = {
+//				ParentId: pid,
+//				CommentedObjectId: id,
+//				TenantTypeId: tenantTypeId,
+//				Body: comBody
+//			}
+//			CreateComment(params)
+//		}
+//  	function creatsingleCom(data){
+//  		var item;
+//  		    item = ii;	
+//  		    var commentReply = "";
+//  		    commentReply = '<div class="jh-comment-reply"id="childCom" style="display:none">'+
+//					'<div>'+
+//				                   
+//				                   '</div>'+
+//				                   '<div>'+
+//				                   '<h5 class="mui-text-center">'+
+//				                   '<a href="#"></a>'+
+//				                   '</h5>'+
+//				                   '</div>'+
+//					                '</div>';
+//  		    if(data.Avatar.length > 0){
+//					var Avatar = '<img class="creator_img_comment " src='+ data.Avatar +'>';
+//				}else{
+//					var Avatar = '<img class="creator_img_comment " src="../img/avatar.jpg"/>';
+//				}
+//  		    var div;
+//  		    div = document.createElement('div');
+//				div.className = "comment_body";
+//				div.innerHTML = '<div class="comment_img">'+
+//								Avatar+
+//								'</div>'+
+//								'<div class="comment_content">'+
+//								'<div class="comment_top">'+
+//								'<h5 class="comment_top_left">'+ data.User +'</h5>'+
+//								'<h5 class="comment_top_right">'+ data.DateCreated +'</h5>'+
+//								'</div>'+
+//								'<p id=' + data.CommentId + '>'+data.Body+'</p>'+
+//								commentReply+
+//								'<div class="comment_top">'+
+//
+//								'</div>';
+//				commentAreas.appendChild(div);
+//  	}
+//      var parentId = 0;
+//      function creatsingleChilCom(data, i) {
+//			var p = document.createElement("p");
+//			p.id = data.CommentId;
+//			p.innerHTML = '' + data.User + ' 回复 ' + data.Owner + ' ： ' + data.Body + '';
+//			return p;
+//		}
+//  	function CreateComment(params) {
+//			showLoading()
+//			postDatawithToken('Comment/CreateComment', params, function(data) {
+//				hideLoading();
+//				document.getElementById("comment-textarea").value='';
+//				if(data.Type == 1) {
+//					ii++;											
+//					switch(type) {
+//						case 0:
+//						 if(data.Data.ApprovalStatus == 20){
+//						 	mui.toast("评论成功")
+//						 }else{
+//						 	creatsingleCom(data.Data);
+//						 }							
+//							//elm.appendChild(creatsingleChilCom(data.Data))
+//							//creatsingleChilCom(data.Data)
+//							break;
+//						case 1:
+//						if(data.Data.ApprovalStatus == 20){
+//						 	mui.toast("评论成功")
+//						 }else{
+//						 	elm.appendChild(creatsingleChilCom(data.Data))
+//						 }							
+//							type = 0;
+//							break;
+//						case 2:
+//						if(data.Data.ApprovalStatus == 20){
+//						 	mui.toast("评论成功")
+//						 }else{
+//						 	elm.appendChild(creatsingleChilCom(data.Data))
+//						 }							
+//							type = 0;
+//							break;
+//						default:
+//							break;
+//					}
+//					document.getElementById("comment-textarea").blur();
+//				} else if(data.Type == 0) {
+//					//登录失败
+//					mui.toast("请登录后再进行操作");
+//					document.getElementById("comment-textarea").blur();
+//					login();
+//					return;
+//				} else {
+//					//逻辑错误
+//					mui.toast(data.Data);
+//					document.getElementById("comment-textarea").blur();
+//					return;
+//				}
+//			}, function(err) {
+//				hideLoading();
+//			})
+//		}
+//		var sendCom = document.getElementById("sendCom");		
+//		editComment && editComment.addEventListener('tap', function() {
+//			tenantTypeId = 'Answer';
+//			var islog = getlsData('isLogin');
+//			if(islog == 'true') {
+//				mui('#popView_comment').popover('toggle');
+//			} else {
+//				mui.toast('请登录后再进行操作');
+//				login();
+//			}
+//		})
+//		var cancelCom = document.getElementById("cancelCom");
+//		var elmt;
+//		cancelCom && cancelCom.addEventListener('tap', function() {
+//			mui('#popView_comment').popover('toggle');
+//			if(elmt.querySelector('.jh-comment-reply').innerText == ""){
+//				elmt.querySelector('.jh-comment-reply').style.display='none';
+//			}
+//		})
+//		sendCom && sendCom.addEventListener('tap', function() {		
+//			mui('#popView_comment').popover('toggle');
+//			if(mui.os.plus) {
+//				mui.plusReady(function() {
+//					var self = plus.webview.currentWebview();
+//					AnswerId = self.AnswerId;
+//					//关闭等待框
+//					plus.nativeUI.closeWaiting();
+//					//显示当前页面
+//					mui.currentWebview.show();
+//				});
+//			} else {	
+//				AnswerId = getUrlParam('AnswerId');
+//			}
+//			submitComment(parentId,AnswerId);				
+//		})
+//  	mui("#commentAreas").on('tap', '.mui-text-center', function(e) {
+//	       var allp = e.target.parentElement.parentElement.parentElement.querySelectorAll('p');
+//	       mui.each(allp, function(index, item) {
+//		   if(item.style.display == 'block' && index > 1) {
+//			  item.style.display = 'none'			 
+//		   } else {
+//			  item.style.display = 'block'
+//		   }
+//	   })
+//     })
+//  	var elm;
+//  	mui("#commentAreas").on('tap', '.comment_content p', function(e) {
+//  		tenantTypeId = 'Answer';
+//			var islog = getlsData('isLogin');
+//			if(islog == 'true') {
+//				if(e.target.parentElement.parentElement.className == 'jh-comment-reply') {
+//					type=2;
+//					elm=e.target.parentElement;
+//					parentId = e.target.id;
+//					mui('#popView_comment').popover('toggle');
+//				} else {
+//					type=1;
+//					elmt=e.target.parentElement.parentElement;
+//					elmt.querySelector('.jh-comment-reply').style.display='block';
+//					elm=elmt.querySelector('.jh-comment-reply').getElementsByTagName("div")[0];
+//					//elm.innerHTML='';
+//					//parentId = elmt.id;
+//					parentId = e.target.id;
+//					mui('#popView_comment').popover('toggle');
+//				}
+//			}else{
+//				mui.toast('请登录后再进行操作');
+//				login();
+//			}		
+//		})
+//  	/*mui("#commentAreas").on('tap', '.fristCom', function(e) {
+//  		tenantTypeId = 'Answer';
+//			var islog = getlsData('isLogin');
+//			if(islog == 'true') {
+//				if(e.target.parentElement.parentElement.className == 'jh-comment-reply') {
+//					type=2;
+//					elm=e.target.parentElement;
+//					parentId = e.target.id;
+//					mui('#popView_comment').popover('toggle');
+//				} else {
+//					type=1;
+//					elmt=e.target.parentElement.parentElement;
+//					elmt.querySelector('.jh-comment-reply').style.display='block';
+//					elm=elmt.querySelector('.jh-comment-reply').getElementsByTagName("div")[0];
+//					//elm.innerHTML='';
+//					//parentId = elmt.id;
+//					parentId = e.target.id;
+//					mui('#popView_comment').popover('toggle');
+//				}
+//			}else{
+//				mui.toast('请登录后再进行操作');
+//			}		
+//		})*/
+//  	
+//     var item = 0;
+//  		var ii ;
+//  	var createItem = function(data,item){ 		
+//  		var commentAreas = document.getElementById("commentAreas");
+//  		for(var i = 0;i<data.length;i++){
+//  			item++;
+//				//item = ii + 1;	
+//				ii++;
+//				var commentReply = "";
+//				if(data[i].Avatar.length > 0){
+//					var Avatar = '<img class="creator_img_comment " id='+data[i].UserId+' src='+ data[i].Avatar +'>';
+//				}else{
+//					var Avatar = '<img class="creator_img_comment " id='+data[i].UserId+' src="../img/avatar.jpg"/>';
+//				}
+//				if(data[i].ChildCommentCount > 0){
+//					var ChildComments = data[i].ChildComments;
+//					var ChildCommentes ="";
+//					for(var j = 0;j<ChildComments.length;j++){
+//						if(j > 1) {
+//			               dis = 'none'
+//		                } else {
+//			               dis = 'block';
+//		                }	                
+//						var ChildComment = '<p id="'+ ChildComments[j].CommentId + ' " style="display:' + dis +'">'+ ChildComments[j].User +'回复'+ ChildComments[j].Owner +'： '+ ChildComments[j].Body +'</p>';
+//						ChildCommentes += ChildComment;
+//					}
+//					comlength = data[i].ChildComments.length > 2  ? '<a href="#">共'+ data[i].ChildComments.length +'条评论></a>' : '<a href="#"></a>'
+//					commentReply = '<div class="jh-comment-reply"id="childCom' + i + '">'+
+//					               '<div>'+
+//				                   ChildCommentes+
+//				                   '</div>'+
+//				                   '<div>'+
+//				                   '<h5 class="mui-text-center">'+
+//				                   comlength+
+//				                   
+//				                   '</h5>'+
+//				                   '</div>'+
+//				                   '</div>';
+//				}else{
+//					commentReply = '<div class="jh-comment-reply"id="childCom' + i + '" style="display:none">'+
+//					'<div>'+
+//				                   
+//				                   '</div>'+
+//				                   '<div>'+
+//				                   '<h5 class="mui-text-center">'+
+//				                   '<a href="#"></a>'+
+//				                   '</h5>'+
+//				                   '</div>'+
+//					                '</div>';
+//				}
+//				var div;
+//				div = document.createElement('div');
+//				div.className = "comment_body";
+//				div.innerHTML = '<div class="comment_img">'+
+//								Avatar+
+//								'</div>'+
+//								'<div class="comment_content">'+
+//								'<div class="comment_top">'+
+//								'<h5 class="comment_top_left">'+ data[i].User +'</h5>'+
+//								'<h5 class="comment_top_right">'+ data[i].DateCreated +'</h5>'+
+//								'</div>'+
+//								'<p class="fristCom" id=' + data[i].CommentId +  '>'+data[i].Body+'</p>'+
+//								commentReply+
+//								'<div class="comment_top">'+
+//
+//								'</div>';
+//				commentAreas.appendChild(div);
+//  		}
+//  		ii = item;
+//  		return commentAreas;
+//  }; 
+//  	var questionId;
+//		questionId = getUrlParam('questionId');
+//		//var currId="";
+//		//B页面onload从服务器获取列表数据；
+//		window.onload = function() {
+//			//获取url中的targetId参数
+//			if(mui.os.plus) {
+//				mui.plusReady(function() {
+//					var self = plus.webview.currentWebview();
+//					AnswerId = self.AnswerId;
+//					//currId=self.currId;
+//					getDetail(AnswerId,false)
+//					//关闭等待框
+//					plus.nativeUI.closeWaiting();
+//					//显示当前页面
+//					mui.currentWebview.show();
+//				});
+//			} else {	
+//				AnswerId = getUrlParam('AnswerId');
+//				getDetail(AnswerId,false)
+//			}
+//			if(mui.os.wechat){
+//				var currUrl = location.href.split('#')[0];
+//				weChatLogin(currUrl)
+//			}
+//			
+//		}
+//		mui("#commentAreas").on('tap', '.creator_img_comment', function(e) {
+//			var userid = this.getAttribute('id');
+//			var baseUrl = 'userHomepage.html';
+//			var url = baseUrl + '?userId=' + userid;
+//			mui.openWindow({
+//				url: url,
+//				id: 'userHomepage.html',
+//				show: {
+//					autoShow: true
+//				},
+//				waiting: {
+//					options: {
+//						loading: {
+//							height: '35px'
+//						}
+//					}
+//				},
+//				extras: {
+//					userId: userid
+//				}
+//			})
+//		})
+//					/**                                                                                                                               
+//			 * 下拉刷新具体业务实现                                                                                                                     
+//			 */                                                                                                                               
+//			function pulldownRefresh() {                                                                                                      
+//				setTimeout(function() { 
+//					getDetail(AnswerId,false);                                                                                         
+//					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed                                             
+//				}, 1500);                                                                                                                     
+//			}                                                                                                                                 
+//			var count = 0;                                                                                                                    
+//			/**                                                                                                                               
+//			 * 上拉加载具体业务实现                                                                                                                     
+//			 */                                                                                                                               
+//			function pullupRefresh() {                                                                                                        
+//				setTimeout(function() { 
+//					getDetail(AnswerId,true);
+//					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。                                                                                                                              
+//				}, 1500);                                                                                                                     
+//			}
+//		var page = 1;
+//		function getDetail(id,more) {
+//			//showLoading('','','#FFFFFF','50px');
+//			if(more){
+//					page++;
+//				}else{
+//					page=1;
+//				}
+//			var params = {
+//				CommentedObjectId: id,
+//				TenantTypeId: 'Answer',
+//				pageIndex: page
+//			}
+//			getData('Comment/GetCommentsDetail', params, function(data) {				
+//				//hideLoading();			
+//				if(data.Type == 1) {
+//					if(data.Data && typeof(data.Data) == 'object') {
+//						var data = data.Data;
+//						if(data.length>0){
+//								if(more){
+//									createItem(data,ii);
+//								}else{
+//									var commentAreas = document.getElementById("commentAreas");
+//									commentAreas.innerHTML='';
+//									createItem(data,0);
+//								}
+//								
+//							}else{
+//								
+//						}
+//						commentedObjectId = data.AnswerId;
+//						//createItem(data.Comments);
+//						var morecomment = document.getElementById('morecomment');
+//					} else {
+//						mui.toast(data.Data);
+//					}
+//				} else if(data.Type == 0) {
+//					//登录失败
+//					mui.toast("请登录后再进行操作");
+//					login();
+//					return;
+//				} else {
+//					//逻辑错误
+//					mui.toast(data.Data);
+//					return;
+//				}
+//			}, function(err) {
+//				mui.plusReady(function(){
+//						if(plus.networkinfo.getCurrentType()==1||plus.networkinfo.getCurrentType()==2){
+//							mui.toast('网络异常，请检查网络设置!');
+//							document.getElementById("loadmsgtext").innerHTML='没有网络连接'
+//						}else{
+//							mui.toast("错误代码：" + err);
+//							hideLoading()
+//						}
+//					})
+//				if(!mui.os.plus){
+//					mui.toast("错误代码：" + err);
+//					hideLoading()
+//				}
+//			})
+//		}	
+		
+    </script>
+</html>

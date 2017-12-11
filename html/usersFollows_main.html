@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/jinhu.css">
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav" style="border: none;">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span><span id="navtil"></span>
+			</button>
+		</header>
+		<div class="mui-content"></div>
+		
+
+		
+	</body>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+	<script>
+		var userId = 0;
+		var username = "";
+		var type = '';
+		window.onload = function() {
+			//获取url中的targetId参数                                                                                                           
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					userId = self.userId;
+					username = self.username;
+					type = self.type;
+					var tilName = (type == 'userfollower') ? '的粉丝' : '的关注';
+					var usernames = (username == "me") ? "我" : username
+					document.getElementById("navtil").innerHTML = usernames + tilName;
+					//关闭等待框                                                                                                               
+					plus.nativeUI.closeWaiting();
+					//显示当前页面                                                                                                              
+					mui.currentWebview.show();
+				});
+			} else {
+				userId = getUrlParam('userId');
+				username = getUrlParam('username');
+				type = getUrlParam('type');
+				var tilName = (type == 'userfollower') ? '的粉丝' : '的关注 ';
+				var usernames = (username == "me") ? "我" : username
+				document.getElementById("navtil").innerHTML = usernames + tilName;
+			}
+			var baseUrl = 'usersFollows_sub.html'
+			var url = mui.os.plus ? baseUrl : baseUrl + '?userId=' + userId + '&type=' + type + '&username=' + username;
+			mui.init({
+				subpages: [{
+					url: url,
+					id: 'usersFollows_sub.html',
+					styles: {
+						top: '51px',
+						bottom: '0px',
+					},
+					extras: {
+						userId: userId,
+						username: username,
+						type: type
+					}
+				}]
+			});　
+
+		}
+	
+	</script>
+
+</html>

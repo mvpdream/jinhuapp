@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<!--通用样式-->
+		<link rel="stylesheet"  href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet"  href="../css/jinhu.css">
+	</head>
+	<style>
+		.mui-btn-red{
+			top:9px !important;
+			padding: 6px 12px 5px !important;
+		}
+		.mui-input-group .mui-input-row:after{
+			height: 0
+		}
+	</style>
+
+	<body style=" background-color: #fff;">
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span><span id="navtil"></span></button>
+			<span class="mui-pull-right">
+			<button id="confirmBtn" data-loading-text="提交中" type="button" style="background-color: #bf0a10;" class="mui-btn mui-btn-red">确定</button>
+			</span>
+		</header>
+		
+		<div class="mui-content" style="margin-top: 1rem;">
+			<form id='login-form' class="mui-input-group mui-content-padded">
+				<div class="mui-input-row space">
+					<input id='title' type="text" style="padding-left: 0;" class="mui-input-clear mui-input" placeholder="">
+				</div>
+				
+			</form>
+			<div class="mui-input-row mui-content-padded space">
+				<input id='code' type="text" style="width:55%;float:left;border: none;border-radius: 0;border-bottom: 1px solid #ddd;padding-left: 5px;" placeholder="验证码"></label>
+				<button class="code_btn mui-btn" style="width:35%;padding: 10px 0px;margin-top: 2px;" id="codeBtn" disabled="disabled">获取验证码</button>
+			</div>
+			<label class="mui-content-padded" id="emailMsg" style="display: none;font-size: 12px;">
+				<span style="color: red;">*</span>请输入邮箱收到的验证码</label>
+		
+		</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/wxHelper.js"></script>
+	</body>
+	<script>
+		
+		var confirmBtn = document.getElementById('confirmBtn'); //完成按钮
+		var codeBtn = document.getElementById('codeBtn'); //获取验证码按钮
+		var code = document.getElementById('code'); //验证码文本框
+		var emailMsg = document.getElementById("emailMsg"); //邮箱验证码提示语
+		var phonereg = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/; //判断手机号的正则
+		var emailreg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/; //判断邮箱的正则
+		var type = "";
+		var value = "";
+		var navtil = document.getElementById("navtil");
+		var title = document.getElementById("title");
+
+	if(mui.os.wechat && mui.os.ios) {
+			mui.back = function() {
+				parent.document.getElementById('settingDetailif').style.display = 'none'
+			}
+		}
+		window.onload = function() {
+			//获取url中的targetId参数
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					type = self.type;
+					value = self.value;
+					setType(type, value);
+					//关闭等待框
+					plus.nativeUI.closeWaiting();
+					//显示当前页面
+					mui.currentWebview.show();
+				});
+			} else {
+				type = getUrlParam('type');
+				value = getUrlParam('value');
+				setType(type, value)
+			}
+			if(mui.os.wechat) {
+				var currUrl = location.href.split('#')[0];
+				weChatLogin(currUrl)
+			}
+
+		}
+
+		function setType(type, value) {
+			switch(type) {
+				case 'accountEmail':
+					navtil.innerHTML = '邮箱';
+					title.placeholder = '邮箱号';
+					title.value = value == '未填写' ? '' : value;
+					break;
+				case 'accountMobile':
+					navtil.innerHTML = '手机号';
+					title.placeholder = '手机号';
+					title.value = value == '未填写' ? '' : value;
+					break;
+				default:
+					break;
+			}
+		}
+
+		var timer;
+		//获取验证码函数
+		function countdown(s, sendObj) {
+			if(s == 0) {
+				sendObj.innerHTML = '重新获取';
+				sendObj.removeAttribute("disabled");
+				window.clearTimeout(timer);
+			} else {
+				sendObj.innerHTML = s + '秒后重新获取';
+				sendObj.setAttribute("disabled", "disabled");
+				s--;
+				timer = window.setTimeout(function() {
+					countdown(s, sendObj)
+				}, 1000)
+			}
+		}
+		document.getElementById("title").addEventListener('input',function(){
+			if(this.value==value){
+				codeBtn.setAttribute("disabled", "disabled");
+			}else{
+				codeBtn.removeAttribute("disabled");
+			}
+		});
+		codeBtn.addEventListener('tap', function() {
+			var username = TrimAll(title.value);
+			if(username == "") {
+				mui.toast(title.placeholder + "不能为空")
+				return
+			}
+			countdown(60, codeBtn);
+			var params = {
+				bindName: username,
+				isMobile: (type == 'accountEmail') ? false : true
+			};
+			getDatawithToken('User/GetUpdateValidateCode', params, function(data) {
+				if(data.Type == 1) {
+					mui.toast(data.Data);
+					if(!params.isMobile){
+						emailMsg.style.display = "block";
+					}else{
+						emailMsg.style.display = "none";
+					}
+				} else if(data.Type == 0) {
+					//登录失败
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					if(!params.isMobile){
+						emailMsg.style.display = "none";
+					}
+					countdown(0, codeBtn);
+				}
+			}, function() {
+				closeWaiting(waiting)
+			})
+		})
+		confirmBtn.addEventListener('tap', function() {
+			var name = TrimAll(title.value);
+			var phonecode = TrimAll(code.value);
+			if(name == "") {
+				mui.toast(title.placeholder + "不能为空")
+				return
+			}
+			if(phonecode == "") {
+				mui.toast("验证码不能为空")
+				return
+			}
+			var params = {};
+			var path = '';
+			if(type == 'accountEmail') {
+				path = 'User/UpdateAccountEmail';
+				params = {
+					Email: name,
+					ValidateCode: phonecode
+				}
+			} else {
+				path = 'User/UpdateAccountMobile';
+				params = {
+					Mobile: name,
+					ValidateCode: phonecode
+				}
+			}
+			var _this = this;
+			mui('#confirmBtn').button('loading'); //切换为loading状态
+			postDatawithToken(path, params, function(data) {
+				mui('#confirmBtn').button('reset');
+				if(data.Type == 1) {
+					mui.toast(data.Data);
+					if(mui.os.plus) {
+						var wobj = plus.webview.getWebviewById('personalData.html');
+						wobj.reload(true);
+						setTimeout(function() {
+							mui.back();
+						}, 800)
+					} else {
+						if(mui.os.wechat && mui.os.ios) {
+							parent.location.reload();
+							parent.document.getElementById('settingDetailif').style.display = 'none'
+						} else {
+							window.history.go(-1);
+						}
+					}
+
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(data) {
+				mui(_this).button('reset');
+			});
+
+		});
+	
+	</script>
+
+</html>

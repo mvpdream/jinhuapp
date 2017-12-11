@@ -1,0 +1,656 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/question-list.css" />
+		<link rel="stylesheet" type="text/css" href="../css/jinhu.css"/>
+
+	</head>
+	<style>	
+		.mui-fullscreen .mui-segmented-control~.mui-slider-group {
+			margin-top: 10px;
+		    position: absolute;
+		    top: 40px;
+		    bottom: 0;
+		    width: 100%;
+		    height: auto;
+		}
+		.status{
+			display: inline-block;
+			vertical-align: top;
+			margin-top: 3px;
+		}
+		.status span{
+			display: inline-block;
+		}
+		.status span:first-child{
+			margin-left: -7px !important;
+		}
+		.subject{
+			padding: 9px 10px 0px 10px;
+		}
+		.jh-hot-label{
+			padding-bottom: 2px;
+		}
+		.content{
+			word-wrap: break-word;
+			display: inline-block;
+		}
+		.mui-bar~.mui-content .mui-fullscreen {
+			top: 44px;
+			height: auto;
+		}		
+		.mui-pull-top-tips {
+			position: absolute;
+			top: -20px;
+			left: 50%;
+			margin-left: -25px;
+			width: 40px;
+			height: 40px;
+			border-radius: 100%;
+			z-index: 1;
+		}		
+		.mui-bar~.mui-pull-top-tips {
+			top: 24px;
+		}		
+		.mui-pull-top-wrapper {
+			width: 42px;
+			height: 42px;
+			display: block;
+			text-align: center;
+			background-color: #efeff4;
+			border: 1px solid #ddd;
+			border-radius: 25px;
+			background-clip: padding-box;
+			box-shadow: 0 4px 10px #bbb;
+			overflow: hidden;
+		}		
+		.mui-pull-top-tips.mui-transitioning {
+			-webkit-transition-duration: 200ms;
+			transition-duration: 200ms;
+		}		
+		.mui-pull-top-tips .mui-pull-loading {
+			margin: 0;
+		}		
+		.mui-pull-top-wrapper .mui-icon,
+		.mui-pull-top-wrapper .mui-spinner {
+			margin-top: 7px;
+		}				
+		.mui-pull-bottom-tips {
+			text-align: center;
+			background-color: #efeff4;
+			font-size: 15px;
+			line-height: 40px;
+			color: #777;
+		}		
+		.mui-pull-top-canvas {
+			overflow: hidden;
+			background-color: #fafafa;
+			border-radius: 40px;
+			box-shadow: 0 4px 10px #bbb;
+			width: 40px;
+			height: 40px;
+			margin: 0 auto;
+		}		
+		.mui-pull-top-canvas canvas {
+			width: 40px;
+		}		
+		.mui-slider-indicator.mui-segmented-control {
+			background-color: #efeff4;
+		}						
+		.typeitem {
+			text-align: center;
+			border: 1px solid #BCBCBC;
+			height: 35px;
+			padding-top: 5px;
+			padding-right: 10px;
+		}
+		.jh-title{
+			padding-left: 0px;
+			max-width: 87%;
+			min-width: 35%;
+		}						
+		.mui-scroll{
+			min-height: 100%;
+		}
+		.mui-slider .mui-segmented-control.mui-segmented-control-inverted~.mui-slider-group .mui-slider-item {
+			border: none;
+		}
+		.author{
+			overflow: hidden;
+		    text-overflow: ellipsis;
+		    max-width: 36%;
+		    white-space: nowrap;
+		}
+		.jh-write-question{
+			-moz-box-shadow:0px 0px 12px #666666; 
+			-webkit-box-shadow:0px 0px 12px #666666; 
+			box-shadow:0px 0px 12px #666666;
+		}
+	</style>
+	<body style="background-color: #FFFFFF;">
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span><span id="askName">问答</span>
+			</button>		
+			<a id="search" class="mui-icon mui-icon-search mui-pull-right" style="color: #333;"></a>
+		</header>
+		<div class="mui-content" id="contentArea" style="display: block">
+			<div id="slider" class="mui-slider mui-fullscreen">
+				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted jh-scroll-wrapper">
+					
+					<div class="mui-scroll" id="SectionType" style="padding-right: 40px;">
+						<a class="mui-control-item mui-active" href="#itemmobile" id="0">
+							最新
+						</a>
+						<a class="mui-control-item" href="#item0mobile" id="1">
+							待解决
+						</a>
+						<a class="mui-control-item" href="#item1mobile" id="2">
+							高悬赏
+						</a>
+						<a class="mui-control-item" href="#item2mobile" id="3">
+							精华
+						</a>
+					</div>
+				</div>
+				<div class="jh-gray-bar"></div>
+				<div class="mui-slider-group" id="sliderGroup">
+					<div id="itemmobile" class="mui-slider-item mui-control-content mui-active">
+						<div class="mui-scroll-wrapper" id="refreshContainer">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									<div class="mui-loading">
+										<div class="mui-spinner">
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item0mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper"id="refreshContainer1">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									<div class="mui-loading">
+										<div class="mui-spinner">
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item1mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper"id="refreshContainer2">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									<div class="mui-loading">
+										<div class="mui-spinner">
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item2mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper"id="refreshContainer3">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									<div class="mui-loading">
+										<div class="mui-spinner">
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>					
+				</div>
+			</div>
+			<div class="jh-write-question" id="setting_btn">
+				<i id="setting_btn" class="fa fa-plus mui-icon mui-icon-bars mui-pull-right" aria-hidden="true" style="color:#fff;"></i>
+			</div>
+			<script src="../js/mui.min.js"></script>
+			<script src="../js/mui.pullToRefresh.js"></script>
+			<script src="../js/mui.pullToRefresh.material.js"></script>
+			<script src="../js/service.js"></script>
+			<script src="../js/common.js"></script>
+			<script src="../js/wxHelper.js"></script>
+	</body>
+	<script type="text/javascript">
+	var ids = [];	
+	var tabIndex = 0;
+	var pageindex = 1;
+	var page = 1;
+	var idName = "";
+	window.onload = function() {
+		if(mui.os.plus) {
+			GetQuestionsByAsk(false, 0, null)
+		}else{
+			GetQuestionsByAsk(false, 0, null)
+		}
+		if(mui.os.wechat){
+			var currUrl = location.href.split('#')[0];
+			weChatLogin(currUrl)
+		}
+	}		
+	var selel = document.getElementsByClassName("mui-control-item mui-active");
+	mui('.mui-slider').slider();
+	var deceleration = mui.os.ios ? 0.003 : 0.0009;
+	mui('.mui-scroll-wrapper.mui-slider-indicator.mui-segmented-control').scroll({
+		scrollY: false,
+		scrollX: true,
+		indicators: false,
+		deceleration: deceleration,
+		snap: '.mui-control-item'
+	});		
+	document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+		tabIndex = event.detail.slideNumber;
+		if(event.detail.slideNumber != 0) {
+			var index = event.detail.slideNumber -1;
+			var item = document.getElementById("item" + index + "mobile");
+			item.querySelector('.mui-pull-bottom-tips').style.display = 'none';
+			if(item.querySelector('.mui-loading')) {
+				if(index == 1) {
+					GetQuestionsByAsk(false, 3, null)
+				}
+				if(index == 2) {
+					GetEssentialQuestionByAsk(false)
+				}
+				if(index == 0) {
+					GetQuestionsByAsk(false, 0, 0)
+				}
+			}
+		}
+	});
+	document.getElementById("setting_btn").addEventListener('tap', function() {
+		var islog = getlsData('isLogin');
+		if(islog == 'true') {
+			var baseUrl = 'creatQuestion.html';
+			var url = mui.os.plus ? baseUrl : baseUrl;
+			mui.openWindow({
+				url: url,
+				id: 'creatQuestion.html',
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				}
+			})
+		} else {
+			mui.toast('请登录后再进行操作');
+			login();
+		}
+	});
+	mui(".mui-table-view").on('tap', '.mui-content', function(e) {
+		e.stopPropagation();
+		var questionId = this.getAttribute('id');
+		var baseUrl = 'question-solved.html';
+		var url = mui.os.plus ? baseUrl : baseUrl + '?questionId=' + questionId;
+		var curl = shareUrl+ baseUrl+ '?questionId=' + questionId;
+		setlsData('currUrl', curl);
+		mui.openWindow({
+			url: url,
+			id: 'question-solved.html',
+			show: {
+				autoShow: true
+			},
+			createNew:true,
+			waiting: {
+				options: {
+					loading: {
+						height: '35px'
+					}
+				}
+			},
+			extras: {
+				questionId: questionId,
+				tabIndex: tabIndex,
+				type: 'ask',
+				currId: 'ask.html'
+			}
+		})
+	})
+	mui(".mui-table-view").on('tap', '.tagname', function(e) {
+		e.stopPropagation();
+		var tagName = this.getAttribute('id');
+		var baseUrl = 'question-label-list.html';
+		var url = mui.os.plus ? baseUrl : baseUrl + '?tagName=' + tagName;
+		var curl = shareUrl+ baseUrl + '?tagName=' + tagName;
+		setlsData('currUrl', curl);
+		mui.openWindow({
+			url: url,
+			id: 'question-label-list.html',
+			show: {
+				autoShow: true
+			},
+			createNew:true,
+			waiting: {
+				options: {
+					loading: {
+						height: '35px'
+					}
+				}
+			},
+			extras: {
+				tagName: tagName,
+				currId: 'ask.html'
+			}
+		})
+	})		
+	function GetEssentialQuestionByAsk(more) {
+		//showLoading()
+		var idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+		var fragment = document.getElementById(idName);
+		var cfragment = fragment.firstElementChild;
+		var finel = cfragment.firstElementChild.querySelector('.mui-table-view');			
+		if(more) {
+			pageindex++;
+		} else {
+			//finel.innerHTML = '';
+			pageindex = 1;
+		}
+		var params = {
+			pageSize: 10,
+			pageIndex: pageindex
+		};
+		getData('Ask/GetEssentialQuestions', params, function(data) {
+			var bottomTip = document.querySelectorAll('.mui-pull-bottom-tips');
+			hideLoading();
+			hideErr();
+			if(data.Type == 1) {					
+				if(data.Data.length > 0 && typeof(data.Data) == 'object') {
+					hideErrForList('',idName);
+					if(data.Data.length <= 5) {
+						document.getElementById("item2mobile").querySelector('.mui-pull-bottom-tips').style.display = 'none';
+					} else {
+						document.getElementById("item2mobile").querySelector('.mui-pull-bottom-tips').style.display = 'block';														
+					}
+					creatAskElement(data.Data, idName,more);
+				} else {	
+					if(!more){
+						var errForList=showErrForList('暂无更多精华问题','','',idName);
+						if(errForList){
+							fragment.appendChild(showErrForList('暂无更多精华问题','','',idName))
+						}
+					}
+				}
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误
+				var errForList=showErrForList(data.Data,'','',idName);
+				if(errForList){
+					fragment.appendChild(showErrForList(data.Data,'','',idName))
+				}
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(err) {
+			setErr('','0px')
+		})
+	}
+	(function($) {
+		//阻尼系数
+		var deceleration = mui.os.ios ? 0.003 : 0.0009;
+		$('.mui-scroll-wrapper').scroll({
+			bounce: false,
+			indicators: true, //是否显示滚动条
+			deceleration: deceleration
+		});
+		$.ready(function() {
+			//循环初始化所有下拉刷新，上拉加载。
+			$.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+				$(pullRefreshEl).pullToRefresh({
+					down: {
+						callback: function() {
+							var self = this;
+							//document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'none';
+							if(selel[0].id == '1') {
+								GetQuestionsByAsk(false, 0, 0)
+							}
+							if(selel[0].id == '0') {
+								GetQuestionsByAsk(false, 0, null)
+							}
+							if(selel[0].id == '2') {
+								GetQuestionsByAsk(false, 3, null)
+							}
+							if(selel[0].id == '3') {
+								GetEssentialQuestionByAsk(false)
+							}
+							setTimeout(function() {
+								self.endPullDownToRefresh();
+							}, 1000);
+						}
+					},
+					up: {
+						show: false,
+						callback: function() {
+							var self = this;
+							if(selel[0].id == '0') {
+								GetQuestionsByAsk(true, 0, null)
+							}
+							if(selel[0].id == '1') {
+								GetQuestionsByAsk(true, 0, 0)
+							}
+							if(selel[0].id == '2') {
+								GetQuestionsByAsk(true, 3, null)
+							}
+							if(selel[0].id == '3') {
+								GetEssentialQuestionByAsk(true)
+							}
+							setTimeout(function() {
+								self.endPullUpToRefresh();
+							}, 1000);
+						}
+					}
+				});
+			});
+		});
+	})(mui);
+	var creatAskElement = function(data, id,more) {
+		var fragment = document.getElementById(id);
+		var cfragment = fragment.firstElementChild;
+		var split = document.createElement('div');
+		split.className='jh-gray-bar'
+		var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+		var newFragment = document.createDocumentFragment();
+		if(finel.lastChild == null){
+			finel.appendChild(split);
+		}			
+		var Essential;
+		var Reward;
+		var tagsLength = [];//用于标签长度比较的数组
+		var tagsSort =[];//标签长度排序好的数组
+		var li;
+		var bigContainer;	
+		for(var i = 0; i < data.length; i++) {
+			var Author;
+			span = document.createElement('span');
+			var resolved = "";
+			classn = data[i].IsResolved ? 'jh-green-border' : 'jh-red-border';
+			text1 = data[i].IsResolved ? "已解决" : "未解决";
+			resolved = '<span class=' + classn + '>' + text1 + '</span>'
+			var dis = 'none';
+			bigContainer = "";
+			tagsLength = [];
+			Reward = data[i].Reward == 0 ? '' : '<li class="jh-orange"><i class="fa fa-database"></i><span>' + data[i].Reward + '</span></li>';
+			Essential = data[i].IsEssential == true ? '<span class="jh-red-border">' + "精华" + '</span>' : '';			
+			Author = data[i].IsAnonymous ? '<li>' + "匿名用户 " + '</li>' : '<li class="author">' + data[i].Author + '</li>';
+			if(data[i].Tags.length != 0){
+				for(var j = 0; j < data[i].Tags.length; j++) {
+					tagsLength.push({TagName:data[i].Tags[j].TagName,length:data[i].Tags[j].TagName.length});
+					function compare(property){
+						    return function(a,b){
+						        var value1 = a[property];
+						        var value2 = b[property];
+						        return value1 - value2;
+						    }
+					}
+				}
+				tagsSort = tagsLength.sort(compare('length'))
+				var lengthL = tagsSort.length ;
+				var tagsFinal = tagsSort.slice(0,lengthL);//最终排序好，可以使用的标签数组
+				for(var r = 0; r < tagsFinal.length; r++) {
+					bigContainers = "";
+					itemContainer = '<a  class="tagname" id=' + tagsFinal[r].TagName + '><span class="label label-default" id="tagH">' + tagsFinal[r].TagName+ '</span></a>'
+					bigContainer += itemContainer;
+				}
+			}else{
+				var disTag = 'none';
+			}
+			div = document.createElement('div');
+			div.className = 'mui-content question-list';
+			div.id = data[i].Id;
+			div.innerHTML = '<div class="mui-content-padded" id=' + data[i].Id + '>' +
+							'<div class="subject">'+
+							'<p class="content" id=' + data[i].Id + '>' + 
+							data[i].Subject+
+							'<span class="status">'+
+							resolved +
+							Essential +
+							'</span>'+
+							'</p>'+
+							'</div>' +
+							'<div class="mui-row"style="margin-top:1px;"> ' +
+							'<div class="jh-hot-label" style="display:'+ disTag +'">' +
+							'<i class="fa fa-tags text-muted fa-padding" aria-hidden="true"></i>' +
+							'<div class="jh-title">' + bigContainer + '</div>' +
+							'</div>' +
+							'<ul class="mui-list-inline text-muted">' +
+							Reward +
+							Author +
+							'<li>' + data[i].DateCreated + '</li>' +
+							'<li>' + data[i].HitTimes + '浏览' + '</li>' +
+							'<li>' + data[i].AnswerCount + '回答' + '</li>' +					
+							'</ul>' +
+							'</div>' +
+							'</div>' +
+							'<div class="jh-gray-bar"></div></div>';
+				if(more == true){
+					finel.appendChild(div);
+				}else{
+					newFragment.appendChild(div);
+				}
+		}
+		if(more == false){
+			finel.innerHTML=nodeToString(newFragment);
+		}
+	};
+	function GetQuestionsByAsk(more, sortBy, status) {
+//		if(!more) {
+//			showLoading('', '', '#FFFFFF', '90px', '1');
+//		}
+		idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+		var fragment = document.getElementById(idName);
+		var cfragment = fragment.firstElementChild;
+		var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+		if(more) {
+			page++;
+		} else {
+			//finel.innerHTML = '';
+			page = 1;
+		}
+		var params = {
+			status: status,
+			sortBy: sortBy,
+			pageSize: 10,
+			pageIndex: page,
+		};		
+		getData('Ask/GetQuestions', params, function(data) {
+			hideLoading()
+			hideErr()
+			var bottomTip = document.querySelectorAll('.mui-pull-bottom-tips');
+			if(data.Type == 1) {
+				if(data.Data && typeof(data.Data) == 'object') {
+					hideErrForList('',idName);
+					if(data.Data.length <= 5) {
+						document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'none';
+					} else {							
+						document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'block';
+					}
+					creatAskElement(data.Data, idName,more);
+				} else {
+					if(!more){
+						var errForList=showErrForList('暂无更多问题','','',idName);
+						if(errForList){
+							fragment.appendChild(showErrForList('暂无更多问题','','',idName))
+						}
+					}
+				}
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误
+				var errForList=showErrForList(data.Data,'','',idName);
+				if(errForList){
+					fragment.appendChild(showErrForList(data.Data,'','',idName))
+				}
+				return;
+			}
+		}, function(err) {
+			setErr('','0px')
+		})
+	}
+	mui.init({
+		gestureConfig: {
+			swipeBack: false //启用右滑关闭功能
+		}
+	});				
+	function changeTabByAsk(index) {
+		var gallery = mui('#sliderSegmentedControl');
+		var gallerys = mui('#slider');
+		gallery.scroll().gotoPage(index);
+		gallerys.slider().gotoItem(index);
+		if(index == 1) {
+			GetQuestionsByAsk(false, 0, 0)
+			mui('#refreshContainer1').scroll().scrollTo(0,0);
+		}
+		if(index == 2) {
+			GetQuestionsByAsk(false, 3, null)
+			mui('#refreshContainer2').scroll().scrollTo(0,0);
+		}
+		if(index == 0) {
+			GetQuestionsByAsk(false, 0, null)
+			mui('#refreshContainer').scroll().scrollTo(0,0);
+		}
+		if(index == 3) {
+			GetEssentialQuestionByAsk(false)
+			mui('#refreshContainer3').scroll().scrollTo(0,0);
+		}
+	}		
+	document.getElementById("search").addEventListener('tap', function() {
+		mui.openWindow({
+			url: 'search.html?type=ask',
+			id: 'search.html',
+			waiting: {
+				options: {
+					loading: {
+						height: '35px'
+					}
+				}
+			},
+		})
+	})
+	</script>
+
+</html>

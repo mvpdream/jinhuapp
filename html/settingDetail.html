@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<!--通用样式-->
+		<link rel="stylesheet"  href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet"  href="../css/jinhu.css">
+	</head>
+	<style>
+		.spacing {
+			margin-top: 0.5rem;
+		}
+		
+		.mui-input-row span {
+			line-height: 40px;
+			font-size: 16px;
+		}
+		
+		.mui-input-row .mui-input-clear~.mui-icon-clear,
+		.mui-input-row .mui-input-password~.mui-icon-eye,
+		.mui-input-row .mui-input-speech~.mui-icon-speech {
+			top: 0;
+		}
+		
+		.box {
+			width: 100%;
+			max-height: 200px;
+			border-bottom: 1px solid #ccc;
+			overflow-y: auto;
+			font-size: 14px;
+			line-height: 23px;
+			overflow-x: hidden;
+		}
+		
+		html,
+		body {
+			height: 100%;
+			margin: 0px;
+			padding: 0px;
+			overflow: hidden;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+		}
+		.mui-btn-red{
+			top:9px !important;
+			padding: 6px 12px 5px !important;
+		}
+	</style>
+
+	<body style="background-color: #fff;">
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span><span id="navtil"></span></button>
+			<span class="mui-pull-right">
+			<button id="confirmBtn" data-loading-text="提交中" type="button" style="background-color: #bf0a10;" class="mui-btn mui-btn-red">确定</button>
+			</span>
+
+		</header>
+		<div class="mui-content mui-content-padded" style=" background-color: #fff;">
+			<form id="nomCantainer" class="mui-input-group" style="display: none;">
+				<div class="mui-input-row spacing">
+					<input id='title' type="text" style="padding-left: 0;" class="mui-input mui-input-clear" placeholder="">
+				</div>
+				<div class="mui-input-row spacing" style="height: auto;">
+
+				</div>
+			</form>
+			<textarea rows="10" id='introductionval' style="display: none;padding-left: 0;" class="threadBody"  placeholder="请输入内容"></textarea>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/wxHelper.js"></script>
+	</body>
+	<script>
+		
+		var type = "";
+		var value = "";
+		var msg = "";
+		var navtil = document.getElementById("navtil");
+		var title = document.getElementById("title");
+		var introductionval = document.getElementById("introductionval");
+		var confirmBtn = document.getElementById("confirmBtn");
+		//		pushHistory();
+		//		function pushHistory(){
+		//		window.addEventListener("popstate", function(e){
+		//		    alert("回退！");
+		//			parent.document.getElementById('settingDetail').style.display='none'
+		//		//      //window.history.back();
+		//		//      //在历史记录中后退,这就像用户点击浏览器的后退按钮一样。
+		//		//
+		//		//      //window.history.go(-1);
+		//		//      //你可以使用go()方法从当前会话的历史记录中加载页面（当前页面位置索引值为0，上一页就是-1，下一页为1）。
+		//		//
+		//		//      self.location=document.referrer;
+		//		//      //可以获取前一页面的URL地址的方法,并返回上一页。
+		//		    }, false); 
+		//		  var state = {
+		//		      title:"",
+		//		      url: "#"
+		//		  }; 
+		//		  window.history.replaceState(state, "", "#"); 
+		//		};
+		if(mui.os.wechat && mui.os.ios) {
+			mui.back = function() {
+				parent.document.getElementById('settingDetailif').style.display = 'none'
+			}
+		}
+
+		window.onload = function() {
+			//获取url中的targetId参数
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					type = self.type;
+					value = self.value;
+					setType(type, value)
+					//关闭等待框
+					plus.nativeUI.closeWaiting();
+					//显示当前页面
+					mui.currentWebview.show();
+				});
+			} else {
+				type = getUrlParam('type');
+				value = getUrlParam('value');
+				setType(type, value)
+			}
+			if(mui.os.wechat) {
+				var currUrl = location.href.split('#')[0];
+				weChatLogin(currUrl)
+			}
+
+		}
+
+		function setType(type, value) {
+			switch(type) {
+				case 'userName':
+					document.getElementById("nomCantainer").style.display = 'block';
+					navtil.innerHTML = '设置昵称';
+					title.placeholder = '用户昵称';
+					title.value = value == '未填写' ? '' : value;
+					break;
+				case 'truename':
+					document.getElementById("nomCantainer").style.display = 'block';
+					navtil.innerHTML = '真实姓名';
+					title.placeholder = '真实姓名';
+					title.value = value == '未填写' ? '' : value;
+					break;
+				case 'introduction':
+					document.getElementById("introductionval").style.display = 'block';
+					navtil.innerHTML = '自我介绍';
+					introductionval.value = value == '未填写' ? '自我介绍' : value;
+					break;
+				default:
+					break;
+			}
+		}
+		confirmBtn.addEventListener('tap', function() {
+			document.activeElement.blur();
+			var name = TrimAll(title.value);
+			if(type == 'introduction') {
+				name = TrimAll(introductionval.value);
+				title.placeholder = '自我介绍';
+			}
+			if(name == "") {
+				mui.toast(title.placeholder + "不能为空")
+				return
+			}
+			var params = {};
+			var path = '';
+			if(type == 'userName') {
+				path = 'User/UpdateUserName?userName=' + name;
+				params = {}
+			}
+			if(type == 'truename') {
+				path = 'User/UpdateTrueName?trueName=' + name;
+				params = {}
+			}
+			if(type == 'introduction') {
+				path = 'User/UpdateIntroduction?introduction=' + name;
+				params = {}
+			}
+
+			var _this = this;
+			mui('#confirmBtn').button('loading'); //切换为loading状态
+			postDatawithToken(path, params, function(data) {
+				mui('#confirmBtn').button('reset');
+				if(data.Type == 1) {
+					mui.toast(data.Data);
+					if(mui.os.plus) {
+						var wobj = plus.webview.getWebviewById('personalData.html');
+						wobj.reload(true);
+						setTimeout(function() {
+							mui.back();
+						}, 800)
+					} else {
+						if(mui.os.wechat && mui.os.ios) {
+							parent.location.reload();
+							parent.document.getElementById('settingDetailif').style.display = 'none'
+						} else {
+							window.history.go(-1);
+						}
+
+					}
+
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(data) {
+				mui('#confirmBtn').button('reset');
+			});
+
+		});
+	
+	</script>
+
+</html>

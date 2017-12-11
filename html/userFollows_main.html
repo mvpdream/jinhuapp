@@ -1,0 +1,401 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/jinhu.css">
+	</head>
+	<style>
+		.inviteinvitePop {
+			position: fixed;
+			text-align: center;
+			width: 80%;
+			margin-left: 10%;
+			margin-right: 10%;
+			top: 30%;
+			min-height: 250px;
+			padding: 15px;
+			background-color: #FFFFFF;
+			word-break: break-all;
+			word-wrap: break-word;
+		}
+		
+		.inviteinvitePop div {
+			padding-top: 10px;
+		}
+		.mui-btn-mini{
+			background-color: #E4E4E4;
+		}
+		.mui-table-view-cell:after {
+			left: 0;
+		}
+		
+		.mui-table-view-cell.mui-active {
+			background-color: rgba(239, 239, 239, 0.25);
+		}
+		.mui-table-view-cell{
+			padding: 11px 15px;	
+		}
+	</style>
+
+	<body>
+		<div id="inviteinvitePop" class="jh-wenku-popup mui-popover inviteinvitePop">
+			<div style="font-size: 18px;color: #999999;" id="inviteinviteText">http://demo.jinhusns.com/accountinviteinvite=8924de66dd8bf3af</div>
+			<div style="font-size: 16px;">通过QQ、电子邮件发送链接给你的朋友，注册成功后他们会自动成为你的粉丝。</div>
+			<button id="copyAndClose" class="btn mui-btn mui-btn-primary" style="margin-top: 20px;" data-clipboard-action="copy" data-clipboard-target="#inviteinviteText">复制链接并关闭</button>
+		</div>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span><span id="navtil"></span>
+			</button>
+			<i id="inviting_Friends" class="fa fa-user-plus mui-icon mui-icon-bars mui-pull-right" aria-hidden="true" style="line-height:24px;"></i>
+		</header>
+		<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<ul class="mui-table-view" style="margin-top: 0;">
+
+				</ul>
+			</div>
+		</div>
+
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/service.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/jweixin-1.2.0.js"></script>
+	<script src="../js/wxHelper.js"></script>
+	<script src="../js/clipboard.min.js"></script>
+	<script>
+		var userId = 0;
+		var username = "";
+		var type = '';
+		var inviteinvite=null;
+		var page = 1;
+		window.onload = function() {
+			//获取url中的targetId参数                                                                                                           
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					userId = self.userId;
+					username = self.username;
+					type = self.type;
+					inviteinvite=self.inviteinvite;
+					if(inviteinvite){
+						mui('#inviteinvitePop').popover('toggle');
+					}
+					var tilName = (type == 'userfollower') ? '的粉丝' : '的关注';
+					var usernames = (username == "me") ? "我" : username
+					document.getElementById("inviting_Friends").style.display=(type == 'userfollower') ? '' : 'none';
+					document.getElementById("navtil").innerHTML = usernames + tilName;
+					loadData(0, userId)
+					//关闭等待框                                                                                                               
+					plus.nativeUI.closeWaiting();
+					//显示当前页面                                                                                                              
+					mui.currentWebview.show();
+				});
+			} else {
+				userId = getUrlParam('userId');
+				username = getUrlParam('username');
+				type = getUrlParam('type');
+				inviteinvite=getUrlParam('inviteinvite');
+				if(inviteinvite){
+					mui('#inviteinvitePop').popover('toggle');
+				}
+				var tilName = (type == 'userfollower') ? '的粉丝' : '的关注';
+				var usernames = (username == "me") ? "我" : username
+				document.getElementById("inviting_Friends").style.display=(type == 'userfollower') ? '' : 'none';
+				document.getElementById("navtil").innerHTML = usernames + tilName;
+				loadData(0, userId)
+			}
+			if(mui.os.wechat) {
+				var currUrl = location.href.split('#')[0];
+				weChatLogin(currUrl)
+			}
+		}
+
+		var createFragment = function(data) {
+			//console.log(JSON.stringify(data));
+			var fragment = document.createDocumentFragment();
+			var li;
+			var child;
+			for(var i = 0; i < data.Data.length; i++) {
+				var dis = 'none';
+				if(username == 'me') {
+					dis = 'block';
+				} else {
+					dis = 'none';
+				}
+				var btnclass = 'mui-btn-mini';
+				var btnTil = '关注';
+				var introduction = '';
+				var userAvatar = '';
+				btnTil = data.Data[i].IsMutualFollowed == true ? "相互关注" : "已关注";
+				if(btnTil == "已关注" && data.Data[i].IsFollowed != null) { //mui-btn-mini  mui-btn-primary
+					btnclass = (!data.Data[i].IsFollowed) ? 'mui-btn-primary' : 'mui-btn-mini';
+					btnTil = (!data.Data[i].IsFollowed) ? '关注' : '取消关注'
+				}
+				introduction = data.Data[i].Introduction ? (data.Data[i].Introduction).substring(0, 15) : '';
+				userAvatar = data.Data[i].Avatar == "" ? "../img/avatar.jpg" : getImgUrl(data.Data[i].Avatar);
+				li = document.createElement('li');
+				li.className = 'mui-table-view-cell';
+				li.id = data.Data[i].UserId;
+				li.innerHTML = '<div class="mui-row jh-follow-user">' +
+					'							<div class="mui-col-xs-3">' +
+					'								<img class="jh-follow-userimg" src=' + userAvatar + '>' +
+					'							</div>' +
+					'							<div class="mui-col-xs-9">' +
+					'								<h4 class="mui-ellipsis" style="word-break:break-all;margin-right:60px;line-height:20px">' + data.Data[i].UserName + '</h4>' +
+					'								<p class="text-muted mui-ellipsis" style="margin-right:60px">' + introduction + '</p>' +
+					'							</div>' +
+					'						</div>' +
+					'						<button type="button" class="mui-btn ' + btnclass + '" style="display:' + dis + ';width:82px;" >' +
+					'							' + btnTil + '' +
+					'						</button>';
+				fragment.appendChild(li);
+			}
+			return fragment;
+		};
+		var page = 1;
+
+		function loadData(types, id) {
+			var table = document.body.querySelector('.mui-table-view');
+			switch(types) {
+				case 0:
+					{
+						page = 1;
+					}
+					break;
+				case 1:
+					{
+						page = 1;
+					}
+					break;
+				case 2:
+					{
+						page++;
+					}
+					break;
+				default:
+					break;
+			}
+			var path = '';
+			if(type == 'userfollower') {
+				//粉丝
+				path = 'User/GetUserFollower';
+			}
+			if(type == 'userfollowed') {
+				//关注
+				path = 'User/GetUserFollows';
+			}
+			params = {
+				userId: id,
+				pageIndex: page,
+			}
+			showLoading('', '', '#FFFFFF','50px');
+			getData(path, params, function(data) {
+				hideLoading()
+				hideErr()
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						switch(types) {
+							case 0:
+								{
+									table.innerHTML = "";
+									table.appendChild(createFragment(data));
+								}
+								break;
+							case 1:
+								{
+									table.innerHTML = "";
+									table.appendChild(createFragment(data));
+								}
+								break;
+							case 2:
+								{
+									table.appendChild(createFragment(data));
+								}
+								break;
+							default:
+								break;
+						}
+
+					} else {
+						if(types != 2) {
+							showErr(data.Data, '', '#FFFFFF','50px');
+							document.getElementById("errView").style.zIndex='99'
+						}
+						if(data.Data!='暂时没有更多粉丝'&&data.Data!='暂时没有更多关注用户'){
+							mui.toast(data.Data);
+						}
+						mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+					}
+
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+					login();
+					return;
+				} else {
+					//逻辑错误
+					//mui.toast('暂无更多数据');
+					if(types != 2) {
+						showErr('暂无更多数据', '', '#FFFFFF','50px');
+						document.getElementById("errView").style.zIndex='99'
+					}
+					mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+					return;
+				}
+			}, function(err) {
+				mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+				setErr('','50px')
+				document.getElementById("errView").style.zIndex='99'
+			})
+
+		}
+		mui(".mui-table-view").on('tap', 'img', function(e) {
+			var userid = e.target.parentElement.parentElement.parentElement.id;
+			var baseUrl = 'userHomepage.html';
+			var url = baseUrl + '?userId=' + userid;
+			mui.openWindow({
+				url: url,
+				id: 'userHomepage.html',
+				show: {
+					autoShow: false
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					userId: userid
+				}
+			})
+		})
+		var btnel;
+		mui(".mui-table-view").on('tap', 'button', function(e) {
+			btnel = e.target;
+			var userid = e.target.parentElement.id;
+			showLoading();
+			postDatawithToken('User/FollowUserOperation?userId=' + userid, {}, function(data) {
+				hideLoading();
+				if(data.Type == 1) {
+					if(data.Data == '关注成功') {
+						mui.toast(data.Data.Message);
+						var table = document.body.querySelector('.mui-table-view');
+						table.innerHTML = "";
+						loadData(1, userId)
+					} else {
+						if(data.Data == "取消关注成功") {
+							mui.toast(data.Data);
+							var table = document.body.querySelector('.mui-table-view');
+							table.innerHTML = "";
+							loadData(1, userId)
+						} else {
+							mui.toast(data.Data.Message);
+							var table = document.body.querySelector('.mui-table-view');
+							table.innerHTML = "";
+							loadData(1, userId)
+
+						}
+					}
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(data) {
+				hideLoading()
+			});
+		})
+		mui.init({
+			gestureConfig: {
+				swipeBack: true //启用右滑关闭功能
+			},
+			pullRefresh: {
+				container: "#refreshContainer", //下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+				down: {
+					style: 'circle', //必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+					color: '#bf0a10', //可选，默认“#2BD009” 下拉刷新控件颜色
+					height: 50, //可选,默认50.触发下拉刷新拖动距离,
+					auto: false, //可选,默认false.首次加载自动上拉刷新一次
+					callback: downFresh
+				},
+				up: {
+					height: 50, //可选.默认50.触发上拉加载拖动距离
+					auto: false, //可选,默认false.自动上拉加载一次
+					contentrefresh: "正在加载...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+					contentnomore: '没有更多数据了', //可选，请求完毕若没有更多数据时显示的提醒内容；
+					callback: upFresh
+				}
+			}
+		});
+
+		function downFresh() {
+			setTimeout(function() {
+				loadData(1, userId)
+				mui('#refreshContainer').pullRefresh().endPulldownToRefresh(); //refresh completed
+			}, 1500);
+
+		}
+
+		function upFresh() {
+			setTimeout(function() {
+				loadData(2, userId)
+				mui('#refreshContainer').pullRefresh().endPullupToRefresh();
+			}, 1500);
+
+		}
+		document.getElementById("inviteinviteText").innerHTML=getlsData('inviteFriendUrl');
+		document.getElementById("inviting_Friends").addEventListener('tap', function() {
+			mui('#inviteinvitePop').popover('toggle');
+		})
+		var copyAndCloseBtn = document.getElementById("copyAndClose");
+		if(mui.os.plus&&mui.os.ios){
+			copyAndCloseBtn.addEventListener('tap',function(e){
+				var UIPasteboard  = plus.ios.importClass("UIPasteboard");
+				var generalPasteboard = UIPasteboard.generalPasteboard();
+				// 设置/获取文本内容:
+				generalPasteboard.setValueforPasteboardType(getlsData('inviteFriendUrl'), "public.utf8-plain-text");
+				var value = generalPasteboard.valueForPasteboardType("public.utf8-plain-text");
+				mui('#inviteinvitePop').popover('toggle');
+				mui.toast('复制成功')
+			})
+			
+		}else{
+			copyAndCloseBtn.setAttribute("data-clipboard-text", getlsData('inviteFriendUrl'));
+			var clipboard = new Clipboard('.btn');
+			clipboard.on('success', function(e) {
+				mui('#inviteinvitePop').popover('toggle');
+				mui.toast('复制成功')
+			});
+			clipboard.on('error', function(e) {
+				console.log(JSON.stringify(e));
+				mui.toast('复制失败，请重试')
+			});
+		}
+
+
+
+
+		
+	</script>
+
+</html>

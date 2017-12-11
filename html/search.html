@@ -1,0 +1,308 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet"  href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet"  href="../css/jinhu.css">
+	</head>
+	<style>
+#searchAllA,
+#searchInvitationA,
+#searchQuestionA,
+#searchInformationA,
+#searchDocumentA {
+	width: 18%;
+	    padding-left: 3%;
+    padding-right: 3%;
+	padding: 0px;
+}
+		.mui-content-padded {
+		    margin: 10px 10px 0px 10px;
+		}
+		.jh-search-header .mui-col-xs-1 a {
+		    font-size: 28px;
+		    line-height: 42px !important; 
+		    color: #666;
+		}
+		.status{
+			display: inline-block;
+			padding-left: 12px;
+		}
+		.noCenter{
+			text-align: inherit !important;
+			margin-bottom: 0px;
+			font-size: 14px !important;
+		}
+		.noCenter a{
+			display: inline-block !important; 
+		}
+		.status span:first-child{
+			margin-left: -7px !important;
+			margin-right: 7px;
+		}
+		.jh-red-border {
+			font-size: 12px;
+			border-radius: 3px;
+			padding-left: 2px;
+			padding-right: 2px;
+		    color: #FF0000;
+		    border: 1px solid #FF0000;
+		}
+		.jh-green-border {
+			font-size: 12px;
+			padding-left: 2px;
+			padding-right: 2px;
+			border-radius: 3px;
+		    border: 1px solid #008000;
+		    color: #008000;
+		}
+		.jh-lable{
+			padding-bottom: 6px;
+			display: flex;
+			display: -webkit-flex;
+			-webkit-flex-wrap: nowrap;
+			flex-wrap: nowrap;
+		}
+		.jh-search-questiontime{
+			color: #999999;
+		    display: inline-block;
+		    font-size: 12px;
+		    padding-top: 3px;
+		}
+		.jh-search-typeQuestion{
+			color: #999999;
+		    display: inline-block !important;
+		    font-size: 12px;
+		    padding-top: 3px;
+		    margin-left: 13px;
+		}
+		.jh-search-typeDocument{
+			color: #999999;
+		    display: inline-block !important;
+		    font-size: 12px;
+		    padding-top: 3px;
+		}
+		.jh-search-time{
+			padding-bottom: 6px;
+		}
+		.jh-overflow-h{
+			overflow: inherit;
+    		text-overflow: ellipsis;
+		}
+		.tags{
+			max-width: 85%;
+			margin-left: 9px;
+		}
+		.tags a{
+			margin-left: 5px !important;			
+		}
+		.tagsClick{
+			max-width: 85%;
+		}
+		.tagsClick a{
+			margin-left: 5px !important;			
+		}
+		.normal-color{
+			color: #999999;			
+		}
+		.theme-color1{
+			color: #999999;
+		}
+		.novalue p{
+			color: #999999;
+		}
+		#searchInformation {
+			padding-top: 16px;
+		}
+		#searchInvitation, #searchQuestion {
+		    margin-top: 1px;
+		}
+		#searchInformation p{
+			text-align: center;
+		}
+		#searchInvitation p{
+			text-align: center;
+		}
+		#searchQuestion p{
+			text-align: center;
+		}
+		.novalue{
+			padding-top: 12px;
+			text-align: center;
+		}
+		.mui-table-view:after {
+			background-color: #fff;
+		}
+		
+		.localMain i {
+		    color: #666;
+		    float: right;
+		    margin-top: -25px;
+		    padding-right: 15px;
+		}
+		
+		.localList {
+			padding-bottom: 5px;
+			padding-left: 15px;
+			padding-right: 15px;
+			font-size: 16px;
+			color: #1e1e1e;
+			width: 90%;
+			padding-top: 5px;
+		}
+		
+		.searchHistory {
+			font-size: 14px;
+			color: #999999;
+			padding-top: 20px;
+			padding-bottom: 8px;
+			padding-left: 15px;
+		}
+		
+		.jh-search-nav.mui-segmented-control.mui-segmented-control-inverted {
+			margin-top: 0px;
+			z-index: 3;
+		}
+		
+		.mui-table-view {
+			position: relative;
+			margin-top: -17px;
+			margin-bottom: 0;
+			padding-left: 0;
+			list-style: none;
+			background-color: #fff;
+		}
+		.mui-scroll{
+			min-height: 100%;
+		}
+		.jh-search-body{
+			overflow: hidden;
+		    display: -webkit-box !important;
+		    -webkit-line-clamp: 3;
+		    -webkit-box-orient: vertical;
+		    word-break: break-all;
+		}
+		#Document .noCenter{
+			display: inline-block;
+			margin-left: 5px;
+		}
+		#searchDocument .noCenter{
+			display: inline-block;
+			margin-left: 5px;
+		}
+		#searchDocument{
+			padding-left: 10px;
+    		padding-right: 10px;
+		}
+	</style>
+
+	<body style="background-color: #fff;">
+		<header id="header" class="mui-bar mui-bar-nav">
+			<form action="" onsubmit="return false;">
+				<div class="mui-row jh-search-header">
+					<div class="mui-col-xs-11">
+						<div class="mui-input-row mui-search mui-active">
+							<input type="search" id="searchInput" class="mui-input-clear" placeholder="关键词" data-input-clear="1" data-input-search="1" value="">
+							<span class="mui-icon mui-icon-clear mui-hidden"></span>
+							<span class="mui-placeholder"><span class="mui-icon mui-icon-search"></span><span></span></span>
+						</div>
+					</div>
+					<div class="mui-col-xs-1 mui-text-right">
+						<a href="#">
+							<i class="fa fa-close" aria-hidden="true" id="closePage" onclick="mui.back()" style="font-size: 20px;"></i>
+						</a>
+					</div>
+				</div>
+			</form>
+		</header>
+		<div class="mui-content" id="main">
+			<div id="select" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted jh-scroll-wrapper jh-search-nav" data-scroll="2" style="display: none;">
+				<a class="mui-control-item mui-active" id="searchAllA">全部</a>
+				<a class="mui-control-item" id="searchInformationA">资讯</a>
+				<a class="mui-control-item" id="searchInvitationA">贴子</a>
+				<a class="mui-control-item" id="searchQuestionA">问答</a>
+				<a class="mui-control-item" id="searchDocumentA">文库</a>
+			</div>
+			<div id='local'>
+				<div id="localMain">
+					<div class='searchHistory'>搜索历史</div>
+				</div>
+				<div class='clearLocal'></div>
+			</div>
+			<div id="searchAll">
+				<div id="Information">
+
+				</div>
+				<div id="Invitation">
+
+				</div>
+				<div id="Question">
+
+				</div>
+				<div id="Document">
+
+				</div>
+
+			</div>
+<div class="mui-scroll-wrapper" id="refreshContainer">
+    
+
+				<div class="mui-scroll" id="scroll">
+					<!--数据列表-->
+					<ul class="mui-table-view mui-table-view-chevron">
+
+						<div id="searchInformation">
+							<div id="dv1">
+
+							</div>
+						</div>
+						<div id="searchInvitation">
+							<div id="dv2">
+
+							</div>
+						</div>
+						<div id="searchQuestion">
+							<div id="dv3">
+
+							</div>
+						</div>
+						<div id="searchDocument">
+							<div id="dv4">
+
+							</div>
+						</div>
+					</ul>
+					<div id="more" style="padding-top: 30px;" class="mui-block mui-visibility">
+					<div class="mui-pull"style="display: none;">
+						<div class="mui-pull-loading mui-icon mui-spinner mui-visibility"></div>
+						<div class="mui-pull-caption mui-pull-caption-refresh">正在加载数据...</div>
+					</div>
+				</div>
+				</div>
+				
+</div>
+
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/jquery-2.1.0.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/search.js"></script>
+		<script src="../js/attachment.js"></script>
+	</body>
+	<script>
+		var enabledArr=JSON.parse(getlsData('ApplicationsEnabled'));
+		document.getElementById("searchQuestionA").style.display=(enabledArr.askEnabled)?'':'none';
+		document.getElementById("searchDocumentA").style.display=(enabledArr.documentEnabled)?'':'none';
+	</script>
+
+</html>

@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/jinhu.css" />
+
+		<link rel="stylesheet" href="../css/loading.css" />
+		<link href="../css/mui.picker.css" rel="stylesheet" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<!-- 引用控制层插件样式 -->
+		<link rel="stylesheet" href="../css/zyUpload.css" type="text/css">
+
+		<script src="../js/jquery-2.1.0.js"></script>
+		<!-- 引用核心层插件 -->
+		<script type="text/javascript" src="../js/zyFile.js"></script>
+		<!-- 引用控制层插件 -->
+		<script type="text/javascript" src="../js/zyUpload.js"></script>
+		<!-- 引用初始化JS -->
+		<script type="text/javascript" src="../js/zyUploadFile.js"></script>
+		<!--
+        	.mui-input-row span {
+			line-height: 40px;
+			font-size: 16px;
+		}
+        -->
+	</head>
+	<style>
+		.mui-icon {
+			font-size: 20px;
+			font-weight: 400;
+			font-style: normal;
+			line-height: 1;
+			display: inline-block;
+			text-decoration: none;
+			-webkit-font-smoothing: antialiased;
+		}
+		
+		.spacing {
+			margin-top: 0.5rem;
+		}
+		
+		.mui-input-row span {
+			color: #666;
+			font-size: 16px;
+		}
+		
+		.angledown {
+			font-size: 1.2rem;
+			color: #999999;
+		}
+		
+		.closeIcon {
+			font-size: 25px;
+		}
+		
+		.threadBody {
+			line-height: 20px;
+			font-size: 16px;
+			border: none;
+			height: 537;
+		}
+		
+		.jh-comment-right a {
+			padding-left: 10px;
+		}
+		
+		.creat_menu {
+			float: left;
+			line-height: 25px;
+			width: 15%;
+			text-align: center;
+			color: #999999
+		}
+		
+		.face {
+			width: 30px;
+			height: 30px;
+			padding: 8px;
+		}
+		
+		.creat-img {
+			width: 100px;
+			height: 150px
+		}
+		
+		.mui-input-row label {
+			width: 30%;
+			font-family: 微软雅黑;
+			font-size: 16px;
+		}
+		
+		.creat-img-close {
+			position: relative;
+			right: 15px;
+			top: -75px;
+			color: gray;
+		}
+		
+		.threadBody-question {
+			border-bottom: 1px;
+		}
+		
+		.mui-switch-red.mui-active {
+			border: 2px solid #bf0a10;
+			background-color: #bf0a10;
+		}
+		
+		html,
+		body {
+			height: 100%;
+			margin: 0px;
+			padding: 0px;
+			overflow: hidden;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+		}
+		
+		#switchColumn {
+			background-color: #fff;
+			position: absolute;
+			right: 0px;
+			z-index: 9999999;
+			height: 40px;
+		}
+		
+		#mui-content {
+			position: absolute;
+			top: 100px;
+			background-color: #000000;
+		}
+		
+		.changeColumn {
+			height: 40px;
+			border-bottom: 1px solid #e4e4e4;
+			line-height: 40px;
+			padding-left: 10px;
+			padding-right: 10px;
+			color: #666;
+		}
+		
+		.mui-row {
+			margin-left: -5px;
+			margin-right: -5px;
+			margin-bottom: 10px;
+		}
+		
+		.adaption {
+			padding: 5px 5px 5px 8px;
+		}
+		
+		.typeitem {
+			display: inline-block;
+			border: 1px solid #BCBCBC;
+			padding-top: 5px;
+			padding-left: 5px;
+			padding-right: 5px;
+		}
+		
+		.typeitemContainer {
+			display: inline-block;
+			margin-bottom: 5px;
+		}
+		
+		.typeItemActive {
+			border: 1px solid #bf0a10;
+			padding-top: 5px;
+			color: #bf0a10;
+			position: relative;
+		}
+		
+		.mui-selected {
+			content: '\e472';
+		}
+		
+		.mui-input-row .newTag {
+			font-size: 16px;
+			border: 1px solid gray;
+			border-radius: 2px;
+			padding: 5px;
+		}
+		
+		.newtag {
+			border: 1px solid gray;
+			border-radius: 2px;
+			padding: 5px;
+			margin-right: 5px;
+			margin-top: 5px;
+		}
+		
+		.fileBox {
+			border-radius: 2px;
+			padding: 5px;
+			background-color: #e4e4e4;
+		}
+		
+		.checked {
+			position: absolute;
+			font-size: 14px;
+			width: 14px;
+			height: 14px;
+			top: -5px;
+			right: -7px;
+			/*color: #bf0a10;*/
+		}
+		
+		#Category {
+			line-height: 40px;
+		}
+		
+		#tags1 {
+			display: flex;
+			display: -webkit-flex;
+			/* Safari */
+			-webkit-flex-wrap: wrap;
+			flex-wrap: wrap;
+		}
+		
+		.mui-input-row {
+			height: auto !important;
+			padding-top: 3px;
+			padding-bottom: 3px;
+		}
+		#Type{
+			font-size: 7em;
+			position: relative;
+			margin-top: 10px;
+		}
+		#close{
+			position: absolute;
+			right: 36%;
+			top: 7px;
+		}
+		.mui-input-group .mui-input-row:after{
+			height: 0;
+		}
+	</style>
+
+	<body style=" background-color: #fff;">
+		<div id="BgDiv1"></div>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span>编辑文档</button>
+			<span class="mui-pull-right">
+					<span id="Progress" style="line-height:50px"></span>
+			<button id="creat_Btn" data-loading-text="提交中" type="button" style="background-color: #bf0a10;" class="mui-btn mui-btn-red">保存</button>
+		</header>
+		<div class="mui-scroll-wrapper" style="padding-top: 50px;">
+			<form id="uploadForm" style="display: none;">
+				<input id="file" style="display: none;" type="file" name="file" />
+			</form>
+			<div class="mui-scroll">
+				<div id="sheetMenu" class="mui-popover mui-popover-bottom mui-popover-action">
+					<!-- 可选择菜单 -->
+					<ul id="selectMenu" class="mui-table-view">
+					</ul>
+					<!-- 取消菜单 -->
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<a href="#sheetMenu"><b>取消</b></a>
+						</li>
+					</ul>
+				</div>
+				<div class="mui-content" id="detail" style=" background-color: #fff;">
+					<form class="mui-input-group my-question">
+					<div id="addDoc" class="mui-input-row spacing" style="height: auto;padding: 0px 15px 10px 15px;display: none;">
+						<span id="headerImg" style="font-size: 16px;">添加文档
+					
+						</span>
+						<span id="docUpload">
+							<span class="fileBox" id="fileBox" style="display: none;">
+								<span id="fileType"></span>&nbsp;<span id="fileName" class="mui-ellipsis"></span>
+								<span style="font-size: 20px;" class="mui-icon mui-icon-closeempty"></span>
+								</span>
+								<span style="font-size: 20px" id="addFile" class="mui-icon mui-icon-plus"></span>
+						</span>
+					</div>
+						<div id="Type" class="mui-text-center"></div>
+						<img id="close" class="closeIcon creat-img-close" src="../img/close.png"/>
+					<div id="split" class="jh-gray-bar"></div>
+					<ul class="mui-table-view" style="margin-top: 0;">
+						<li class="mui-table-view-cell mui-input-row" style="height: auto;padding: 15px;">
+							<label style="font-size: 16px;width: 25%;padding: 0;line-height: 24px;color: #666666;">文档标题</label>
+							<input class="mui-input mui-input-clear" placeholder="" id="title" style="width:75%;font-size: 16px;height: 24px;line-height:24px;padding: 0;" type="text" data-input-clear="1">
+						</li>
+					</ul>
+					<div class="mui-input-row"id="tags"style="height: auto;padding:15px;" onclick="changeSwith()">
+						<span id="Tag" >
+							<span id="Tagtext">设置标签</span>
+							<span id="switchColumnQue" style="margin-left: 15px;"><i class="fa fa-plus" aria-hidden="true"></i></span>
+						</span>
+					<span id="tags1"></span>
+												
+					</div>
+					<div class="mui-input-row" style="height: auto;">
+						<textarea rows="10" class="threadBody threadBody-question" id="upload-textarea" placeholder="文档摘要"></textarea>
+					</div>
+						<div class="mui-input-row" id="Category" style="padding-top: 6px;padding-bottom: 6px;">							
+							<span style="padding: 10px 15px;">选择类别</span>
+							<span style="float: right;margin-right: 1rem;">
+								<span id="Categorytext"></span>
+								<span><i class="fa fa-angle-down angledown" aria-hidden="true"></i></span>
+							</span>
+				</div>
+				
+						
+				
+						
+						<div class="mui-input-row" style="padding: 11px 0 11px 0;">
+							<label style="color: #666;">文档售价</label>
+							<span style="float: right;width: 35%">
+						<input id="price" class="mui-input-numbox" onKeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" type="number" value="0" data-numbox-min='0' data-numbox-max='50' style="width: 60%;text-align: center;float: left;font-size: 15px;height: 30px;border: solid 1px #e4e4e4;" />
+						<span style="float: right;width: 30%;line-height: 30px;font-size: 14px;"> 金币</span>
+							</span>
+						</div>
+						<div class="mui-input-row" style="padding: 11px 0 11px 0;">
+							<label style="color: #666;">允许评论</label>
+							<div class="mui-switch mui-switch-red" id="canComment" style="margin-right: 10px;margin-top: 0;">
+								<div class="mui-switch-handle"></div>
+							</div>
+						</div>
+						<div class="mui-input-row" style="padding: 11px 0 11px 0;">
+							<label style="color: #666;">允许下载</label>
+							<div class="mui-switch mui-switch-red" id="canDownload" style="margin-right: 10px;margin-top: 0;">
+								<div class="mui-switch-handle"></div>
+							</div>
+						</div>
+					</form>
+
+				</div>
+
+				<div class="mui-content" id="moreType" style="display: none;">
+					<div class="changeColumn" onclick="changeSwith()">
+						选择标签<span id="switchColumnQues" class="mui-icon mui-icon-arrowup" style="float: right;line-height: 40px;"></span>
+					</div>
+					<div class="mui-row " style="padding: 5px;" id="alltypes">
+
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.zoom.js"></script>
+		<script src="../js/mui.previewimage.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script type="text/javascript" src="../js/loading.js"></script>
+		<script src="../js/jhUpload.js"></script>
+		<script src="../js/wxHelper.js"></script>
+		<script src="../js/jweixin-1.2.0.js"></script>
+		<script src="../js/attachment.js"></script>
+	</body>
+	<script>
+		
+	var height = document.documentElement.clientHeight || document.body.clientHeight;
+		document.getElementById('detail').style.minHeight = height + 'px';
+		mui.previewImage();
+		creatloadingEL();
+		var commenttextarea = document.getElementById("upload-textarea");
+		var selectMenu = document.getElementById("selectMenu");
+		var facePop = document.getElementById("facePop");
+		var bottomBarContainer = document.getElementById("bottomBarContainer");
+		var bottomBar = document.getElementById("bottomBar");
+		var creatBtn = document.getElementById("creat_Btn");
+		var canComment = document.getElementById("canComment");
+		var canDownload = document.getElementById("canDownload");
+		var Category = document.getElementById("Category");
+		var Categorytext = document.getElementById("Categorytext");
+		var files = [];
+		var Tags = "";
+		var docAttachmentId = 0;
+		var canCommentDoc = false;
+		var canDownloadDoc = false;
+		var classNames;
+		var documentId;
+		var tagsList = [];
+		var fragment = document.getElementById('alltypes');
+
+
+		if(mui.os.wechat) {
+			initWx();
+			wx.ready(function() {
+				wx.checkJsApi({
+					jsApiList: ['chooseImage', 'uploadImage', 'previewImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+					success: function(res) {
+						// 以键值对的形式返回，可用的api值true，不可用为false
+						// 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+					}
+				});
+			});
+			wx.error(function(res) {
+
+			});
+		}
+
+		var deceleration = mui.os.ios ? 0.003 : 0.0009;
+		mui('.mui-scroll-wrapper').scroll({
+			bounce: false,
+			indicators: true, //是否显示滚动条
+			deceleration: deceleration
+		});
+
+		var pickdata = [];
+		var picker = new mui.PopPicker();
+
+		function getInputInfo() {
+			var waiting = showWaiting();
+			getData('Document/GetInputInfo', {}, function(data) {
+				closeWaiting(waiting);
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						if(data.Data && data.Data.length != 0) {
+							CategoryId = data.Data.Category[0].CategoryId;
+							//Categorytext.innerHTML = data.Data.Category[0].CategoryName;
+							for(var i = 0; i < data.Data.Category.length; i++) {
+								pickdata.push({
+									value: data.Data.Category[i].CategoryId,
+									text: data.Data.Category[i].CategoryName
+								})
+							}
+							picker.setData(pickdata);
+							creatTypes(data.Data.Tag);
+						} else {
+
+						}
+					} else {
+						mui.toast(data.Data);
+					}
+
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				closeWaiting(waiting);
+			})
+		}
+		Category.addEventListener('tap', function() {
+			picker.show(function(selectItems) {
+				CategoryId = selectItems[0].value;
+				Categorytext.innerHTML = selectItems[0].text;
+			})
+		})
+
+		mui("#alltypes").on('tap', '.typeitemContainer', function(e) {
+			if(e.target.parentElement.className == "typeitem  typeItemActive") {
+				e.target.parentElement.className = "typeitem"
+				e.target.style.color = "#333";
+				var icon = e.target.parentElement.getElementsByTagName("img")[0];
+				icon.style.display = "none";
+			} else {
+				e.target.parentElement.className = "typeitem  typeItemActive"
+				e.target.style.color = "#bf0a10";
+				var icon = e.target.parentElement.getElementsByTagName("img")[0];
+				icon.style.display = "inline-block";
+			}
+			classNames = document.getElementsByClassName("typeitem  typeItemActive");
+			if(classNames.length >= 5) {
+				if(classNames.length > 5) {
+					e.target.parentElement.className = "typeitem"
+					e.target.style.color = "#333";
+					var icon = e.target.parentElement.getElementsByTagName("img")[0];
+					icon.style.display = "none";
+					mui.toast("您只能选择1-5个标签")
+				}
+
+			}
+		})
+
+		function changeSwith() {
+			var moreType = document.getElementById("moreType");
+			var detail = document.getElementById("detail");
+			if(moreType.style.display == "block") {
+				detail.style.display = "block";
+				creatBtn.style.display = "block";
+				var tagsContainer = "";
+				var tagsContainers = "";
+				classNames = document.getElementsByClassName("typeitem  typeItemActive");
+				if(classNames != null){
+					for(var i = 0; i < classNames.length; i++) {
+						tagsContainer = '<span id=' + classNames[i].innerText + ' class="newtag">' +
+							classNames[i].innerText +
+							'<span id=' + i + ' style="font-size: 15px;" class="mui-icon mui-icon-closeempty"></span>' +
+							'</span>';
+						tagsContainers += tagsContainer;
+					}
+				}
+				moreType.style.display = "none";
+				//fragment.innerHTML = "";
+				//已选择完标签
+				var tags = document.getElementById("tags");
+				var tags1 = document.getElementById("tags1");
+				tags1.innerHTML = tagsContainers;
+			} else {
+				var tagsAct = document.getElementsByClassName("newtag");
+				if(tagsAct.length > 0) {
+					detail.style.display = "none";
+					moreType.style.display = "block";
+					creatBtn.style.display = "none";
+				} else {
+					detail.style.display = "none";
+					moreType.style.display = "block";
+					creatBtn.style.display = "none";
+
+				}
+			}
+//			if(document.getElementById("tags1").innerHTML != '') {
+//				document.getElementById("Tag").style.display = 'none'
+//			} else {
+//				document.getElementById("Tag").style.display = 'block'
+//			}
+		}
+		mui("#tags").on('tap', '.mui-icon-closeempty', function(e) {
+			for(var i = 0; i < fragment.getElementsByTagName('p').length; i++) {
+				if(fragment.getElementsByTagName('p')[i].id == e.target.parentElement.id) {
+					fragment.getElementsByTagName('p')[i].style.color = "#333";
+					fragment.getElementsByTagName('p')[i].parentNode.getElementsByTagName('img')[0].style.display = "none";
+					fragment.getElementsByTagName('p')[i].parentNode.className = "typeitem"
+				}
+			}
+			e.target.parentElement.parentElement.removeChild(e.target.parentElement);
+			classNames = [];
+			classNames = document.getElementsByClassName("typeitem  typeItemActive");
+//			if(document.getElementById("tags1").innerHTML != '') {
+//				document.getElementById("Tag").style.display = 'none'
+//			} else {
+//				document.getElementById("Tag").style.display = 'block'
+//			}
+		})
+		mui("#detail").on('tap', '.creat-img-close', function(e){
+			document.getElementById('Type').style.display = 'none';
+			document.getElementById('close').style.display = 'none';
+			document.getElementById('addDoc').style.display = 'block';
+			document.getElementById('split').style.display = 'none';
+			changeUpload(false);
+			jhUpload.files=[];
+		})
+		mui("#fileBox").on('tap', '.mui-icon-closeempty', function(e){
+			changeUpload(false);
+			jhUpload.files=[];
+		})
+		var creatTypes = function(data) {
+			var a = [];
+			var b = [];
+			var fragment = document.getElementById('alltypes');
+			fragment.innerHTML = "";
+			for(var j = 0; j < data.length; j++) {
+				a.push({
+					TagName: data[j].TagName,
+					length: data[j].TagName.length
+				});
+
+				function compare(property) {
+					return function(a, b) {
+						var value1 = a[property];
+						var value2 = b[property];
+						return value1 - value2;
+					}
+				}
+			}
+			b = a.sort(compare('length'))
+			var lengthL = b.length;
+			var c = b.slice(0, lengthL);
+
+			var div;
+			var ii = 1;
+			var dataArray = [];
+			for(var i = 0; i < c.length; i++) {
+				ii++;
+				div = document.createElement('div');
+				div.className = "adaption";
+				div.style.display = "inline-block";
+				div.innerHTML = '<div  class="typeitem " ><p id=' + c[i].TagName + ' class="typeitemContainer">' + c[i].TagName + '</p><img class="checked" style="display:none;" src="../img/checked.png"/></div>';
+				fragment.appendChild(div);
+			}
+		}
+
+		function creatTags() {
+			showLoading();
+			getData('Ask/GetTags', {}, function(data) {
+				hideLoading()
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						creatTypes(data.Data);
+					} else {
+						mui.toast(data.Data);
+					}
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				hideLoading()
+			})
+		}
+		// H5 plus事件处理
+		function plusReady() {
+
+		}
+		if(window.plus) {
+			plusReady();
+		} else {
+			document.addEventListener('plusready', plusReady, false);
+		}
+
+		var sectionId;
+		var currid = "";
+		//files=[];
+		window.onload = function() {
+			files = [];
+			//获取url中的targetId参数
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					documentId = self.documentId;
+					beforetype = self.type;
+					getEditDoc(documentId);
+					//关闭等待框
+					plus.nativeUI.closeWaiting();
+					//显示当前页面
+					mui.currentWebview.show();
+				});
+			} else {
+				documentId = getUrlParam('documentId');
+				getEditDoc(documentId);
+			}
+			if(mui.os.wechat) {
+				var currUrl = location.href.split('#')[0];
+				weChatLogin(currUrl)
+			}
+			getInputInfo()
+		}
+
+	function getEditDoc(id){
+		getDatawithToken('Document/GetDocumentEditDetail', {
+			documentId: id
+		}, function(data) {			
+			if(data.Type == 1) {
+				var data = data.Data;
+				docAttachmentId = data.AttachmentId;
+				Type.innerHTML = getDocumentType(data.Extension);
+				document.getElementById('title').value = data.Subject;
+				document.getElementById('upload-textarea').value = data.Summary;
+				Categorytext.innerText = data.CategoryName;
+				document.getElementById('price').value = data.Price;
+				canComment.className = data.EnableComment == true ? 'mui-switch mui-switch-red mui-active' : 'mui-switch mui-switch-red';
+				canDownload.className = data.EnableDownload == true ? 'mui-switch mui-switch-red mui-active' : 'mui-switch mui-switch-red';
+				var tagseditContainer = '';
+				var tagseditContainers = '';
+				for(var i = 0 ;i<data.TagNames.length;i++){
+					tagseditContainer = '<span id='+ data.TagNames[i].TagName +' class="newtag">'+
+							 data.TagNames[i].TagName +	
+						'<span id=' + i + ' style="font-size: 16px;" class="mui-icon mui-icon-closeempty"></span>'+
+											'</span>';
+						tagseditContainers += tagseditContainer;
+				}
+				tags1.innerHTML = tagseditContainers;
+				var length = document.getElementById('alltypes').getElementsByClassName('typeitem').length;
+				var typeitem = document.getElementById('alltypes').getElementsByClassName('typeitem');
+				for(var i = 0;i<length;i++){
+					for(var j = 0;j<data.TagNames.length;j++){
+						if(typeitem[i].getElementsByTagName('p')[0].id ==data.TagNames[j].TagName ){
+							typeitem[i].className = 'typeitem  typeItemActive';
+							typeitem[i].getElementsByTagName('p')[0].style.color = "#bf0a10";
+							typeitem[i].getElementsByTagName("img")[0].style.display = 'inline-block';							
+						}
+					}					
+				}
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				//login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(err) {
+		})
+	}
+	var beforetype;
+	function EditDoc(subject, summary, attachmentId, categoryId, disableComment, disableDownload, price, tagvalue) {
+			var params = {
+				DocumentId:documentId,
+				Subject: subject,
+				Summary: summary,
+				AttachmentId: attachmentId,
+				CategoryId: categoryId,
+				DisableComment: disableComment,
+				DisableDownload: disableDownload,
+				Price: price,
+				tagvalue: tagvalue
+			};
+			showLoading();
+			postDatawithToken('Document/EditDocument', params, function(data) {
+				hideLoading();
+				mui('#creat_Btn').button('reset');
+				if(data.Type == 1) {
+					mui.toast(data.Data);
+					if(mui.os.plus) {
+						switch(beforetype){
+							case 'user':
+								var wobj = plus.webview.getWebviewById("userdocument.html");
+								wobj.reload(true);
+							break;
+							case 'document.html':
+								var wobj = plus.webview.getWebviewById("document.html");
+								wobj.reload(true);
+							break;
+							case 'document-list.html':
+								var wobj = plus.webview.getWebviewById("document-list.html");
+								wobj.reload(true);
+							break;
+							case 'document-label-list.html':
+								var wobj = plus.webview.getWebviewById("document-label-list.html");
+								wobj.reload(true);
+							break;
+							default:
+							break;
+						}
+						setTimeout(function() {
+							mui.back();
+						}, 1000)
+					} else {
+						window.history.go(-2);
+					}
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(data) {
+				mui('#creat_Btn').button('reset');
+				hideLoading();
+			});
+		}
+		var reward = "";
+		var title = "";
+		var body = "";
+
+		canComment.addEventListener("toggle", function(event) {
+			if(event.detail.isActive) {
+				canCommentDoc = true
+			} else {
+				canCommentDoc = false
+			}
+		})
+		canDownload.addEventListener("toggle", function(event) {
+			if(event.detail.isActive) {
+				canDownloadDoc = true
+			} else {
+				canDownloadDoc = false
+			}
+		})
+		creatBtn.addEventListener('tap', function() {
+			uploadDoc()
+		})
+
+		var tagstrs = [];
+
+		function uploadDoc() {
+			if(CategoryId == "") {
+				mui.toast("请选择文库类别")
+				return
+			}
+			if(docAttachmentId == 0) {
+				mui.toast("请选择文档上传")
+				return
+			}
+			title = TrimAll(document.getElementById("title").value);
+			var tags1 = document.getElementById("tags1");
+			var newtag = document.getElementsByClassName("newtag");
+			for(var i = 0; i < newtag.length; i++) {
+				var tag = newtag[i].innerText;
+				tagsList.push(tag);
+			}
+			tagstrs = tagsList;
+			body = TrimAll(commenttextarea.value);
+			var price = TrimAll(document.getElementById("price").value);
+			if(price == "") {
+				price = 0
+			}
+			if(price>50){
+				mui.toast("价格值必须在0到50之间")
+				return
+			}
+			if(tagsList == "") {
+				mui.toast("请至少选择一个标签")
+				return
+			}
+			if(title == "") {
+				mui.toast("标题不能为空")
+				return
+			}
+			EditDoc(title, body, docAttachmentId, CategoryId, !canCommentDoc, !canDownloadDoc, price, tagstrs)
+		}
+		document.getElementById("headerImg").addEventListener('tap', function() {
+			if(mui.os.plus && mui.os.android) {
+				mui.openWindow({
+					url: 'selectFile_main.html?isedit=true',
+					id: 'selectFile_main',
+					waiting: {
+						options: {
+							loading: {
+								height: '35px'
+							}
+						}
+					}
+				})
+			} else if(mui.os.plus && mui.os.ios) {
+				changeHpic()
+			} else if(mui.os.wechat) {
+				wxChooseImg(1, function(ids) {
+					syncUpload(ids, 'Document/WeChatUploadFiles', function(data, fileurl) {
+						changeUpload(true);
+						var filename = fileurl.substring(fileurl.lastIndexOf('/') + 1, fileurl.length);
+						var filetype = filename.substring(filename.lastIndexOf('.') + 1, filename.length);
+						document.getElementById("fileType").innerHTML = getDocumentType(filetype);
+						document.getElementById("fileName").innerHTML = filename;
+						docAttachmentId = data.AttachmentId;
+					})
+				})
+			} else {
+				$("#file").click();
+			}
+
+		})
+		var webfileurl = '';
+		$("#file").on('change', function(e) {
+			var URL = window.URL || window.webkitURL;
+			var File = document.getElementById('file').files[0];
+			var imgURL = URL.createObjectURL(File);
+			webfileurl = e.target.value;
+			showLoading();
+			fileUploadforWeb('Document/UploadFile', function(data) {
+				hideLoading();
+				changeUpload(true);
+				webfileurl = webfileurl.replace(/\\/g, "/");
+				var filename = webfileurl.substring(webfileurl.lastIndexOf('/') + 1, webfileurl.length);
+				var filetype = filename.substring(filename.lastIndexOf('.') + 1, filename.length);
+				document.getElementById("fileType").innerHTML = getDocumentType(filetype);
+				document.getElementById("fileName").innerHTML = filename;
+				docAttachmentId = data.AttachmentId;
+			})
+		})
+
+		function changeHpic() {
+			if(mui.os.plus) {
+				var a = [{
+					title: "拍照"
+				}, {
+					title: "从手机相册选择"
+				}];
+				plus.nativeUI.actionSheet({
+					title: "上传文件",
+					cancel: "取消",
+					buttons: a
+				}, function(b) {
+					switch(b.index) {
+						case 0:
+							break;
+						case 1:
+							getImage('/Document/UploadFile', function(fileurl, data) {
+								changeUpload(true);
+								var filename = fileurl.substring(fileurl.lastIndexOf('/') + 1, fileurl.length);
+								var filetype = filename.substring(filename.lastIndexOf('.') + 1, filename.length);
+								document.getElementById("fileType").innerHTML = getDocumentType(filetype);
+								document.getElementById("fileName").innerHTML = filename;
+								docAttachmentId = data.AttachmentId;
+							});
+							break;
+						case 2:
+							galleryImg('/Document/UploadFile', function(fileurl, data) {
+								changeUpload(true);
+								var filename = fileurl.substring(fileurl.lastIndexOf('/') + 1, fileurl.length);
+								var filetype = filename.substring(filename.lastIndexOf('.') + 1, filename.length);
+								document.getElementById("fileType").innerHTML = getDocumentType(filetype);
+								document.getElementById("fileName").innerHTML = filename;
+								docAttachmentId = data.AttachmentId;
+							},'none');
+							break;
+						default:
+							break
+					}
+				})
+			}
+		}
+
+		function changeUpload(hasFile) {
+			if(hasFile) {
+				document.getElementById("fileBox").style.display = 'inherit';
+				document.getElementById("addFile").style.display = 'none';
+			} else {
+				document.getElementById("fileBox").style.display = 'none';
+				document.getElementById("addFile").style.display = 'inherit';
+			}
+		}
+		window.addEventListener('getFile', function(event) {
+			//获得事件参数
+			var fileUrl = event.detail.fileUrl;
+			jhUploadFeatured.files = [];
+			var a = new Date().getTime();
+			jhUploadFeatured.files.push({
+				name: "uploadkey" + a,
+				path: fileUrl
+			});
+			fileUploadforApp('/Document/UploadFile', function(fileurl, data) {
+				changeUpload(true);
+				var filename = fileurl.substring(fileurl.lastIndexOf('/') + 1, fileurl.length);
+				var filetype = filename.substring(filename.lastIndexOf('.') + 1, filename.length);
+				document.getElementById("fileType").innerHTML = getDocumentType(filetype);
+				document.getElementById("fileName").innerHTML = filename;
+				docAttachmentId = data.AttachmentId;
+			})
+		})
+	
+
+		
+
+	</script>
+
+</html>

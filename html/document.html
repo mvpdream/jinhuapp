@@ -1,0 +1,471 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>文库首页</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--通用样式-->
+    <link rel="stylesheet" href="../css/mui.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../css/jinhu.css">
+</head>
+<style>
+	.mui-table-view:before {
+	    position: absolute;
+	    right: 0;
+	    left: 0;
+	    height: 0px !important;
+	    content: '';
+	    -webkit-transform: scaleY(.5);
+	    transform: scaleY(.5);
+	    top: -1px;
+	}
+	.jh-news-list-no {
+	    border-bottom: 1px solid #e4e4e4;
+	    padding: 6px 10px;
+	    padding-top: 16px;
+	}
+	.mui-table-view:after {
+	    position: absolute;
+	    right: 0;
+	    bottom: 0;
+	    left: 0;
+	    height: 0px;
+	    content: '';
+	    -webkit-transform: scaleY(.5);
+	    transform: scaleY(.5);
+	    background-color: #c8c7cc;
+	}	
+	.mui-list-inline>li {
+	    padding-left: 0px;
+	}
+	.jh-block-list{
+		border-top: 10px solid #e4e4e4;
+    	border-left: 10px solid #e4e4e4;
+    	border-right: 10px solid #e4e4e4;
+    	border-bottom: 1px solid #e4e4e4;
+	}
+	.mui-list-inline .text-muted{
+		line-height: 12px;
+	}
+	.category{
+		padding-left: 0.7rem;
+		background-color: #E4E4E4;
+		margin-bottom: 0px;
+		padding-top: 5px;
+		padding-bottom: 5px;
+	}
+	.control{
+		text-align: center;
+		margin-bottom: 5px;
+	}
+	.typeitem {
+	    text-align: center;
+	    border: 1px solid #e4e4e4;
+	    height: 35px;
+	    font-size: 13px;
+	    overflow: hidden;
+	    line-height: 35px;
+	}
+	#icon{
+		position: absolute;
+		font-size: 16px !important;
+		padding-left: 0px !important;
+		margin-left: 0px !important;
+		padding-top: 1px;
+	}
+	.padrig{
+		padding-right: 0.5rem !important;
+	}
+	.listTitle{
+		position: relative;
+		line-height: 16px;
+	}
+	.listTitle span {
+		line-height: 18px;
+	    padding-left: 3px;
+	    padding-right: 3px;
+	    border-radius: 3px;
+	    font-size: 11px;
+	}
+	.mui-row{
+		margin-bottom: 0px !important;
+	}
+	.iconp{
+		display: inline-block;
+		font-size: 16px;
+		margin-right: 0.4rem;
+		margin-left: 1.2rem;
+		margin-bottom: 5px !important;
+		max-width: 92%;
+	}
+	.text-muted{
+		line-height: 12px;
+		margin-bottom: 5px;
+	}
+	.status{
+		display: inline-block;
+		padding-left: 0.7rem !important;
+		vertical-align: top;
+		padding-top: 1px;
+	}
+	.status span{
+		
+	}
+	.status span:first-child{
+		margin-left: -11px !important;
+		margin-right: 0.5rem;
+	}
+	.starCon span{
+		padding-left: 3px;
+	}
+	.document_more{
+		text-align: center;
+    	line-height: 50px;
+    	height: 3rem;
+	}
+	.document_more_text {
+	    color: #999999;
+	    font-size: 13px;
+	    border: 1px solid #e4e4e4;
+	    padding: 0.3rem 4rem 0.3rem 4rem;
+	}
+	.jh-red-border{
+		display: inline-block;
+	}
+</style>
+<body style="background-color: #e4e4e4;">
+    <header class="mui-bar mui-bar-nav">
+    	<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+			<span class="mui-icon mui-icon-left-nav"></span><span id="docName">文库</span>
+		</button>
+		<!--
+        	<h1 class="mui-title">文库</h1>
+       -->       
+        <a id="search" class="mui-icon mui-icon-search mui-pull-right" style="color: #333;"></a>
+    </header>
+    <div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="padding-bottom: 50px;background-color: #e4e4e4;">
+	<div class="mui-scroll">
+    <div class="mui-content" id="contentArea">
+        <div class="jh-block-list">
+            <div class="mui-row" style="padding:0px 5px;" id="alltypes">
+			</div>
+			<div id="control" class="control" style="display: none;">
+				<span class="mui-icon mui-icon-arrowdown"></span>
+			</div>
+        </div>       
+
+    </div>
+    </div>
+    </div>
+    <script src="../js/mui.min.js"></script>
+		<script src="../js/mui.pullToRefresh.js"></script>
+		<script src="../js/mui.pullToRefresh.material.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/mui.lazyload.js"></script>
+		<script src="../js/mui.lazyload.img.js"></script>
+		<script src="../js/attachment.js"></script>	
+</body>
+<script type="text/javascript">
+	var control = document.getElementById("control");
+	var contentArea = document.getElementById("contentArea");
+	document.getElementById("search").addEventListener('tap', function() {
+		mui.openWindow({
+			url: 'search.html?type=document',
+			id: 'search.html',
+			waiting: {
+				options: {
+					loading: {
+						height: '35px'
+					}
+				}
+			},
+		})
+	})
+	window.onload = function(){
+		mui('.mui-scroll-wrapper').scroll({
+		deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+		});
+	}
+	getsectionTypewithdoc();	
+	var creatTypeswithdoc = function(data) {
+		var newArr=[];			
+		var fragment = document.getElementById('alltypes');
+		var div;
+		fragment.innerHTML='';
+		for(var i = 0; i < data.length; i++) {
+			if(i>5){
+				control.style.display = "block";
+				dis = 'none';
+			}else{
+				alltypes.style.paddingBottom = '10px';
+				dis = 'block';
+			}
+			div = document.createElement('div');
+			div.className = 'mui-col-xs-4';
+			div.style.display = dis;
+			div.style.padding = '10px';
+			div.innerHTML = '<div class="typeitem"  id=' + data[i].CategoryId + '>' + data[i].CategoryName + '</div>';
+			fragment.appendChild(div);
+		}
+	}
+	mui(".jh-block-list").on('tap', '.control', function(e) {
+		if(this.getElementsByTagName('span')[0].className == "mui-icon mui-icon-arrowdown"){
+			this.getElementsByTagName('span')[0].className = "mui-icon mui-icon-arrowup"
+		}else{
+			this.getElementsByTagName('span')[0].className = "mui-icon mui-icon-arrowdown"
+		}
+	    var alldiv= e.target.parentElement.parentElement.getElementsByClassName("mui-row")[0].getElementsByClassName("mui-col-xs-4");
+	    mui.each(alldiv, function(index, item) {
+		  	if(item.style.display == 'block' && index > 5) {
+			  	item.style.display = 'none'			 
+		   } else {
+			  	item.style.display = 'block'
+		   	}
+	   	})
+    })
+	function transfer(i,data) {
+    	if(i==data.length) return;
+    	categoryId = data[i].CategoryId;
+		CategoryName = data[i].CategoryName;
+		getDocument(categoryId,CategoryName,function(){
+			transfer(i + 1,data);
+		}); 	   
+	}
+	var creatContentwithdoc = function(data,CategoryId,CategoryName) {
+		var ul;
+		var list = '';
+		if(data == "暂无文档"){
+			var li = '<li class="jh-news-list-no"><p style="text-align:center;">'+"暂无文档"+'</p></li>';			
+			ul = document.createElement('ul');
+			ul.className = "mui-table-view";
+			ul.innerHTML =  '<p class="category">'+ CategoryName +'</p>'+
+							li;
+			contentArea.appendChild(ul);
+		}else{
+			for(var i = 0;i<data.length;i++){
+			var li;
+			var star = "";
+			var stars = "";
+			var starskong = "";var starHalf ="";
+			function isInteger(obj) {
+				return Math.floor(obj) === obj;
+			}
+			if(isInteger(data[i].StarReview) == false){
+				var newNum=data[i].StarReview.toString().replace(/\d+\.(\d*)/,"$1");
+				var newLength = newNum < 5 ? (data[i].StarReview - 1) : data[i].StarReview ;
+				var newLengths = data[i].StarReview + 1;
+				starHalf = newNum < 5 ? '<span class="fa fa-star-half-o tn-orange-color"></span>' : '';
+			}else{
+				var newLength = data[i].StarReview;
+				var newLengths = data[i].StarReview;
+			}
+			for(var n = 0;n<newLength;n++){
+				var starlist = '<span class="fa fa-star tn-orange-color"></span>';
+				stars += starlist;
+			}
+			for(var m = 0;m<5 - newLengths;m++){
+				var starkonglist = '<span class="fa fa-star-o"></span>';
+				starskong += starkonglist;
+			}
+			star = stars + starHalf + starskong;
+			var starCon = '<li class="starCon" style="float:right;">' + star + '<li>';
+			var icon = getDocumentType(data[i].Extension);			
+			if(data[i].IsEssential) {
+				Essential = '<span class="jh-red-border">' + "精华" + '</span>'
+			} else {
+				Essential = ''
+			}
+			if(data[i].IsSticky) {
+				Sticky = '<span class="jh-red-border">' + "置顶" + '</span>'
+			} else {
+				Sticky = ''
+			}
+			if(Essential== '' && Sticky == ''){
+				var disstatus = "none";
+			}else{
+				var disstatus = "inline-block"; 
+			}
+			var dis = i > 5 ? 'none' : 'block';
+			var more = i > 5 ? '<div class="document_more" id="'+ CategoryId +'"><a href="#" class="document_more_text" id="'+ CategoryId +'">'+ "查看更多"+'</a></div>' : '';
+			li = '<li class="mui-table-view-cell jh-news-list" id="'+ data[i].Id+'" title="'+data[i].MediaType+'" style="display:'+ dis +'">'+
+				 '<h5 class="listTitle">'+
+				 icon+
+				 '<p class="iconp">'+
+				 data[i].Subject+
+				 '</p>'+
+				 '<span class="status" style="display:'+ disstatus +'">'+
+				 Essential+
+				 Sticky+
+				 '</span>'+
+				 '</h5>'+
+				 '<ul class="mui-list-inline text-muted">'+
+				 '<li class="padrig">'+ data[i].FriendlyFileLength +'</li>'+
+				 '<li class="padrig">'+ data[i].DownloadCount + '次下载' +'</li>'+
+				 starCon+
+				 '</ul>'+
+				 '</li>';
+			list += li;								
+		}			
+		ul = document.createElement('ul');
+		ul.className = "mui-table-view";
+		ul.innerHTML =  '<p class="category">'+ CategoryName +'</p>'+
+						list+
+						more;
+		contentArea.appendChild(ul);
+		}								
+	}
+	function getsectionTypewithdoc() {
+			//showLoading('', '', '#FFFFFF', '50px', '1');						
+			getData('Document/GetCategories',{}, function(data) {
+				//hideLoading();
+				hideErr();
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						if(data.Data.length > 0) {
+							creatTypeswithdoc(data.Data);
+							transfer(0,data.Data); 																													
+						}
+						mui('#SectionType .mui-control-item').each(function(index, element) {
+							ids.push(element.id)
+						})
+					} else {
+						showErr(data.Data,'','#FFFFFF','50px')
+						mui.toast(data.Data);
+					}
+				}else {
+					//逻辑错误
+					showErr(data.Data,'','#FFFFFF','50px')
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr()
+			})
+		}
+	function getDocument(CategoryId,CategoryName,successFun) {
+			//showLoading('', '', '#FFFFFF', '50px', '1');			
+			var params = {
+				categoryId : CategoryId,
+				pageSize : 10,
+				pageIndex : 1
+			};
+			getData('Document/GetByCategoryId', params, function(data) {
+				//hideLoading();
+				hideErr();
+				if(data.Type == 1) {
+					successFun();					
+					creatContentwithdoc(data.Data,CategoryId,CategoryName)
+					if(data.Data && typeof(data.Data) == 'object') {
+						
+					} else {
+						//showErr(data.Data,'','#FFFFFF','50px')
+						//mui.toast(data.Data);
+					}
+
+				}else {
+					//逻辑错误
+					showErr(data.Data,'','#FFFFFF','50px')
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr()
+			})
+		}
+		mui("#contentArea").on('tap','.document_more_text',function(e){
+			var categoryId = this.getAttribute('id');
+			var baseUrl = 'document-list.html';
+			var url = mui.os.plus ? baseUrl : baseUrl + '?categoryId=' + categoryId;
+			var curl = shareUrl+baseUrl+ '?categoryId=' + categoryId;
+			setlsData('currUrl', curl);
+				mui.openWindow({
+					url: url,
+					id: 'document-list.html',
+					show: {
+						autoShow: true
+					},
+					waiting: {
+						options: {
+							loading: {
+								height: '35px'
+							}
+						}
+					},
+					extras: {
+						categoryId: categoryId,
+						currId: 'document-list.html'
+					}
+				})
+		}),
+		mui("#contentArea").on('tap','.typeitem',function(e){
+			var categoryId = this.getAttribute('id');
+			var baseUrl = 'document-list.html';
+			var url = mui.os.plus ? baseUrl : baseUrl + '?categoryId=' + categoryId;
+			var curl = shareUrl+baseUrl+ '?categoryId=' + categoryId;
+			setlsData('currUrl', curl);
+				mui.openWindow({
+					url: url,
+					id: 'document-list.html',
+					show: {
+						autoShow: true
+					},
+					waiting: {
+						options: {
+							loading: {
+								height: '35px'
+							}
+						}
+					},
+					extras: {
+						categoryId: categoryId,
+						currId: 'document-list.html'
+					}
+				})
+		}),
+		mui("#contentArea").on('tap','.jh-news-list',function(e){
+			var documentId = this.getAttribute('id');
+			var mediaType = Number(this.getAttribute('title'));
+			var baseUrl = 'documentDetail.html';
+			switch (mediaType){
+				case 1:
+					baseUrl = 'docImgsDetail.html';
+					break;
+				case 2:
+					baseUrl = 'docVideoDetail.html';
+					break;
+				default:
+					baseUrl = 'documentDetail.html'
+					break;
+			}
+			var url = mui.os.plus ? baseUrl : baseUrl + '?documentId=' + documentId;
+			var curl = shareUrl+baseUrl+ '?documentId=' + documentId;
+			setlsData('currUrl', curl);
+				mui.openWindow({
+					url: url,
+					id: baseUrl,
+					show: {
+						autoShow: true
+					},
+					waiting: {
+						options: {
+							loading: {
+								height: '35px'
+							}
+						}
+					},
+					extras: {
+						documentId: documentId,
+						currId: 'document.html',
+						type:'document.html'
+					}
+				})
+		})
+
+</script>
+
+</html>

@@ -1,0 +1,528 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet"  href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet"  href="../css/jinhu.css"/>
+	</head>
+	<style>
+		.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+			border-bottom: 0px
+		}
+		
+		.mui-slider .mui-segmented-control.mui-segmented-control-inverted~.mui-slider-group .mui-slider-item {
+			border: none
+		}
+		
+		.mui-plus-pullrefresh .mui-scroll {
+			width: 100%;
+		}
+		
+		.mui-bar-nav~.mui-content .mui-pull-top-pocket {
+			top: 85px !important;
+		}
+		.mui-col-xs-4{
+			padding: 0;
+		}
+		/*.mui-pull-bottom-pocket{
+			position: fixed;
+			z-index: 99999;
+		}*/
+	</style>
+
+	<body style="background-color: #fff;">
+
+		<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll" id='scroll'>
+				<div class="mui-content" id="myBar" style="display: none;">
+					<div class="jh-gray-bar"></div>
+					<div class="mui-content-padded">
+						<p>我的贴吧</p>
+						<div class="mui-row" id="myPost">
+
+						</div>
+					</div>
+				</div>
+				<div class="mui-content" id="recommendBar" style="display: none;">
+				<div class="jh-gray-bar"></div>
+				<div class="mui-content-padded">
+					<p>推荐贴吧</p>
+					<div class="mui-row" id="recommendPost">
+
+					</div>
+				</div></div>
+				<div class="mui-content" id="types" style="display: block;">
+					<div class="jh-gray-bar"></div>
+					<div id="slider" class="mui-slider">
+						<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted jh-scroll-wrapper-post ">
+							<div class="mui-scroll" id="SectionType" style="padding-right: 40px;position: absolute;">
+								<a class="mui-control-item mui-active" href="#itemmobile" id="0">
+									全部
+								</a>
+
+							</div>
+							<div id="switchColumn">
+								<span class="mui-icon mui-icon-arrowdown"></span>
+							</div>
+						</div>
+
+						<div class="mui-slider-group" id="sliderGroup">
+
+							<div id="itemmobile" class="mui-slider-item mui-control-content mui-active">
+								<div class="mui-row">
+									
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="mui-content" id="moreType" style="display: none;">
+					<div class="jh-gray-bar"></div>
+					<div style="height: 50px;border-bottom: 1px solid #e4e4e4;line-height: 50px;padding-left: 10px;padding-right: 10px;">
+						切换分类<span id="switchColumns" class="mui-icon mui-icon-arrowup" style="float: right;line-height: 50px;"></span>
+					</div>
+					<div class="mui-row" id="alltypes">
+						<div class="mui-col-xs-3 typeItem typeItemActive" id="0">
+							全部
+						</div>
+					</div>
+
+				</div>
+
+				<!--<div style="padding-top: 10px;background-color: #FFFFFF;" class="mui-block">
+					<div class="mui-pull">
+						<div class="mui-pull-loading mui-icon mui-spinner"></div>
+						<div class="mui-pull-caption mui-pull-caption-refresh">正在加载数据...</div>
+					</div>
+				</div>-->
+
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/mui.lazyload.js"></script>
+		<script src="../js/mui.lazyload.img.js"></script>
+		<script src="../js/wxHelper.js"></script>
+	</body>
+	<script type="text/javascript">
+	(function($) {
+		$(document).imageLazyload({
+			placeholder: '../images/5-121204193R5-50.gif'
+		});
+	})(mui);
+	var myBar = document.getElementById("myBar");
+	var islog = getlsData('isLogin');
+	if(islog == 'true') {
+		myBar.style.display = 'block';
+	} else {
+		myBar.style.display = 'none';
+	}
+
+
+var height = document.documentElement.clientHeight || document.body.clientHeight;
+document.getElementById('scroll').style.minHeight = (height) + 'px';
+	var isScroll = false;
+	var ids = [];
+	document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+		//mui('#refreshContainer').pullRefresh().refresh(true);
+		//mui('#refreshContainer').pullRefresh().enablePullupToRefresh();
+		document.querySelector('.mui-pull-bottom-pocket').setAttribute('style', 'display: block !important');
+		isScroll = true;
+		var index = event.detail.slideNumber - 1;
+		var item = document.getElementById("item" + index + "mobile");
+		if(item && item.querySelector('.mui-loading')) {
+			getpostList(parseInt(ids[index + 1]), false, item.id)
+		}
+	})
+
+
+	window.onload = function() {
+		if(mui.os.wechat) {
+			var currUrl = location.href.split('#')[0];
+			weChatLogin(currUrl)
+		}
+	}
+
+	function creatCategory(data) {
+		var fragment = document.getElementById('alltypes');
+		fragment.innerHTML = '<div class="mui-col-xs-3 typeItem typeItemActive" id="0">全部</div>'
+		var div;
+		for(var i = 0; i < data.Data.length; i++) {
+			div = document.createElement('div');
+			div.className = 'mui-col-xs-3 typeItem';
+			div.innerHTML = data.Data[i].CategoryName.substring(0, 10);
+			div.id = (i + 1).toString();
+			fragment.appendChild(div)
+		}
+	}
+	var switchColumn = document.getElementById("switchColumn");
+	var switchColumns = document.getElementById("switchColumns");
+	switchColumn.addEventListener('tap', function() {
+		changeSwith();
+	})
+	switchColumns.addEventListener('tap', function() {
+		changeSwith();
+	})
+	mui("#alltypes").on('tap', '.typeItem', function(e) {
+		changeColumn(parseInt(e.target.id));
+		changeSwith();
+	})
+	mui(".mui-row").on('tap', '.mui-text-center', function(e) {
+		var sectionId = this.getAttribute("id");
+		var baseUrl = 'postDetail.html';
+		var url = mui.os.plus ? baseUrl : baseUrl + '?sectionId=' + sectionId;
+		mui.openWindow({
+			url: url,
+			id: 'postDetail.html',
+			show: {
+				autoShow: false
+			},
+			waiting: {
+				options: {
+					loading: {
+						height: '35px'
+					}
+				}
+			},
+			extras: {
+				sectionId: sectionId
+			}
+		})
+
+	})
+	mui("#sliderGroup").on('tap', '.mui-text-center', function(e) {
+		var sectionId = this.getAttribute("id");
+		var baseUrl = 'postDetail.html';
+		var url = mui.os.plus ? baseUrl : baseUrl + '?sectionId=' + sectionId;
+		mui.openWindow({
+			url: url,
+			id: 'postDetail.html',
+			show: {
+				autoShow: false
+			},
+			waiting: {
+				options: {
+					loading: {
+						height: '35px'
+					}
+				}
+			},
+			extras: {
+				sectionId: sectionId
+			}
+		})
+
+	})
+	var moreType = document.getElementById("moreType");
+	var types = document.getElementById("types");
+
+	function changeSwith() {
+		if(types.style.display == "block") {
+			types.style.display = "none";
+			moreType.style.display = "block";
+		} else {
+			types.style.display = "block";
+			moreType.style.display = "none";
+		}
+
+	}
+	var creatPosts = function(data) {
+		var fragment = document.createDocumentFragment();
+		var div;
+		for(var i = 0; i < data.Data.length; i++) {
+			div = document.createElement('div');
+			div.className = 'mui-col-xs-4 mui-text-center';
+			div.innerHTML = '<img style="width:64px;height:64px" class="post_img" src=' + getImgUrl(data.Data[i].FeaturedImage) + '><p class="jh-post-name mui-ellipsis">' + data.Data[i].Name + '</p>';
+			div.id = data.Data[i].SectionId;
+			fragment.appendChild(div);
+
+		}
+		return fragment;
+
+	}
+	var createTypeFragment = function(data) {
+		var fragment = document.getElementById("SectionType");
+		var sliderGroup = document.getElementById("sliderGroup");
+		fragment.innerHTML = '<a class="mui-control-item mui-active" href="#itemmobile" id="0">全部</a>';
+		sliderGroup.innerHTML = '<div id="itemmobile" class="mui-slider-item mui-control-content mui-active"><div class="mui-row"></div></div>'
+		var a;
+		var div;
+		for(var i = 0; i < data.Data.length; i++) {
+			a = document.createElement('a');
+			a.className = 'mui-control-item';
+			a.id = data.Data[i].CategoryId;
+			a.href = "#item" + i + "mobile";
+			a.innerHTML = data.Data[i].CategoryName.substring(0, 10);
+			fragment.appendChild(a);
+			div = document.createElement('div');
+			div.id = "item" + i + "mobile";
+			div.className = 'mui-slider-item mui-control-content';
+			div.innerHTML = '<div class="mui-row"><div class="mui-loading"><div class="mui-spinner"></div></div></div>';
+			sliderGroup.appendChild(div)
+		}
+	}
+	var createFragment = function(data, id) {
+		var fragment = document.getElementById(id);
+		fragment.innerHTML = "";
+		var div;
+		for(var i = 0; i < data.Data.length; i++) {
+			div = document.createElement('div');
+			div.className = 'mui-col-xs-4 mui-text-center';
+			div.innerHTML = '<img class="post_img" src=' + getImgUrl(data.Data[i].FeaturedImage) + '><p class="jh-post-name mui-ellipsis">' + data.Data[i].Name + '</p>';
+			div.id = data.Data[i].SectionId;
+			fragment.appendChild(div);
+		}
+	}
+	//获取当前选中的分类
+	var selel = document.getElementsByClassName("mui-control-item mui-active");
+	var moreData = document.getElementById("more");
+//	document.getElementById('scroll').addEventListener('scrollbottom', function() {
+//		var idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length)
+//		if(mui.os.android && mui.os.plus && !isScroll) {
+//			moreData.classList.remove('mui-hidden')
+//			moreData.classList.add('mui-visibility')
+//			setTimeout(function() {
+//				getpostList(selel[0].id, true, idName);
+//			}, 1500)
+//		}
+//	});
+
+	function getsectionType() {
+		showLoading('', '', '#FFFFFF');
+		document.getElementById("sloading").style.margin = '55% auto'
+		getData('Post/GetSectionType', {}, function(data) {
+			hideLoading();
+			if(data.Type == 1) {
+				if(data.Data && typeof(data.Data) == 'object') {
+					createTypeFragment(data);
+					creatCategory(data);
+					getpostList("", false, "itemmobile");
+					mui('#SectionType .mui-control-item').each(function(index, element) {
+						ids.push(element.id)
+					})
+				} else {
+					mui.toast(data.Data);
+				}
+
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				return;
+			} else {
+				//逻辑错误
+
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(err) {
+			setErr('','',false)
+		})
+	}
+
+	var page = 1;
+
+	function getpostList(id, more, idName) {
+		if(more) {
+			page++;
+		} else {
+			page = 1;
+		}
+		var params = {
+			categoryId: id,
+			pageIndex: page
+		};
+		var fragment = document.getElementById(idName);
+		var cfragment = fragment.firstElementChild;
+		getData('Post/GetSections', params, function(data) {
+			if(data.Data && typeof(data.Data) == 'object') {
+				hideErrForList('', idName);
+				if(more) {
+					cfragment.appendChild(creatPosts(data));
+				} else {
+					cfragment.innerHTML = "";
+					cfragment.appendChild(creatPosts(data));
+				}
+
+			} else {
+				if(data.Data=='暂时没有更多贴吧'){
+					document.querySelector('.mui-pull-bottom-pocket').setAttribute('style', 'display: none !important');
+				}
+				if(!more) {
+					var errForList = showErrForList('暂无更多贴吧', '', '0px', idName);
+					if(errForList) {
+						fragment.appendChild(showErrForList('暂无更多贴吧', '', '0px', idName))
+					}
+				}
+				if(fragment.querySelector('.mui-loading')) {
+					fragment.querySelector('.mui-loading').style.display = 'none';
+				}
+				if(document.getElementById("errForList")){
+					document.getElementById("errForList").style.marginTop = 0;
+				}
+				
+			}
+
+		}, function(err) {
+			//setErr('','',false)
+		})
+	}
+
+	function getmyPost() {
+		var islog = getlsData('isLogin');
+		if(islog == 'true') {
+			showLoading('', '', '#FFFFFF');
+			document.getElementById("sloading").style.margin = '55% auto'
+			getDatawithToken('Post/GetMySections', {}, function(data) {
+				hideLoading();
+				if(data.Type == 1) {
+					myBar.style.display = 'block';
+					if(data.Data && typeof(data.Data) == 'object') {
+						createFragment(data, "myPost");
+					} else {
+						mui.toast(data.Data);
+					}
+
+				} else if(data.Type == 0) {
+					myBar.style.display = 'none';
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr('','',false)
+			})
+		}
+
+	}
+
+	function getrecommendPost() {
+		showLoading('', '', '#FFFFFF');
+		document.getElementById("sloading").style.margin = '55% auto';
+		getData('Post/GetRecommendSections', {}, function(data) {
+			hideLoading();
+			if(data.Type == 1) {
+				if(data.Data && typeof(data.Data) == 'object') {
+					if(data.Data.length > 0) {
+						document.getElementById("recommendBar").style.display = 'block';
+					}
+					createFragment(data, "recommendPost");
+
+				} else {
+					mui.toast(data.Data);
+				}
+
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(err) {
+			setErr('','',false)
+		})
+
+	}
+
+	function changeColumn(index) {
+		var scrollColumn = document.getElementById("SectionType");
+		var addcolumn = document.getElementById("alltypes");
+		var a = scrollColumn.getElementsByTagName('a');
+		var div = addcolumn.getElementsByTagName('div');
+		for(var i = 0; i < a.length; i++) {
+			a[i].className = "mui-control-item";
+			div[i].className = "mui-col-xs-3 typeItem";
+		}
+
+		var gallery = mui('#sliderSegmentedControl');
+		var gallerys = mui('#slider');
+		gallery.scroll().gotoPage(index); //跳转到第index张图片，index从0开始；
+		gallerys.slider().gotoItem(index);
+
+		a[index].className = "mui-control-item mui-active";  
+		div[index].className = "mui-col-xs-3 typeItem typeItemActive";
+
+	}
+	window.addEventListener('show', function(event) {
+		getmyPost();
+		getrecommendPost();
+		getsectionType();
+		getpostList("", false, "itemmobile");
+	})
+	if(!mui.os.plus){
+		getmyPost();
+		getrecommendPost();
+		getsectionType();
+		getpostList("", false, "itemmobile");
+	}
+
+	mui.init({
+		pullRefresh: {
+			container: "#refreshContainer", //下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+			down: {
+				height: 100, //可选,默认50.触发下拉刷新拖动距离,
+				auto: false, //可选,默认false.自动下拉刷新一次
+				contentdown: "下拉可以刷新", //可选，在下拉可刷新状态时，下拉刷新控件上显示的标题内容
+				contentover: "释放立即刷新", //可选，在释放可刷新状态时，下拉刷新控件上显示的标题内容
+				contentrefresh: "正在刷新数据...", //可选，正在刷新状态时，下拉刷新控件上显示的标题内容
+				callback: downFresh //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+			},
+			up: {
+				height: 50, //可选.默认50.触发上拉加载拖动距离
+				auto: false, //可选,默认false.自动上拉加载一次
+				contentrefresh: "正在加载数据...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+				contentnomore: '没有更多数据了', //可选，请求完毕若没有更多数据时显示的提醒内容；
+				callback: upFresh //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+			}
+		}
+	});
+
+	function downFresh() {
+		setTimeout(function() {
+			getmyPost();
+			getrecommendPost();
+			getsectionType();
+			changeColumn(0)
+			getpostList("", false, "itemmobile");
+			mui('#refreshContainer').pullRefresh().endPulldownToRefresh(); //refresh completed
+		}, 1500);
+
+	}
+
+	function upFresh() {
+
+		setTimeout(function() {
+			var idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length)
+			var id = '';
+			if(selel[0].id != 0) {
+				id = selel[0].id;
+			} else {
+				id = ''
+			}
+			getpostList(id, true, idName)
+			mui('#refreshContainer').pullRefresh().endPullupToRefresh();
+		}, 1500);
+
+	}
+
+
+	</script>
+
+</html>

@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/jinhu.css">
+	</head>
+	<style>
+		.tagnav{
+			border: 1px solid #D7D7D7;
+			padding: 5px 10px 5px 10px;
+			border-radius: 5px;
+		}
+	</style>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="border: none;">
+	<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+		<span class="mui-icon mui-icon-left-nav"></span>
+		<span class="tagnav">
+			<i class="fa fa-tags text-muted" style="color: #000000;" aria-hidden="true"></i>
+			<span id="tagName"></span>
+		</span>
+
+		</span>
+	</button>
+</header>
+		<div class="mui-content"></div>
+		
+
+		
+	</body>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+	<script>
+		
+		var tagname = "";
+
+		window.onload = function() {
+			//获取url中的targetId参数                                                                                                           
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					tagname = self.Tagname;
+					document.getElementById("tagName").innerHTML = tagname.substring(0, 10);
+					//关闭等待框                                                                                                               
+					plus.nativeUI.closeWaiting();
+					//显示当前页面                                                                                                              
+					mui.currentWebview.show();
+				});
+			} else {
+				tagname = getUrlParam('Tagname')
+				document.getElementById("tagName").innerHTML = tagname.substring(0, 10);
+			}
+			var baseUrl = 'newsBytag_sub.html'
+			var url = mui.os.plus ? baseUrl : baseUrl + '?Tagname=' + tagname;
+			mui.init({
+				subpages: [{
+					url: url,
+					id: 'newsBytag_sub.html',
+					styles: {
+						top: '51px',
+						bottom: '0px',
+					},
+					extras: {
+						Tagname: tagname
+					}
+				}]
+
+			});
+
+		}
+
+	
+	</script>
+
+</html>

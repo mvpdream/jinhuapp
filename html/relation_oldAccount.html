@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<!--通用样式-->
+		<link rel="stylesheet"  href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet"  href="../css/jinhu.css">
+	</head>
+	<style>
+		.mui-input-group .mui-input-row:after{
+			height: 0;
+		}
+	</style>
+
+	<body style=" background-color: #fff;">
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span>关联已有帐号
+			</button>
+		</header>
+		<div class="mui-content" style="margin-top: 1rem;">
+			<form id='login-form' class="mui-input-group mui-content-padded">
+				<div class="mui-input-row space">
+					<label>
+						<i class="fa fa-user user_icon " aria-hidden="true"></i>
+					</label>
+					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="手机号/邮箱/昵称登录">
+				</div>
+				<div class="mui-input-row space">
+					<label>
+						<i class="fa fa-lock user_icon" aria-hidden="true"></i>
+					</label>
+					<!--禁止弹出浏览器自动保存密码弹框-->
+					<input type="text" style="display:none;" />
+					<input id='password' type="password" class="mui-input mui-input-password" placeholder="密码">
+				</div>
+			</form>
+
+			<div class="mui-content-padded space login_btn">
+				<button class="mui-btn mui-btn-block mui-btn-primary" id="loginBtn" style="margin-bottom:15px;">确定</button>
+			</div>
+		</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/wxHelper.js"></script>
+		<script src="../js/user.js"></script>
+	</body>
+	<script>
+		relation_oldAccount.init();
+	</script>
+
+</html>

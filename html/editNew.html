@@ -1,0 +1,707 @@
+
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<!--通用样式-->
+		<link rel="stylesheet"  href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/jinhu.css"/>
+		<link rel="stylesheet" href="../css/loading.css" />
+		<link href="../css/mui.picker.css" rel="stylesheet" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<!-- 引用控制层插件样式 -->
+		<link rel="stylesheet" href="../css/zyUpload.css" type="text/css">
+		<script src="../js/jquery-2.1.0.js"></script>
+		<!-- 引用核心层插件 -->
+		<script type="text/javascript" src="../js/zyFile.js"></script>
+		<!-- 引用控制层插件 -->
+		<script type="text/javascript" src="../js/zyUpload.js"></script>
+		<!-- 引用初始化JS -->
+		<script type="text/javascript" src="../js/zyUploadFile.js"></script>
+	</head>
+	<style>
+		.spacing {
+			margin-top: 0.5rem;
+		}
+		
+		.mui-input-row span {
+			line-height: 40px;
+			font-size: 16px;
+		}
+		
+		.angledown {
+			font-size: 1.2rem;
+			color: #999999;
+		}
+		
+		.closeIcon {
+			font-size: 25px;
+		}
+		
+		.threadBody {
+			line-height: 20px;
+			font-size: 16px;
+			border: none;
+			height: 537;
+		}
+		
+		.jh-comment-right a {
+			padding-left: 10px;
+		}
+		
+		.creat_menu {
+			float: left;
+			line-height: 25px;
+			width: 15%;
+			text-align: center;
+			color: #999999
+		}
+		
+		.face {
+			width: 30px;
+			height: 30px;
+			padding: 8px;
+		}
+		
+		.creat-img {
+			width: 100px;
+			height: 150px
+		}
+		
+		.creat-img-close {
+			position: relative;
+			right: 15px;
+			top: -75px;
+			color: gray;
+			
+		}
+		
+		.mui-input-row .mui-input-clear~.mui-icon-clear,
+		.mui-input-row .mui-input-password~.mui-icon-eye,
+		.mui-input-row .mui-input-speech~.mui-icon-speech {
+			top: 0;
+		}
+		
+		.newTag {
+			font-size: 16px;
+			border: 1px solid gray;
+			border-radius: 2px;
+			padding-left: 2px;
+			margin-bottom: 2px;
+		}
+		
+		.headerimg {
+			height: auto;
+			width: 100%;
+		}
+		.mui-table-view-cell{
+			padding: 11px 15px;	
+		}
+		.mui-border-bottom{
+			border-bottom: 1px solid #c8c7cc;
+		}
+		.cut{
+			list-style: none;
+			font-size: 16px;
+			display: inline-block;
+			color:#a9a9a9 ;
+			padding-top: 4px;
+		}
+		.addImage{
+			vertical-align: middle;
+    		max-width: 100%;
+    		float: right;
+   			margin-right: 0.6rem;
+    		margin-top: 6px;
+		}
+		.settag{
+			width: 25% !important;
+			float: left;
+			color: #a9a9a9;
+			font-size: 16px;
+			margin-left: -2px;
+			padding-top: 12px !important;
+			padding-left: 0px !important;
+		}
+		#newsubject span{
+			right: 2.1rem;
+			top: -2px;
+		}
+		.mui-input-group .mui-input-row:after{
+			height: 0;
+		}
+		
+	</style>
+
+	<body style=" background-color: #fff;">
+		<div id="BgDiv1"></div>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span>编辑文章</button>
+			<span class="mui-pull-right">
+					<span id="Progress" style="line-height:50px"></span>
+			<button id="creat_Btn" data-loading-text="提交中" type="button" style="background-color: #bf0a10;" class="mui-btn mui-btn-red">保存</button>
+			</span>
+
+		</header>
+<div class="mui-scroll-wrapper" style="padding-top: 50px;padding-bottom: 100px;">
+    <div class="mui-scroll">
+		<div class="mui-content" id="detail" style=" background-color: #fff;padding-bottom: 100px;">
+			<form id="uploadForm" style="display: none;">
+				<input id="file" style="display: none;" accept="image/*" type="file" name="file" />
+			</form>
+			<form class="mui-input-group">
+				<div id="subjectImage" class="mui-input-row spacing" style="height: auto;padding: 0px 15px 10px 15px;display: none;overflow: inherit;">					
+					<img class="headerimg" style="display: none;" id="headerpic" src=""/>
+					<img style="right:0px;display: none;position: absolute;top: -14px;" id="deleteImg" class="closeIcon" src="../img/close.png"/>
+					<span style="font-size: 20px" id="addhpic" class="mui-icon mui-icon-plus"></span>
+				</div>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-input-row" style="height: auto;padding: 15px;">
+						<label style="font-size: 16px;width: 25%;padding: 0;line-height: 24px;color: #666666;">文章标题</label>
+						<img id="headerImg" style="float:right;padding-left:10px;border-left:1px solid #999;" src="../img/addimg-img.jpg" />
+						<input class="mui-input mui-input-clear" placeholder="活动标题" id="title" style="width:60%;font-size: 16px;height: 24px;line-height:24px;padding: 0;" type="text" data-input-clear="1">
+					</li>
+				</ul>
+				<div class="mui-input-row spacing" style="height: auto;padding: 0px 15px;padding-bottom: 0.5rem;" >
+					<label class="settag" style="color: #666666;padding-right: 0px;">设置标签</label>
+					<span id="newtag" style="display:-webkit-inline-flex;-webkit-flex-wrap:wrap;margin-left: -2px;">						
+						<span style="font-size: 16px;color: #A9A9A9;"></span>
+					</span>
+					<span style="font-size: 20px;" id="addTag" class="mui-icon mui-icon-plus">
+						
+					</span>
+				</div>
+				<!--
+                	<div class="mui-input-row spacing" style="height: auto;padding: 0px 15px 10px 15px;">
+						<span id="headerImg" style="font-size: 16px;color: #A9A9A9;">标题图片					
+						</span>
+						<img class="headerimg" style="display: none;"   id="headerpic" src=""/>
+						<img style="left:160px;display: none;position: absolute;top: -3px;" id="deleteImg" class="closeIcon" src="../img/close.png"/>
+						<span style="font-size: 20px" id="addhpic" class="mui-icon mui-icon-plus"></span>
+					</div>
+               -->				
+			</form>
+
+			<textarea rows="10" class="threadBody" id="upload-textarea" placeholder="请输入内容"></textarea>
+			<div id="imgPop">
+				<div style="height: 200px;" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">					
+					<div id="imgs" class="mui-scroll">
+						
+					</div>
+				</div>
+			</div>
+			<div class="jh-gray-bar"></div>
+			<div class="mui-input-row spacing mui-border-bottom" style="padding-bottom: 0.4rem;" id="Category">
+				<span style="padding: 10px 15px;color: #666666;">选择栏目</span>
+				<span style="float: right;margin-right: 1rem;">
+					<span id="Categorytext"></span>
+				<span><i class="fa fa-angle-down angledown" aria-hidden="true"></i></span>
+				</span>
+			</div>
+			<div id="demo" class="demo" style="display: none;"></div>
+		</div></div></div>
+		<div  class="mui-bar mui-bar-tab jh-bar-comment" id="bottomBox" style="background-color:#F2F2F2;height: 60px;bottom: 0px;display: none;">
+			<div id="bottomBar" class="jh-comment-right" style="float: left;width: 100%;">
+				<a onclick="galleryImgsMaximum()"><i class="mui-icon fa fa-picture-o creat_menu" aria-hidden="true"></i></a>
+				<a id="getcamera" onclick="getImages()"><i class="mui-icon fa fa-camera angledown creat_menu" aria-hidden="true"></i></a>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.zoom.js"></script>
+		<script src="../js/mui.previewimage.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script src="../js/loading.js"></script>
+		<script src="../js/jhUpload.js"></script>
+		<script src="../js/wxHelper.js"></script>
+		<script src="../js/jweixin-1.2.0.js"></script>
+		<script src="../js/creatUpload.js"></script>
+	</body>
+<script type="text/javascript">
+	
+	var height = document.documentElement.clientHeight || document.body.clientHeight;
+	document.getElementById('detail').style.minHeight = height + 'px';
+	if(!mui.os.wechat) {
+		mui.previewImage();
+	}
+	var deceleration = mui.os.ios ? 0.003 : 0.0009;
+	mui('.mui-scroll-wrapper').scroll({
+		bounce: false,
+		indicators: true, //是否显示滚动条
+		deceleration: deceleration
+	});
+	creatloadingEL();
+	if(mui.os.wechat) {
+		initWx();
+		wx.ready(function() {
+			wx.checkJsApi({
+				jsApiList: ['chooseImage', 'uploadImage', 'previewImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+				success: function(res) {
+					// 以键值对的形式返回，可用的api值true，不可用为false
+					// 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+				}
+			});
+		});
+		wx.error(function(res) {
+
+		});
+	}
+	var commenttextarea = document.getElementById("upload-textarea");
+	var Category = document.getElementById("Category");
+	var Categorytext = document.getElementById("Categorytext");
+	var facePop = document.getElementById("facePop");
+	var bottomBar = document.getElementById("bottomBar");
+	var creatBtn = document.getElementById("creat_Btn");
+	var plusimgArea = document.getElementById("imgPop");
+	var imgArea = document.getElementById("demo");
+	var newtag = document.getElementById("newtag");
+	var addTag = document.getElementById("addTag");
+	var headerpic = document.getElementById("headerpic");
+	var subjectImage = document.getElementById('subjectImage');
+	var tags = [];
+	var featuredImageAttachmentId = 0;
+	var CategoryId = "";
+	var hasThreadCategory;
+	ZYFILE.url = Http_Url + 'CMS/UploadFiles';
+	var imgFiles = [];
+	var wxIds = [];
+	var cmsFiles = []
+
+
+	// H5 plus事件处理
+	function plusReady() {
+
+	}
+	if(window.plus) {
+		plusReady();
+	} else {
+		document.addEventListener('plusready', plusReady, false);
+	}
+
+	$("#file").on('change', function(e) {
+		var oFile = document.getElementById('file').files[0]; //读取文件 
+		if(oFile) {
+			var reader = new FileReader();
+			reader.onload = function() {
+				appendFileFeaturedTouch('CMS/UploadFeaturedImage', 0, reader.result, function(data) {
+					document.getElementById("deleteImg").style.display = 'inline';
+					featuredImageAttachmentId = data.FeaturedImageAttachmentId;
+					document.getElementById("subjectImage").style.display = 'block';
+					document.getElementById("cut").style.display = 'none';
+					document.getElementById("headerImg").style.display = 'none';
+					document.getElementById("headerpic").style.display = 'inline';
+				}, oFile.name)
+			}
+		}
+		reader.readAsDataURL(oFile);
+		var URL = window.URL || window.webkitURL;
+		var imgURL = URL.createObjectURL(oFile);
+		document.getElementById("headerpic").src = imgURL;
+		document.getElementById("addhpic").style.display = 'none'
+		showLoading();
+	})
+	document.getElementById("deleteImg").addEventListener('tap', function() {
+		document.getElementById("subjectImage").style.display = 'none';
+		document.getElementById("cut").style.display = 'inline-block';
+		document.getElementById("headerImg").style.display = 'inline';
+		document.getElementById("addhpic").style.display = 'inline';
+		document.getElementById("headerpic").style.display = 'none';
+		document.getElementById("deleteImg").style.display = 'none';
+		featuredImageAttachmentId = 0;
+	})
+	function creatMenuel(data) {
+		var fragment = document.createDocumentFragment();
+		var li;
+		for(var i = 0; i < data.length; i++) {
+			li = document.createElement('li');
+			li.className = "mui-table-view-cell";
+			li.innerHTML = '<a id=' + data[i].CategoryId + ' href="#">' + data[i].CategoryName + '</a>'
+			fragment.appendChild(li);
+		}
+		return fragment;
+	}
+
+	function creatTag(data) {
+		var fragment = document.createDocumentFragment();
+		var span;
+		for(var i = 0; i < data.length; i++) {
+			span = document.createElement('span');
+			span.className = "newTag";
+			span.style.marginRight = '5px';
+			span.style.fontSize = '14px';
+			span.style.marginBottom = '5px';
+			span.innerHTML = '' + data[i] + '<span id=' + i + ' style="font-size: 16px;" class="mui-icon mui-icon-closeempty"></span>';
+			fragment.appendChild(span);
+		}
+		return fragment;
+	}
+	addTag.addEventListener('tap', function(e) {
+		e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
+		var btnArray = ['取消', '确定'];
+		mui.prompt('请输入文章标签', '', '文章标签', btnArray, function(e) {
+			if(e.index == 1) {
+				if(TrimAll(e.value).length == 0) {
+					mui.toast('标签内容不能为空')
+					return
+				}
+				tags.push(e.value);
+				newtag.innerHTML = "";
+				newtag.appendChild(creatTag(tags));
+			}
+		})
+
+	})
+	mui("#newtag").on('tap', '.mui-icon-closeempty', function(e) {
+		tags.splice(e.target.id, 1);
+		newtag.innerHTML = "";
+		newtag.appendChild(creatTag(tags));
+	})
+
+	document.getElementById("addhpic").addEventListener('tap', function() {
+		uploadFeatureImg()
+	})
+	document.getElementById("headerImg").addEventListener('tap', function() {
+		uploadFeatureImg()
+	})
+
+	function uploadFeatureImg() {
+		if(mui.os.plus) {
+			changeHpicNew()
+		} else if(mui.os.wechat) {
+			wxChooseImg(1, function(ids) {
+				syncUpload(ids, 'CMS/WeChatUploadFiles', function(e, imgSrc) {
+					document.getElementById("subjectImage").style.display = 'block';
+					document.getElementById("cut").style.display = 'none';
+					document.getElementById("headerImg").style.display = 'none';
+					document.getElementById("deleteImg").style.display = 'inline';
+					document.getElementById("headerpic").style.display = 'inline';
+					document.getElementById("headerpic").src = imgSrc;
+					document.getElementById("addhpic").style.display = 'none'
+					featuredImageAttachmentId = e;
+				})
+			})
+		} else {
+			$("#file").click();
+		}
+	}
+
+	function changeHpicNew() {
+		if(mui.os.plus) {
+			var a = [{
+				title: "拍照"
+			}, {
+				title: "从手机相册选择"
+			}];
+			plus.nativeUI.actionSheet({
+				title: "修改标题图",
+				cancel: "取消",
+				buttons: a
+			}, function(b) {
+				switch(b.index) {
+					case 0:
+						break;
+					case 1:
+						getImage('/CMS/UploadFeaturedImage', function(e, data) {
+							setFeaturedImage(e, data)
+						});
+						break;
+					case 2:
+						galleryImg('/CMS/UploadFeaturedImage', function(e, data) {
+							setFeaturedImage(e, data)
+						});
+						break;
+					default:
+						break
+				}
+			})
+		}
+	}
+	function setFeaturedImage(e, data){
+		document.getElementById("subjectImage").style.display = 'block';
+		document.getElementById("cut").style.display = 'none';
+		document.getElementById("headerImg").style.display = 'none';
+		document.getElementById("deleteImg").style.display = 'inline';
+		document.getElementById("headerpic").style.display = 'inline';
+		document.getElementById("headerpic").src = e;
+		document.getElementById("addhpic").style.display = 'none'
+		featuredImageAttachmentId = data.FeaturedImageAttachmentId;
+	}
+
+	var pickdata = [];
+	var picker = new mui.PopPicker();
+
+	function getRootCategories() {
+		var waiting = showWaiting();
+		getData('CMS/GetArticleCategories', {}, function(data) {
+			closeWaiting(waiting);
+			if(data.Type == 1) {
+				if(data.Data && typeof(data.Data) == 'object') {
+					if(data.Data && data.Data.length != 0) {
+						hasThreadCategory = true;
+						//CategoryId = data.Data[0].CategoryId;
+						//Categorytext.innerHTML = data.Data[0].CategoryName;
+						for(var i = 0; i < data.Data.length; i++) {
+							pickdata.push({
+								value: data.Data[i].CategoryId,
+								text: data.Data[i].CategoryName
+							})
+						}
+						picker.setData(pickdata);
+					} else {
+						hasThreadCategory = false
+					}
+				} else {
+					mui.toast(data.Data);
+				}
+
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(err) {
+			closeWaiting(waiting);
+		})
+	}
+	var sectionId;
+	var currid = "";
+	//B页面onload从服务器获取列表数据；
+	window.onload = function() {
+		files = [];
+		//获取url中的targetId参数
+		if(mui.os.plus) {
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				contentItemId = self.contentItemId;
+				getEditNews(contentItemId);
+				getRootCategories();
+				//关闭等待框
+				plus.nativeUI.closeWaiting();
+				//显示当前页面
+				mui.currentWebview.show();
+			});
+		} else {
+			contentItemId = getUrlParam('contentItemId');
+			getEditNews(contentItemId);
+			getRootCategories();
+		}
+		if(mui.os.wechat) {
+			var currUrl = location.href.split('#')[0];
+			weChatLogin(currUrl)
+		}
+	}
+	Category.addEventListener('tap', function() {
+		picker.show(function(selectItems) {
+			CategoryId = selectItems[0].value;
+			Categorytext.innerHTML = selectItems[0].text;
+		})
+	})
+	commenttextarea.addEventListener('focus', function() {
+		//facePopover.style.display = 'none';
+		bottomBar.style.display = 'inherit'
+	})
+	creatBtn.addEventListener('tap', function() {
+		uploadNew()
+	})
+	function EditContentItem(title, body, tags, attachmentIds) {
+		var params = {
+			ContentItemId:contentItemId,
+			CategoryId: CategoryId,
+			Subject: title,
+			Body: body,
+			Tags: tags,
+			AttachmentIds: attachmentIds,
+			FeaturedImageAttachmentId: featuredImageAttachmentId
+		};
+		var waitings = showWaiting();
+		postDatawithToken('CMS/EditContentItem', params, function(data) {
+			closeWaiting(waitings);
+			mui('#creat_Btn').button('reset');
+			if(data.Type == 1) {
+				mui.toast(data.Data);
+				if(mui.os.plus) {
+					mui.back();
+					var wobj = plus.webview.getWebviewById("newsDetail.html");
+					wobj.reload(true);
+					setTimeout(function() {
+						mui.back();
+					}, 1000)
+				} else {
+					window.history.go(-1); //返回上一页
+				}
+
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(data) {
+			mui('#creat_Btn').button('reset');
+			closeWaiting(waitings);
+		});
+	}
+	var task = null;
+	var title = "";
+	var body = "";
+	var tagstrs = "";
+	var newListTouch = [];
+	// 上传文件
+	function uploadNew() {
+		if(hasThreadCategory && CategoryId == "") {
+			mui.toast("请选择文章栏目")
+			return
+		}
+		title = TrimAll(document.getElementById("title").value);
+		body = TrimAll(commenttextarea.value);
+		if(title == "") {
+			mui.toast("文章标题不能为空")
+			return
+		}
+		if(body == "") {
+			mui.toast("文章内容不能为空")
+			return
+		}
+		if(tags.length > 0) {
+			tagstrs = tags.join(';')
+		}
+		if(mui.os.plus) {
+			filesUploadforApp('/CMS/UploadFiles', function(e) {
+				if(e == '') {
+					e =oldImageAttachmentIds.join(";");
+					EditContentItem(title, body, tagstrs, e);
+				} else {
+					if(oldImageAttachmentIds.length > 0){
+						e = e +';' +oldImageAttachmentIds.join(";");
+					}else{
+						e = e;
+					}
+					EditContentItem(title, body, tagstrs, e);
+				}
+			})
+		} else if(mui.os.wechat) {
+			if(imgFiles.length == 0) {
+				e = '' + oldImageAttachmentIds.join(",");
+				EditContentItem(title, body, tagstrs, e);
+			} else {
+				var attachmentIds = [];
+				var i = 0;
+				syncUpload(wxIds, 'CMS/WeChatUploadFiles', function(e) {
+					i++;
+					attachmentIds.push(e)
+					if(wxIds.length == 0) {
+						e = attachmentIds.join(';') + oldImageAttachmentIds.join(";");
+						EditContentItem(title, body, tagstrs, e);
+					}
+				})
+			}
+		} else {
+			var lengthList = zyUpload.webFiles.length;
+			var touchArray = [];
+			for(var i = 0; i < document.getElementsByClassName('creat-img').length; i++) {
+				if(document.getElementsByClassName('creat-img')[i].id!='oldimg'){
+					touchArray.push(document.getElementsByClassName('creat-img')[i]);
+				}					
+			}
+			if(touchArray.length > 0){
+				appendFileTouch('/CMS/UploadFiles',0,touchArray,function(e){
+					if(oldImageAttachmentIds.length > 0){
+							e = e +';' +oldImageAttachmentIds.join(";");
+						}else{
+							e = e;
+						}
+					EditContentItem(title, body, tagstrs,e);
+				})
+			}else{
+				e = oldImageAttachmentIds.join(";");
+				EditContentItem(title, body, tagstrs,e);
+			}					
+
+		}
+
+	}
+
+	function onCompletes(response) {
+		setTimeout(function() {
+			hideLoading()
+		}, 500)
+
+		EditContentItem(title, body, tagstrs, attachmentIds.join(';'));
+	}
+
+	function onFailures() {
+		mui.toast('文件上传失败，请重试！');
+		return
+	}
+	var oldImageAttachments=[];
+	var oldImageAttachmentIds=[];
+	function getEditNews(id){
+		getDatawithToken('CMS/GetCMSEditDetail', {
+			contentItemId: id
+		}, function(data) {
+			document.getElementById('title').value = data.Data.Subject;
+			document.getElementById('upload-textarea').value = data.Data.Body;
+			document.getElementById('Categorytext').innerText = data.Data.CategoryName;
+			CategoryId = data.Data.CategoryId;			
+			if(data.Data.FeaturedImageAttachment != null){
+				featuredImageAttachmentId = data.Data.FeaturedImageAttachment.AttachmentId;
+				document.getElementById("subjectImage").style.display = 'block';
+				document.getElementById("cut").style.display = 'none';
+				document.getElementById("headerImg").style.display = 'none';
+				document.getElementById("deleteImg").style.display = 'inline';
+				document.getElementById("headerpic").style.display = 'inline';
+				document.getElementById("headerpic").src =getImgUrl(data.Data.FeaturedImageAttachment.Url);
+				document.getElementById("addhpic").style.display = 'none'
+			}
+			if(data.Data.ImageAttachments!=null&& data.Data.ImageAttachments.length>0){
+				document.getElementById("imgPop").style.display = '';
+				oldImageAttachments=data.Data.ImageAttachments;
+				for (var i=0;i<oldImageAttachments.length;i++) {
+					oldImageAttachmentIds.push(oldImageAttachments[i].AttachmentId)
+				}
+				document.getElementById("imgs").appendChild(creatEditImg(data.Data.ImageAttachments))
+			}
+			var tagname = [];
+			if(data.Data.Tags != null){
+				for(var i = 0; i<data.Data.Tags.length;i++){
+					tags.push(data.Data.Tags[i].TagName);
+					tagname.push(data.Data.Tags[i].TagName);
+				}
+				newtag.innerHTML = "";
+				newtag.appendChild(creatTag(tagname));
+			}			
+			if(data.Type == 1) {
+				
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				//login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(err) {
+		})
+	}
+
+</script>
+</html>

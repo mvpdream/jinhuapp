@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/jinhu.css" />
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+
+		<style>
+			.mui-bar-nav~.mui-content .mui-pull-top-pocket {
+				top: 85px !important;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: #fff;">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-btn mui-btn-blue mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span><span id="navtil"></span>
+			</a>
+		</header>
+
+		<div class="mui-content  mui-bar-nav">
+			<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted jh-scroll-wrapper">
+				<div class="mui-scroll mui-scroll-wrapper" style="float: left;">
+					<a class="mui-control-item mui-active" href="favoriteNews.html">
+						收藏的文章
+					</a>
+					<a class="mui-control-item" href="favoriteThreads.html">
+						收藏的贴子
+					</a>
+					<a class="mui-control-item" href="favoriteQuestions.html">
+						收藏的问答
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/userCollections.js"></script>
+	</body>
+	<script>
+		var userId = 0;
+		var username = "";
+		window.onload = function() {
+			//获取url中的targetId参数                                                                                                           
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					userId = self.userId;
+					username = self.username;
+					username = (username == "me") ? "我" : username
+					document.getElementById("navtil").innerHTML = username + '的收藏';
+					//关闭等待框                                                                                                               
+					plus.nativeUI.closeWaiting();
+					//显示当前页面                                                                                                              
+					mui.currentWebview.show();
+				});
+			} else {
+				userId = getUrlParam('userId');
+				username = getUrlParam('username');
+			}
+			username = (username == "me") ? "我" : username
+			document.getElementById("navtil").innerHTML = username + '的收藏';
+		}
+	
+	</script>
+
+</html>

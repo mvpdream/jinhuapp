@@ -1,0 +1,218 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/jinhu.css" />
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+
+		<style>
+			.mui-bar-nav~.mui-content .mui-pull-top-pocket {
+				top: 85px !important;
+			}
+			.mui-bar-tab{
+				top: 100px;
+			}
+			.jh-bar-nav{
+				border-top: none;
+			}
+			.mui-bar-tab .mui-tab-item .mui-icon~.mui-tab-label{
+				padding-top: 10px;
+				font-size: 14px;
+			}
+			.mui-bar-tab .mui-tab-item .mui-icon{
+				width: 28px;
+				height: 28px;
+			}
+			.mui-bar .mui-icon{
+				font-size: 28px;
+			}
+			#split{
+				bottom: 0px;
+			    position: absolute;
+			    width: 100%;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: #fff;">
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">应用</h1>
+		</header>
+		
+		<div class="mui-content  mui-bar-nav" >
+			<div class="jh-gray-bar"></div>
+		<nav class="mui-bar mui-bar-tab jh-bar-nav">						
+            <a class="mui-tab-item" id="ask" href="ask.html" style="display: none;">
+				<span class="mui-icon fa fa-question-circle"></span>
+				<span class="mui-tab-label">问答</span>
+			</a>
+			<a class="mui-tab-item" id="document" href="document.html"  style="display: none;">
+				<span class="mui-icon fa fa-book"></span>
+				<span class="mui-tab-label">文库</span>
+			</a>
+			<a class="mui-tab-item" id="vote" href="vote.html"  style="display: none;">
+				<span class="mui-icon fa fa-bar-chart"></span>
+				<span class="mui-tab-label">投票</span>
+			</a>
+			<a class="mui-tab-item" id="event" href="event.html"  style="display: none;">
+				<span class="mui-icon fa fa-flag"></span>
+				<span class="mui-tab-label">活动</span>
+			</a>		 
+		</nav>	
+		<div class="jh-gray-bar" id="split"></div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+	</body>
+<script type="text/javascript">
+	function getApplicationsEnabled(){
+		var enabledArr={};
+	getData('User/GetApplicationsEnabled', {}, function(data) {
+		if(data.Type == 1) {
+			if(data.Data.length!=0){
+				var applications=data.Data.split(',');
+				askEnabled=(applications.indexOf('Ask')!=-1)?true:false;
+				documentEnabled=(applications.indexOf('Document')!=-1)?true:false;
+				eventEnabled=false;
+				voteEnabled=false;
+				getData('User/GetEventVoteApplicationsEnabled',{},function(data){
+					eventEnabled=(applications.indexOf('Event')!=-1&&data.Data.showEventNav)?true:false;
+					voteEnabled=(applications.indexOf('Vote')!=-1&&data.Data.showVoteNav)?true:false;
+					pointMallEnabled=(applications.indexOf('PointMall')!=-1)?true:false;
+					enabledArr={
+						askEnabled:askEnabled,
+						documentEnabled:documentEnabled,
+						eventEnabled:eventEnabled,
+						voteEnabled:voteEnabled,
+						pointMallEnabled:pointMallEnabled
+					}
+					document.getElementById("ask").style.display=(enabledArr&&enabledArr.askEnabled)?'':'none';
+				document.getElementById("document").style.display=(enabledArr&&enabledArr.documentEnabled)?'':'none';
+				document.getElementById("vote").style.display=(enabledArr&&enabledArr.voteEnabled)?'':'none';
+				document.getElementById("event").style.display=(enabledArr&&enabledArr.eventEnabled)?'':'none';
+				},function(err){
+					pointMallEnabled=(applications.indexOf('PointMall')!=-1)?true:false;
+					enabledArr={
+						askEnabled:askEnabled,
+						documentEnabled:documentEnabled,
+						eventEnabled:eventEnabled,
+						voteEnabled:voteEnabled,
+						pointMallEnabled:pointMallEnabled
+					}
+					document.getElementById("ask").style.display=(enabledArr&&enabledArr.askEnabled)?'':'none';
+				document.getElementById("document").style.display=(enabledArr&&enabledArr.documentEnabled)?'':'none';
+				document.getElementById("vote").style.display=(enabledArr&&enabledArr.voteEnabled)?'':'none';
+				document.getElementById("event").style.display=(enabledArr&&enabledArr.eventEnabled)?'':'none';
+				})
+				if(!askEnabled&&!documentEnabled&&!eventEnabled&&!voteEnabled){
+					if(document.getElementById("apply")){
+						document.getElementById("apply").style.display='none'
+					}
+				}
+				
+			}
+			
+		} else if(data.Type == 0) {
+			//mui.toast("请登录后再进行操作");
+			return;
+		} else {
+			//逻辑错误
+			mui.toast(data.Data);
+			return;
+		}
+	}, function(err) {
+
+	})
+}
+	
+	
+	getApplicationsEnabled()
+
+	mui(".mui-content").on('tap', '#ask', function(e) {
+		var baseUrl = 'ask.html';
+		var url = mui.os.plus ? baseUrl : baseUrl;
+		mui.openWindow({
+			url: url,
+			id: 'ask.html',
+			show: {
+				autoShow: true
+			},
+			createNew:true,
+			waiting: {
+				options: {
+					loading: {
+						height: '35px'
+					}
+				}
+			}
+		})
+	})
+	mui(".mui-content").on('tap', '#document', function(e) {
+		var baseUrl = 'document.html';
+		var url = mui.os.plus ? baseUrl : baseUrl;
+		mui.openWindow({
+			url: url,
+			id: 'document.html',
+			show: {
+				autoShow: true
+			},
+			createNew:true,
+			waiting: {
+				options: {
+					loading: {
+						height: '35px'
+					}
+				}
+			}
+		})
+	})
+	mui(".mui-content").on('tap', '#vote', function(e) {
+		var baseUrl = 'vote.html';
+		var url = mui.os.plus ? baseUrl : baseUrl;
+		mui.openWindow({
+			url: url,
+			id: 'vote.html',
+			show: {
+				autoShow: true
+			},
+			createNew:true,
+			waiting: {
+				options: {
+					loading: {
+						height: '35px'
+					}
+				}
+			}
+		})
+	})
+	mui(".mui-content").on('tap', '#event', function(e) {
+		var baseUrl = 'event.html';
+		var url = mui.os.plus ? baseUrl : baseUrl;
+		mui.openWindow({
+			url: url,
+			id: 'event.html',
+			show: {
+				autoShow: true
+			},
+			createNew:true,
+			waiting: {
+				options: {
+					loading: {
+						height: '35px'
+					}
+				}
+			}
+		})
+	})
+</script>
+</html>

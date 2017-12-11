@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css">
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" >
+		<link rel="stylesheet"  href="../css/jinhu.css">
+	</head>
+
+	<body style="background-color: #fff;">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-btn mui-btn-blue mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span>关于近乎</a>
+		</header>
+		<div class="mui-content jh-about-jinhu">
+			<img src="../img/jh_logonew.png" srcset="../img/jh_logonew@2x.png 2x" />
+			<h4>版本号:5.2</h4>
+			<div id="updateApp" class="jh-gray-bar" style="display: none;">检查更新</div>
+			<div class="jh-fixed-bottom">
+				<p>客服联系电话：<a style="color:#000;" href="tel:400-800-6390">400-800-6390</a></p>
+				<small>©2017 青岛拓宇网络科技有限公司</small>
+			</div>
+
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/service.js"></script>
+		<script>
+			var updateApp = document.getElementById("updateApp");
+			if(mui.os.plus){
+				//updateApp.style.display='block';
+			}
+			updateApp.addEventListener('tap',function(){
+				
+			})
+		</script>
+	</body>
+
+</html>

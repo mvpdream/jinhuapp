@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet"  href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet"  href="../css/jinhu.css">
+	</head>
+	<style>
+		.wx-content {
+			margin-top: 180px;
+			text-align: center;
+		}
+		
+		.wx-content-icon {
+			color: #999;
+			font-size: 50px;
+		}
+		
+		.wx-content-title {
+			word-break: break-all;
+			color: #6e6e6e;
+			font-size: 18px;
+		}
+	</style>
+
+	<body style="background-color: #fff;">
+		<img src="../img/wx.png" style="margin-top: -7px;" />
+		<div class="mui-content wx-content">
+			<div>
+				<div><i id="type" class="fa fa-file-word-o wx-content-icon" aria-hidden="true"></i></div>
+				<span id="title" class="wx-content-title">sssss.doc</span>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/service.js"></script>
+	</body>
+
+	<script>
+		if(!mui.os.wechat) {
+			var curl = getUrlParam('curl');
+			history.replaceState(null, "", curl);
+			window.location.reload();
+		} else {
+			var fileName = getUrlParam('name');
+			if(fileName && fileName.length > 0) {
+				var type = fileName.substring(fileName.lastIndexOf('.') + 1);
+				var typeClass = 'fa-file-o';
+				switch(type) {
+					case 'doc':
+						typeClass = 'fa-file-word-o';
+						break;
+					case 'xls':
+						typeClass = 'fa-file-excel-o';
+						break;
+					case 'ppt':
+					case 'pptx':
+						typeClass = 'fa-file-powerpoint-o';
+						break;
+					case 'txt':
+						typeClass = 'fa-file-text-o';
+						break;
+					case 'png':
+					case 'jpg':
+					case 'jpeg':
+					case 'gif':
+						typeClass = 'fa-file-image-o';
+						break;
+					case 'mp3':
+						typeClass = 'fa-file-audio-o';
+						break;
+					case 'mp4':
+					case 'flv':
+						typeClass = 'fa-file-video-o';
+						break;
+					case 'zip':
+					case 'rar':
+						typeClass = 'fa-file-zip-o';
+						break;
+					default:
+						typeClass = 'fa-file-o';
+						break;
+				}
+				document.getElementById("type").className = 'fa wx-content-icon ' + typeClass;
+				document.getElementById("title").innerHTML = fileName;
+			}
+
+		}
+	</script>
+
+</html>

@@ -1,0 +1,389 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet"  href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />		
+		<link rel="stylesheet"  href="../css/jinhu.css">
+
+	</head>
+	<style>
+		.comment_body .comment_img {
+		    float: left;
+		    width: 9%;
+		    
+		}
+		.comment_body{
+			padding-left: 0.75rem;
+			border-bottom: 1px solid #e4e4e4;
+			padding-top: 0.5rem;
+			margin-top:0
+		}
+		.comment_body .comment_content .comment_top .comment_top_right {
+		    float: right;
+		    margin-right: 0.75rem;
+		}
+		.jh-comment-reply {
+		    margin-right: 0.75rem;
+		}
+		.comment_body .comment_content {
+		    float: right;
+		    width: 87%;
+		    margin-left: 0.75rem;
+		    border-bottom: 0px;
+		}
+		.status{
+			list-style: none;
+			display: inline-block;
+			width: 100%;
+			padding-left: 0px;
+		}
+		.status li{
+			display: inline-block;
+		}
+		.status li:first-child{
+			float: left;			
+		}
+		.status li:last-child{
+			float: right;
+			margin-right: 0.75rem;
+		}
+	.mui-pull-top-tips {
+			position: absolute;
+			top: -20px;
+			left: 50%;
+			margin-left: -25px;
+			width: 40px;
+			height: 40px;
+			border-radius: 100%;
+			z-index: 1;
+		}
+		
+		.mui-bar~.mui-pull-top-tips {
+			top: 24px;
+		}		
+		.mui-pull-top-wrapper {
+			width: 42px;
+			height: 42px;
+			display: block;
+			text-align: center;
+			background-color: #efeff4;
+			border: 1px solid #ddd;
+			border-radius: 25px;
+			background-clip: padding-box;
+			box-shadow: 0 4px 10px #bbb;
+			overflow: hidden;
+		}		
+		.mui-pull-top-tips.mui-transitioning {
+			-webkit-transition-duration: 200ms;
+			transition-duration: 200ms;
+		}		
+		.mui-pull-top-tips .mui-pull-loading {
+			margin: 0;
+		}		
+		.mui-pull-top-wrapper .mui-icon,
+		.mui-pull-top-wrapper .mui-spinner {
+			margin-top: 7px;
+		}		
+		.mui-pull-top-wrapper .mui-icon.mui-reverse {
+		}		
+		.mui-pull-bottom-tips {
+			text-align: center;
+			background-color: #efeff4;
+			font-size: 15px;
+			line-height: 40px;
+			color: #777;
+		}		
+		.mui-pull-top-canvas {
+			overflow: hidden;
+			background-color: #fafafa;
+			border-radius: 40px;
+			box-shadow: 0 4px 10px #bbb;
+			width: 40px;
+			height: 40px;
+			margin: 0 auto;
+		}		
+		.mui-pull-top-canvas canvas {
+			width: 40px;
+		}		
+		.mui-slider-indicator.mui-segmented-control {
+			background-color: #efeff4;
+		}		
+		.mui-scroll{
+			min-height: 100%;
+		}
+		.popover-item{
+			padding:13px 15px;border-radius:0;color:#333333
+		}
+		.mui-table-view{
+			margin-top: 50px !important;
+		}
+	</style>
+	<body style="background-color: #FFFFFF;">
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span><span id="navtil"></span>
+			</button>
+		</header>
+		<div class="mui-content" id="contentArea" style="display: block">
+			<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<!--数据列表-->
+					<ul class="mui-table-view">
+						<div class="mui-loading">
+							<div class="mui-spinner">
+							</div>
+						</div>
+					</ul>
+				</div>
+			</div>
+		</div>
+			<script src="../js/mui.min.js"></script>
+			<script src="../js/mui.pullToRefresh.js"></script>
+			<script src="../js/mui.pullToRefresh.material.js"></script>
+			<script src="../js/service.js"></script>
+			<script src="../js/common.js"></script>
+			<script src="../js/wxHelper.js"></script>
+	</body>
+	<script type="text/javascript">
+		var navtil = document.getElementById('navtil');
+		var userId;
+		var username;
+		var genders;
+		window.onload = function() {                                                                                                       
+		if(mui.os.plus) {
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				userId = self.userId;
+				username = self.username;
+				username = (username == "me") ? "我" : username;
+				getUserProfile(userId);
+				//GetotherComments(false);
+				document.getElementById("navtil").innerHTML = username + '的评论';
+				//关闭等待框                                                                                                               
+				plus.nativeUI.closeWaiting();
+				//显示当前页面                                                                                                              
+				mui.currentWebview.show();
+			});
+		} else {
+			userId = getUrlParam('userId');
+			username = getUrlParam('username');
+			getUserProfile(userId);
+			//GetotherComments(false);
+		}
+		username = (username == "me") ? "我" : username
+		document.getElementById("navtil").innerHTML = username + '的评论';
+	}
+	
+	function getUserProfile(userId) {
+		getDatawithToken('User/GetUserSpace', {userId: userId}, function(data) {
+			if(data.Type == 1) {
+				var data = data.Data;
+				switch(data.Gender) {
+					case 1:
+						genders = "他";
+						break;
+					case 2:
+						genders = "她";
+						break;
+					default:
+						genders = "";
+						break;
+				}
+				GetotherComments(false);
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				setlsData('isLogin', false);
+				login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(data) {
+			hideLoading()
+		});
+	}
+	var creatsendCommentsElement = function(data,more) {
+			var finel = document.getElementById('refreshContainer').querySelector('.mui-table-view');
+			var fragment = document.createDocumentFragment();
+			var newFragment = document.createDocumentFragment();
+			var div;
+			for(var i = 0; i < data.length; i++) {				
+				div = document.createElement('div');
+				div.className = 'comment_body';
+				div.id = data[i].Id;
+				var child;
+				var dis = 'none';
+				if(data[i].ParentComment != null) {
+					var sdata = data[i].ParentComment;
+					dis = 'block';
+					child = '<p>回复' + sdata.UserName + '： ' + sdata.Body + '</p>'
+				} else {
+					dis = 'none';
+				}
+				var type = "";
+				if(data[i].CommentedObject != null) {
+					if(data[i].CommentedObject.TenantTypeId == '100002') {
+						//帖子
+						type = "贴子"
+					} else if(data[i].CommentedObject.TenantTypeId == '101301') {
+						type = "问题"
+					} else if(data[i].CommentedObject.TenantTypeId == '101302') {
+						type = "回答"
+					} else {
+						var newtype = data[i].CommentedObject.ModelKey;
+						switch(newtype) {
+							case 'Article':
+								type = "文章"
+								break;
+							case 'Video':
+								type = "视频"
+								break;
+							case 'Image':
+								type = "组图"
+								break;
+							case 'Contribution':
+								type = "文章"
+								break;
+							default:
+								break;
+						}
+					}
+				}
+				var id = 0;
+				var title = '';
+				var hasItem = 'none';
+				var newType = '';
+				if(data[i].CommentedObject != null) {
+					hasItem = 'none';
+					title = data[i].CommentedObject.Subject
+					if(data[i].CommentedObject.TenantTypeId == '100002') {
+						//帖子
+						id = data[i].CommentedObject.ThreadId;
+					} else {
+						id = data[i].CommentedObject.ContentItemId;
+						newType = data[i].CommentedObject.ModelKey;
+					}
+				} else {
+					hasItem = 'inline';
+				}
+				var shenglue = data[i].Body.length > 15 ? "..." : "";
+				var userAvatar = data[i].Avatar == "" ? "../img/avatar.jpg" : getImgUrl(data[i].Avatar);
+				div.innerHTML = '<div class="comment_img">' +
+					'		    		<img class="creator_img_comment " src=' + userAvatar + '>' +
+					'			    	</div>' +
+					'			    	<div class="comment_content">' +
+					'			    		<div class="comment_top">' +
+					'			    			<h5 class="comment_top_left">' + data[i].UserName.substring(0,5) + '（被'+ username.substring(0,5) +'评论）</h5>' +
+					'<h5 class="comment_top_right">'+ data[i].DateCreated +'</h5>'+
+					'				</div>' +
+					'               <div id="childCom' + i + '" class="jh-comment-reply" style="display:' + dis + '">' + child + '</div>' +
+					'				<p>' +
+					'					' + data[i].Body.substring(0, 20) + shenglue + '' +
+					'				</p>' +
+					'				<p id=' + (data[i].CommentedObject && data[i].CommentedObject.TenantTypeId != null && data[i].CommentedObject.TenantTypeId) + '>' +
+					'					'+ genders +'评论的' + type + '：' +
+					'                  <span style="color:#007aff;display:' + hasItem + '">该内容已被删除</span>' +
+					'					<a id=' + id + ' title=' + newType + '>' + title + '</a>' +
+					'				</p>' +
+					'			</div>';
+				if(more == true){
+					finel.appendChild(div);
+				}else{
+					newFragment.appendChild(div);
+				}
+			}
+			if(more == false){
+				finel.innerHTML=nodeToString(newFragment);
+			}
+		};
+	mui.init({
+		pullRefresh: {
+			container: '#refreshContainer',
+			down: {
+				callback: pulldownRefreshCom
+			},
+			up: {
+				contentrefresh: '正在加载...',
+				callback: pullupRefreshCom
+			}
+		}
+	});                                                                                                                            
+	function pulldownRefreshCom() { 
+		setTimeout(function() { 
+			GetotherComments(false);                                                                                         
+			mui('#refreshContainer').pullRefresh().endPulldownToRefresh();                                            
+		}, 1500);                                                                                                                     
+	}                                                                                                                                 
+	var count = 0;                                                                                                                                                                                                                                                  
+	function pullupRefreshCom() {                                                                                                        
+		setTimeout(function() { 
+			GetotherComments(true);
+			mui('#refreshContainer').pullRefresh().endPullupToRefresh((++count > 2));                                                                                                                             
+		}, 1500);                                                                                                                     
+	}
+	//var selel = document.getElementsByClassName("mui-control-item mui-active");
+	function GetotherComments(more) {
+//		if(!more) {
+//			showLoading('', '', '#FFFFFF', '90px', '1');
+//		}
+		//idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+		var table = document.body.querySelector('.mui-table-view');
+			if(more) {
+				page++;
+			} else {
+				//table.innerHTML = '';
+				page = 1;
+			}
+			var params = {
+				userId : userId,
+				isSend: false,
+				pageSize: 10,
+				pageIndex: page,
+			};
+			getDatawithToken('User/GetUserComments', params, function(data) {
+				hideLoading();
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						console.log(data)
+						creatsendCommentsElement(data.Data,more);
+					} else {
+						if(!more) {
+							var errForList = showErrForList(data.Data, '', '', 'refreshContainer');
+							if(errForList) {
+								fragment.appendChild(showErrForList(data.Data, '', '', 'refreshContainer'))
+							}
+						}
+						mui.toast(data.Data);
+					}
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					var errForList = showErrForList(data.Data, '', '', 'refreshContainer');
+					if(errForList) {
+						fragment.appendChild(showErrForList(data.Data, '', '', 'refreshContainer'))
+					}
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr('','90px')
+			})
+		}
+	</script>
+
+</html>

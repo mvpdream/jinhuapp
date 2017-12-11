@@ -1,0 +1,1460 @@
+ <!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/jinhu.css">
+		
+	</head>
+	<script>
+		function defaultAvator(A){
+			A.src='../img/avatar.jpg'
+		}
+	</script>
+	<style>
+		.progressContainer p {
+    font-size: 8px;
+    height: 8px;
+    color: #bf0a10;
+}
+		#popView_share1 a span{
+			margin:15px
+		}
+		#voteItem{
+		border-radius: 10px;
+	}
+	#voteItem{
+		top: 28%;
+		height: 20rem;
+	}
+	#voteItem li{
+		min-height: 20rem;
+	}
+	.pop_view {
+	    min-height: 12rem;
+	}
+	.mui-popover-center{
+		width: 90% !important;
+		margin-left: 5% !important;
+	}
+	.itemSubject{
+		text-align: center;
+		font-size: 16px;
+	}
+	.itemBody{
+		text-align: center;
+		font-size: 14px;
+		margin-top: 20px;
+		word-wrap: break-word;
+	}
+
+	.mui-progressbar{
+		width: 100% !important;
+	}
+	.lookResult{
+		width: 100% !important;
+	}
+	.notlookResult{
+		width: 100% !important;
+	}
+	.detail_content img{
+		width: 100%;
+	}
+	.mui-popover.mui-popover-action .mui-table-view {
+	    color: #333;
+	}
+	.jh-img-vote .jh-img-position {
+	    height: 160px;
+	}
+	.jh-img-vote .jh-img-position img{
+	    height: 160px;
+	}
+	.noResult{
+		margin-top: 30px;
+	    background-color: #fcf8e3;
+	    color: #8a6d3b;
+	    border: 1px solid #faebcc;
+	    border-radius: 4px;
+	}
+	.mui-col-xs-7{
+		word-wrap:break-word; 
+		word-break:break-all; 
+	}
+	.mui-preview-image.mui-fullscreen {
+	    z-index: 10001;
+	}
+	.jh-dropdown-list i {
+	    font-size: 22px !important;
+	    width: 22px !important;	   
+	}
+		.jh-dropdown-list{
+			border: none;
+			padding: 15px 0px 0px 26px;
+		}
+	#voteDetail{
+		width: 100%;
+	}
+	#reportContainer{
+			position: fixed;
+			margin-left: 5%;
+			min-height: 375px;
+			background-color: #ffffff;
+		}
+		#reportContainer button{
+			width: 50%;
+		    height: 40px;
+		    line-height: 24px;
+		    border-right: 1px solid #eff2f9;
+		    border-top: none;
+		    border-bottom: none;
+		    text-align: center;
+		    margin-right: 0px;
+		}
+		#reportContainer p {
+			margin-bottom: 0px;
+		    height: 40px;
+		    line-height: 40px;
+		    width: 100%;
+		    border-top: 1px solid #eff2f9;
+		}
+		#reportContainer ul{
+			background-color: #fff;
+			margin: 5px 5px;
+			padding: 3px;
+		}
+	</style>
+
+	<body  style="background-color: #fff;">
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left"  style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span>
+			</button>
+			<span class="mui-pull-left" style="line-height: 50px;">
+				<span style="color: #e4e4e4;font-size: 14px;padding: 0 2px 0 2px;">|</span>
+				<button class="mui-btn mui-btn-link" id="SectionName" style="color: #000000;font-size: 15px;"></button>
+			</span>
+			
+			<a id="threadOpt"  class="mui-icon mui-icon-bars mui-pull-right" style="color: #333;"></a>
+		</header>
+		
+		<div id="popover" class="mui-popover" style="position:fixed;width: 130px;height: auto;background-color: #FFFFFF;right: 5px;top: 50px;">
+			<ul class="mui-list-unstyled jh-dropdown-list" style="margin-top:0px;border: none;">
+				<li id="EssentialOperation" style="display: none;height: 30px;line-height: 30px;">
+
+				</li>
+				<li id="StickyOperation" style="display: none;height: 30px;line-height: 30px;">
+
+				</li>
+				<li id="recommendOperation" style="display: none;height: 30px;line-height: 30px;">
+
+				</li>
+				<li id="editThread" style="display: none;height: 30px;">
+					<a><i class="fa fa-edit" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp编辑</a>
+				</li>
+				<li id="editOperation" style="display: none;height: 30px;">
+					<a><i class="fa fa-edit" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp编辑</a>
+				</li>
+				<li id="DeleteThread" style="display: none;padding-top: 3px;">
+					<a><i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp删除</a>
+				</li>
+				<li id="report" style="height：30px;line-height: 30px;padding-top: 3px;">
+					<a><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp举报</a>
+				</li>
+			</ul>
+		</div>
+
+		<div  class="mui-content jh-detail-content">
+			<div class="mui-content-padded">
+				<div style="width: 100%;display: inline-block;">
+					<div style="width: 15%;float: left;display: none;" id="Officialcertification">
+						<img src="../img/122.png" srcset="../img/122@2x.png 2x,../img/122@3x.png 3x" style="margin-top: -10px;"/>
+					</div>	
+					<h4 class="jh-detail-title" id="threadTitle"  style="width: 85%;float: right;"></h4>
+				</div>
+				
+				<div class="mui-list-inline text-muted">
+					<img class="creator_img" id="userAvator" src="" onerror="defaultAvator(this);">
+					<li id="Author"></li>
+					<li id="DateCreated"></li>
+					<li id="CategoryName" class="mui-pull-right" style="margin-top:3px;"></li>
+				</div>
+				<div class="detail_content" id="post_detail" style="margin-top: 10px;">
+					
+				</div>
+				<div class="tn-file-list" id="attachments" style="display: none;">
+
+				</div>
+				<div class="mui-card jh-word-vote jh-vote-select" id="voteDetail">
+				</div>
+			</div>
+				<div class="jh-title-container" id="jgb">
+					<div class="home_content_title">评论列表</div>
+			</div>
+						<div class="loadingItem" id="noCom" style="padding-top: 20px;padding-bottom: 20px;color: #CCCCCC;display: none;">
+				<i class="fa fa-info-circle fa-2x" style="vertical-align:middle;"></i>
+				<span id="loadmsgtext" style="vertical-align:middle;padding-left: 5px;"> 暂无评论</span>
+			</div>
+				<div class="mui-content mui-content-padded">
+						<div id="commentArea"> 
+							
+						</div>
+						
+			    
+		<div class="mui-text-center" style="margin-top: 1rem;display: none;" id="morecomment">
+					<span class="more-news">查看更多评论</span>
+			</div>
+		</div>
+
+		<div class="mui-bar mui-bar-tab jh-bar-comment">
+			
+		</div>
+		<div id="reportContainer" class="jh-medal-popover box mui-popover" style="background-color: #fff;display: none;padding: 0px !important;">
+			<ul class="mui-table-view jh-word-vote" id="itemContainer">
+				<span style="margin-left: 15px;">举报原因</span><span style="color: red;">*</span>
+				<form class="mui-input-group" style="background-color: #fff;margin-bottom: 0px;">
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">恶意灌水</span>
+						<input name="style" type="radio" class="mui-pull-left" id="1"/>
+					</div>
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">淫秽色情</span>
+						<input name="style" type="radio" class="mui-pull-left" id="2"/>
+					</div>
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">内容侵权</span>
+						<input name="style" type="radio" class="mui-pull-left" id="3"/>
+					</div>
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">广告诈骗</span>
+						<input name="style" type="radio" class="mui-pull-left" id="4"/>
+					</div>
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">其他</span>
+						<input name="style" type="radio" class="mui-pull-left" id="99"/>
+					</div>
+				</form>
+			</ul>
+	    	<ul class="mui-table-view">
+				<li style="padding-bottom: 0px; font-size: 16px;padding: 6px 10px;">
+					<textarea id="reason" rows="2" placeholder="请输入举报原因"></textarea>
+				</li>
+			</ul>
+			<p>
+				<button class="Fbutton" style="border-radius: 0px 0px 0px 5px;color: #999;" id="cancelReport">取消</button>
+				<button class="Fbutton" id="submitReport" style="color: #bf0a10;border-right: none;border-left:none;float: right;border-radius: 0px 0px 5px 0px;">确定</button>
+			</p>
+	    </div>
+
+
+</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.zoom.js"></script>
+		<script src="../js/mui.previewimage.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/comment.js"></script>
+		<script src="../js/share.js"></script>
+		<script src="../js/wxHelper.js"></script>
+		<script src="../js/jweixin-1.2.0.js"></script>
+		<script src="../js/openApp.js"></script>
+		<script src="https://static.mlinks.cc/scripts/dist/mlink.min.js"></script>
+		<script src="../js/attachment.js"></script>
+		<script src="../js/jquery-2.1.0.js"></script>
+		<script src="../js/progressBar.js"></script>
+	</body>
+	<script>
+		
+		if(!mui.os.plus) {
+			creatBanner();
+		}
+		showLoading('', '', '#FFFFFF', '50px');
+		mui.init();
+		if(!mui.os.wechat) {
+			mui.previewImage();
+		}
+		if(mui.os.wechat) {
+			initWx();
+			wx.ready(function() {
+				wx.checkJsApi({
+					jsApiList: ['previewImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+					success: function(res) {
+						// 以键值对的形式返回，可用的api值true，不可用为false
+						// 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+					}
+				});
+			});
+			wx.error(function(res) {
+
+			});
+		}
+		var height = document.documentElement.clientHeight || document.body.clientHeight;
+		document.querySelector('.jh-detail-content').style.minHeight = height + 'px';
+		var SectionName = document.getElementById("SectionName");
+		var threadType = document.getElementById("threadType");
+		var threadTitle = document.getElementById("threadTitle");
+		var Author = document.getElementById("Author");
+		var DateCreated = document.getElementById("DateCreated");
+		var CategoryName = document.getElementById("CategoryName");
+		var EssentialOperation = document.getElementById("EssentialOperation"); //精华
+		var StickyOperation = document.getElementById("StickyOperation"); //置顶
+		var DeleteThread = document.getElementById("DeleteThread"); //删除
+		var commentArea = document.getElementById("commentArea");
+		var post_detail = document.getElementById("post_detail");
+		var userAvator = document.getElementById("userAvator");
+		var attachments = document.getElementById("attachments");
+		var threadOpt = document.getElementById("threadOpt");
+		var userid = 0;
+		var IsSpecial=false;
+		var IsSticky=false
+
+		var uip = document.getElementById("popover"); //topPopover是popover 的最外层div
+		uip.style.position = "absolute";
+		
+
+		var wximgEl = document.createElement("div");
+
+		var threadId;
+		var ThreadType;
+		var AssociateId;
+		var currId = "";
+		//B页面onload从服务器获取列表数据；
+		window.onload = function() {
+			//获取url中的targetId参数
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					threadId = self.threadId;
+					currId = self.currId;
+					AssociateId = self.AssociateId;
+					ThreadType = self.ThreadType;
+					if(ThreadType==null){ThreadType=0}
+					if(ThreadType == 2){
+						GetVoteDetail(AssociateId)
+					}
+					getDetail(threadId)
+					//关闭等待框
+					plus.nativeUI.closeWaiting();
+					//显示当前页面
+					mui.currentWebview.show();
+				});
+			} else {
+				threadId = getUrlParam('threadId');
+				AssociateId = getUrlParam('AssociateId');
+				ThreadType = getUrlParam('ThreadType');
+				if(ThreadType==null){ThreadType=0}
+				if(ThreadType == 2){
+					GetVoteDetail(AssociateId)
+				}
+				getDetail(threadId)
+			}
+			if(!mui.os.plus) {
+				if(ThreadType&&ThreadType == 2){
+					initOpenApp('threadDetail',threadId,{
+						ThreadType:'2',
+						AssociateId:AssociateId
+					})
+				}else{
+					initOpenApp('threadDetail', threadId)
+				}
+				
+			}
+			if(mui.os.wechat) {
+				var currUrl = location.href.split('#')[0];
+				weChatLogin(currUrl)
+			}
+
+		}
+		if(mui.os.wechat) {
+			mui("#post_detail").on('tap', 'img', function(e) {
+				var imgUrl = e.detail.target.currentSrc;
+				var imgs = [];
+				var imgels = wximgEl.querySelectorAll('img');
+				for(var i = 0; i < imgels.length; i++) {
+					imgs.push(imgels[i].src)
+				}
+				wx.previewImage({
+					current: imgUrl,
+					urls: imgs
+				});
+			})
+		}
+		function setPopHeight(idname) { 
+			var height = document.documentElement.clientHeight || document.body.clientHeight;
+			var popHeight = parseInt(window.getComputedStyle(document.getElementById(idname), null).minHeight);
+			document.getElementById(idname).style.top = (height - popHeight)/2 + 'px';
+		}
+		document.getElementById('report').addEventListener('tap',function(){
+			var islog = getlsData('isLogin');
+			if(islog == 'true'){
+				mui('#reportContainer').popover('toggle');
+				setPopHeight('reportContainer');
+			}else{
+				login();
+			}
+		})	
+		document.getElementById('cancelReport').addEventListener('tap',function(){
+			mui('#reportContainer').popover('toggle');
+		})
+		document.getElementById('submitReport').addEventListener('tap',function(){
+			var checked = false;
+			for(var i = 0;i<document.getElementById('itemContainer').getElementsByTagName('input').length;i++){
+				if(document.getElementById('itemContainer').getElementsByTagName('input')[i].checked == true){
+					checked = true;
+					var id = document.getElementById('itemContainer').getElementsByTagName('input')[i].id;
+				}
+			}
+			if(checked == false){
+				mui.toast("请选择举报原因");
+				return;
+			}
+			var Description = TrimAll(document.getElementById('reason').value);
+			EditReport(id,Description);
+			mui('#reportContainer').popover('toggle');
+		})
+		var subject;
+		function EditReport(id,Description){
+			var params = {
+				TenantTypeId:100002,
+				Reason:id,
+				Title:subject,
+				Description:Description,
+				ReportObjectId:threadId
+			}
+			postDatawithToken('User/EditReport',params, function(data) {
+				if(data.Type == 1) {
+					mui.toast(data.Data);					
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误					
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(data) {
+				hideLoading()
+			});
+		}
+		userAvator.addEventListener('tap', function() {
+			var baseUrl = 'userHomepage.html';
+			var url = baseUrl + '?userId=' + userid;
+			mui.openWindow({
+				url: url,
+				id: 'userHomepage.html',
+				show: {
+					autoShow: false
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					userId: userid
+				}
+			})
+		})
+
+		mui("#commentArea").on('tap', '.creator_img_comment', function(e) {
+			var userid = this.getAttribute('id');
+			var baseUrl = 'userHomepage.html';
+			var url = baseUrl + '?userId=' + userid;
+			mui.openWindow({
+				url: url,
+				id: 'userHomepage.html',
+				show: {
+					autoShow: false
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					userId: userid
+				}
+			})
+
+		})
+
+		var creatAttachment = function(data) {
+			var fragment = document.createDocumentFragment();
+			var div;
+			for(var i = 0; i < data.length; i++) {
+				var filename = data[i].FriendlyFileName;
+				var type = filename.substring(filename.lastIndexOf('.') + 1);
+				var typeIcon = '';
+				var downloadUrl = '';
+				switch(type) {
+					case "wps":
+					case "doc":
+					case "docx":
+						typeIcon = '<span class=" fa fa-file-word-o tn-blue-color"></span>';
+						break;
+					case "pps":
+					case "pptx":
+					case "ppt":
+						typeIcon = '<span class="fa  fa-file-powerpoint-o tn-yellow-color"></span>';
+						break;
+					case "xls":
+					case "xlsx":
+						typeIcon = '<span class="fa  fa-file-excel-o tn-green-color"></span>';
+						break;
+					case "pdf":
+						typeIcon = '<span class="fa  fa-file-pdf-o tn-green-color"></span>';
+						break;
+					case "txt":
+						typeIcon = '<span class="fa  fa-file-text-o tn-green-color"></span>';
+						break;
+					case "jpg":
+					case "png":
+					case "bmp":
+					case "gif":
+						typeIcon = '<span class="fa  fa-file-image-o tn-green-color"></span>';
+						break;
+					case "flv":
+					case "rmvb":
+					case "mp4":
+					case "3gp":
+					case "mpeg":
+					case "wmv":
+					case "mov":
+					case "avi":
+					case "asf":
+						typeIcon = '<span class="fa  fa-file-video-o tn-blue-color"></span>';
+						break;
+					case "zip":
+					case "rar":
+						typeIcon = '<span class="fa  fa-file-zip-o tn-red-color"></span>';
+						break;
+					case "mp3":
+					case "wav":
+					case "rm":
+						typeIcon = '<span class="fa  fa-file-audio-o tn-red-color"></span>';
+						break;
+					default:
+						typeIcon = '<span class="fa  fa-file-o tn-black-color"></span>'
+						break;
+				}
+
+				div = document.createElement('div');
+				div.className = 'mui-row';
+				div.innerHTML = '<div class="mui-col-xs-1">' +
+					''+typeIcon+''+
+					'</div>' +
+					'<div class="mui-col-xs-7 mui-ellipsis">' + data[i].FriendlyFileName.substring(0, 15) + '</div>' +
+					'<div class="mui-col-xs-2 text-muted mui-text-right">' + data[i].Size + '</div>' +
+					'<div class="mui-col-xs-2 mui-text-right">' +
+					'<a id=' + data[i].Url + ' title=' + data[i].FriendlyFileName + '>下载</a>' +
+					'</div>';
+				fragment.appendChild(div);
+			}
+			return fragment;
+		};
+		mui("#attachments").on('tap', 'a', function(e) {
+			if(mui.os.plus) {
+				startDownloadTask(this.getAttribute('id'))
+			} else {
+				download(this.getAttribute('id'), this.getAttribute('title'), location.href.split('#')[0])
+			}
+
+		})
+		threadOpt.addEventListener('tap', function() {
+			mui('#popover').popover('toggle');			
+		})
+
+		function essentialOperation(id) {
+			showLoading();
+			postDatawithToken('Post/EssentialOperation?threadId=' + id, {}, function(data) {
+				hideLoading();
+				if(data.Type == 1) {
+					mui.toast(data.Data);
+					mui('#popover').popover('hide');
+					IsSpecial=!IsSpecial;
+					changeStatus(IsSpecial,IsSticky)
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr('','',false)
+			})
+		}
+
+		function stickyOperation(id) {
+			showLoading();
+			postDatawithToken('Post/StickyOperation?threadId=' + id, {}, function(data) {
+				hideLoading();
+				if(data.Type == 1) {
+					mui.toast(data.Data);
+					mui('#popover').popover('hide');
+					IsSticky=!IsSticky;
+					changeStatus(IsSpecial,IsSticky)
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr('','',false)
+			})
+		}
+
+		function deleteThread(id) {
+			showLoading();
+			postDatawithToken('Post/DeleteThread?threadId=' + id, {}, function(data) {
+				hideLoading();
+				if(data.Type == 1) {
+					mui.toast(data.Data);
+					if(mui.os.plus) {
+						mui('#popover').popover('hide');
+						var wobj = plus.webview.getWebviewById(currId);
+						wobj.reload(true);
+						setTimeout(function() {
+							mui.back();
+						}, 500)
+					} else {
+						mui.back();
+					}
+
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr('','',false)
+			})
+		}
+		var isFavorited = false;
+		//投票贴
+	var allowEdit;
+	var editOperation = document.getElementById('editOperation');
+	function getAllowEdit(id){
+		var params = {
+			threadId : id
+		};
+		getDatawithToken('Vote/VoteThreadDetail', params, function(data) {
+			hideLoading()
+			hideErr()
+			if(data.Type == 1) {
+				if(data.Data && typeof(data.Data) == 'object') {
+					allowEdit = data.Data.Vote.IsAllowMobileEdit;
+					editOperation.title = data.Data.Thread.SectionId;
+					console.log(data)
+					editOperation.style.display = allowEdit == true && data.Data.Vote.IsManage == true  ?  'block' : 'none';
+				} else {
+				}
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误				
+				return;
+			}
+		}, function(err) {
+			setErr('','0px')
+		})
+		}
+		var createCommentAttach = function(data){
+			var length = data.Attachments.length;
+			var data = data.Attachments;
+			var rows = "";
+			for(var i = 0;i<length;i++){
+				var filename=data[i].FriendlyFileName;
+				var type=filename.substring(filename.lastIndexOf('.')+1);
+				var typeImg='';
+				var downloadUrl='';
+//				switch (type){
+//					case 'doc':
+//						typeImg='../img/word-icon.png';
+//					break;
+//					case 'xls':
+//						typeImg='../img/excel-icon.png';
+//					break;
+//					case 'ppt':
+//						typeImg='../img/ppt-icon.png';
+//					break;
+//					default:
+//						typeImg='../img/more-icon.png';
+//						break;
+//				}
+	switch (type){
+                case "wps":
+                case "doc":
+                case "docx":                   
+                    var icon = '<span id="icon" class="fa fa-file-word-o tn-blue-color"></span>';
+                    break;
+                case "pps":
+                case "pptx":
+                case "ppt":                    
+                    var icon = '<span id="icon" class="fa fa-file-powerpoint-o tn-yellow-color"></span>';
+                    break;
+                case "xls":
+                case "xlsx":                   
+                    var icon = '<span id="icon" class="fa fa-file-excel-o tn-green-color"></span>';
+                    break;
+                case "pdf":                   
+                    var icon = '<span id="icon" class="fa fa-file-pdf-o tn-red-color"></span>';
+                    break;
+                case "txt":
+                    var icon = '<span id="icon" class="fa fa-file-text-o"></span>';
+                    break;
+                case "jpg":
+                case "png":
+                case "bmp":
+                case "gif":                    
+                    var icon = '<span id="icon" class="fa fa-file-image-o tn-red-color"></span>';
+                    break;
+                case "flv":
+                case "rmvb":
+                case "mp4":
+                case "3gp":
+                case "mpeg":
+                case "wmv":
+                case "mov":
+                case "avi":
+                case "asf":                   
+                    var icon = '<span id="icon" class="fa fa-file-video-o tn-blue-color"></span>';
+                    break;
+                case "zip":
+                case "rar":                   
+                    var icon = '<span id="icon" class="fa fa-file-zip-o tn-red-color"></span>';
+                    break;
+                case "mp3":
+                case "wav":
+                case "rm":                    
+                    var icon = '<span id="icon" class="fa fa-file-audio-o tn-red-color"></span>';
+                    break;
+                default:
+                    var icon = '<span id="icon" class="fa fa-file-o"></span>';
+                    break;
+            }
+				var row = '<div class="mui-row">'+
+				          '<div class="mui-col-xs-1">'+
+				          icon+
+				          //'<img src='+typeImg+'>'+
+				          '</div>'+
+				          '<div class="mui-col-xs-7">'+data[i].FriendlyFileName+'</div>'+
+				          '<div class="mui-col-xs-2 text-muted mui-text-right">'+data[i].Size+'</div>'+
+				          '<div class="mui-col-xs-2 mui-text-right commentupload"><a id='+data[i].Url+' title='+data[i].FriendlyFileName+'>'+"下载"+'</a></div>'+
+				          '</div>';
+				          rows += row;
+			}				                
+			var div = '<div class="tn-file-list" id="commentattachments">'+rows+'</div>';
+			return div;
+		};
+		var creatAttachmentVote = function(data) {
+			var fragment = document.createDocumentFragment();
+			var div;
+			for(var i = 0; i < data.length; i++) {
+				var filename = data[i].FriendlyFileName;
+				var type = filename.substring(filename.lastIndexOf('.') + 1);
+				var downloadUrl = '';
+				switch (type){
+                case "wps":
+                case "doc":
+                case "docx":                   
+                    var icon = '<span id="icon" class="fa fa-file-word-o tn-blue-color"></span>';
+                    break;
+                case "pps":
+                case "pptx":
+                case "ppt":                    
+                    var icon = '<span id="icon" class="fa fa-file-powerpoint-o tn-yellow-color"></span>';
+                    break;
+                case "xls":
+                case "xlsx":                   
+                    var icon = '<span id="icon" class="fa fa-file-excel-o tn-green-color"></span>';
+                    break;
+                case "pdf":                   
+                    var icon = '<span id="icon" class="fa fa-file-pdf-o tn-red-color"></span>';
+                    break;
+                case "txt":
+                    var icon = '<span id="icon" class="fa fa-file-text-o"></span>';
+                    break;
+                case "jpg":
+                case "png":
+                case "bmp":
+                case "gif":                    
+                    var icon = '<span id="icon" class="fa fa-file-image-o tn-red-color"></span>';
+                    break;
+                case "flv":
+                case "rmvb":
+                case "mp4":
+                case "3gp":
+                case "mpeg":
+                case "wmv":
+                case "mov":
+                case "avi":
+                case "asf":                   
+                    var icon = '<span id="icon" class="fa fa-file-video-o tn-blue-color"></span>';
+                    break;
+                case "zip":
+                case "rar":                   
+                    var icon = '<span id="icon" class="fa fa-file-zip-o tn-red-color"></span>';
+                    break;
+                case "mp3":
+                case "wav":
+                case "rm":                    
+                    var icon = '<span id="icon" class="fa fa-file-audio-o tn-red-color"></span>';
+                    break;
+                default:
+                    var icon = '<span id="icon" class="fa fa-file-o"></span>';
+                    break;
+            }
+
+				div = document.createElement('div');
+				div.className = 'mui-row';
+				div.innerHTML = '<div class="mui-col-xs-1">' +
+					''+icon+''+
+					'</div>' +
+					'<div class="mui-col-xs-7 mui-ellipsis">' + data[i].FriendlyFileName.substring(0, 15) + '</div>' +
+					'<div class="mui-col-xs-2 text-muted mui-text-right">' + data[i].Size + '</div>' +
+					'<div class="mui-col-xs-2 mui-text-right">' +
+					'<a id=' + data[i].Url + ' title=' + data[i].FriendlyFileName + '>下载</a>' +
+					'</div>';
+				fragment.appendChild(div);
+			}
+			return fragment;
+		};
+	var creatVoteElement = function(data) {	
+		if(CanChooseQuantity > 1){
+			var inputType = "checkbox";
+			var parentClass = 'mui-checkbox mui-left';
+		}else{
+			var inputType = "radio";
+			var parentClass = 'mui-radio';
+		}
+		var containerText ='';
+		var containerImage ='';//data.Status == 2 || 
+		if(data.Status == 3){
+			var testStatus = true;
+		}else{
+			var testStatus = false;
+		}
+		if(data.ViewResultsSetting == true){
+				if(data.Status == 1 ){//|| data.Status == 2
+					var selected = '<input  name="style" type="'+ inputType +'" value="inverted" class="voteSelected">';
+				}else{
+					var selected = "";
+					var parentClass = '';
+					voteDetail.className = 'mui-card jh-word-vote';					
+				}
+			}else{
+				if(data.Status == 1){
+					var selected = '<input  name="style" type="'+ inputType +'" value="inverted" class="voteSelected">';
+				}else{
+					var selected = "";
+					var parentClass = '';
+					voteDetail.className = 'mui-card jh-word-vote';
+				}
+			}		 
+		var statusType = data.Status;
+		switch(statusType){
+			case 0:
+				var status = '<button type="button" class="mui-btn jh-btn-gray" disabled="disabled">未开始</button>';
+				break;
+			case 1:
+				var status = '<button type="button" class="mui-btn mui-btn-primary" id="voteing">投票</button>';
+				break;
+			case 2:
+				var status = '<button type="button" class="mui-btn jh-btn-gray" disabled="disabled">已结束</button>';
+				break;
+			case 3:
+				var status = '<button type="button" class="mui-btn jh-btn-gray" disabled="disabled">已投票</button>';
+				break;
+			default:
+				break;				
+		}
+		if(data.VoteType == 1){
+			if(data.Status == 1){
+				voteDetail.className = "jh-img-vote jh-img-select";
+			}else{
+				voteDetail.className = "jh-img-vote"; 
+			}
+			for(var i = 0;i<data.VoteItem.length;i++){
+				var progress ='';
+				if(data.ViewResultsSetting == true && testStatus == true ){
+					var progress = 	'<div class="progressContainer"><div class="progressContainers"></div><div class="div"></div><p></p></div>'	
+				}
+				var voteItemDetail = data.VoteItem[i].HasBody == true ? '<a href="#" id='+ data.VoteItem[i].Id +' class="tn-text-color mui-pull-right vote-item-detail">详情</a>' : '';
+				var aHref = data.VoteItem[i].ImageAttachment.substring(0,data.VoteItem[i].ImageAttachment.indexOf('-'));
+				var item = '<div class="mui-col-xs-6">'+
+							'<div class="jh-img-position">'+
+							'<a class="fancybox" href="'+ aHref +'" data-fancybox-group="gallery">'+
+							'<img class="mui-media-object" data-preview-src="" data-preview-group="1" data-id="5509" src='+ data.VoteItem[i].ImageAttachment +'>'+
+							'</a>'+
+							'<div class="mui-input-row '+ parentClass +'" id="'+ data.VoteItem[i].Id +'">'+
+							'<span class="mui-pull-left">'+ data.VoteItem[i].Name +'</span>'+						
+							selected+
+							voteItemDetail+	
+							progress+
+							'</div>'+
+							'</div>'+
+							'</div>';					
+				containerImage +=item;
+			}
+			var diff = '<div class="mui-row">'+			
+						containerImage+
+						'</div>';
+		}else{
+			for(var i = 0;i<data.VoteItem.length;i++){	
+				var progress ='';
+				if(data.ViewResultsSetting == true && testStatus == true ){
+					var progress = 	'<div class="progressContainer"><div class="progressContainers"></div><div class="div"></div><p></p></div>'
+				}
+				var voteItemDetail = data.VoteItem[i].HasBody == true ? '<a href="#" id='+ data.VoteItem[i].Id +' class="tn-text-color mui-pull-right vote-item-detail">详情</a>' : '';
+				var item = '<div class="mui-input-row '+ parentClass +'" id="'+ data.VoteItem[i].Id +'">'+
+							'<span class="mui-pull-left">'+ data.VoteItem[i].Name +'</span>'+
+							selected+
+							voteItemDetail+	
+							progress+
+							'</div>';					
+				containerText +=item;
+			}
+			var diff = '<form class="mui-input-group">'+
+						containerText+
+						'</form>';
+		}
+		if(data.ViewResultsSetting == false && data.Status == 3){
+			diff = '<p class="noResult">您已经参与过该投票（此投票不显示投票结果）</p>';
+			status = '';
+		}
+		voteDetail.innerHTML = '<ul class="mui-list-inline text-muted">'+
+								'<li>'+data.HitTimes+"人已浏览"+'</li>'+
+								'<li class="mui-pull-right"><span class="tn-theme-color">'+data.AttendCount+'</span> 人已投票</li>'+
+								'</ul>'+
+								'<ul class="mui-list-inline">'+
+								'<li>截止时间：'+ data.VoteTime +'</li>'+
+								'<li class="mui-pull-right"><span class="tn-theme-color">*</span> 最多可投'+ data.CanChooseQuantity+'项</li>'+
+								'</ul>'+
+								diff+
+								'<div class="mui-text-center">'+
+								status+
+								'</div>';
+	};
+	var CanChooseQuantity;
+	var voteDetail = document.getElementById('voteDetail');
+	function GetVoteDetail(voteId) {
+		var params = {
+			voteId:voteId
+		};
+		showLoading();
+		getDatawithToken('Vote/VoteDetail', params, function(data) {
+			hideLoading()
+			hideErr()
+			var bottomTip = document.querySelectorAll('.mui-pull-bottom-tips');
+			if(data.Type == 1) {
+				if(data.Data && typeof(data.Data) == 'object') {
+					if(ThreadType == 2){
+						post_detail.innerHTML = '';
+						post_detail.innerHTML = getBodyImgUrl(data.Data.VoteDescription);
+						wximgEl.innerHTML = data.Data.VoteDescription;
+					}
+					CanChooseQuantity = data.Data.CanChooseQuantity;
+					creatVoteElement(data.Data);
+					var progressContainer = document.getElementsByClassName('progressContainer');
+					for(var i = 0;i<progressContainer.length;i++){
+						var percent = parseFloat(data.Data.VoteItem[i].Percent);
+						progressContainer[i].getElementsByTagName('div')[1].title =percent;
+						//mui(progressContainer[i].getElementsByTagName('div')).progressbar({progress:percent}).show();
+						progressContainer[i].getElementsByTagName('p')[0].innerText = data.Data.VoteItem[i].ResultsCount+'/'+data.Data.VoteItem[i].Percent;
+						//progressContainer[i].getElementsByTagName('div')[1].title = data.Data.VoteItem[i].ResultsCount+'/'+data.Data.VoteItem[i].Percent;
+						if(data.Data.IsManage == true){
+							//progressContainer[i].getElementsByTagName('div')[1].dataA = "lookResult";	
+							$(progressContainer[i].getElementsByTagName('div')[1]).attr('data-a',"lookResult");
+						}else{
+							//progressContainer[i].getElementsByTagName('div')[1].dataa = "notlookResult";
+							$(progressContainer[i].getElementsByTagName('div')[1]).attr('data-a',"notlookResult");
+						}
+						progressContainer[i].getElementsByTagName('div')[1].id = data.Data.VoteItem[i].Id;
+				}
+					progressBar();
+//					var progressContainer = document.getElementsByClassName('progressContainer');
+//					for(var i = 0;i<progressContainer.length;i++){
+//						var percent = parseFloat(data.Data.VoteItem[i].Percent);
+//						mui(progressContainer[i]).progressbar({progress:percent}).show();						
+//						progressContainer[i].getElementsByClassName('mui-progressbar')[0].getElementsByTagName('span')[0].innerText = data.Data.VoteItem[i].ResultsCount+'/'+data.Data.VoteItem[i].Percent;
+//						if(data.Data.IsManage == true){
+//							progressContainer[i].getElementsByClassName('mui-progressbar')[0].getElementsByTagName('span')[0].className = "lookResult";
+//						}else{
+//							progressContainer[i].getElementsByClassName('mui-progressbar')[0].getElementsByTagName('span')[0].className = "notlookResult";
+//						}						
+//						progressContainer[i].getElementsByClassName('mui-progressbar')[0].getElementsByTagName('span')[0].id = data.Data.VoteItem[i].Id;
+//					}
+					mui("#voteDetail").on('tap', '#lookResult', function(e) {
+						e.stopPropagation();
+						var voteItemSubject = this.parentElement.parentElement.parentElement.getElementsByClassName('mui-pull-left')[0].innerText;
+						var voteItemId = this.parentElement.id;
+						var baseUrl = 'voteMan.html';
+						var url = mui.os.plus ? baseUrl : baseUrl + '?voteItemId=' + voteItemId + '&' +'voteItemSubject=' + voteItemSubject;
+						var curl = shareUrl+ baseUrl+ baseUrl + '?voteItemId=' + voteItemId + '&' +'voteItemSubject=' + voteItemSubject;
+						setlsData('currUrl', curl);
+						mui.openWindow({
+							url: url,
+							id: 'voteMan.html',
+							show: {
+								autoShow: true
+							},
+							waiting: {
+								options: {
+									loading: {
+										height: '35px'
+									}
+								}
+							},
+							extras: {
+								voteItemId: voteItemId,
+								voteItemSubject : voteItemSubject
+							}
+						})
+//						e.stopPropagation();
+//						var voteItemSubject = this.parentElement.parentElement.parentElement.getElementsByClassName('mui-pull-left')[0].innerText;
+//						var voteItemId = this.getAttribute('id');
+//						var baseUrl = 'voteMan.html';
+//						var url = mui.os.plus ? baseUrl : baseUrl + '?voteItemId=' + voteItemId + '&' +'voteItemSubject=' + voteItemSubject;
+//						var curl = shareUrl+ baseUrl+ baseUrl + '?voteItemId=' + voteItemId + '&' +'voteItemSubject=' + voteItemSubject;
+//						setlsData('currUrl', curl);
+//						mui.openWindow({
+//							url: url,
+//							id: 'voteMan.html',
+//							show: {
+//								autoShow: true
+//							},
+//							waiting: {
+//								options: {
+//									loading: {
+//										height: '35px'
+//									}
+//								}
+//							},
+//							extras: {
+//								voteItemId: voteItemId,
+//								voteItemSubject : voteItemSubject
+//							}
+//						})
+					})
+					var data = data.Data;
+					if(data.Attachments && data.Attachments.length > 0) {
+							attachments.style.display = 'block';
+							attachments.appendChild(creatAttachmentVote(data.Attachments));
+						} else {
+							attachments.style.display = 'none';
+						}
+				} else {
+						//mui.toast("暂无更多问题");
+				}
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误				
+				return;
+			}
+		}, function(err) {
+			setErr('','0px')
+		})
+	}
+	function GetVoteItemDetail(voteItemId,body) {							
+		var params = {
+			voteItemId:voteItemId
+		};
+		showLoading()
+		getData('Vote/VoteItemDetail', params, function(data) {
+			hideLoading()
+			hideErr()
+			if(data.Type == 1) {
+				var data = data.Data;
+				creatVoteItemPop(body,data);
+				mui('.mui-scroll-wrapper').scroll({
+					deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+				});
+				mui("#voteItem").on('tap', '.commentupload', function(e) {
+					if(mui.os.plus){
+						startDownloadTask(this.firstChild.getAttribute('id'))
+					}else{
+						download(this.firstChild.getAttribute('id'),this.firstChild.getAttribute('title'),location.href.split('#')[0])
+					}
+				})
+				mui('#voteItem').popover('toggle');				
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误				
+				return;
+			}
+		}, function(err) {
+			setErr('','0px')
+		})
+	}
+	function creatVoteItemPop(body,data) {
+		if(document.getElementById('voteItem')){
+			bigContainer.removeChild(document.getElementById('voteItem'))
+		}
+		var CommentAttach;
+		if(data.Attachments&&data.Attachments.length != 0 ){
+			CommentAttach = createCommentAttach(data);					
+		}else{
+			CommentAttach = ''
+		}
+		var div = document.createElement('div');
+		div.id = 'voteItem';
+		div.className = 'box mui-popover mui-popover-action mui-popover-center';
+		div.innerHTML = '<div class="mui-scroll-wrapper">'+
+						'<div class="mui-scroll">'+
+						//'<div class="pop_view">' +
+						'<ul class="mui-table-view">'+
+						'<li class = "mui-table-view-cell">'+
+						'<div class="itemSubject">'+ body +'</div>'+
+						'<div class="itemBody">'+ data.Body +'</div>'+
+						CommentAttach+
+						'</li>'+
+						'</ul>'+
+						//'</div>'+
+				'</div></div>';
+		bigContainer.appendChild(div);
+	}
+	mui("#voteDetail").on('tap', '.vote-item-detail', function(e) {
+		var voteItemId = this.getAttribute('id');
+		var body = this.parentElement.getElementsByClassName('mui-pull-left')[0].innerText;
+		mui.scrollTo(0,100); 
+		GetVoteItemDetail(voteItemId,body);
+	})
+	var ItemIds = [];	
+	mui("#voteDetail").on('tap', '.voteSelected', function(e) {
+		if(this.parentElement.className == 'mui-input-row mui-radio'){
+			for(var i = 0;i<document.querySelectorAll('.mui-radio').length;i++){
+				if(document.querySelectorAll('.mui-radio')[i].getElementsByClassName('mui-pull-left')[0].className == 'active mui-pull-left'){
+					document.querySelectorAll('.mui-radio')[i].getElementsByClassName('mui-pull-left')[0].className ='mui-pull-left'
+				}
+			}
+		}
+		if(this.parentElement.getElementsByClassName('mui-pull-left')[0].className == 'active mui-pull-left'){
+			this.parentElement.getElementsByClassName('mui-pull-left')[0].className ='mui-pull-left'
+		}else{
+			this.parentElement.getElementsByClassName('mui-pull-left')[0].className = 'active mui-pull-left';
+		}			
+	})
+	mui("#voteDetail").on('tap', '#voteing', function(e) {
+		var voteSelected = document.getElementsByClassName('voteSelected');
+		ItemIds = [];
+		for(var i = 0;i<voteSelected.length;i++){
+			if(voteSelected[i].checked == true){
+				ItemIds.push(voteSelected[i].parentElement.id);
+			}
+		}
+		if(ItemIds.length == 0){
+			mui.toast("当前投票至少选择一个选项");
+		}else{
+			if(ItemIds.length > CanChooseQuantity ){
+				mui.toast("当前投票最多可以选择"+ CanChooseQuantity +"项");
+			}else{
+				var islog = getlsData('isLogin');
+				if(islog == 'true') {
+					CreateVoteResult(AssociateId,ItemIds)
+				} else {
+					mui.toast('请登录后再进行操作');
+					login();
+				}
+			}
+		}					
+	})
+	mui("#popover").on('tap', '#editOperation', function(e) {
+		var sectionId = this.getAttribute('title');
+		mui('#popover').popover('hide');
+			var baseUrl = 'editVoteThread.html';
+			var url = mui.os.plus ? baseUrl : baseUrl + '?threadId=' + threadId+ '&' +'sectionId=' + sectionId;
+			mui.openWindow({
+				url: url,
+				id: 'editVoteThread.html',
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					threadId: threadId,
+					sectionId:sectionId
+				}
+			})
+	})	
+	function CreateVoteResult(VoteId,ItemIds) {							
+		var params = {
+			VoteId:VoteId,
+			ItemIds:ItemIds
+		};
+		showLoading()
+		postDatawithToken('Vote/CreateVoteResult', params, function(data) {
+			hideLoading()
+			hideErr()
+			if(data.Type == 1) {
+				if(mui.os.plus) {
+					mui.toast(data.Data);
+					var wobj = plus.webview.currentWebview();
+					wobj.reload(true);
+					//setTimeout(function() { mui.back(); }, 1000)
+				} else {
+					mui.toast(data.Data);
+					setTimeout(function() { mui.back(); }, 1000)
+				}			
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误				
+				return;
+			}
+		}, function(err) {
+			setErr('','0px')
+		})
+	}
+	//以上是投票贴
+	mui("#popover").on('tap', '#editThread', function(e) {
+		var sectionId = this.getAttribute('title');
+		mui('#popover').popover('hide');
+			var baseUrl = 'editThread.html';
+			var url = mui.os.plus ? baseUrl : baseUrl + '?threadId=' + threadId+ '&' +'sectionId=' + sectionId;
+			mui.openWindow({
+				url: url,
+				id: 'editThread.html',
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					threadId: threadId,
+					sectionId:sectionId
+				}
+			})
+	})
+	function changeStatus(isSpecial,isSticky){
+		EssentialOperation.innerHTML=isSpecial?'<a><i class="fa fa-star-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp取消加精</a>':'<a><i class="fa fa-star" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp加精</a>';
+		if(isSticky) {
+			//置顶
+			document.getElementById("threadtype").innerHTML = '置顶 ·  ';
+			StickyOperation.innerHTML = '<a><i class="fa fa-chevron-down" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp取消置顶</a>';
+		} else {
+			//非置顶
+			document.getElementById("threadtype").innerHTML = '';
+			StickyOperation.innerHTML = '<a><i class="fa fa-chevron-up" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp置顶</a>';
+		}
+		
+	}
+		function getDetail(id) {
+			showLoading('', '', '#FFFFFF', '50px');
+			getDatawithToken('Post/ThreadDetail', {
+				threadId: id
+			}, function(data) {
+				hideLoading();
+				hideErr();
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						var data = data.Data;						
+						setIdandType(threadId, 'Thread', data.CommentCount)
+						ii = data.Comments.length;
+						userid = data.UserId;
+						userAvator.src = data.Avatar == "" ? "../img/avatar.jpg" : getImgUrl(data.Avatar);
+						if(ThreadType == 0){
+							post_detail.innerHTML = '';
+							post_detail.innerHTML = getBodyImgUrl(data.Body);
+							wximgEl.innerHTML = data.Body;
+							document.getElementById('editThread').style.display = data.IsAllowMobileEdit == true && data.IsManage == true ?　'block' : 'none';
+							document.getElementById('editThread').title = data.SectionId;
+						}
+						if(ThreadType == 2){
+							getAllowEdit(id);
+							
+						}
+						SectionName.innerHTML = data.SectionName.substring(0, 15);
+						SectionName.id = data.SectionId;
+						subject = data.Subject;
+						threadTitle.innerHTML = '<span id="threadType" class="theme-color"><span id="threadtype"></span></span>' + data.Subject;
+						threadTitle.style.width='100%';
+						mui.each(data.SpecialTypes,function(index, item){
+							if(item.Name=='官方认证'){
+								threadTitle.style.width='85%';
+								document.getElementById("Officialcertification").style.display=''
+							}
+						})
+						IsSpecial=data.IsSpecial;
+						IsSticky=data.IsSticky;
+						changeStatus(data.IsSpecial,data.IsSticky);
+						Author.innerText = data.Author;
+						DateCreated.innerText = data.DateCreated;
+						if(data.CategoryName.length > 0) {
+							CategoryName.innerHTML = '<i class="fa fa-list-ul" aria-hidden="true">&nbsp;' + data.CategoryName + '</i>'
+						}
+						if(data.Comments && data.Comments.length==0){
+							document.getElementById("noCom").style.display=''
+						}else{
+							document.getElementById("noCom").style.display='none'
+							if(data.Comments && data.Comments.length < 5) {
+								morecomment.style.display = 'none';
+							} else {
+								morecomment.style.display = 'block';
+							}
+							commentArea.appendChild(createComFragment(data.Comments));
+						}
+						setLastBoard();
+						if(ThreadType == 2){
+							
+						}else{
+							if(data.Attachments && data.Attachments.length > 0) {
+								attachments.style.display = 'block';
+								attachments.appendChild(creatAttachment(data.Attachments));
+							} else {
+								attachments.style.display = 'none';
+							}
+						}
+						setShareInfo(getlsData('currUrl'), data.Subject, data.Subject);
+						com.isFavorited = data.IsFavorited;
+						favorThread(data.IsFavorited);
+						EssentialOperation.style.display = (data.IsManage) ? 'inherit' : 'none';
+						StickyOperation.style.display = (data.IsManage) ? 'inherit' : 'none';
+						DeleteThread.style.display = (data.CanDelete) ? 'inherit' : 'none';
+						var islog = getlsData('isLogin');
+						//threadOpt.style.display = (islog == 'true') ? 'inherit' : 'none';
+//						if(!data.IsManage && !data.CanDelete) {
+//							threadOpt.style.display = 'none';
+//						}
+					} else {
+						threadOpt.style.display = 'none';
+						showErr(data.Data, '', '#FFFFFF', '50px')
+						mui.toast(data.Data);
+					}
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					threadOpt.style.display = 'none';
+					showErr(data.Data, '', '#FFFFFF', '50px')
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr()
+			})
+		}
+
+		mui(".mui-list-unstyled").on('tap', 'li', function(e) {
+			if(mui.os.plus) {
+				mui('#popover').popover('toggle');
+			}
+			switch(this.getAttribute('id')) {
+				case "EssentialOperation":
+					//加精or取消加精
+					essentialOperation(threadId)
+					break;
+				case "StickyOperation":
+					//置顶or取消置顶
+					stickyOperation(threadId)
+					break;
+				case "DeleteThread":
+					//删除
+					mui('#popover').popover('toggle');
+					var btnArray = ['取消', '确定'];
+					mui.confirm('确认删除？', '贴子', btnArray, function(e) {
+						if(e.index == 1) {
+							deleteThread(threadId)
+						}
+					});
+					break;
+				default:
+					break;
+			}
+
+		})
+		SectionName.addEventListener('tap', function() {
+			var sectionId = this.getAttribute("id");
+			var baseUrl = 'postDetail.html';
+			var url = mui.os.plus ? baseUrl : baseUrl + '?sectionId=' + sectionId;
+			mui.openWindow({
+				url: url,
+				id: 'postDetail.html',
+				show: {
+					autoShow: false
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					sectionId: sectionId
+				}
+			})
+
+		})
+		var old_back = mui.back;
+		mui.back=function(){
+			if(!mui.os.plus){
+				if(history.length==1){
+					history.replaceState(null, "", "../index.html");
+					window.location.reload()
+				}else{
+					history.back(-1)
+				}
+			}else{
+				old_back();
+			}
+		}
+
+	
+	</script>
+
+</html>

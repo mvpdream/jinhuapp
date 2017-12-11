@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<!--通用样式-->
+		<link rel="stylesheet"  href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet"  href="../css/jinhu.css">
+	</head>
+
+	<body style=" background-color: #fff;">
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+	   			<span class="mui-icon mui-icon-left-nav"></span>第三方登录
+			</button>
+		</header>
+
+		<div class="mui-content mui-content-padded login_btn">
+			<img id="userAvator" src="../img/avatar.jpg" style="border-radius: 50%;width: 8rem;height: 8rem;">
+			<div class="mui-content-padded space login_btn"><b id='nickname' style="font-size: 16px;">123456</b></div>
+			<div class="mui-content-padded space login_btn">
+				<button class="mui-btn mui-btn-block mui-btn-primary " id="newAccount" style="margin-bottom:20px;">关联新帐号</button>
+				<button id="oldAccount" class="mui-btn mui-btn-block">关联已有帐号</button>
+			</div>
+
+		</div>
+		<span class="mui-content mui-content-padded" style="margin-top:30px;font-size: 12px;padding-left: 10px;">
+				<span style="color: red;">*</span>关联本站帐号后，使用本站帐号/密码也可以登录
+		</span>
+		</div>
+		<script src="../js/common.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/user.js"></script>
+	</body>
+	<script>
+		third_login.init();
+	</script>
+
+</html>

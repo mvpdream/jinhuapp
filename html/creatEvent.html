@@ -1,0 +1,1124 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>发布活动</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/jinhu.css" />
+		<link rel="stylesheet" href="../css/loading.css" />
+		<link rel="stylesheet" href="../css/mui.picker.min.css" />
+		<!-- 引用控制层插件样式 -->
+		<link rel="stylesheet" href="../css/zyUpload.css" type="text/css">
+		<script src="../js/jquery-2.1.0.js"></script>
+		<!-- 引用核心层插件 -->
+		<script type="text/javascript" src="../js/zyFile.js"></script>
+		<!-- 引用控制层插件 -->
+		<script type="text/javascript" src="../js/zyUpload.js"></script>
+		<!-- 引用初始化JS -->
+		<script type="text/javascript" src="../js/zyUploadFile.js"></script>
+
+	</head>
+	<style>
+		.mui-table-view input {
+			border: none;
+			height: auto;
+			margin-bottom: 0;
+		}
+		
+		.mui-table-view-cell.mui-active {
+			background-color: #FFFFFF;
+		}
+		
+		.spacing {
+			margin-top: 0.5rem;
+		}
+		
+		.mui-input-row span {
+			line-height: 40px;
+			font-size: 16px;
+		}
+		
+		.angledown {
+			font-size: 1.2rem;
+			color: #999999;
+		}
+		
+		.closeIcon {
+			font-size: 25px;
+		}
+		
+		.threadBody {
+			line-height: 20px;
+			font-size: 16px;
+			border: none;
+			height: 537;
+		}
+		
+		.jh-comment-right a {
+			padding-left: 10px;
+		}
+		
+		.creat_menu {
+			float: left;
+			line-height: 25px;
+			width: 15%;
+			text-align: center;
+			color: #999999
+		}
+		
+		.face {
+			width: 30px;
+			height: 30px;
+			padding: 8px;
+		}
+		
+		.creat-img {
+			width: 100px;
+			height: 150px
+		}
+		
+		.creat-img-close {
+			position: relative;
+			right: 15px;
+			top: -75px;
+			color: gray;
+		}
+		
+		.mui-input-row .mui-input-clear~.mui-icon-clear,
+		.mui-input-row .mui-input-password~.mui-icon-eye,
+		.mui-input-row .mui-input-speech~.mui-icon-speech {
+			top: 0;
+		}
+		
+		.newTag {
+			font-size: 16px;
+			border: 1px solid gray;
+			border-radius: 2px;
+			padding-left: 2px;
+			margin-bottom: 2px;
+		}
+		
+		.headerimg {
+			height: 90px;
+			width: 90px;
+		}
+		
+		.mui-table-view-cell {
+			padding: 11px 15px;
+		}
+		
+		.mui-input-row span {
+			line-height: 0;
+		}
+		.mui-input-row label{
+			color: #666666;
+		}
+		
+		.mui-dtpicker-header .mui-btn-blue {
+			border: 1px solid #bf0a10 !important;
+			background-color: #bf0a10 !important;
+		}
+		
+		.jh-publish-vote .mui-switch.mui-active .mui-switch-handle {
+			left: 0;
+		}
+		
+		.mui-switch.mui-active:before {
+			content: '';
+		}
+		
+		.mui-switch:before {
+			content: '';
+		}
+		a:hover{text-decoration: none}
+	</style>
+
+	<body style="overflow: auto !important">
+		<div id="BgDiv1"></div>
+		<header class="mui-bar mui-bar-nav">		
+			<a class="mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span><span id="navTitle"></span>
+			</a>
+			<button onclick="upload()" type="button" id="creat_Btn" class="mui-btn mui-btn-primary mui-pull-right">发布</button>
+		</header>
+		<div class="mui-content jh-publish-vote">
+			<div id="map" style="display: none;">loading...</div>
+			<form id="uploadForm" style="display: none;">
+				<input id="file" style="display: none;" accept="image/*" type="file" name="file" />
+			</form>
+			<ul class="mui-table-view" id="eventFeatureImg" style="display: none;">
+				<li class="mui-table-view-cell mui-input-row">
+					<div class="divImg" style="padding: 5px 0 5px 0"><img src="../img/slider-1.jpg" data-preview-src="" data-preview-group="1" id="eventFeatureSrc"></div>
+					<i class="fa fa-times-circle jh-delete-btn" id="closeEventFeature"></i>
+				</li>
+			</ul>
+			<div class="jh-gray-bar"></div>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-input-row">
+					<label>活动标题</label>
+					<img id="featureImg" style="float:right;padding-left:10px;border-left:1px solid #999;" src="../img/addimg-img.jpg" />
+					<input placeholder="活动标题" id="eventTitle" style="width:60%" type="text" data-input-clear="1">
+				</li>
+			</ul>
+			<div class="jh-gray-bar"></div>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-input-row" id="startDateBtn" data-options='{"value":"2015-10-10 10:10","beginYear":2010,"endYear":2020}' class="btn mui-btn mui-btn-block">
+					<label>开始时间</label>
+					<span style="color: #000000;" id="startDateText"></span>
+				</li>
+				<li class="mui-table-view-cell mui-input-row" id="endDateBtn" data-options='{"value":"2015-10-10 10:10","beginYear":2010,"endYear":2020}' class="btn mui-btn mui-btn-block">
+					<label>结束时间</label>
+					<span style="color: #000000;" id="endDateText"></span>
+				</li>
+				<li class="mui-table-view-cell mui-input-row jh-activity-address" id="eventCityBtn">
+					<label>活动地点</label>
+					<span style="color: #000000;" id="eventCityText"></span>
+				</li>
+				<li class="mui-table-view-cell mui-input-row">
+					<label>详细地址</label>
+					<span class="mui-pull-right" id="getCurPos" style="width: 5%;height: 24px;">
+						<i  style="line-height: 24px;" class="mui-pull-right fa fa-map-marker"></i></span>
+					<input id="addressDetail" placeholder="详细地址" style="width:65%" type="text" data-input-clear="1">
+				</li>
+			</ul>
+			<div class="jh-gray-bar"></div>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<textarea id="upload-textarea" placeholder="活动详情" rows="6"></textarea>
+
+				</li>
+			</ul>
+			<div id="imgPop" style="display: none;">
+				<div style="height: 200px;" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<div id="imgs" class="mui-scroll">
+
+					</div>
+				</div>
+			</div>
+			<div id="demo" class="demo" style="display: none;"></div>
+			<div class="jh-gray-bar"></div>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-input-row">
+					<label style="width:25%">活动人数</label>
+					<label style="width:25%;float:right;text-align:right;">0表示不限</label>
+					<input id='memberCount' style="width:50%" type="number" value="0" onKeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" class="mui-input" placeholder="活动人数">
+				</li>
+				<li class="mui-table-view-cell mui-input-row" id="deadlineBtn" data-options='{"value":"2015-10-10 10:10","beginYear":2010,"endYear":2020}' class="btn mui-btn mui-btn-block">
+					<label style="width:34%">报名截止时间</label>
+					<span style="color: #000000;" id="deadlineText"></span>
+				</li>
+				<li class="mui-table-view-cell mui-input-row">
+					<label style="width:44%">每用户可报名人数</label>
+					<input id='individualMemberCount' style="width:56%;color: #999999;" type="number" value="1" onKeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" class="mui-input" placeholder="每用户可报名人数">
+				</li>
+			</ul>
+			<div class="jh-gray-bar"></div>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell" id="Category">
+					<span id="categorySpan" style="color: #666666;">活动分类</span>
+					<span id="Categorytext" style="color: #000000;padding-left: 13px">选择分类</span>
+					<span><i class="fa fa-angle-down angledown" aria-hidden="true"></i></span>
+				</li>
+				<li class="mui-table-view-cell">
+					<span class="tn-text-color">报名信息需经过审核</span>
+					<div class="mui-switch mui-switch-red" id="signIsNeedApprov" style="width: 50px;">
+						<div  class="mui-switch-handle"></div>
+					</div>
+				</li>
+			</ul>
+			<div  class="mui-bar mui-bar-tab jh-bar-comment" id="bottomBox" style="background-color:#F2F2F2;height: 60px;bottom: 0px;display: none;">
+			<div id="bottomBar" class="jh-comment-right" style="float: left;width: 100%;">
+				<a onclick="galleryImgsMaximum()"><i class="mui-icon fa fa-picture-o creat_menu" aria-hidden="true"></i></a>
+				<a id="getcamera" onclick="getImages()"><i class="mui-icon fa fa-camera angledown creat_menu" aria-hidden="true"></i></a>
+			</div>
+		</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.zoom.js"></script>
+		<script src="../js/mui.previewimage.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/loading.js"></script>
+		<script src="../js/jhUpload.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/wxHelper.js"></script>
+		<script src="../js/jweixin-1.2.0.js"></script>
+		<script src="../js/mui.picker.min.js"></script>
+		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script src="../js/creatUpload.js"></script>
+		<script src="../js/city.data.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+	<script>
+		var sectionId=0;
+		var threadId=0
+		var eventId=0;
+			
+		window.onload = function() {
+			//获取url中的targetId参数
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					sectionId = self.sectionId;
+					threadId=self.threadId;
+					eventId=self.eventId;
+					if(sectionId != null) {
+						isCreatEvent(false)
+						getPostCategorys(sectionId)
+						if(eventId!=null){
+							document.getElementById("navTitle").innerHTML = '编辑活动贴';
+							document.getElementById("creat_Btn").innerHTML = '保存';
+							getEventdetail(eventId)
+						}
+					} else {
+						isCreatEvent(true)
+						getCategorys();
+						if(eventId!=null){
+							document.getElementById("navTitle").innerHTML = '编辑活动';
+							document.getElementById("creat_Btn").innerHTML = '保存';
+							getEventdetail(eventId)
+						}
+					
+					}
+					//关闭等待框
+					plus.nativeUI.closeWaiting();
+					//显示当前页面
+					mui.currentWebview.show();
+				});
+			} else {
+				sectionId = getUrlParam('sectionId');
+				threadId=getUrlParam('threadId');
+				eventId=getUrlParam('eventId');
+				if(sectionId != null) {
+					isCreatEvent(false)
+					getPostCategorys(sectionId)
+					if(eventId!=null){
+						document.getElementById("navTitle").innerHTML = '编辑活动贴';
+						document.getElementById("creat_Btn").innerHTML = '保存';
+						getEventdetail(eventId)
+					}
+				} else {
+					isCreatEvent(true)
+					getCategorys();
+					if(eventId!=null){
+						document.getElementById("navTitle").innerHTML = '编辑活动';
+						document.getElementById("creat_Btn").innerHTML = '保存';
+						getEventdetail(eventId)
+					}
+					
+				}
+			}
+
+		}
+
+		function isCreatEvent(iscreatEvent) {
+			if(iscreatEvent) {
+				document.getElementById("navTitle").innerHTML = '发布活动';
+				document.getElementById("categorySpan").innerText = '活动分类';
+			} else {
+				document.getElementById("navTitle").innerHTML = '发布活动贴';
+				document.getElementById("categorySpan").innerText = '贴子分类';
+			}
+		}
+		var imgArea = document.getElementById("demo");
+		if(!mui.os.wechat) {
+			mui.previewImage();
+		}
+		creatloadingEL();
+		if(mui.os.wechat) {
+			initWx();
+			wx.ready(function() {
+				wx.checkJsApi({
+					jsApiList: ['chooseImage', 'uploadImage', 'previewImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+					success: function(res) {
+						// 以键值对的形式返回，可用的api值true，不可用为false
+						// 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+					}
+				});
+			});
+			wx.error(function(res) {
+
+			});
+		}
+		var selectLongitude = 0;
+		var selectLatitude = 0;
+		ZYFILE.url = Http_Url + 'Event/UploadFiles';
+		var eventFeaturedImageAttachmentId = 0;
+		var bottomBar = document.getElementById("bottomBar");
+		var CategoryId = 0;
+		var Categorytext = document.getElementById("Categorytext");
+		var Category = document.getElementById("Category");
+		var pickdata = [];
+		var picker = new mui.PopPicker();
+		var isNeedApprov = false;
+		var title = "";
+		var body = "";
+		var eventAreaCode = "";
+		var detailedAddress = "";
+		var mapcoord = "";
+		var memberCount = 0;
+		var individualMemberCount = 0;
+		var startDate = "";
+		var picker_startDate="";
+		var endDate = "";
+		var picker_endDate="";
+		var deadline = "";
+		var picker_deadline="";
+		var hasCategory;
+		var city = '北京市';
+		var addressDetailval = '';
+		var addressDetail = document.getElementById("addressDetail");
+		
+		var oldImageAttachments=[];
+		var oldImageAttachmentIds=[];
+		function getEventdetail(id) {
+			var waiting = showWaiting();
+			getDatawithToken('Event/EditEvent', {
+				eventId: id,
+				sectionId:sectionId,
+				threadId:threadId
+			}, function(data) {
+				closeWaiting(waiting);
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						if(data.Data && data.Data.length != 0) {
+							var data=data.Data;
+							
+							document.body.style.overflow = 'auto';
+							if(data.ImageAttachmentId){
+								eventFeaturedImageAttachmentId = data.ImageAttachmentId.AttachmentId;
+								document.getElementById("eventFeatureSrc").src = data.ImageAttachmentId.Url;
+								document.getElementById("eventFeatureImg").style.display = 'block';
+							}
+							
+							
+							document.getElementById("eventTitle").value=data.Subject;
+							document.getElementById("startDateText").innerText=data.StartDate;
+							picker_startDate=data.StartDate;
+							document.getElementById("endDateText").innerText=data.EndDate;
+							picker_endDate=data.EndDate;
+							document.getElementById("deadlineText").innerText=data.Deadline;
+							picker_deadline=data.Deadline;
+							if(data.EventAreaCode!=""){
+								document.getElementById("eventCityText").innerText=data.EventAreaName;
+								var codes = data.EventAreaCode.split(';');
+								cityPicker.pickers[0].setSelectedValue(codes[0]);
+								city=data.EventAreaName.substring(4,7);
+								setTimeout(function(){
+									cityPicker.pickers[1].setSelectedValue(codes[1])
+								})
+								if(codes.length==1){
+									eventAreaCode=codes[0];
+								}else{
+									eventAreaCode=codes[1];
+								}
+								
+							}
+							if(data.DetailedAddress!=""){
+								addressDetailval=data.DetailedAddress;
+								addressDetail.value=data.DetailedAddress
+							}
+							if(data.MapCoord!=""){
+								mapcoord=data.MapCoord
+							}
+							document.getElementById("upload-textarea").value=data.Body;
+							if(data.ImageAttachments&&data.ImageAttachments.length>0){
+								document.getElementById("imgPop").style.display = '';
+								oldImageAttachments=data.ImageAttachments;
+								for (var i=0;i<oldImageAttachments.length;i++) {
+									oldImageAttachmentIds.push(oldImageAttachments[i].AttachmentId)
+								}
+								document.getElementById("imgs").appendChild(creatEditImg(data.ImageAttachments))
+							}
+							document.getElementById("memberCount").value=data.MemberCount;
+							document.getElementById("individualMemberCount").value=data.IndividualMemberCount;
+							document.getElementById("Categorytext").innerHTML=data.CategoryName;
+							picker.pickers[0].setSelectedValue(data.CategoryId)
+							if(data.SignIsNeedApprov){
+								mui('#signIsNeedApprov').switch().toggle();//切换开关状态
+							}
+						} else {
+							
+						}
+					} else {
+						
+					}
+
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					//login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				closeWaiting(waiting);
+			})
+		}
+				
+				
+
+		function getCategorys() {
+			getData('Event/GetCategories', {}, function(data) {
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						if(data.Data && data.Data.length != 0) {
+							hasCategory = true;
+							CategoryId = data.Data[0].CategoryId;
+							Categorytext.innerHTML = data.Data[0].CategoryName;
+							Categorytext.parentElement.style.display='';
+							for(var i = 0; i < data.Data.length; i++) {
+								pickdata.push({
+									value: data.Data[i].CategoryId,
+									text: data.Data[i].CategoryName
+								})
+							}
+							picker.setData(pickdata);
+						} else {
+							hasCategory = false;
+							Categorytext.parentElement.style.display='none';
+						}
+					} else {
+						mui.toast(data.Data);
+					}
+
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+			})
+		}
+
+		function getPostCategorys(id) {
+			getData('Post/GetThreadCategory', {
+				sectionId: id
+			}, function(data) {
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						if(data.Data && data.Data.length != 0) {
+							hasCategory = true;
+							CategoryId = data.Data[0].Id;
+							Categorytext.innerHTML = data.Data[0].Name;
+							Categorytext.parentElement.style.display='';
+							for(var i = 0; i < data.Data.length; i++) {
+								pickdata.push({
+									value: data.Data[i].Id,
+									text: data.Data[i].Name
+								})
+							}
+							picker.setData(pickdata);
+						} else {
+							hasCategory = false;
+							Categorytext.parentElement.style.display='none';
+						}
+					} else {
+						hasCategory = false;
+						Categorytext.innerHTML= '暂无贴子分类';
+						Categorytext.parentElement.style.display='none'
+					}
+
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+			})
+		}
+		Category.addEventListener('tap', function() {
+			picker.show(function(selectItems) {
+				CategoryId = selectItems[0].value;
+				Categorytext.innerHTML = selectItems[0].text;
+			})
+		})
+
+		document.getElementById("featureImg").addEventListener('tap', function() {
+			document.getElementById("bottomBox").style.display = 'none'
+			uploadFeatureImg()
+		})
+
+		function checkTime(i) {
+			if(i < 10) {
+				i = "0" + i;
+			}
+			return i;
+		}
+
+		function uploadFeatureImg() {
+			if(mui.os.plus) {
+				changeHpic()
+			} else if(mui.os.wechat) {
+				wxChooseImg(1, function(ids) {
+					syncUpload(ids, 'CMS/WeChatUploadFiles', function(e, imgSrc) {
+						document.getElementById("eventFeatureImg").style.display = 'block';
+						document.body.style.overflow = 'auto';
+						eventFeaturedImageAttachmentId = e;
+						document.getElementById("eventFeatureSrc").src = imgSrc;
+						document.getElementById("featureImg").style.display='none';
+					})
+				})
+			} else {
+				$("#file").click();
+			}
+		}
+		$("#file").on('change', function(e) {
+			var oFile = document.getElementById('file').files[0]; //读取文件 
+			if(oFile) {
+				var reader = new FileReader();
+				reader.onload = function() {
+					appendFileFeaturedTouch('Event/UploadFeaturedImage', 0, reader.result, function(data) {
+						document.getElementById("eventFeatureImg").style.display = 'block';
+						eventFeaturedImageAttachmentId = data.FeaturedImageAttachmentId;
+						document.body.style.overflow = 'auto';
+					}, oFile.name)
+				}
+			}
+			reader.readAsDataURL(oFile);
+			var URL = window.URL || window.webkitURL;
+			var imgURL = URL.createObjectURL(oFile);
+			showLoading();
+			document.getElementById("eventFeatureSrc").src = imgURL;
+			document.getElementById("featureImg").style.display='none';
+		})
+
+		function changeHpic() {
+			if(mui.os.plus) {
+				var a = [{
+					title: "拍照"
+				}, {
+					title: "从手机相册选择"
+				}];
+				plus.nativeUI.actionSheet({
+					title: "修改标题图",
+					cancel: "取消",
+					buttons: a
+				}, function(b) {
+					switch(b.index) {
+						case 0:
+							break;
+						case 1:
+							getImage('/Event/UploadFeaturedImage', function(e, data) {
+								setFeaturedImage(e, data)
+							});
+							break;
+						case 2:
+							galleryImg('/Event/UploadFeaturedImage', function(e, data) {
+								setFeaturedImage(e, data)
+							});
+							break;
+						default:
+							break
+					}
+				})
+			}
+		}
+		function setFeaturedImage(e, data){
+			document.getElementById("eventFeatureImg").style.display = 'block';
+			document.body.style.overflow = 'auto';
+			eventFeaturedImageAttachmentId = data.FeaturedImageAttachmentId;
+			document.getElementById("eventFeatureSrc").src = e;
+			document.getElementById("featureImg").style.display='none';
+		}
+		document.getElementById("closeEventFeature").addEventListener('tap', function() {
+			eventFeaturedImageAttachmentId = 0;
+			document.getElementById("eventFeatureImg").style.display = 'none';
+			document.body.style.overflow = 'auto';
+			document.getElementById("featureImg").style.display='';
+		})
+
+		mui.init();
+		document.getElementById("startDateBtn").addEventListener('tap', function() {
+			document.getElementById("bottomBox").style.display = 'none'
+			var _self;
+			var date = new Date();
+			var value = date.getFullYear() + '-' + checkTime((date.getMonth() + 1)) + '-' + checkTime(date.getDate()) + ' ' + checkTime(date.getHours()) + ':' + checkTime(date.getMinutes());
+			if(picker_startDate!=""){
+				value=picker_startDate
+			}
+			var options = {
+				"value": value,
+				"beginYear": 2010,
+				"endYear": 2020
+			};
+			var id = this.getAttribute('id');
+			_self = new mui.DtPicker(options);
+			debugger
+			_self.show(function(rs) {
+				document.getElementById("startDateText").innerHTML = rs.text
+				_self.dispose();
+				_self = null;
+			});
+		});
+		document.getElementById("endDateBtn").addEventListener('tap', function() {
+			document.getElementById("bottomBox").style.display = 'none'
+			var _self = this;
+			var date = new Date();
+			var value = date.getFullYear() + '-' + checkTime((date.getMonth() + 1)) + '-' + checkTime(date.getDate()) + ' ' + checkTime(date.getHours()) + ':' + checkTime(date.getMinutes());
+			if(picker_endDate!=""){
+				value=picker_endDate
+			}
+			var options = {
+				"value": value,
+				"beginYear": 2010,
+				"endYear": 2020
+			};
+			var id = this.getAttribute('id');
+			_self.picker = new mui.DtPicker(options);
+			_self.picker.show(function(rs) {
+				document.getElementById("endDateText").innerHTML = rs.text
+				_self.picker.dispose();
+				_self.picker = null;
+			});
+		});
+		document.getElementById("deadlineBtn").addEventListener('tap', function() {
+			document.getElementById("bottomBox").style.display = 'none'
+			var _self = this;
+			var date = new Date();
+			var value = date.getFullYear() + '-' + checkTime((date.getMonth() + 1)) + '-' + checkTime(date.getDate()) + ' ' + checkTime(date.getHours()) + ':' + checkTime(date.getMinutes());
+			if(picker_deadline!=""){
+				value=picker_deadline
+			}
+			var options = {
+				"value": value,
+				"beginYear": 2010,
+				"endYear": 2020
+			};
+			var id = this.getAttribute('id');
+			_self.picker = new mui.DtPicker(options);
+			_self.picker.show(function(rs) {
+				document.getElementById("deadlineText").innerHTML = rs.text
+				_self.picker.dispose();
+				_self.picker = null;
+			});
+		});
+
+		
+		var cityPicker = new mui.PopPicker({
+			layer: 2
+		});
+		cityPicker.setData(cityData);
+		document.getElementById("eventCityText").innerText='北京市 北京市';
+		cityPicker.pickers[0].setSelectedValue('11000000');
+		city='北京市';
+		setTimeout(function(){
+			cityPicker.pickers[1].setSelectedValue('11010000')
+		})
+		eventAreaCode='11000000';
+		if(eventId==0){
+			var provinces=[];
+			for(var i=0;i<cityData.length;i++){provinces.push(cityData[i].text)}
+			mui.plusReady(function(){
+				plus.geolocation.getCurrentPosition(function(p) {
+						var province=p.address.province;
+						var proData=cityData[provinces.indexOf(province)];
+						city=p.address.city;
+						var childCitys=[];
+						for(var i=0;i<proData.children.length;i++){childCitys.push(proData.children[i].text)}
+						var cityIndex=childCitys.indexOf(city);
+						eventAreaCode=proData.children[cityIndex].value;
+						document.getElementById("eventCityText").innerText=province+' '+city;
+						cityPicker.pickers[0].setSelectedValue(proData.value);
+						setTimeout(function(){
+							cityPicker.pickers[1].setSelectedValue(eventAreaCode)
+						})
+					}, function(e) {
+						alert('Geolocation error: ' + e.message);
+					}, {
+						provider: 'baidu'
+					});
+			})
+		}
+		var areaname = "";
+		document.getElementById("eventCityBtn").addEventListener('tap', function() {
+			document.getElementById("bottomBox").style.display = 'none'
+			cityPicker.show(function(items) {
+				areaname = ""
+				for(var i = 0; i < items.length; i++) {
+					if(!isEmpty(items[i])) {
+						areaname += (items[i].text) + ' ';
+						city = items[items.length - 1].text;
+						eventAreaCode = items[items.length - 1].value;
+					}
+				}
+				document.getElementById("eventCityText").innerHTML = areaname
+			});
+		});
+		document.getElementById("getCurPos").addEventListener('tap', function() {
+			document.getElementById("bottomBox").style.display = 'none'
+			if(mui.os.plus) {
+				city = encodeURIComponent(city)
+				addressDetailval=encodeURIComponent(addressDetailval)
+				var url = 'selectPos.html?city=' + city + '&address='+addressDetailval+ '&mapcoord='+mapcoord;
+				mui.openWindow({
+					url: url,
+					id: 'selectPos.html',
+					show: {
+						autoShow: true
+					},
+					waiting: {
+						options: {
+							loading: {
+								height: '35px'
+							}
+						}
+					}
+				})
+			} else {
+				if(document.getElementById("selectPos") == null) {
+					var iframe = document.createElement('iframe');
+					iframe.id = 'selectPos';
+					iframe.style.height = '100%';
+					iframe.style.width = '100%';
+					iframe.style.position = 'fixed';
+					iframe.style.zIndex = '999999999';
+					iframe.style.border = 'none';
+					iframe.style.top = '0'; 
+					iframe.src = 'selectPos.html?city=' + city + '&address='+addressDetailval+'&mapcoord='+mapcoord;
+					document.body.appendChild(iframe);
+				} else {
+					document.getElementById("selectPos").style.display = 'block';
+					document.getElementById("selectPos").src = 'selectPos.html?city=' + city + '&address='+addressDetailval+'&mapcoord='+mapcoord;
+				}
+			}
+		})
+
+		if(!mui.os.plus) {
+			pushHistory();
+
+			function pushHistory() {
+				window.addEventListener("popstate", function(e) {
+					var settingDetail = document.getElementById("selectPos");
+					if(settingDetail == null) {
+						window.history.go(-1);
+					} else {
+						if(document.getElementById("selectPos").style.display != 'none') {
+							document.getElementById("selectPos").style.display = 'none';
+						} else {
+							window.history.go(-1);
+						}
+					}
+				}, false);
+				var state = {
+					title: "",
+					url: "#"
+				};
+				if(window.history.state != state) {
+					window.history.pushState(state, "", "#");
+				}
+			};
+		}
+
+		document.getElementById("signIsNeedApprov").addEventListener("toggle", function(event) {
+			document.getElementById("bottomBox").style.display = 'none'
+			if(event.detail.isActive) {
+				isNeedApprov = true
+			} else {
+				isNeedApprov = false
+			}
+		})
+
+		function changeAddressText(selectLong, selectLat) {
+			selectLongitude = selectLong;
+			selectLatitude = selectLat;
+			var naddressText = decodeURIComponent(getlsData('naddressText'));
+			if(document.getElementById("eventCityText").innerText == "") {
+				addressDetail.value = naddressText;
+			} else {
+				var nvalue = naddressText.substring(naddressText.indexOf('市') + 1, naddressText.length);
+				addressDetail.value = nvalue;
+			}
+		}
+
+//		document.getElementById("event-textarea").onfocus = function() {
+//			document.getElementById("bottomBox").style.display = ''
+//			bottomBar.style.display = ''
+//		}
+		var htmlInputs = document.getElementsByTagName('input'); //获取HTMLCollection对象集合  
+		//遍历集合，一个一个地设置点击事件  
+		for(var i = 0; i < htmlInputs.length; ++i) {
+			htmlInputs[i].onfocus = function() {
+				document.getElementById("bottomBox").style.display = 'none'
+			};
+		}
+
+
+		// 上传文件
+		function upload() {
+			title = TrimAll(document.getElementById("eventTitle").value);
+			body = TrimAll(document.getElementById("upload-textarea").value);
+			detailedAddress = TrimAll(document.getElementById("addressDetail").value);
+			memberCount = TrimAll(document.getElementById("memberCount").value);
+			individualMemberCount = TrimAll(document.getElementById("individualMemberCount").value);
+			var startDate = document.getElementById("startDateText").innerText;
+			var endDate = document.getElementById("endDateText").innerText;
+			var deadline = document.getElementById("deadlineText").innerText;
+			if(title == "") {
+				mui.toast("活动标题不能为空")
+				return
+			}
+			if(eventFeaturedImageAttachmentId == 0) {
+				mui.toast("请上传活动海报")
+				return
+			}
+			if(document.getElementById("startDateText").innerText == '') {
+				mui.toast("请选择开始时间")
+				return
+			}
+			if(document.getElementById("endDateText").innerText == '') {
+				mui.toast("请选择结束时间")
+				return
+			}
+			if(document.getElementById("deadlineText").innerText == '') {
+				mui.toast("请选择报名截止时间")
+				return
+			}
+			if(detailedAddress.length != 0) {
+				if(selectLongitude != 0 && selectLatitude != 0) {
+					mapcoord = selectLongitude + ',' + selectLatitude
+				}
+			}
+			if(memberCount == "") {
+				mui.toast("请输入正确数量")
+				return
+			}
+			if(isNaN(memberCount) || !(/^\d+$/.test(memberCount))) {
+				mui.toast("输入数量格式不对")
+				return
+			}
+			if(individualMemberCount <= 0) {
+				mui.toast("请输入正确数量")
+				return
+			}
+			if(isNaN(individualMemberCount) || !(/^\d+$/.test(individualMemberCount))) {
+				mui.toast("输入数量格式不对")
+				return
+			}
+			if(new Date(endDate) <= new Date(startDate)) {
+				mui.toast("结束时间必须大于开始时间")
+				return
+			}
+			if(new Date(endDate) <= new Date(deadline)) {
+				mui.toast("报名截止时间必须小于结束时间")
+				return
+			}
+			if(new Date() >= new Date(deadline)) {
+				mui.toast("报名截止时间不能小于当前时间")
+				return
+			}
+			if(sectionId!=null){
+				var eventmodel = {
+					sectionId:sectionId,
+					imageAttachmentId: eventFeaturedImageAttachmentId,
+					title: title,
+					startDate: startDate,
+					endDate: endDate,
+					deadline: deadline,
+					eventAreaCode: eventAreaCode,
+					detailedAddress: detailedAddress,
+					mapCoord: mapcoord,
+					body: body,
+					categoryId: 0,
+					threadCategoryId: hasCategory ? CategoryId : 0,
+					memberCount: memberCount,
+					individualMemberCount: individualMemberCount,
+					signIsNeedApprov: isNeedApprov,
+					attachmentIds: ""
+				}
+			}else{
+				var eventmodel = {
+					imageAttachmentId: eventFeaturedImageAttachmentId,
+					title: title,
+					startDate: startDate,
+					endDate: endDate,
+					deadline: deadline,
+					eventAreaCode: eventAreaCode,
+					detailedAddress: detailedAddress,
+					mapCoord: mapcoord,
+					body: body,
+					categoryId: hasCategory ? CategoryId : 0,
+					memberCount: memberCount,
+					individualMemberCount: individualMemberCount,
+					signIsNeedApprov: isNeedApprov,
+					attachmentIds: ""
+				}
+			}
+			if(mui.os.plus) {
+				filesUploadforApp('/Event/UploadFiles', function(e) {
+					if(e == '') {
+						eventmodel.attachmentIds = "";
+						if(oldImageAttachments.length>0&&eventId!=null){
+							eventmodel.attachmentIds=oldImageAttachmentIds.join(';')
+						}
+						CreateEvent(eventmodel)
+					} else {
+						eventmodel.attachmentIds = e;
+						if(oldImageAttachments.length>0&&eventId!=null){
+							eventmodel.attachmentIds=oldImageAttachmentIds.join(';')+';'+e
+						}
+						CreateEvent(eventmodel)
+					}
+				})
+			} else if(mui.os.wechat) {
+				if(imgFiles.length == 0) {
+					eventmodel.attachmentIds = "";
+					if(oldImageAttachments.length>0&&eventId!=null){
+						eventmodel.attachmentIds=oldImageAttachmentIds.join(';')
+					}
+					CreateEvent(eventmodel)
+				} else {
+					var attachmentIds = [];
+					var i = 0;
+					syncUpload(wxIds, 'Event/WeChatUploadFiles', function(e) {
+						i++;
+						attachmentIds.push(e)
+						if(wxIds.length == 0) {
+							if(oldImageAttachments.length>0&&eventId!=null){
+								eventmodel.attachmentIds=oldImageAttachmentIds.join(';')+';'+attachmentIds.join(';')
+							}
+							CreateEvent(eventmodel)
+						}
+					})
+				}
+			} else {
+				var lengthList = zyUpload.webFiles.length;
+				var touchArray = [];
+				for(var i = 0; i < document.getElementsByClassName('creat-img').length; i++) {
+					if(document.getElementsByClassName('creat-img')[i].id!='oldimg'){
+						touchArray.push(document.getElementsByClassName('creat-img')[i]);
+					}
+					
+				}
+				if(touchArray.length > 0) {
+					appendFileTouch('/Event/UploadFiles', 0, touchArray, function(e) {
+						eventmodel.attachmentIds = e;
+						if(oldImageAttachments.length>0&&eventId!=null){
+							eventmodel.attachmentIds=oldImageAttachmentIds.join(';')+';'+e
+						}
+						CreateEvent(eventmodel)
+					})
+				} else {
+					eventmodel.attachmentIds = "";
+					if(oldImageAttachments.length>0&&eventId!=null){
+						eventmodel.attachmentIds=oldImageAttachmentIds.join(';')
+					}
+					CreateEvent(eventmodel)
+				}
+
+			}
+
+		}
+		function changeTime(oldTimeStr){
+			var time=oldTimeStr;
+			time=time.replace(/-/g,':').replace(' ',':');
+			time=time.split(':');
+			var newTime = new Date(time[0],(time[1]-1),time[2],time[3],time[4],'00');
+			return newTime;
+		}
+
+		function CreateEvent(eventModel) {
+			if(sectionId!=null){
+				var params = {
+					Id:eventId,
+					SectionId:eventModel.sectionId,
+					ImageAttachmentId: eventModel.imageAttachmentId,
+					Subject: eventModel.title,
+					StartDate: changeTime(eventModel.startDate),
+					EndDate: changeTime(eventModel.endDate),
+					Deadline: changeTime(eventModel.deadline),
+					EventAreaCode: eventModel.eventAreaCode,
+					DetailedAddress: eventModel.detailedAddress,
+					MapCoord: eventModel.mapCoord,
+					Body: eventModel.body,
+					CategoryId: eventModel.categoryId,
+					ThreadId:threadId,
+					ThreadCategoryId:eventModel.threadCategoryId,
+					MemberCount: eventModel.memberCount,
+					IndividualMemberCount: eventModel.individualMemberCount,
+					SignIsNeedApprov: eventModel.signIsNeedApprov,
+					AttachmentIds: eventModel.attachmentIds
+				};
+			}else{
+				var params = {
+					Id:eventId,
+					ImageAttachmentId: eventModel.imageAttachmentId,
+					Subject: eventModel.title,
+					StartDate: changeTime(eventModel.startDate),
+					EndDate: changeTime(eventModel.endDate),
+					Deadline: changeTime(eventModel.deadline),
+					EventAreaCode: eventModel.eventAreaCode,
+					DetailedAddress: eventModel.detailedAddress,
+					MapCoord: eventModel.mapCoord,
+					Body: eventModel.body,
+					CategoryId: eventModel.categoryId,
+					MemberCount: eventModel.memberCount,
+					IndividualMemberCount: eventModel.individualMemberCount,
+					SignIsNeedApprov: eventModel.signIsNeedApprov,
+					AttachmentIds: eventModel.attachmentIds
+				};
+			}
+			var waitings = showWaiting();
+			postDatawithToken('Event/EditEvent', params, function(data) {
+				closeWaiting(waitings);
+				mui('#creat_Btn').button('reset');
+				if(data.Type == 1) {
+					if(mui.os.plus) {
+						if(eventId!=null){
+							mui.toast('修改成功');
+							var eventDetailPage = plus.webview.getWebviewById("eventDetail.html");
+							var eventThreadDetailPage = plus.webview.getWebviewById("eventThreadDetail.html");
+							eventDetailPage&&eventDetailPage.reload(true);
+							eventThreadDetailPage&&eventThreadDetailPage.reload(true);
+						}else{
+							mui.toast('创建成功');
+							var eventThreadPage = plus.webview.getWebviewById("postDetail.html");
+							var eventPage = plus.webview.getWebviewById("event.html");
+							eventThreadPage&&eventThreadPage.reload(true);
+							eventPage&&eventPage.reload(true);
+						}
+						setTimeout(function() {
+							mui.back();
+						},1000)
+					} else {
+						window.location.href = document.referrer;
+						window.history.back(-1);
+					}
+
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(data) {
+				mui('#creat_Btn').button('reset');
+				closeWaiting(waitings);
+			});
+		}
+	</script>
+
+</html>

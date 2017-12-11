@@ -1,0 +1,710 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>管理活动信息</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/jinhu.css" />
+	</head>
+	<style>
+		.mui-slider .mui-slider-group .mui-slider-item img:first-child {
+			width: 100%;
+		}
+		
+		.mui-pull-top-tips {
+			position: absolute;
+			top: -20px;
+			left: 50%;
+			margin-left: -25px;
+			width: 40px;
+			height: 40px;
+			border-radius: 100%;
+			z-index: 1;
+		}
+		
+		.mui-bar~.mui-pull-top-tips {
+			top: 24px;
+		}
+		
+		.mui-pull-top-wrapper {
+			width: 42px;
+			height: 42px;
+			display: block;
+			text-align: center;
+			background-color: #efeff4;
+			border: 1px solid #ddd;
+			border-radius: 25px;
+			background-clip: padding-box;
+			box-shadow: 0 4px 10px #bbb;
+			overflow: hidden;
+		}
+		
+		.mui-pull-top-tips.mui-transitioning {
+			-webkit-transition-duration: 200ms;
+			transition-duration: 200ms;
+		}
+		
+		.mui-pull-top-tips .mui-pull-loading {
+			margin: 0;
+		}
+		
+		.mui-pull-top-wrapper .mui-icon,
+		.mui-pull-top-wrapper .mui-spinner {
+			margin-top: 7px;
+		}
+		
+		.mui-pull-bottom-tips {
+			text-align: center;
+			background-color: #efeff4;
+			font-size: 15px;
+			line-height: 40px;
+			color: #777;
+		}
+		
+		.mui-pull-top-canvas {
+			overflow: hidden;
+			background-color: #fafafa;
+			border-radius: 40px;
+			box-shadow: 0 4px 10px #bbb;
+			width: 40px;
+			height: 40px;
+			margin: 0 auto;
+		}
+		
+		.mui-pull-top-canvas canvas {
+			width: 40px;
+		}
+		
+		.mui-slider-indicator.mui-segmented-control {
+			background-color: #efeff4;
+		}
+		
+		.jh-infor-manage {
+			padding-bottom: 60px;
+			background-color: #FFFFFF;
+		}
+		
+		.jh-infor-manage .jh-infor-card {
+			margin-bottom: 0
+		}
+		
+		.mui-bar-tab .mui-tab-item.mui-active {
+			color: #FFFFFF;
+		}
+		
+		.mui-bar-tab .mui-tab-item {
+			width: 20%;
+			height: 60px;
+			border: 1px solid #fff;
+		}
+	</style>
+
+	<body style="background-color: #FFFFFF;">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+            <span class="mui-icon mui-icon-left-nav"></span>报名信息管理
+        </a>
+		</header>
+		<div class="mui-content">
+
+			<div id="slider" class="mui-slider mui-fullscreen">
+				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted jh-scroll-wrapper">
+					<div class="mui-scroll" id="SectionType" style="padding-right: 40px;">
+						<a class="mui-control-item mui-active" href="#itemmobile" id="0">
+							全部
+						</a>
+						<a class="mui-control-item" href="#item0mobile" id="1">
+							待审核
+						</a>
+						<a class="mui-control-item" href="#item1mobile" id="2">
+							已通过
+						</a>
+						<a class="mui-control-item" href="#item2mobile" id="3">
+							未通过
+						</a>
+					</div>
+				</div>
+				<div class="mui-slider-group" id="sliderGroup">
+					<div id="itemmobile" class="mui-slider-item mui-control-content mui-active">
+						<div class="mui-scroll-wrapper" id="refreshContainer">
+							<div class="mui-scroll">
+								<ul class="mui-table-view jh-infor-manage">
+									<div class="mui-loading">
+										<div class="mui-spinner">
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+
+					</div>
+					<div id="item0mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper" id="refreshContainer1">
+							<div class="mui-scroll">
+								<ul class="mui-table-view jh-infor-manage">
+									<div class="mui-loading">
+										<div class="mui-spinner">
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item1mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper" id="refreshContainer2">
+							<div class="mui-scroll">
+								<ul class="mui-table-view jh-infor-manage">
+									<div class="mui-loading">
+										<div class="mui-spinner">
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item2mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper" id="refreshContainer3">
+							<div class="mui-scroll">
+								<ul class="mui-table-view jh-infor-manage">
+									<div class="mui-loading">
+										<div class="mui-spinner">
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<nav class="mui-bar mui-bar-tab jh-activity-bar-nav" id="memberOpt" style="display: none;">
+			<button class="mui-tab-item" style="background-color: #FFFFFF;color:#bf0a10;" id="selectAll">
+				全选
+			</button>
+			<button class="mui-tab-item tn-gray-bg" disabled="disabled" id="passmember">
+				<span class="mui-icon fa fa-check"></span>
+				<span class="mui-tab-label">通过</span>
+			</button>
+			<button class="mui-tab-item tn-gray-bg" disabled="disabled" id="refusemember">
+				<span class="mui-icon fa fa-remove"></span>
+				<span class="mui-tab-label">拒绝</span>
+			</button>
+			<button class="mui-tab-item tn-gray-bg" disabled="disabled" id="editmember">
+				<span class="mui-icon fa fa-pencil"></span>
+				<span class="mui-tab-label">修改</span>
+			</button>
+			<button class="mui-tab-item tn-gray-bg" disabled="disabled" id="deletemember">
+				<span class="mui-icon fa fa-trash-o"></span>
+				<span class="mui-tab-label">删除</span>
+			</button>
+		</nav>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/mui.pullToRefresh.js"></script>
+		<script src="../js/mui.pullToRefresh.material.js"></script>
+	</body>
+	<script>
+		mui.init({
+			gestureConfig: {
+				longtap: true, //默认为false
+			}
+		})
+		var remainingEnrolment=0;
+		window.onload = function() {
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					eventId = self.eventId;
+					remainingEnrolment=self.remainingEnrolment;
+					GetMembers(false)
+					//关闭等待框
+					plus.nativeUI.closeWaiting();
+					//显示当前页面
+					mui.currentWebview.show();
+				});
+			} else {
+				eventId = getUrlParam('eventId');
+				remainingEnrolment= getUrlParam('remainingEnrolment')
+				GetMembers(false)
+			}
+		}
+		var page = 1;
+		var auditStatu = null;
+		var itemmobileSel = false;
+		var item0mobileSel = false;
+		var item1mobileSel = false;
+		var item2mobileSel = false;
+
+		var selel = document.getElementsByClassName("mui-control-item mui-active");
+		mui('.mui-slider').slider();
+		mui('.mui-scroll-wrapper').scroll();
+		var deceleration = mui.os.ios ? 0.003 : 0.0009;
+		mui('.mui-scroll-wrapper.mui-slider-indicator.mui-segmented-control').scroll({
+			scrollY: false,
+			scrollX: true,
+			indicators: false,
+			deceleration: deceleration,
+			snap: '.mui-control-item'
+		});
+		var tabIndex = 0;
+		document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+			tabIndex = event.detail.slideNumber;
+			switch(tabIndex) {
+				case 1:
+					auditStatu = 20;
+					initmemberOpt(item0mobileSel);
+					break;
+				case 2:
+					auditStatu = 40;
+					initmemberOpt(item1mobileSel);
+					break;
+				case 3:
+					auditStatu = 10;
+					initmemberOpt(item2mobileSel);
+					break;
+				default:
+					auditStatu = null;
+					initmemberOpt(itemmobileSel);
+					break;
+			}
+			if(event.detail.slideNumber == 0) {
+				var item = document.getElementById("itemmobile");
+			} else {
+				var index = event.detail.slideNumber - 1;
+				var item = document.getElementById("item" + index + "mobile");
+			}
+
+			if(item.querySelector('.mui-loading')) {
+				GetMembers(false)
+			}
+		});
+		(function($) {
+			//阻尼系数
+			var deceleration = mui.os.ios ? 0.003 : 0.0009;
+			$('.mui-scroll-wrapper').scroll({
+				bounce: false,
+				indicators: true, //是否显示滚动条
+				deceleration: deceleration
+			});
+			$.ready(function() {
+				//循环初始化所有下拉刷新，上拉加载。
+				$.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+					$(pullRefreshEl).pullToRefresh({
+						down: {
+							callback: function() {
+								var self = this;
+								GetMembers(false)
+								setTimeout(function() {
+									self.endPullDownToRefresh();
+								}, 1000);
+							}
+						},
+						up: {
+							show: false,
+							callback: function() {
+								var self = this;
+								GetMembers(true)
+								setTimeout(function() {
+									self.endPullUpToRefresh();
+								}, 1000);
+							}
+						}
+					});
+				});
+			});
+		})(mui);
+		var creatMemberElement = function(data, id) {
+			var fragment = document.getElementById(id);
+			var cfragment = fragment.firstElementChild;
+			var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+			idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+			for(var i = 0; i < data.length; i++) {
+				var dis = (i == data.length - 1) ? 'block' : 'none';
+				switch(data[i].ApprovalStatus) {
+					case 40:
+						var approvalStatus = '<li class="tn-green-color">审核通过</li>'
+						break;
+					case 10:
+						var approvalStatus = '<li class="tn-theme-color">审核未通过</li>'
+						break;
+					default:
+						var approvalStatus = ''
+						break;
+				}
+				var emailDisplay = (data[i].AccountEmail==""||data[i].AccountEmail==null) ? 'none' : '';
+				var userAvator = data[i].Avatar == "" ? "../img/avatar.jpg" : getImgUrl(data[i].Avatar);
+				var description = (data[i].Description==""||data[i].Description==null)? "" : data[i].Description;
+				var accountEmail = (data[i].AccountEmail==""||data[i].AccountEmail==null) ? "" : data[i].AccountEmail;
+				var bardiv = document.createElement('div');
+				bardiv.className = 'jh-gray-bar';
+				var div;
+				div = document.createElement('div');
+				div.id = idName + data[i].Id;
+				div.title = data[i].ApprovalStatus;
+				div.appendChild(bardiv);
+				if(data[i].MemberCount==0){
+					data[i].MemberCount=99999
+				}
+				div.innerHTML = '<div class="jh-gray-bar"></div><li class="mui-table-view-cell jh-infor-card" id=' + idName + data[i].Id + ' title=' + data[i].ApprovalStatus + '><ul class="mui-list-inline tn-mb-10" id='+data[i].MemberCount+'>' +
+					'<li class="ev-select" style="width:8%;font-size:20px;display:none"><i class="fa  fa-circle-o text-muted"></i></li>' +
+					'<li class="ev-item" style="width:100%">' +
+					'<ul class="mui-list-inline tn-mb-10">' +
+					'<li><img class="creator_img" src="' + userAvator + '"></li>' +
+					'<li>' + data[i].UserName.substring(0,8) + '</li>' +
+					'<li style="padding-left:10px">' + data[i].AttendCount + '人</li>' +
+					'<li style="padding-left:10px">'+ approvalStatus+'</li>' +
+					'<li class="mui-pull-right text-muted">' + data[i].DateCreated + '</li>' +
+					'</ul>' +
+					'<p class="text-muted mui-ellipsis-2">' + description + '</p>' +
+					'<hr />' +
+					'<ul class="mui-list-inline">' +
+					'<li><i class="fa  fa-mobile-phone tn-text-color"></i> ' + data[i].AccountMobile + '</li>' +
+					'<li class="mui-pull-right" style="display:'+emailDisplay+'" ><i class="fa  fa-envelope tn-text-color"></i> ' + accountEmail + '</li>' +
+					'</ul>' +
+					'</li></ul></li><div class="jh-gray-bar" style="display:' + dis + '"></div>';
+				finel.appendChild(div);
+			}
+		};
+
+		function GetMembers(more) {
+			if(!more) {
+				showLoading('', '', '#FFFFFF', '100px', '1');
+			}
+			idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+			var fragment = document.getElementById(idName);
+			var cfragment = fragment.firstElementChild;
+			var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+			if(more) {
+				page++;
+			} else {
+				finel.innerHTML = '';
+				page = 1;
+			}
+			var params = {
+				eventId: eventId,
+				auditStatus: auditStatu,
+				pageIndex: page
+			};
+			getData('Event/GetMemberByEventId', params, function(data) {
+				hideLoading()
+				hideErr()
+				var bottomTip = document.querySelectorAll('.mui-pull-bottom-tips');
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						hideErrForList('', idName);
+						if(data.Data.length <= 5) {
+							document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'none';
+							document.getElementById(idName).querySelector('.mui-pull-bottom-tips').firstElementChild.style.display = 'none';
+						} else {
+							document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'block';
+							document.getElementById(idName).querySelector('.mui-pull-bottom-tips').firstElementChild.style.display = 'block';
+						}
+						if(data.Data.length == 0) {
+							if(!more) {
+								var errForList = showErrForList('暂无人员', '', '', idName);
+								if(errForList) {
+									fragment.appendChild(showErrForList('暂无人员', '', '', idName))
+								}
+							}
+						}
+						creatMemberElement(data.Data, idName);
+						initmemberOpt(false)
+					} else {
+						if(!more) {
+							var errForList = showErrForList('暂无更多人员', '', '', idName);
+							if(errForList) {
+								fragment.appendChild(showErrForList('暂无更多人员', '', '', idName))
+							}
+						}
+					}
+				} else {
+					hideLoading();
+					//逻辑错误
+					var errForList = showErrForList(data.Data, '', '', idName);
+					if(errForList) {
+						fragment.appendChild(showErrForList(data.Data, '', '', idName))
+					}
+					return;
+				}
+			}, function(err) {
+				setErr()
+			})
+		}
+
+		mui("#itemmobile .mui-table-view").on('longtap', '.mui-table-view-cell', function(e) {
+			itemmobileSel = true;
+			var item = document.getElementById("itemmobile");
+			var selectItem = item.querySelector("#" + this.getAttribute('id')).querySelector('.fa-circle-o');
+			selectItem.className = 'fa fa-check-circle text-muted';
+			selectItem.style.color = '#bf0a10';
+			selectItems()
+			mui("#itemmobile .mui-table-view").off('tap', '.mui-table-view-cell');
+			mui("#itemmobile .mui-table-view").on('tap', '.mui-table-view-cell', function(e) {
+				var item = document.getElementById("itemmobile");
+				if(item.querySelector("#" + this.getAttribute('id')).querySelector('.fa-circle-o')) {
+					var selectItem = item.querySelector("#" + this.getAttribute('id')).querySelector('.fa-circle-o');
+					selectItem.className = 'fa fa-check-circle text-muted';
+					selectItem.style.color = '#bf0a10';
+				} else {
+					var selectItem = item.querySelector("#" + this.getAttribute('id')).querySelector('.fa-check-circle');
+					selectItem.className = 'fa fa-circle-o text-muted';
+					selectItem.style.color = '#999';
+				}
+				initmemberOpt(true)
+
+			})
+		})
+		mui("#item0mobile .mui-table-view").on('longtap', '.mui-table-view-cell', function(e) {
+			item0mobileSel = true;
+			var item = document.getElementById("item0mobile");
+			var selectItem = item.querySelector("#" + this.getAttribute('id')).querySelector('.fa-circle-o');
+			selectItem.className = 'fa fa-check-circle text-muted';
+			selectItem.style.color = '#bf0a10';
+			selectItems()
+			mui("#item0mobile .mui-table-view").off('tap', '.mui-table-view-cell');
+			mui("#item0mobile .mui-table-view").on('tap', '.mui-table-view-cell', function(e) {
+				var item = document.getElementById("item0mobile");
+				if(item.querySelector("#" + this.getAttribute('id')).querySelector('.fa-circle-o')) {
+					var selectItem = item.querySelector("#" + this.getAttribute('id')).querySelector('.fa-circle-o');
+					selectItem.className = 'fa fa-check-circle text-muted';
+					selectItem.style.color = '#bf0a10';
+				} else {
+					var selectItem = item.querySelector("#" + this.getAttribute('id')).querySelector('.fa-check-circle');
+					selectItem.className = 'fa fa-circle-o text-muted';
+					selectItem.style.color = '#999';
+				}
+				initmemberOpt(true)
+
+			})
+		})
+		mui("#item1mobile .mui-table-view").on('longtap', '.mui-table-view-cell', function(e) {
+			item1mobileSel = true;
+			var item = document.getElementById("item1mobile");
+			var selectItem = item.querySelector("#" + this.getAttribute('id')).querySelector('.fa-circle-o');
+			selectItem.className = 'fa fa-check-circle text-muted';
+			selectItem.style.color = '#bf0a10';
+			selectItems()
+			mui("#item1mobile .mui-table-view").off('tap', '.mui-table-view-cell');
+			mui("#item1mobile .mui-table-view").on('tap', '.mui-table-view-cell', function(e) {
+				var item = document.getElementById("item1mobile");
+				if(item.querySelector("#" + this.getAttribute('id')).querySelector('.fa-circle-o')) {
+					var selectItem = item.querySelector("#" + this.getAttribute('id')).querySelector('.fa-circle-o');
+					selectItem.className = 'fa fa-check-circle text-muted';
+					selectItem.style.color = '#bf0a10';
+				} else {
+					var selectItem = item.querySelector("#" + this.getAttribute('id')).querySelector('.fa-check-circle');
+					selectItem.className = 'fa fa-circle-o text-muted';
+					selectItem.style.color = '#999';
+				}
+				initmemberOpt(true)
+
+			})
+		})
+		mui("#item2mobile .mui-table-view").on('longtap', '.mui-table-view-cell', function(e) {
+			item2mobileSel = true;
+			var item = document.getElementById("item2mobile");
+			var selectItem = item.querySelector("#" + this.getAttribute('id')).querySelector('.fa-circle-o');
+			selectItem.className = 'fa fa-check-circle text-muted';
+			selectItem.style.color = '#bf0a10';
+			selectItems()
+			var item = document.getElementById("item2mobile");
+			mui("#item2mobile .mui-table-view").off('tap', '.mui-table-view-cell');
+			mui("#item2mobile .mui-table-view").on('tap', '.mui-table-view-cell', function(e) {
+				if(item.querySelector("#" + this.getAttribute('id')).querySelector('.fa-circle-o')) {
+					var selectItem = item.querySelector("#" + this.getAttribute('id')).querySelector('.fa-circle-o');
+					selectItem.className = 'fa fa-check-circle text-muted';
+					selectItem.style.color = '#bf0a10';
+				} else {
+					var selectItem = item.querySelector("#" + this.getAttribute('id')).querySelector('.fa-check-circle');
+					selectItem.className = 'fa fa-circle-o text-muted';
+					selectItem.style.color = '#999';
+				}
+				initmemberOpt(true)
+			})
+		})
+
+		function selectItems() {
+			initmemberOpt(true)
+			idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+			var item = document.getElementById(idName);
+			var cells = item.querySelectorAll('.jh-infor-card');
+			for(var i = 0; i < cells.length; i++) {
+				cells[i].querySelector('.ev-select').style.display = '';
+				cells[i].querySelector('.ev-item').style.width = '90%';
+			}
+			document.getElementById("selectAll").addEventListener('tap', function() {
+				idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+				var item = document.getElementById(idName);
+				var cells = item.querySelectorAll('.jh-infor-card');
+				for(var i = 0; i < cells.length; i++) {
+					if(cells[i].querySelector('.ev-select').querySelector('.fa-circle-o')) {
+						cells[i].querySelector('.ev-select').querySelector('.fa-circle-o').className = 'fa fa-check-circle text-muted';
+						cells[i].querySelector('.ev-select').querySelector('.fa-check-circle').style.color = '#bf0a10';
+					}
+				}
+				initmemberOpt(true)
+			})
+
+		}
+		var memberOpt = document.getElementById("memberOpt");
+		var passmember = document.getElementById("passmember");
+		var refusemember = document.getElementById("refusemember");
+		var editmember = document.getElementById("editmember");
+		var deletemember = document.getElementById("deletemember");
+
+		function initmemberOpt(select) {
+			if(select) {
+				memberOpt.style.display = '';
+				idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+				var item = document.getElementById(idName);
+				var cells = item.querySelectorAll('.jh-infor-card')
+				var selectNum = item.querySelectorAll('.jh-infor-card .fa-check-circle');
+				if(selectNum.length > 1 || selectNum.length == 0) {
+					editmember.setAttribute('disabled', 'disabled')
+					editmember.style.backgroundColor = '#999999';
+				} else {
+					editmember.removeAttribute('disabled', 'disabled');
+					editmember.style.backgroundColor = '#c31516';
+					deletemember.removeAttribute('disabled', 'disabled');
+					deletemember.style.backgroundColor = '#c31516';
+				}
+				if(selectNum.length != 0) {
+					deletemember.removeAttribute('disabled', 'disabled');
+					passmember.removeAttribute('disabled', 'disabled')
+					refusemember.removeAttribute('disabled', 'disabled')
+					passmember.style.backgroundColor = '#c31516';
+					refusemember.style.backgroundColor = '#c31516';
+					deletemember.style.backgroundColor = '#c31516';
+				} else {
+					passmember.setAttribute('disabled', 'disabled')
+					refusemember.setAttribute('disabled', 'disabled')
+					deletemember.setAttribute('disabled', 'disabled')
+					passmember.style.backgroundColor = '#999999';
+					refusemember.style.backgroundColor = '#999999';
+					deletemember.style.backgroundColor = '#999999';
+					return
+				}
+			} else {
+				memberOpt.style.display = 'none';
+			}
+		}
+
+		passmember.addEventListener('tap', function() {
+			idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+			var item = document.getElementById(idName);
+			var cells = item.querySelectorAll('.jh-infor-card')
+			var selects= item.querySelectorAll('.jh-infor-card .fa-check-circle');
+			var ids=[];
+			for(var i=0;i<selects.length;i++){
+				var oid=selects[i].parentElement.parentElement.parentElement.getAttribute('id');
+				var nid=oid.substring(oid.lastIndexOf('e')+1,oid.length);
+				ids.push(nid);
+			}
+			operationMember(ids,1)
+		})
+		refusemember.addEventListener('tap', function() {
+			idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+			var item = document.getElementById(idName);
+			var cells = item.querySelectorAll('.jh-infor-card')
+			var selects= item.querySelectorAll('.jh-infor-card .fa-check-circle');
+			var ids=[];
+			for(var i=0;i<selects.length;i++){
+				var oid=selects[i].parentElement.parentElement.parentElement.getAttribute('id');
+				var nid=oid.substring(oid.lastIndexOf('e')+1,oid.length);
+				ids.push(nid);
+			}
+			operationMember(ids,0);
+			
+		})
+		editmember.addEventListener('tap', function() {
+			idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+			var item = document.getElementById(idName);
+			var cells = item.querySelectorAll('.jh-infor-card')
+			var selects= item.querySelectorAll('.jh-infor-card .fa-check-circle');
+			var oid=selects[0].parentElement.parentElement.parentElement.getAttribute('id');
+			var nid=oid.substring(oid.lastIndexOf('e')+1,oid.length);
+			var membercount=selects[0].parentElement.parentElement.id;
+			var baseUrl = 'eventSignUp.html?eventId=' + eventId + '&remainingEnrolment=' + remainingEnrolment+'&memberId='+nid+'&membercount='+membercount;
+				mui.openWindow({
+					url: baseUrl,
+					id: 'eventSignUp.html',
+					show: {
+						autoShow: true
+					},
+					waiting: {
+						options: {
+							loading: {
+								height: '35px'
+							}
+						}
+					},
+					extras: {
+						eventId: eventId,
+						remainingEnrolment: remainingEnrolment,
+						memberId:nid,
+						membercount:membercount
+					}
+				})
+		})
+		deletemember.addEventListener('tap', function() {
+			idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+			var item = document.getElementById(idName);
+			var cells = item.querySelectorAll('.jh-infor-card')
+			var selects= item.querySelectorAll('.jh-infor-card .fa-check-circle');
+			var ids=[];
+			for(var i=0;i<selects.length;i++){
+				var oid=selects[i].parentElement.parentElement.parentElement.getAttribute('id');
+				var nid=oid.substring(oid.lastIndexOf('e')+1,oid.length);
+				ids.push(nid);
+			}
+			operationMember(ids,-1)
+		})
+		var idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+
+		function changeTab(index) {
+			mui('.mui-slider').slider();
+			var gallery = mui('#sliderSegmentedControl');
+			var gallerys = mui('#slider');
+			gallery.scroll().gotoPage(index); //跳转到第index张图片，index从0开始；
+			gallerys.slider().gotoItem(index);
+		}
+
+		function operationMember(memberIds,action) {
+			var params = {
+				MemberIds: memberIds,
+				Action: action
+			};
+			var waitings = showWaiting();
+			postDatawithToken('Event/OperationMember', params, function(data) {
+				closeWaiting(waitings);
+				if(data.Type == 1) {
+					mui.toast(data.Data);
+					window.location.reload();
+					//changeTab(tabIndex);
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(data) {
+				closeWaiting(waitings);
+			});
+
+		}
+	</script>
+
+</html>

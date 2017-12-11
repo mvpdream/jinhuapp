@@ -1,0 +1,520 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" / href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/question-list.css" />
+		<link rel="stylesheet" / href="../css/jinhu.css">
+	</head>
+	<style>
+		.starCon span{
+			padding-right: 0px !important;
+			margin-left: 0px !important;
+			margin-right: 0px !important;
+		}
+		.text-muted-left{
+			padding-left: 17px;
+			padding-right: 7px;
+			padding-bottom: 10px;
+		}
+		.document-list .mui-content-padded p{
+	font-size: 16px;
+	word-wrap: break-word;
+	word-break:break-all;
+	margin-bottom: 5px;   
+}
+.document-list .mui-content-padded span{
+    padding-left: 3px;
+    padding-right: 3px;
+ 	margin-left: 8px;
+	border-radius: 3px; 
+	font-size: 11px;
+}
+.document-list .mui-content-padded .label{
+	font-size: 12px;
+	height: 20px;
+	white-space: inherit;
+}
+		#icon{
+			display: inline-block !important;
+    		font-size: 16px !important;
+    		padding-left: 0px !important;
+    		margin-left: 0px !important;
+    		position: absolute;
+			position: absolute;
+		}
+		.status{
+			display: inline-block;
+			vertical-align: top;
+			padding-left: 0.7rem !important;
+			margin-top: 3px;
+			margin-bottom: 7px;
+		}
+		.status span{
+			display: inline-block;
+			margin-right: 0.2rem;
+		}
+		.status span:first-child{
+			margin-left: -19px !important;
+		}
+		.subject{
+			padding: 10px 10px 0px 15px;
+    		position: relative;
+    		word-break: break-all;
+    		font-size: 16px;
+    		line-height: 16px;
+		}
+		.mui-row{
+			margin-left: -4px;
+			margin-right: -5px;
+			margin-top: -4px;
+			margin-bottom: 0px;
+		}
+		
+		.text-muted {
+		    padding-left: 16px;
+		    padding-right: 5px;
+		    font-size: 12px;
+		    padding-top: 5px;
+		    padding-bottom: 10px;
+		}
+		.content{
+			word-wrap: break-word;
+			display: inline-block;
+			margin-right: 0.4rem;
+			margin-left: 1.2rem;
+		}
+		.mui-bar~.mui-content .mui-fullscreen {
+			top: 44px;
+			height: auto;
+		}		
+		.mui-pull-top-tips {
+			position: absolute;
+			top: -20px;
+			left: 50%;
+			margin-left: -25px;
+			width: 40px;
+			height: 40px;
+			border-radius: 100%;
+			z-index: 1;
+		}
+		
+		.mui-bar~.mui-pull-top-tips {
+			top: 24px;
+		}		
+		.mui-pull-top-wrapper {
+			width: 42px;
+			height: 42px;
+			display: block;
+			text-align: center;
+			background-color: #efeff4;
+			border: 1px solid #ddd;
+			border-radius: 25px;
+			background-clip: padding-box;
+			box-shadow: 0 4px 10px #bbb;
+			overflow: hidden;
+		}		
+		.mui-pull-top-tips.mui-transitioning {
+			-webkit-transition-duration: 200ms;
+			transition-duration: 200ms;
+		}		
+		.mui-pull-top-tips .mui-pull-loading {
+			margin: 0;
+		}		
+		.mui-pull-top-wrapper .mui-icon,
+		.mui-pull-top-wrapper .mui-spinner {
+			margin-top: 7px;
+		}		
+		.mui-pull-top-wrapper .mui-icon.mui-reverse {
+		}		
+		.mui-pull-bottom-tips {
+			text-align: center;
+			background-color: #efeff4;
+			font-size: 15px;
+			line-height: 40px;
+			color: #777;
+		}		
+		.mui-pull-top-canvas {
+			overflow: hidden;
+			background-color: #fafafa;
+			border-radius: 40px;
+			box-shadow: 0 4px 10px #bbb;
+			width: 40px;
+			height: 40px;
+			margin: 0 auto;
+		}		
+		.mui-pull-top-canvas canvas {
+			width: 40px;
+		}		
+		.mui-slider-indicator.mui-segmented-control {
+			background-color: #efeff4;
+		}		
+		.jh-orange {
+			color: #FF9900;
+		}		
+		.typeitem {
+			text-align: center;
+			border: 1px solid #BCBCBC;
+			height: 35px;
+			padding-top: 5px;
+			padding-right: 10px;
+		}						
+		.jh-title {
+			float: left;
+		}
+		.mui-scroll{
+			min-height: 100%;
+		}
+		.document-list{
+			border-bottom: 1px solid #e4e4e4;
+		}
+		.popover-item{
+			padding:13px 15px;border-radius:0;color:#000000
+		}
+		.mui-bar-nav~.mui-content .mui-pull-top-pocket {
+		    top: 0px;
+		}
+	</style>
+	<body style="background-color: #FFFFFF;">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-btn mui-btn-blue mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span><span id="navtil"></span>
+			</a>
+			<span class="mui-pull-right" id="creatdocument" style="display: none;">
+				<i class="fa fa-plus" style="font-size: 23px;line-height: 50px;padding-right: 4px;" aria-hidden="true"></i>
+			</span>
+		</header>
+		<div class="mui-content" id="contentArea" style="display: block">
+			<div id="slider" class="mui-slider mui-fullscreen">
+				<div class="mui-slider-group" id="sliderGroup">
+					<div id="itemmobile" class="mui-slider-item mui-control-content mui-active">
+						<div class="mui-scroll-wrapper" id="refreshContainer">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									<div class="mui-loading">
+										<div class="mui-spinner">
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>				
+				</div>
+			</div>
+			<script src="../js/mui.min.js"></script>
+			<script src="../js/crypto-js.js"></script>
+			<script src="../js/mui.pullToRefresh.js"></script>
+			<script src="../js/mui.pullToRefresh.material.js"></script>
+			<script src="../js/service.js"></script>
+			<script src="../js/common.js"></script>
+			<script src="../js/attachment.js"></script>
+			<script src="../js/wxHelper.js"></script>
+	</body>
+	<script type="text/javascript">
+		var userId = 0;
+		var username="";
+		var creatdocument = document.getElementById("creatdocument");
+		window.onload = function() { 
+			//获取url中的targetId参数                                                                                                           
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					userId = self.userId;
+					username=self.username;
+					uploadedDocument(false)
+					username=(username=="me")?"我":username
+					creatdocument.style.display=(username=="我")?'block':'none';					
+					document.getElementById("navtil").innerHTML=username+'的文档';
+					//关闭等待框                                                                                                               
+					plus.nativeUI.closeWaiting();
+					//显示当前页面                                                                                                              
+					mui.currentWebview.show();
+				});
+			} else {
+				userId = getUrlParam('userId');
+				username=getUrlParam('username');
+				uploadedDocument(false)
+			}
+			username=(username=="me")?"我":username
+			creatdocument.style.display=(username=="我")?'block':'none';
+			document.getElementById("navtil").innerHTML=username+'的文档';
+		}
+		creatdocument.addEventListener('tap',function(){
+				mui.openWindow({
+					url: 'creatDoc.html',
+					id: 'creatDoc.html',
+					show:{
+				      autoShow:false
+				   },
+					waiting: {
+						options: {
+							loading: {
+								height: '35px'
+							}
+						}
+					}
+				})
+			})
+		var ids = [];				
+		function login (){
+			if(mui.os.wechat){
+				getCode('',true)
+			}else{
+				mui.openWindow({
+				url: 'user_login.html',
+				id: 'user_login.html',
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				}
+			})	
+			}			
+		}
+		var selel = document.getElementsByClassName("mui-control-item mui-active");
+		mui('.mui-slider').slider();
+		var deceleration = mui.os.ios ? 0.003 : 0.0009;
+		mui('.mui-scroll-wrapper.mui-slider-indicator.mui-segmented-control').scroll({
+			scrollY: false,
+			scrollX: true,
+			indicators: false,
+			deceleration: deceleration,
+			snap: '.mui-control-item'
+		});
+		var pageindex = 1;
+	mui.init({
+		pullRefresh: {
+			container: '#refreshContainer',
+			down: {
+				callback: pulldownRefreshCom
+			},
+			up: {
+				contentrefresh: '正在加载...',
+				callback: pullupRefreshCom
+			}
+		}
+	});                                                                                                                            
+	function pulldownRefreshCom() {                                                                                                      
+		setTimeout(function() { 
+			uploadedDocument(false);                                                                                       
+			mui('#refreshContainer').pullRefresh().endPulldownToRefresh();                                            
+		}, 1500);                                                                                                                     
+	}                                                                                                                                 
+	var count = 0;                                                                                                                                                                                                                                                  
+	function pullupRefreshCom() {                                                                                                        
+		setTimeout(function() { 
+			uploadedDocument(true);
+			mui('#refreshContainer').pullRefresh().endPullupToRefresh((++count > 2));                                                                                                                             
+		}, 1500);                                                                                                                     
+	}
+			mui("#itemmobile").on('tap', '.uploadeddocumenttap', function(e) {
+				var documentId = this.getAttribute('id');
+				var mediaType = Number(this.getAttribute('title'));
+				var baseUrl = 'documentDetail.html';
+				switch (mediaType){
+					case 1:
+						baseUrl = 'docImgsDetail.html';
+						break;
+					case 2:
+						baseUrl = 'docVideoDetail.html';
+						break;
+					default:
+						baseUrl = 'documentDetail.html'
+						break;
+				}
+					var url = mui.os.plus ? baseUrl : baseUrl + '?documentId=' + documentId;
+					var curl = shareUrl+ baseUrl+ '?documentId=' + documentId;
+					setlsData('currUrl', curl);
+					mui.openWindow({
+						url: url,
+						id: baseUrl,
+						show: {
+							autoShow: true
+						},
+						waiting: {
+							options: {
+								loading: {
+									height: '35px'
+								}
+							}
+						},
+						extras: {
+							documentId: documentId,
+							tabIndex: 0,
+							type: 'user',
+							currId: 'otherDocument.html'
+						}
+					})
+			});
+		var creatuploadedDocumentElement = function(data,more) {			
+			var finel = document.getElementById('refreshContainer').querySelector('.mui-table-view');
+			var fragment = document.createDocumentFragment();
+			var newFragment = document.createDocumentFragment();
+			var Essential;
+			var a1 = [];
+			var li;
+			var bigContainer;
+			for(var i = 0; i < data.length; i++) {	
+				var icon = getDocumentType(data[i].Extension);
+				switch(data[i].ApprovalStatus){
+					case 20 :
+						var ApprovalStatus = '<li style="color: #FF9900;">' + "待审核" + '</li>';
+					break;
+					case 30:
+						var ApprovalStatus = '<li style="color: #FF9900;">' + "需再审核" + '</li>';
+					break;
+					case 10:
+						var ApprovalStatus = '<li style="color: #FF0000;">' + "审核未通过" + '</li>';
+					break;
+					case 40:
+						var ApprovalStatus = '<li style="color: #008000;">' + "审核通过" + '</li>'
+					break;
+					default:
+					break;
+				}
+				span = document.createElement('span');
+				var resolved = "";				
+				var dis = 'none';
+				bigContainer = "";
+				a1 = [];
+				if(data[i].IsEssential) {
+					Essential = '<span class="jh-red-border">' + "精华" + '</span>'
+				} else {
+					Essential = ''
+				}
+				if(data[i].IsSticky) {
+					Sticky = '<span class="jh-red-border">' + "置顶" + '</span>'
+				} else {
+					Sticky = ''
+				}
+				if(Essential== '' && Sticky == ''){
+					var dis = "none";
+				}else{
+					var dis = "inline-block";
+				}
+				for(var r = 0; r < a1.length; r++) {
+					bigContainers = "";
+					itemContainer = '<a  class="tagname" id=' + a1[r] + '><span class="label label-default">' + a1[r] + '</span></a>'
+					bigContainer += itemContainer;
+				}
+				var shenglue = data[i].Subject.length > 15 ? "..." : "";//.substring(0, 15) +shenglue
+				div = document.createElement('div');
+				div.className = 'mui-content document-list';
+				div.id = data[i].Id; 
+				div.title=data[i].MediaType;
+				div.innerHTML = 
+					'<div class="mui-content-padded uploadeddocumenttap uploadeddocumentlongtap" id=' + data[i].Id + ' title='+data[i].MediaType+'>' +
+					'<div class="subject">'+
+					icon+
+					'                                              <p class="content" id=' + data[i].Id + '>' + 
+					data[i].Subject+
+					
+					'                                              </p>'+
+					'<span class="status" style="display:'+ dis +'">'+
+					Sticky +
+					Essential +
+					'</span>'+
+					'</div>' +
+					'                                              <div class="mui-row"> ' +
+					
+					'                                              <ul class="mui-list-inline text-muted" >' +
+					
+					ApprovalStatus+
+					'                                              <li>' + data[i].DownloadCount + '次下载' + '</li>' +
+					'                                              <li style="padding-right:0.5rem;">' + data[i].FriendlyFileLength + '</li>' +
+					
+					
+					'                                              </ul>' +
+					'                                              </div>' +
+					'                                              </div>' +
+					'                                              </div>';
+				if(more == true){
+					finel.appendChild(div);
+				}else{
+					newFragment.appendChild(div);
+				}
+			}
+			if(more == false){
+				finel.innerHTML=nodeToString(newFragment);
+			}
+		};
+		var page = 1;
+		var idName = "";
+		var bool;		
+		function uploadedDocument(more) {
+//			if(!more) {
+//				showLoading('', '', '#FFFFFF', '90px', '1');
+//			}
+//			idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+//			var fragment = document.getElementById(idName);
+//			var cfragment = fragment.firstElementChild;
+//			var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+			var table = document.body.querySelector('.mui-table-view');
+			if(more) {
+				page++;
+			} else {
+				//table.innerHTML = '';
+				page = 1;
+			}			
+			var params = {
+				userId : userId,
+				method : "upload",
+				pageSize: 10,
+				pageIndex: page,
+			};
+			getDatawithToken('Document/GetUserDocuments', params, function(data) {
+				hideLoading()
+				var bottomTip = document.querySelectorAll('.mui-pull-bottom-tips');
+				var idName = document.getElementById('itemmobile');
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+//						if(data.Data.length <= 10) {
+//							document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'none';
+//						} else {							
+//							document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'block';
+//						}
+						creatuploadedDocumentElement(data.Data,more);
+					} else {
+						idName.querySelector('.mui-loading').style.display = 'none';
+						if(!more){
+							var errForList=showErrForList(data.Data,'','','itemmobile');
+							if(errForList){
+								idName.appendChild(showErrForList(data.Data,'','','itemmobile'))
+							}
+						}
+						mui.toast(data.Data);
+					}
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					var errForList=showErrForList(data.Data,'','','itemmobile');
+					if(errForList){
+						idName.appendChild(showErrForList(data.Data,'','','itemmobile'))
+					}
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr('','90px')
+			})
+			}
+		mui.init({
+			gestureConfig: {
+				swipeBack: true //启用右滑关闭功能
+			},
+		});								
+	</script>
+</html>

@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/jinhu.css"/>
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+	</head>
+	<style>
+		.mui-bar~.mui-content .mui-fullscreen {
+			top: 250px;
+			height: auto;
+		}
+		
+		.mui-pull-top-tips {
+			position: absolute;
+			top: -20px;
+			left: 50%;
+			margin-left: -25px;
+			width: 40px;
+			height: 40px;
+			border-radius: 100%;
+			z-index: 1;
+		}
+		
+		.mui-bar~.mui-pull-top-tips {
+			top: 24px;
+		}
+		
+		.mui-pull-top-wrapper {
+			width: 42px;
+			height: 42px;
+			display: block;
+			text-align: center;
+			background-color: #efeff4;
+			border: 1px solid #ddd;
+			border-radius: 25px;
+			background-clip: padding-box;
+			box-shadow: 0 4px 10px #bbb;
+			overflow: hidden;
+		}
+		
+		.mui-pull-top-tips.mui-transitioning {
+			-webkit-transition-duration: 200ms;
+			transition-duration: 200ms;
+		}
+		
+		.mui-pull-top-tips .mui-pull-loading {
+			/*-webkit-backface-visibility: hidden;
+				-webkit-transition-duration: 400ms;
+				transition-duration: 400ms;*/
+			margin: 0;
+		}
+		
+		.mui-pull-top-wrapper .mui-icon,
+		.mui-pull-top-wrapper .mui-spinner {
+			margin-top: 7px;
+		}
+		
+		.mui-pull-top-wrapper .mui-icon.mui-reverse {
+			/*-webkit-transform: rotate(180deg) translateZ(0);*/
+		}
+		
+		.mui-pull-bottom-tips {
+			text-align: center;
+			background-color: #efeff4;
+			font-size: 15px;
+			line-height: 40px;
+			color: #777;
+		}
+		
+		.mui-pull-top-canvas {
+			overflow: hidden;
+			background-color: #fafafa;
+			border-radius: 40px;
+			box-shadow: 0 4px 10px #bbb;
+			width: 40px;
+			height: 40px;
+			margin: 0 auto;
+		}
+		
+		.mui-pull-top-canvas canvas {
+			width: 40px;
+		}
+		
+		.mui-slider-indicator.mui-segmented-control {
+			background-color: #efeff4;
+		}
+		.editicon{
+			font-size: 24px;
+		    position: relative;
+		    z-index: 20;
+		    padding-top: 10px;
+		    padding-bottom: 10px;
+		}
+		.mui-table-view-cell:after {
+		    position: absolute;
+		    right: 0;
+		    bottom: 0;
+		    left: 15px;
+		    height: 1px;
+		    content: '';
+		    -webkit-transform: scaleY(.5);
+		    transform: scaleY(.5);
+		    background-color: transparent
+		}
+		.mui-slider .mui-segmented-control.mui-segmented-control-inverted~.mui-slider-group .mui-slider-item {
+			border: none;
+		}
+		.mui-popover-center{
+			bottom: 37% !important;
+			width: 90% !important;
+			margin-left: 5% !important;
+		}
+		#selectTypes .pop_view{
+			height: auto !important;
+			border-radius: 5px;
+			padding: 0 !important;
+		}
+		.itemSubject{
+			color: #999999;
+			text-align: center;
+		    height: 50px;
+		    line-height: 50px;
+		    border-bottom: 1px solid #e4e4e4;
+		}
+		#selectTypes .pop_view li{
+			list-style: none;
+		    text-align: center;
+		    height: 45px;
+		    line-height: 45px;
+		    border-bottom: 1px solid #e4e4e4;
+		}
+	</style>
+
+	<body style="background-color: #fff;" id="bigContainer">
+		<header id="header" class="mui-bar mui-bar-transparent" >
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="color:#fff;"></a>
+			<i id="setting_btn" class="fa fa-plus editicon" aria-hidden="true" style="color:#fff;float: right;"></i>
+		</header>
+
+		<div class="mui-content" id="postDetail">
+			<div class="mui-row jh-tieba-detail-user" style="margin-left:0;width: 100%;margin-top: 0;">
+				<div class="mui-col-xs-3">
+					<img id="featuredImage" style="border-radius: 50%;"  src="">
+				</div>
+				<div class="mui-col-xs-9">
+					<h4 id="Name"></h4>
+					<ul class="mui-list-inline">
+						<li id="UserCount"></li>
+						<li id="ThreadCount"></li>
+					</ul>
+					<div class="mui-row">
+						<div class="mui-col-xs-6">
+							<button type="button" id="favoritedBtn" class="mui-btn mui-btn-outlined mui-btn-block"></button>
+						</div>
+						<div class="mui-col-xs-6">
+							<button type="button" id="detailBtn" class="mui-btn mui-btn-outlined mui-btn-block">贴吧资料</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="jh-gray-bar" id="Stickygb"></div>
+			<div style="background-color: #FFFFFF;">
+			<div id="Sticky" style="padding: 10px;"></div>
+			</div>
+			<div class="jh-gray-bar" id="pxtop"></div>
+
+			<div id="slider" class="mui-slider mui-fullscreen">
+				<div id="sliderSegmentedControl" style="display: block;" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted jh-scroll-wrapper">
+					<div class="mui-scroll" id="SectionType" style="padding-right: 50px;">
+						<a class="mui-control-item mui-active" href="#itemmobile">
+							全部
+						</a>
+						<a class="mui-control-item" href="#item1mobile">
+							精华
+						</a>
+					</div>
+					<a id="searchBtn" class="mui-icon mui-icon-search mui-pull-right" style="color:#4e4e4e;border: none;font-weight:bold"></a>
+				</div>
+
+				<div id="searchSegmentedControl" style="display: none;" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted jh-scroll-wrapper" data-scroll="2">
+					<div class="mui-row jh-post-search">
+						<div class="mui-col-xs-10" style="width: 90%;">
+							<div class="mui-input-row mui-search mui-active">
+								<form target="nm_iframe" action="">
+				                    <input type="search" style="height:30px;font-size: 14px;" onkeyup="enterSearch(event)" id="searchInput" class="mui-input-clear" placeholder="" data-input-clear="1" data-input-search="1">
+				                </form>
+				                <iframe id="id_iframe" name="nm_iframe" style="display:none;"></iframe>
+								<span class="mui-icon mui-icon-clear mui-hidden"></span>
+								<span class="mui-placeholder"><span class="mui-icon mui-icon-search"></span><span></span></span>
+							</div>
+						</div>
+						<div class="mui-col-xs-1 mui-text-right" style="padding-left: 10px;">
+							<a href="#" id="closeSearch">
+								<i class="fa fa-times" aria-hidden="true"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="mui-slider-group" id="sliderGroup">
+					<div id="itemmobile" class="mui-slider-item mui-control-content mui-active">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<div id="item1mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									<div class="mui-scroll">
+										<div class="mui-loading">
+											<div class="mui-spinner">
+											</div>
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="mui-slider-group" id="searchGroup" style="display: none;">
+					<p id="searchMsg" class="jh-post-search-result"></p>
+					<div id="searchMobile" class="mui-slider-item mui-control-content" style="border-top: none;">
+						<div class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../js/jquery-2.1.0.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/mui.pullToRefresh.js"></script>
+		<script src="../js/mui.pullToRefresh.material.js"></script>
+		<script src="../js/wxHelper.js"></script>
+	</body>
+	<script>
+		
+		var Name = document.getElementById("Name");
+		var UserCount = document.getElementById("UserCount");
+		var ThreadCount = document.getElementById("ThreadCount");
+		var detailBtn = document.getElementById("detailBtn");
+		var favoritedBtn = document.getElementById("favoritedBtn");
+		var Sticky = document.getElementById("Sticky");
+		var searchBtn = document.getElementById("searchBtn");
+		var nomItem = document.getElementById("sliderSegmentedControl");
+		var serItem = document.getElementById("searchSegmentedControl");
+		var sliderGroup = document.getElementById("sliderGroup");
+		var searchGroup = document.getElementById("searchGroup");
+		var searchMobile = document.getElementById("searchMobile");
+		var closeSearch = document.getElementById("closeSearch");
+		var searchInput = document.getElementById("searchInput");
+		var searchMsg = document.getElementById("searchMsg");
+		var slider = document.getElementById("slider");
+		var selel = document.getElementsByClassName("mui-control-item mui-active");
+		var featuredImage = document.getElementById("featuredImage")
+		var bottomTip = document.querySelectorAll('.mui-pull-bottom-tips');
+		var postDetail = document.getElementById('postDetail');
+		
+		var ThreadTypes = [];
+		var postUserCount = 0;
+		var serPage = 1;
+		var start;
+		var end;
+
+		$(document).ready(function() {
+			$(window).scroll(function() {
+				var top = 50; //获取指定位置
+				var scrollTop = $(window).scrollTop(); //获取当前滑动位置
+				if(scrollTop > top) { //滑动到该位置时执行代码
+					document.querySelector('.mui-action-back').style.color = '#000000';
+					document.querySelector('#setting_btn').style.color = '#000000';
+				} else {
+					document.querySelector('.mui-action-back').style.color = '#FFFFFF';
+					document.querySelector('#setting_btn').style.color = '#FFFFFF';
+				}
+			});
+		});
+		
+
+		function enterSearch(e) {
+			if(e.keyCode == 13) {
+				searchInput.blur();
+				var keyword = TrimAll(searchInput.value);
+				if(keyword.length != 0) {
+					var date = new Date();
+					start = date.getMilliseconds();
+					GetThreads(sectionId, false, 10, false, keyword)
+				}
+			}
+		}
+		searchBtn.addEventListener('tap', function() {
+			var bottomTip = document.querySelectorAll('.mui-pull-bottom-tips');
+			nomItem.style.display = 'none';
+			serItem.style.display = 'block';
+			sliderGroup.style.display = 'none';
+			searchGroup.style.display = 'block';
+			if(bottomTip[bottomTip.length - 1]) {
+				bottomTip[bottomTip.length - 1].style.display = 'none'
+			}
+
+		})
+		closeSearch.addEventListener('tap', function() {
+			nomItem.style.display = 'block';
+			serItem.style.display = 'none';
+			sliderGroup.style.display = 'block';
+			searchGroup.style.display = 'none';
+		})
+		var SectionId;
+		function getDetail(id) {
+			if(id == null) {
+				return
+			}
+			showLoading();
+			getDatawithToken('Post/SectionDetail', {
+				sectionId: id
+			}, function(data) {
+				console.log();
+				hideLoading();
+				if(data.Type == 1) {
+					SectionId = data.Data.SectionId;
+					if(data.Data.ThreadTypes.length > 1){
+						for(var i = 0; i <data.Data.ThreadTypes.length;i++){
+							ThreadTypes.push(data.Data.ThreadTypes[i].Type);
+						}						
+					}
+					featuredImage.src = getImgUrl(data.Data.FeaturedImage);
+					Name.innerText = data.Data.Name.substring(0, 15);
+					UserCount.innerText = "用户：" + data.Data.UserCount;
+					postUserCount = data.Data.UserCount;
+					ThreadCount.innerText = "贴子：" + data.Data.ThreadCount;
+					var isFavorited = data.Data.IsFavorited;
+					favoritedBtn.innerText = isFavorited ? "取消关注" : "+  关注";
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					showErr(data.Data, '', '#FFFFFF', '50px');
+					document.getElementById("setting_btn").style.display = 'none';
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr('','',false)
+			})
+		}
+		var sectionId;
+		//B页面onload从服务器获取列表数据；
+		window.onload = function() {
+			//获取url中的targetId参数
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					sectionId = self.sectionId;
+					getDetail(sectionId)
+					GetThreads(sectionId, true, 3, false, "")
+					GetThreads(sectionId, false, 10, false, "");
+					slider.style.top = (document.getElementById("pxtop").offsetTop + 10) + 'px';
+					//关闭等待框
+					plus.nativeUI.closeWaiting();
+					//显示当前页面
+					mui.currentWebview.show();
+				});
+			} else {
+				sectionId = getUrlParam('sectionId');
+				getDetail(sectionId)
+				GetThreads(sectionId, true, 3, false, "")
+				GetThreads(sectionId, false, 10, false, "");
+			}
+			if(mui.os.wechat) {
+				var currUrl = location.href.split('#')[0];
+				weChatLogin(currUrl)
+			}
+			slider.style.top = (document.getElementById("pxtop").offsetTop + 10) + 'px';
+
+		}
+		var bigContainer = document.getElementById('bigContainer');
+		function creatselectTypes(ThreadTypes) {
+			var items = '';
+			for(var i = 0;i<ThreadTypes.length;i++){
+				switch (ThreadTypes[i]){
+					case 'Thread':
+						var Name = '普通贴';
+						break;
+					case 'VoteThread':
+						var Name = '投票贴';
+						break;
+					case 'EventThread':
+						var Name = '活动贴';
+						break;
+					default:
+						break;
+				}
+				var item = '<li id="'+ ThreadTypes[i] +'" class="tapItem">'+ Name +'</li>';
+				items += item;
+			}
+			var div = document.createElement('div');
+			div.id = 'selectTypes';
+			div.className = 'box mui-popover mui-popover-action mui-popover-center';
+			div.innerHTML = '<div class="pop_view">' +
+							'<div class="itemSubject">选择贴子类型'+'</div>'+
+							items+
+					'</div>';
+			bigContainer.appendChild(div);
+		}
+		mui("#bigContainer").on('tap', '.tapItem', function(e) {
+			var Type = this.getAttribute('id');
+			var sectionId = SectionId;
+			switch(Type){
+				case 'Thread':
+					var baseurl = 'creatThread.html';
+					break;
+				case 'VoteThread':
+					var baseurl = 'creatVoteThread.html';
+					break;
+				case 'EventThread':
+					var baseurl = 'creatEvent.html';
+					break;
+				default:
+					break;
+			}
+			var islog = getlsData('isLogin');
+				if(islog == 'true') {
+					var baseUrl = baseurl;
+					var url = mui.os.plus ? baseUrl : baseUrl + '?sectionId=' + sectionId;
+					mui.openWindow({
+						url: url,
+						id: baseurl,
+						show: {
+							autoShow: true
+						},
+						waiting: {
+							options: {
+								loading: {
+									height: '35px'
+								}
+							}
+						},
+						extras: {
+							sectionId: sectionId
+						}
+					})
+				} else {
+					mui.toast('请登录后再进行操作');
+					login();
+				}
+		})
+		document.getElementById("setting_btn").addEventListener('tap', function() {
+			if(ThreadTypes.length > 0){
+				creatselectTypes(ThreadTypes);
+				mui('#selectTypes').popover('toggle');
+			}else{
+				var islog = getlsData('isLogin');
+				if(islog == 'true') {
+					var baseUrl = 'creatThread.html';
+					var url = mui.os.plus ? baseUrl : baseUrl + '?sectionId=' + sectionId;
+					mui.openWindow({
+						url: url,
+						id: 'creatThread.html',
+						show: {
+							autoShow: true
+						},
+						waiting: {
+							options: {
+								loading: {
+									height: '35px'
+								}
+							}
+						},
+						extras: {
+							sectionId: sectionId
+						}
+					})
+				} else {
+					mui.toast('请登录后再进行操作');
+					login();
+				}
+			}						
+		})
+		detailBtn.addEventListener('tap', function() {
+			var baseUrl = 'postIntroduce.html';
+			var url = mui.os.plus ? baseUrl : baseUrl + '?sectionId=' + sectionId;
+			mui.openWindow({
+				url: url,
+				id: 'postIntroduce',
+				show: {
+					autoShow: false
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					sectionId: sectionId
+				}
+			})
+		})
+		favoritedBtn.addEventListener('tap', function() {
+			postDatawithToken('Post/BarFavoriteOperation?sectionId=' + sectionId, {}, function(data) {
+				if(data.Type == 1) {
+					mui.toast(data.Data.Msg);
+					if(data.Data.Msg == '关注成功') {
+						UserCount.innerText = "用户：" + (postUserCount + 1);
+						postUserCount = postUserCount + 1;
+						favoritedBtn.innerText = '取消关注';
+						document.getElementById("setting_btn").style.display = 'block';
+					} else {
+						UserCount.innerText = "用户：" + (postUserCount - 1);
+						postUserCount = postUserCount - 1;
+						favoritedBtn.innerText = '关注';
+						document.getElementById("setting_btn").style.display = 'none';
+					}
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				hideLoading();
+			})
+		})
+
+		function creatStickyFragment(data) {
+			/**
+			 * 置顶的贴子
+			 */
+			var fragment = document.getElementById('Sticky');
+			var div;
+			for(var i = 0; i < data.Data.length; i++) {
+				div = document.createElement('div');
+				div.className = 'jh-overflow-h';
+				div.innerHTML = '<small class="jh-red-top">置顶</small><span>' + data.Data[i].Subject.substring(0, 15) + '</span>';
+				div.id = data.Data[i].ThreadId;
+				div.title = data.Data[i].ThreadType;
+				div.value = data.Data[i].AssociateId;
+				div.id = data.Data[i].ThreadId;
+				fragment.appendChild(div)
+			}
+			slider.style.top = (document.getElementById("pxtop").offsetTop + 10) + 'px';
+		}
+		var creatimgFragment = function(data) {
+			var bigContainers = "";
+			for(var i = 0; i < data.length; i++) {
+				var itemContainer = "";
+				itemContainer += ("<div class='mui-col-xs-4'><img style='width:100px;height:100px' src='" + getImgUrl(data[i].Url) + "' title='" + data[i].FileName + "' alt='" + data[i].FileName + "' /></div>");
+				bigContainers += itemContainer;
+			}
+			return bigContainers;
+			slider.style.top = (document.getElementById("pxtop").offsetTop + 10) + 'px';
+		}
+		var createFragment = function(data, id) {
+			var fragment = document.getElementById(id);
+			var cfragment = fragment.firstElementChild;
+			var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+			if(id == 'item1mobile') {
+				finel.innerHTML = ''
+			}
+			var div;
+			for(var i = 0; i < data.Data.length; i++) {
+				var dis = 'none';
+				if(data.Data[i].Attachments && data.Data[i].Attachments.length > 0) {
+					dis = 'block';
+					child = creatimgFragment(data.Data[i].Attachments)
+				} else {
+					dis = 'none';
+					child = ''
+				}
+				var userAvatar = data.Data[i].Avatar == "" ? "../img/avatar.jpg" : getImgUrl(data.Data[i].Avatar);
+				li = document.createElement('li');
+				li.className = 'mui-table-view-cell jh-news-list';
+				li.title = data.Data[i].ThreadType;
+				li.value = data.Data[i].AssociateId;
+				li.id = data.Data[i].ThreadId;
+				li.innerHTML = '<h5 class="listTitle">' + data.Data[i].Subject + '</h5><div style="display:' + dis + '" class="mui-row">' + child + '</div>' +
+					'<ul class="mui-list-inline text-muted jh-itemBottm-left">' +
+					'											<li><img class="creator_img" style="height:1.5rem" src=' + userAvatar + '></li>' +
+					'											<li>' + data.Data[i].Author.substring(0,6) + '</li>' +
+					'											<li>' + data.Data[i].DateCreated + '发布</li>' +
+					'										</ul>' +
+					'<div class="jh-itemBottm-right text-muted">' +
+					'											<li class="mui-pull-right" style="float:left"><i class="fa fa-eye" aria-hidden="true">&nbsp;' + data.Data[i].HitTimes + '</i></li>' +
+					'											<li class="mui-pull-right" style="float:right"><i class="fa fa-comment" aria-hidden="true">&nbsp;' + data.Data[i].CommentCount + '</i></li>' +
+					'</div>';
+				finel.appendChild(li);
+
+			}
+			slider.style.top = (document.getElementById("pxtop").offsetTop + 10) + 'px';
+		};
+		
+		mui(".mui-table-view").on('tap', '.mui-table-view-cell', function(e) {
+			var threadId = this.getAttribute("id");
+			var ThreadType = this.getAttribute("title");
+			var AssociateId = this.getAttribute("value");
+			var baseUrl = ThreadType=='1'?'eventThreadDetail.html':'threadDetail.html';
+			var url = baseUrl + '?threadId=' + threadId +'&'+'ThreadType='+ThreadType+'&'+'AssociateId='+AssociateId;
+			var curl = shareUrl + baseUrl + '?threadId=' + threadId+'&'+'ThreadType='+ThreadType+'&'+'AssociateId='+AssociateId;
+			setlsData('currUrl', curl);
+			mui.openWindow({
+				url: url,
+				id: baseUrl,
+				show: {
+					autoShow: false
+				},
+				createNew:true,
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					threadId: threadId,
+					currId: 'postDetail.html',
+					ThreadType : ThreadType,
+					AssociateId :AssociateId
+				}
+			})
+
+		})
+
+		mui('#Sticky') && mui('#Sticky').on('tap', '.jh-overflow-h', function(e) {
+			var threadId = this.getAttribute("id");
+			var ThreadType = this.getAttribute("title");
+			var AssociateId = this.getAttribute("value");
+			var baseUrl = ThreadType=='1'?'eventThreadDetail.html':'threadDetail.html';
+			var url = baseUrl + '?threadId=' + threadId +'&'+'ThreadType='+ThreadType+'&'+'AssociateId='+AssociateId;
+			var curl = shareUrl + baseUrl + '?threadId=' + threadId+'&'+'ThreadType='+ThreadType+'&'+'AssociateId='+AssociateId;
+			setlsData('currUrl', curl);
+			mui.openWindow({
+				url: url,
+				id: baseUrl,
+				show: {
+					autoShow: false
+				},
+				createNew:true,
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					threadId: threadId,
+					currId: "postDetail.html"
+				}
+			})
+		})
+		searchMsg.style.display = 'none';
+		var page = 1;
+
+		function GetThreads(sectionId, isSticky, pageSize, more, keyword, isSlider) {
+			if(sectionId == null) {
+				return
+			}
+			var idName = "";
+			if(keyword.length > 0) {
+				idName = "searchMobile";
+			} else {
+				idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+			}
+			var fragment = document.getElementById(idName);
+			var cfragment = fragment.firstElementChild;
+			var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+			if(more) {
+				page++;
+			} else {
+				finel.innerHTML = "";
+				page = 1;
+			}
+
+			var params = {
+				sectionId: sectionId,
+				keyword: keyword,
+				isSticky: isSticky,
+				pageSize: pageSize,
+				pageIndex: page
+			};
+			getData('Post/GetThreads', params, function(data) {
+				//hideLoading()
+				var bottomTip = document.querySelectorAll('.mui-pull-bottom-tips');
+				var idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+				if(data.Type == 1) {
+					var date = new Date();
+					end = date.getMilliseconds();
+					var usertime = (end - start) / 1000;
+					if(data.Data && typeof(data.Data) == 'object') {
+						hideErrForList('', idName);
+						bottomTip[0].style.display = 'inherit';
+						slider.style.top = (document.getElementById("pxtop").offsetTop + 10) + 'px';
+						if(!more && data.Data.length < 5) {
+							if(serItem.style.display == 'block' && keyword.length > 0) {
+								if(bottomTip[bottomTip.length - 1]) {
+									bottomTip[bottomTip.length - 1].style.display = 'none'
+								}
+							}
+							if(bottomTip[0]) {
+								bottomTip[0].style.display = 'none'
+							}
+						} else {
+							if(serItem.style.display == 'block' && keyword.length > 0) {
+								if(bottomTip[bottomTip.length - 1]) {
+									bottomTip[bottomTip.length - 1].style.display = 'block'
+								}
+							}
+							if(bottomTip[0]) {
+								bottomTip[0].style.display = 'block'
+							}
+						}
+						if(isSticky) {
+							creatStickyFragment(data)
+							slider.style.top = (document.getElementById("pxtop").offsetTop + 10) + 'px';
+						} else if(keyword != "") {
+							searchMsg.style.display = 'block';
+							searchMsg.innerHTML = '约有 ' + data.Data.length + ' 个搜索结果（用时 ' + usertime + ' 秒）';
+							var fragment = document.getElementById("searchMobile");
+							var cfragment = fragment.firstElementChild;
+							var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+							finel.innerHTML = "";
+							createFragment(data, "searchMobile");
+						} else {
+							var idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+							createFragment(data, idName);
+						}
+
+					} else {
+						var idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+						var fragment = document.getElementById(idName);
+						if(isSticky && data.Data == '暂时没有贴子') {
+							document.getElementById("Sticky").style.display = 'none';
+							document.getElementById("Stickygb").style.display = 'none';
+							slider.style.top = (document.getElementById("pxtop").offsetTop + 10) + 'px';
+						}
+						if(keyword != "") {
+							var fragment = document.getElementById("searchMobile");
+							var cfragment = fragment.firstElementChild;
+							var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+							finel.innerHTML = "";
+							searchMsg.innerHTML = '约有 ' + 0 + ' 个搜索结果（用时 ' + usertime + ' 秒）';
+						}
+						if(!isSticky) {
+							var height = document.documentElement.clientHeight || document.body.clientHeight;
+							fragment.querySelector('.mui-scroll').style.minHeight = (height - (document.getElementById("pxtop").offsetTop + 10) - 40) + 'px'
+							if(!more) {
+								var errForList = showErrForList(data.Data, '', '50px', idName);
+								if(errForList) {
+									fragment.appendChild(showErrForList(data.Data, '', '50px', idName))
+								}
+							}
+							bottomTip[0].style.display = 'none';
+							if(data.Data!='暂时没有更多贴子'){
+								mui.toast(data.Data);
+							}
+						}
+						slider.style.top = (document.getElementById("pxtop").offsetTop + 10) + 'px';
+
+					}
+					slider.style.top = (document.getElementById("pxtop").offsetTop + 10) + 'px';
+
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast(",请重新登录！");
+					return;
+				} else {
+					//逻辑错误
+					if(!more) {
+						var errForList = showErrForList(data.Data, '', '50px', idName);
+						if(errForList) {
+							fragment.appendChild(showErrForList(data.Data, '', '50px', idName))
+						}
+					}
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				//hideLoading()
+			})
+			setTimeout(function(){slider.style.top = (document.getElementById("pxtop").offsetTop + 10) + 'px';},500)
+			
+		}
+		var pageindex = 1;
+
+		function GetEssentialThreads(sectionId, pageSize, more) {
+			if(sectionId == null) {
+				return
+			}
+			//精华贴子
+			var idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+			var fragment = document.getElementById(idName);
+			var cfragment = fragment.firstElementChild;
+			var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+			if(more) {
+				pageindex++;
+			} else {
+				finel.innerHTML = '';
+				pageindex = 1;
+			}
+			var params = {
+				sectionId: sectionId,
+				pageSize: pageSize,
+				pageIndex: pageindex
+			};
+			getData('Post/GetEssentialThreads', params, function(data) {
+				var bottomTip = document.querySelectorAll('.mui-pull-bottom-tips');
+				var idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+				var fragment = document.getElementById(idName);
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						hideErrForList('', idName);
+						bottomTip[1].style.display = 'inherit';
+						if(!more && data.Data.length < 5) {
+							if(bottomTip[1]) {
+								bottomTip[1].style.display = 'none'
+							}
+						} else {
+							if(bottomTip[1]) {
+								bottomTip[1].style.display = 'block'
+							}
+
+						}
+						var idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+						createFragment(data, idName);
+
+					} else {
+						var height = document.documentElement.clientHeight || document.body.clientHeight;
+						fragment.querySelector('.mui-scroll').style.minHeight = (height - (document.getElementById("pxtop").offsetTop + 10) - 40) + 'px'
+						if(data.Data!='暂时没有更多精华贴子'){
+							mui.toast(data.Data);
+						}
+						if(!more) {
+							var errForList = showErrForList(data.Data, '', '50px', idName);
+							if(errForList) {
+								fragment.appendChild(showErrForList(data.Data, '', '50px', idName))
+							}
+						}
+						bottomTip[1].style.display = 'none';
+					}
+					slider.style.top = (document.getElementById("pxtop").offsetTop + 10) + 'px';
+
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					if(!more) {
+						var errForList = showErrForList(data.Data, '', '50px', idName);
+						if(errForList) {
+							fragment.appendChild(showErrForList(data.Data, '', '50px', idName))
+						}
+					}
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				//hideLoading();
+			})
+		}
+
+
+		/**
+		 * tab切换
+		 */
+		(function($) {
+			//阻尼系数
+			var deceleration = mui.os.ios ? 0.003 : 0.0009;
+			$('.mui-scroll-wrapper').scroll({
+				bounce: false,
+				indicators: true, //是否显示滚动条
+				deceleration: deceleration
+			});
+
+			document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+				var index = event.detail.slideNumber;
+				if(event.detail.slideNumber == 0) {
+					GetThreads(sectionId, false, 10, false, "", true);
+				}
+				if(event.detail.slideNumber != 0) {
+					GetEssentialThreads(sectionId, 10, false)
+				}
+
+			})
+
+			$.ready(function() {
+				//循环初始化所有下拉刷新，上拉加载。
+				$.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+					$(pullRefreshEl).pullToRefresh({
+						down: {
+							callback: function() {
+								var self = this;
+								var idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+								setTimeout(function() {
+									if(idName == "itemmobile") {
+										GetThreads(sectionId, false, 10, false, "");
+									} else if(idName == "item1mobile") {
+										GetEssentialThreads(sectionId, 10, false)
+									} else {
+										GetThreads(sectionId, false, 10, false, searchInput.value);
+									}
+									self.endPullDownToRefresh();
+								}, 1000);
+							}
+						},
+						up: {
+							callback: function() {
+								var self = this;
+								var idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+								setTimeout(function() {
+									if(idName == "itemmobile") {
+										GetThreads(sectionId, false, 10, true, "");
+									} else if(idName == "item1mobile") {
+										GetEssentialThreads(sectionId, 10, true)
+									} else {
+										GetThreads(sectionId, false, 10, true, searchInput.value);
+									}
+									self.endPullUpToRefresh();
+								}, 1000);
+							}
+						}
+					});
+				});
+
+			});
+		})(mui);
+	
+
+	</script>
+
+</html>

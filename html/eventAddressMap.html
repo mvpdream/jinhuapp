@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css">
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css">
+		<link rel="stylesheet" href="../css/jinhu.css">
+	</head>
+	<style>
+		#map {
+			width: 100%;
+			position: fixed;
+			top: 50px;
+			bottom: 60px;
+			line-height: 200px;
+			text-align: center;
+			background: #FFFFFF;
+		}
+	</style>
+
+	<body style="background-color: #fff;">
+		<header class="mui-bar mui-bar-nav" style="height: 50px !important;">
+			<a class="mui-action-back mui-btn mui-btn-blue mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span></a>
+				<span onclick="userLocation();" class="mui-pull-right" style="line-height: 50px;"><img src="../img/dw1.png" style="width: 25px;height: 25px" /></span>
+		</header>
+		<div class="mui-content">
+			<div id="map">loading...</div>
+		</div>
+		<nav class="mui-bar mui-bar-tab jh-bar-nav" style="width: 100%;height: 60px;">
+			<span class="mui-pull-left" style="height: 60px;padding-top: 10px;width: 80%;padding-left: 5px;">
+				<span style="font-weight: bold;width: 20%;">位置详情</span>
+				<div class="mui-ellipsis"  style="color: #666666;width: 80%;" id="address"></div>
+			</span>
+			<span onclick="navigateWithMap();" class="mui-pull-right" style="line-height: 60px;padding-right: 10px;width: 15%"><img src="../img/dh.png" style="width: 45px;" /></span>
+		</nav>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/coordtransform.js"></script>
+		<script>
+			var ws = null,
+				wo = null;
+			var em = null,
+				map = null,
+				pcenter = null;
+			var getUserlocation;
+			var address;
+			var mapcoord;
+			address=getUrlParam('address');
+			mapcoord=getUrlParam('mapcoord');
+			address=decodeURIComponent(address);
+			mapcoord=decodeURIComponent(mapcoord)
+			var longitude=Number(mapcoord.substring(0,mapcoord.indexOf(',')));
+			var latitude=Number(mapcoord.substring(mapcoord.indexOf(',')+1,mapcoord.length));
+			document.getElementById("address").innerHTML=address
+			function navigateWithMap() {
+				if('Android' === plus.os.name && navigator.userAgent.indexOf('StreamApp') > 0) {
+					plus.nativeUI.toast('当前环境暂不支持地图插件');
+					return;
+				}
+				map.getUserLocation(function(state, pos) {
+					getUserlocation = pos;
+					//https://github.com/wandergis/coordtransform
+					var bd09togcj02 = coordtransform.bd09togcj02(longitude, latitude);
+					var gcj02towgs84 = coordtransform.gcj02towgs84(bd09togcj02[0], bd09togcj02[1]);
+					// 设置目标位置坐标点和其实位置坐标点
+					if(mui.os.ios) {
+						var dst = new plus.maps.Point(bd09togcj02[0], bd09togcj02[1]);
+					} else {
+						var dst = new plus.maps.Point(gcj02towgs84[0], gcj02towgs84[1]);
+					}
+					var src = new plus.maps.Point(pos.longitude, pos.latitude);
+					// 调用系统地图显示 
+					plus.maps.openSysMap(dst, "活动地点", src);
+				});
+			}
+
+			// H5 plus事件处理
+			function plusReady() {
+				if(!em || ws) {
+					return
+				};
+				// 获取窗口对象
+				ws = plus.webview.currentWebview();
+				wo = ws.opener();
+				pcenter = new plus.maps.Point(longitude,latitude);
+				setTimeout(function() {
+					map = new plus.maps.Map("map");
+					map.centerAndZoom(pcenter, 16);
+					map.showUserLocation(true);
+					createMarker();
+				}, 300);
+				// 显示页面并关闭等待框
+				ws.show("pop-in");
+			}
+			if(window.plus) {
+				plusReady();
+			} else {
+				document.addEventListener("plusready", plusReady, false);
+			}
+			// DOMContentloaded事件处理
+			document.addEventListener("DOMContentLoaded", function() {
+				em = document.getElementById("map");
+				window.plus && plusReady();
+			}, false);
+
+			function createMarker() {
+				var marker = new plus.maps.Marker(new plus.maps.Point(longitude, latitude));
+				if(mui.os.android) {
+					marker.setIcon("../img/mapSign.png");
+				}
+				var bubble = new plus.maps.Bubble(address);
+				map.addOverlay(marker);
+			}
+
+			function userLocation() {
+				map.showUserLocation(true);
+				map.getUserLocation(function(state, pos) {
+					getUserlocation = pos;
+					if(state==0) {
+						map.setCenter(pos);
+					}
+//计算两地距离
+//					var point1 = new plus.maps.Point(longitude,latitude);
+//					var point2 = new plus.maps.Point(pos.longitude, pos.latitude)
+//					plus.maps.Map.calculateDistance(point1,point2,function(event){
+//						var distance = event.distance;  // 转换后的距离值
+//						alert("Distance:"+distance);
+//					},function(e){
+//						alert("Failed:"+JSON.stringify(e));
+//					});
+				});
+			}
+		</script>
+	</body>
+
+</html>

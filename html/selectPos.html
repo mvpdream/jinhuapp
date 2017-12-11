@@ -1,0 +1,327 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta content="telephone=no" name="format-detection" />
+		<meta content="email=no" name="format-detection" />
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+
+		<style type="text/css">
+			body,
+			html {
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				font-family: "微软雅黑";
+				font-size: 14px;
+			}
+			
+			#l-map {
+				height: 500px;
+				width: 100%;
+			}
+			
+			#r-result {
+				width: 100%;
+				font-size: 14px;
+			}
+			
+			.tangram-suggestion-main {
+				z-index: 99999999;
+			}
+			
+			.mui-bar {
+				background-color: #fff;
+				-webkit-box-shadow: none;
+				box-shadow: none;
+				height: 50px;
+			}
+			
+			.mui-bar .mui-btn-link {
+				line-height: 50px;
+			}
+			
+			.mui-bar .mui-title {
+				line-height: 50px;
+			}
+			
+			.mui-bar .mui-icon {
+				padding-top: 13px;
+				padding-bottom: 13px;
+			}
+			
+			.mui-bar-transparent {
+				background-color: rgba(247, 247, 247, 0);
+			}
+			
+			.mui-bar-nav {
+				-webkit-box-shadow: none;
+				box-shadow: none;
+				border-bottom: 1px solid #e4e4e4;
+			}
+			
+			.mui-bar input[type=search] {
+				height: 34px;
+				margin: 8px 0
+			}
+			
+			.jh-search-header .mui-col-xs-1 a {
+				font-size: 28px;
+				line-height: 42px !important;
+				color: #666;
+			}
+		</style>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=wL3dnyl9bmiI3a7bIOS2qo8vfkVO87O2"></script>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<form action="" onsubmit="return false;">
+				<div class="mui-row jh-search-header" id="r-result">
+					<div class="mui-col-xs-10">
+						<div class="mui-input-row mui-search mui-active">
+							<input type="search" onkeyup="enterSearch(event)" id="suggestId" class="mui-input-clear" placeholder="关键词" data-input-clear="1" data-input-search="1" value="">
+							<span class="mui-icon mui-icon-clear mui-hidden"></span>
+							<span class="mui-placeholder"><span class="mui-icon mui-icon-search"></span><span></span></span>
+						</div>
+					</div>
+					<div class="mui-col-xs-2 mui-text-right">
+						<a style="height: 50px;line-height: 0;">
+							<button id="selectBtn" onclick="selectBtnFun()" type="button" style="border: 1px solid #bf0a10;background-color: #bf0a10" class="mui-btn mui-btn-primary mui-pull-right">完成</button>
+						</a>
+					</div>
+				</div>
+			</form>
+		</header>
+		<div class="mui-content">
+
+			<div id="l-map"></div>
+		</div>
+		<div id="getlocPos" style="background-color: #FFFFFF;position: fixed;z-index: 9999999;right: 10px;bottom: 10px;padding: 5px;">
+			<img src="../img/currlocation.png" style="width: 25px;height: 25px;" />
+		</div>
+
+		<div id="searchResultPanel" style="border:1px solid #C0C0C0;width:200px;height: auto;overflow: auto;display:none;"></div>
+	</body>
+
+</html>
+<script src="../js/mui.min.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/coordtransform.js"></script>
+<script type="text/javascript">
+	var height = document.documentElement.clientHeight || document.body.clientHeight;
+	document.querySelector('#l-map').style.minHeight = (height - 50) + 'px';
+	var selectLongitude = 0;
+	var selectLatitude = 0;
+	var selectPos = parent.document.querySelector('#selectPos')
+	// 百度地图API功能
+	function G(id) {
+		return document.getElementById(id);
+	}
+	if(mui.os.plus) {
+		city = decodeURIComponent(getUrlParam('city'))
+		var map = new BMap.Map("l-map");
+		map.centerAndZoom(city, 15); // 初始化地图,设置城市和地图级别。
+	} else {
+		city = getUrlParam('city')
+		var map = new BMap.Map("l-map");
+		map.centerAndZoom(city, 15); // 初始化地图,设置城市和地图级别。
+	}
+	var ac = new BMap.Autocomplete( //建立一个自动完成的对象
+		{
+			"input": "suggestId",
+			"location": city
+		});
+
+	ac.addEventListener("onhighlight", function(e) { //鼠标放在下拉列表上的事件
+		var str = "";
+		var _value = e.fromitem.value;
+		var value = "";
+		if(e.fromitem.index > -1) {
+			value = _value.province + _value.city + _value.district + _value.street + _value.business;
+		}
+		str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+		value = "";
+		if(e.toitem.index > -1) {
+			_value = e.toitem.value;
+			value = _value.province + _value.city + _value.district + _value.street + _value.business;
+		}
+		str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+		G("searchResultPanel").innerHTML = str;
+	});
+
+	var myValue;
+	ac.addEventListener("onconfirm", function(e) { //鼠标点击下拉列表后的事件
+		var _value = e.item.value;
+		myValue = _value.province + _value.city + _value.district + _value.street + _value.business;
+		G("searchResultPanel").innerHTML = "onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+		setPlace();
+		document.getElementById("suggestId").blur();;
+	});
+
+	function enterSearch(e) {
+		if(e.keyCode == 13) {
+			document.getElementById("suggestId").blur();
+			var keyword = TrimAll(document.getElementById("suggestId").value);
+			if(keyword.length != 0) {
+				//G("searchResultPanel").innerHTML = "onconfirm<br />index = " + 1 + "<br />myValue = " + myValue;
+				setPlace();
+			}
+		}
+	}
+
+	function setPlace() {
+		map.clearOverlays(); //清除地图上所有覆盖物
+		function myFun() {
+			var pp = local.getResults().getPoi(0).point; //获取第一个智能搜索的结果
+			selectLongitude = pp.lng;
+			selectLatitude = pp.lat;
+			map.centerAndZoom(pp, 18);
+			var marker = new BMap.Marker(pp);
+			map.addOverlay(marker); //添加标注
+		}
+		var local = new BMap.LocalSearch(map, { //智能搜索
+			onSearchComplete: myFun
+		});
+		local.search(myValue);
+	}
+
+	function setcurpos(longitude, latitude) {
+		map.clearOverlays(); //清除地图上所有覆盖物
+		function myFun() {
+			var point = new BMap.Point(longitude, latitude);
+			map.centerAndZoom(point, 18);
+			var marker = new BMap.Marker(point);
+			map.addOverlay(marker); //添加标注
+		}
+		var local = new BMap.LocalSearch(map, { //智能搜索
+			onSearchComplete: myFun
+		});
+		local.search(myValue);
+	}
+	//userLocation()
+	document.getElementById("getlocPos").addEventListener('tap', function() {
+		userLocation()
+	})
+	translateCallback = function(data) {
+		selectLongitude = data.points[0].lng;
+		selectLatitude = data.points[0].lat;
+		setcurpos(data.points[0].lng, data.points[0].lat)
+	}
+
+	function userLocation() {
+		if(mui.os.plus) {
+			mui.plusReady(function() {
+				var address = decodeURIComponent(getUrlParam('address'));
+				var mapcoord = decodeURIComponent(getUrlParam('mapcoord'));
+				if(address != '' && mapcoord != '') {
+					var lng = mapcoord.substring(0, mapcoord.indexOf(','));
+					var lat = mapcoord.substring(mapcoord.indexOf(',') + 1);
+					setcurpos(lng, lat);
+					document.getElementById("suggestId").value = address
+				} else {
+					plus.geolocation.getCurrentPosition(function(p) {
+						var street = (p.address.street == undefined) ? '' : p.address.street;
+						var streetNum = (p.address.streetNum == undefined) ? '' : (mui.os.ios) ? p.address.streetNum : p.address.streetNum + '号';
+						var newValue = p.address.province + p.address.city + p.address.district + street + streetNum;
+						document.getElementById("suggestId").value = newValue;
+						var convertor = new BMap.Convertor();
+						var pointArr = [];
+						var ggPoint = new BMap.Point(p.coords.longitude, p.coords.latitude);
+						pointArr.push(ggPoint);
+						convertor.translate(pointArr, 3, 5, translateCallback)
+					}, function(e) {
+						alert('Geolocation error: ' + e.message);
+					}, {
+						provider: 'baidu'
+					});
+				}
+
+			})
+		} else {
+			if(getUrlParam('mapcoord', decodeURIComponent(selectPos.src)) != 'null' && getUrlParam('address', decodeURIComponent(selectPos.src)) != 'null') {
+				window.frames["selectPos"].contentWindow.document.getElementById("suggestId").value = getUrlParam('address', decodeURIComponent(selectPos.src))
+				var mapcoord = getUrlParam('mapcoord', decodeURIComponent(selectPos.src));
+				var lng = mapcoord.substring(0, mapcoord.indexOf(','));
+				var lat = mapcoord.substring(mapcoord.indexOf(',') + 1);
+				setcurpos(lng, lat);
+				setTimeout(function() {
+					parent.frames["selectPos"].contentWindow.document.getElementById("suggestId").value = getUrlParam('address', decodeURIComponent(selectPos.src))
+				}, 100);
+			} else {
+				getwebLocation()
+			}
+		}
+	}
+
+	function getwebLocation() {
+		if(navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(showPosition, showError);
+		} else {
+			alert("浏览器不支持地理定位。");
+		}
+	}
+
+	function showError(error) {
+		switch(error.code) {
+			case error.PERMISSION_DENIED:
+				alert("定位失败,用户拒绝请求地理定位,请手动输入当前位置");
+				break;
+			case error.POSITION_UNAVAILABLE:
+				alert("定位失败,位置信息是不可用,请手动输入当前位置");
+				break;
+			case error.TIMEOUT:
+				alert("定位失败,请求获取用户位置超时,请手动输入当前位置");
+				break;
+			case error.UNKNOWN_ERROR:
+				alert("定位失败,定位系统失效,请手动输入当前位置");
+				break;
+		}
+	}
+
+	function showPosition(position) {
+		var lat = position.coords.latitude; //纬度 
+		var lag = position.coords.longitude; //经度 
+		var convertor = new BMap.Convertor();
+		var pointArr = [];
+		var ggPoint = new BMap.Point(lag, lat);
+		pointArr.push(ggPoint);
+		convertor.translate(pointArr, 1, 5, translateCallback)
+	}
+
+	function selectBtnFun() {
+		var value = document.getElementById("suggestId").value;
+		if(!mui.os.plus) {
+			if(parent.document.querySelector('#eventCityText').innerText == "") {
+				parent.document.querySelector('#addressDetail').value = document.getElementById("suggestId").value;
+			} else {
+				var nvalue = value.substring(value.indexOf('市') + 1, value.length);
+				parent.document.querySelector('#addressDetail').value = nvalue;
+			}
+			if(value != '') {
+				parent.selectLatitude = selectLatitude;
+				parent.selectLongitude = selectLongitude;
+			}
+			parent.document.querySelector('#selectPos').style.display = 'none'
+		} else {
+			var addressText = document.getElementById("suggestId").value;
+			var naddressText = encodeURIComponent(addressText);
+			setlsData('naddressText', naddressText)
+			var creatEvent = plus.webview.getWebviewById("creatEvent.html");
+			if(value != '') {
+				creatEvent.evalJS("changeAddressText(" + selectLongitude + "," + selectLatitude + ")")
+			}
+			setTimeout(function() {
+				mui.back();
+			})
+
+		}
+
+	}
+</script>

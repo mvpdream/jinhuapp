@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet"  href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet"  href="../css/jinhu.css"/>
+
+	</head>
+	<script>
+		function defaultAvator(A){
+			A.src='../img/avatar.jpg'
+		}
+		function defaultImg(I){
+			I.src='../img/minebanner.png'
+		}
+	</script>
+	<style>
+		.jh-home-medal>li{
+			width: 20%;
+		}
+		.introduce {
+			height: 40px;
+			line-height: 20px;
+			overflow: hidden;
+		}
+		
+		.mui-col {
+			margin-right: -4px;
+			display: inline-block;
+		}
+		
+		.jh-mine-home .jh-mine-user {
+			position: absolute;
+			top: 9rem;
+			left: 1rem;
+		}
+		
+		.jh-mine-home .user_info {
+			position: absolute;
+			left: 8rem;
+			top: 9rem;
+			color: #FFFFFF;
+		}
+		
+		.mui-table-view-cell {
+			padding: 11px 15px;
+		}
+		.mui-table-view:before{
+			background: transparent;
+		}
+		.jh-home-medal>li img{
+			height: 36px;
+		}
+		.MedalName{
+			position: absolute;
+    		left: 5px;
+    		right: 5px;
+		}
+		.jh-home-medal {
+		    margin-top: 15px;
+		    padding-bottom: 36px;
+		}
+		.mui-table-view:before{
+			height: 0;
+		}
+		#medalEl:after{
+			height: 0 !important;
+		}
+
+	</style>
+
+	<body style="background-color: #fff;margin-left:0;width: 100%;">
+		<div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="padding-bottom: 100px;">
+		  <div class="mui-scroll">
+		  	<header id="header" class="mui-bar mui-bar-transparent">
+			<a id="notice" class="mui-icon mui-pull-left" style="color:#fff;">
+				<i class="fa fa-bell-o" style="position:relative;" aria-hidden="true">
+					<span style="display: none;" id="noticeNum" class="mui-badge"></span>
+				</i>
+			</a>
+			<i id="setting_btn" class="fa fa-cog mui-icon mui-icon-bars mui-pull-right" aria-hidden="true" style="line-height:24px;color:#fff"></i>
+		</header>
+		<div class="mui-content jh-mine-home" id="pullrefresh" style="padding-bottom: 100px;">
+
+			<!--未登录用户-->
+			<div id="nologuser" style="margin-left:0px;width: 100%;display: none;">
+				<div class="imgContainer"><img src="../img/minebanner.png" style="width:100%;height: 200px;" /></div>
+				<div class="mui-content" style="padding-top: 10px;margin-left:0px;width: 100%;">
+					<div class="mui-row" style="margin-left:0px;width: 100%;">
+						<div class="mui-col-xs-6" style="padding-right: 15px;display: inline-block">
+							<button id="login" type="button" style="padding: 8px 20px;" class="mui-btn mui-btn-red mui-pull-right">登录</button>
+						</div>
+						<div class="mui-col-xs-6" style="padding-left: 15px;display: inline-block">
+							<button id="reg" type="button" style="padding: 8px 20px;" class="mui-btn mui-btn-grey mui-pull-left">注册</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--已登录用户-->
+			<div id="loguser" style="display: none;">
+				<div class="imgContainer"><img src="../img/minebanner.png" onerror="defaultImg(this);" id="coverImg" style="width:100%;height: 200px;" /></div>
+				<img id="userhead" onerror="defaultAvator(this);" class="user_avator jh-mine-user" src="../img/avatar.jpg" />
+				<div class="user_info" id="userinfo">
+					<h4 style="word-break: break-all;">
+					<span id="username"></span>
+					<span>
+						<i id="gender" class="fa fa-male" aria-hidden="true"></i>
+					</span>
+					<span id="rank"></span>
+					</h4>
+					<ul class="mui-list-inline">
+						<li id="followerCount"></li>
+						<li>|</li>
+						<li id="followedCount"></li>
+					</ul>
+
+				</div>
+				<div class="user_sign">
+					<p id="user_introduce" class="introduce" style="word-break: break-all;line-height: 20px;min-height: 35px;"></p>
+					<p class="mui-text-right" id="allintroduce">
+						<a class="mui-icon mui-icon-arrowdown" style="color:#bbb;font-size: 18px"></a>
+					</p>
+				</div>
+			</div>
+			<div class="jh-gray-bar"></div>
+			<!--未登录用户-->
+			<div id="nologuser_content" style="display: none;">
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell">我的勋章</li>
+				</ul>
+				<div class="jh-gray-bar"></div>
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell">我的文章</li>
+				</ul>
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell">我的贴子</li>
+				</ul>
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell">我的评论</li>
+				</ul>
+				<ul class="mui-table-view mui-table-view-chevron" id="myAsk">
+					<li class="mui-table-view-cell">我的问答</li>
+				</ul>
+				<ul class="mui-table-view mui-table-view-chevron" id="myDoc">
+					<li class="mui-table-view-cell">我的文档</li>
+				</ul>
+				<ul class="mui-table-view mui-table-view-chevron" id="myEvent">
+					<li class="mui-table-view-cell">我的活动</li>
+				</ul>
+				<div class="jh-gray-bar"></div>
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell">我的积分</li>
+				</ul>
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell">积分任务</li>
+				</ul>
+				<ul class="mui-table-view mui-table-view-chevron" id="myPointMall">
+					<li class="mui-table-view-cell">积分商城</li>
+				</ul>
+			</div>
+			<!--已登录用户-->
+			<div id="loguser_content" style="display: none;">
+				<ul class="mui-table-view mui-table-view-chevron" id="medalEl">
+					<li class="mui-table-view-cell" id="mymedal">
+						<a class="mui-navigate-right">
+							我的勋章<span class="text-muted"></span></a>
+						<ul class="mui-list-inline jh-home-medal" id="medalsContainer">
+                            
+                        </ul>
+					</li>
+				</ul>
+				<div class="jh-gray-bar"></div>
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell" id="mywz">
+						<a class="mui-navigate-right">
+							我的文章<span class="text-muted"></span></a>
+					</li>
+
+					<!--<li class="mui-table-view-cell" id="mywz">
+						我的文章<span class="text-muted">还没发表过文章</span>
+					</li>-->
+				</ul>
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell" id="mytz">
+						<a class="mui-navigate-right">
+							我的贴子<span class="text-muted"></span></a>
+					</li>
+				</ul>
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell" id="mypl">
+						<a class="mui-navigate-right">
+							我的评论<span class="text-muted"></span>
+						</a>
+					</li>
+				</ul>
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell" id="myask">
+						<a class="mui-navigate-right">
+							我的问答<span class="text-muted"></span>
+						</a>
+					</li>
+				</ul>
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell" id="mydocument">
+						<a class="mui-navigate-right">
+							我的文档<span class="text-muted"></span>
+						</a>
+					</li>
+				</ul>
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell" id="myevent">
+						<a class="mui-navigate-right">
+							我的活动<span class="text-muted"></span>
+						</a>
+					</li>
+				</ul>
+				<div class="jh-gray-bar"></div>
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell" id="mypoint">
+						<a class="mui-navigate-right">
+							我的积分<span class="text-muted"></span>
+						</a>
+					</li>
+				</ul>
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell" id="pointTask">
+						<a class="mui-navigate-right">
+							积分任务<span class="text-muted"></span>
+						</a>
+					</li>
+				</ul>
+				<ul class="mui-table-view mui-table-view-chevron">
+					<li class="mui-table-view-cell" id="pointMall">
+						<a class="mui-navigate-right">
+							积分商城<span class="text-muted"></span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+			</div>
+		</div>
+		<script src="../js/jquery-2.1.0.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/wxHelper.js"></script>
+		<!--<script src="../js/homepage.js"></script>-->
+	</body>
+	<script type="text/javascript">
+			function getApplicationsEnabled(){
+				var enabledArr={};
+		getData('User/GetApplicationsEnabled', {}, function(data) {
+		if(data.Type == 1) {
+			if(data.Data.length!=0){
+				var applications=data.Data.split(',');
+				askEnabled=(applications.indexOf('Ask')!=-1)?true:false;
+				documentEnabled=(applications.indexOf('Document')!=-1)?true:false;
+				eventEnabled=false;
+				voteEnabled=false;
+				getData('User/GetEventVoteApplicationsEnabled',{},function(data){
+					eventEnabled=(applications.indexOf('Event')!=-1&&data.Data.showEventNav)?true:false;
+					voteEnabled=(applications.indexOf('Vote')!=-1&&data.Data.showVoteNav)?true:false;
+					pointMallEnabled=(applications.indexOf('PointMall')!=-1)?true:false;
+					enabledArr={
+						askEnabled:askEnabled,
+						documentEnabled:documentEnabled,
+						eventEnabled:eventEnabled,
+						voteEnabled:voteEnabled,
+						pointMallEnabled:pointMallEnabled
+					}
+					document.getElementById("myAsk").style.display=(enabledArr.askEnabled)?'':'none';
+				myask.parentElement.style.display=(enabledArr.askEnabled)?'':'none';
+				document.getElementById("myDoc").style.display=(enabledArr.documentEnabled)?'':'none';
+				mydocument.parentElement.style.display=(enabledArr.documentEnabled)?'':'none';
+				document.getElementById("myEvent").style.display=(enabledArr.eventEnabled)?'':'none';
+				myevent.parentElement.style.display=(enabledArr.eventEnabled)?'':'none';
+				document.getElementById("myPointMall").style.display=(enabledArr.pointMallEnabled)?'':'none';
+				pointMall.parentElement.style.display=(enabledArr.pointMallEnabled)?'':'none';
+				},function(err){
+					pointMallEnabled=(applications.indexOf('PointMall')!=-1)?true:false;
+					enabledArr={
+						askEnabled:askEnabled,
+						documentEnabled:documentEnabled,
+						eventEnabled:eventEnabled,
+						voteEnabled:voteEnabled,
+						pointMallEnabled:pointMallEnabled
+					}
+				document.getElementById("myAsk").style.display=(enabledArr.askEnabled)?'':'none';
+				myask.parentElement.style.display=(enabledArr.askEnabled)?'':'none';
+				document.getElementById("myDoc").style.display=(enabledArr.documentEnabled)?'':'none';
+				mydocument.parentElement.style.display=(enabledArr.documentEnabled)?'':'none';
+				document.getElementById("myEvent").style.display=(enabledArr.eventEnabled)?'':'none';
+				myevent.parentElement.style.display=(enabledArr.eventEnabled)?'':'none';
+				document.getElementById("myPointMall").style.display=(enabledArr.pointMallEnabled)?'':'none';
+				pointMall.parentElement.style.display=(enabledArr.pointMallEnabled)?'':'none';
+				})
+				if(!askEnabled&&!documentEnabled&&!eventEnabled&&!voteEnabled){
+					if(document.getElementById("apply")){
+						document.getElementById("apply").style.display='none'
+					}
+				}
+				
+			}
+			
+		} else if(data.Type == 0) {
+			//mui.toast("请登录后再进行操作");
+			return;
+		} else {
+			//逻辑错误
+			mui.toast(data.Data);
+			return;
+		}
+	}, function(err) {
+
+	})
+}
+	
+	
+	getApplicationsEnabled()
+		mui.init({
+			keyEventBind: {
+				backbutton: false //关闭back按键监听
+			},
+			gestureConfig: {
+				swipeBack: true //启用右滑关闭功能
+			},
+			 pullRefresh : {
+			    container:"#refreshContainer",//下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+			    down : {
+			      style:'circle',//必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+			      color:'#bf0a10', //可选，默认“#2BD009” 下拉刷新控件颜色
+			      height:50,//可选,默认50.触发下拉刷新拖动距离,
+			      auto: false,//可选,默认false.首次加载自动上拉刷新一次
+			      callback :function(){
+			      	setTimeout(function() {
+	//			      		mui.plusReady(function(){
+	//			      			var curr=plus.webview.currentWebview();
+	//			      			curr.reload();
+	//			      		})
+	//			      		window.location.reload()
+			      		getUserData(true);
+						getNoticeNum();
+						mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+					}, 1500);
+			      }
+			    }
+			  }
+		});
+		
+		var user;
+		var userid = 0;
+		var userName = '';
+		var notice = document.getElementById("notice");
+		var settingBtn = document.getElementById("setting_btn");
+		var nologuser = document.getElementById("nologuser");
+		var loguser = document.getElementById("loguser");
+		var nologuser_content = document.getElementById("nologuser_content");
+		var loguser_content = document.getElementById("loguser_content");
+		var rank = document.getElementById("rank");
+		var username = document.getElementById("username");
+		var gender = document.getElementById("gender");
+		var followerCount = document.getElementById("followerCount"); //粉丝
+		var followedCount = document.getElementById("followedCount"); //关注
+		var introduce = document.getElementById("user_introduce");
+		var mytz = document.getElementById("mytz");
+		var mywz = document.getElementById("mywz");
+		var mypl = document.getElementById("mypl");
+		var myask = document.getElementById("myask");
+		var mydocument = document.getElementById("mydocument");
+		var myevent = document.getElementById("myevent");
+		var mysc = document.getElementById("mysc");
+		var mypoint = document.getElementById("mypoint");
+		var pointTask = document.getElementById("pointTask");
+		var pointMall = document.getElementById("pointMall");
+		var mymedal = document.getElementById("mymedal");
+		var coverImg = document.getElementById("coverImg");
+		
+
+		
+		$(document).ready(function() {
+			$(window).scroll(function() {
+				var top = 50; //获取指定位置
+				var scrollTop = $(window).scrollTop(); //获取当前滑动位置
+				if(scrollTop > top) { //滑动到该位置时执行代码
+					document.querySelector('#notice').style.color = '#000000';
+					document.querySelector('#setting_btn').style.color = '#000000';
+				} else {
+					document.querySelector('#notice').style.color = '#FFFFFF';
+					document.querySelector('#setting_btn').style.color = '#FFFFFF';
+				}
+			});
+		});
+		
+		getUserData(false);
+		setInterval(getNoticeNum(), 60000);
+		function getNoticeNum() {
+			getDatawithToken('User/GetMyNotice?pageIndex=' + 1, {}, function(data) {
+				document.getElementById("userhead").style.top = 200- 50 + 'px';
+				if(data.Type == 1) {
+					mui.plusReady(function(){
+					var enterPage = plus.webview.getLaunchWebview(); //入口文件
+					var mainPage = plus.webview.getWebviewById('main');
+					if(enterPage || mainPage) {
+						enterPage && enterPage.evalJS("getNoticeNum()")
+						mainPage && mainPage.evalJS("getNoticeNum()")
+					}
+					})
+					if(mui.os.plus){
+						var numEle=document.getElementById("noticeNum")
+					}else{
+						var numEle= parent.document.getElementById('mine').querySelector('#noticeNum')
+					}
+					
+					if(data.Data && typeof(data.Data) == 'object') {
+						if(data.Data.length != 0 && data.Data.NoticeCount) {
+							document.getElementById("noticeNum").style.display = 'inherit';
+							document.getElementById("noticeNum").innerHTML = data.Data.NoticeCount;
+							numEle.style.display = 'inherit';
+							numEle.innerHTML = data.Data.NoticeCount
+						} else {
+							document.getElementById("noticeNum").style.display = 'none';
+							document.getElementById("noticeNum").innerHTML = "";
+							numEle.style.display = 'none';
+							numEle.innerHTML = "";
+						}
+
+						if(data.Data.length != 0) {
+							document.getElementById("noticeNum").innerHTML = data.Data.NoticeCount;
+							numEle.innerHTML = data.Data.NoticeCount
+						} else {
+							document.getElementById("noticeNum").innerHTML = "";
+							numEle.innerHTML = "";
+						}
+
+					} else {
+						mui.toast(data.Data);
+					}
+
+				} else if(data.Type == 0) {
+					//mui.toast("请登录后再进行操作");
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr('','',false)
+			})
+		}
+
+		function changeLogin(loginStatus) {
+			notice.style.display = loginStatus ? "inline" : 'none';
+			settingBtn.style.display = loginStatus ? 'inline' : 'none';
+			nologuser.style.display = loginStatus ? 'none' : 'inline';
+			loguser.style.display = loginStatus ? 'inline' : 'none';
+			nologuser_content.style.display = loginStatus ? 'none' : 'inline';
+			loguser_content.style.display = loginStatus ? 'inline' : 'none';
+		}
+		if(getlsData('isLogin')) {
+			changeLogin(true)
+		} else {
+			changeLogin(false)
+		}    		
+		function getUserData(isRefresh) {
+			document.getElementById("userhead").style.top = 200- 50 + 'px';
+			if(!isRefresh){
+				showLoading();
+			}
+			getDatawithToken('User/GetCurrentUser', {}, function(data) {
+				hideLoading();
+				hideErr();
+				if(data.Type == 1) {
+					setlsData('isLogin', true);
+					user = data.Data;
+					userid = data.Data.UserId;
+					GetUserMedals(userid);
+					document.getElementById("userhead").src = (data.Data.Avatar == '') ? '../img/avatar.jpg' : getImgUrl(data.Data.Avatar+"?t=" + Math.random());
+					if(userid == user.UserId) {
+						userName = "me"
+					} else {
+						userName = data.Data.UserName
+					}
+					if(data.Data.Introduction==null){
+						document.getElementById("allintroduce").style.display='none';
+					}else{
+						document.getElementById("allintroduce").style.display='block';
+					}
+					username.innerHTML = data.Data.UserName.substring(0,5);
+					coverImg.src = data.Data.Cover.length>0 ? getImgUrl(data.Data.Cover+"?t=" + Math.random()) : "../img/minebanner.png";
+					switch(data.Data.Gender) {
+						case 1:
+							gender.className = 'fa fa-male';
+							break;
+						case 2:
+							gender.className = 'fa fa-female'
+							break;
+						default:
+							gender.className = 'fa fa-male';
+							break;
+					}
+					followerCount.innerHTML = '粉丝 ' + data.Data.FollowerCount;
+					followedCount.innerHTML = '关注 ' + data.Data.FollowedCount;
+					introduce.innerHTML = data.Data.Introduction;
+					rank.innerHTML = data.Data.Rank;
+					mywz.querySelector('span').innerHTML = data.Data.CMSCount;
+					mytz.querySelector('span').innerHTML = data.Data.ThreadCount;
+					mypl.querySelector('span').innerHTML = data.Data.CommentCount;
+					myask.querySelector('span').innerHTML = data.Data.AskCount;
+					mydocument.querySelector('span').innerHTML = data.Data.DocumentUploadCount;
+					myevent.querySelector('span').innerHTML = data.Data.EventCount;
+					document.getElementById("userhead").style.top = (coverImg.height==0?200:coverImg.height) - 50 + 'px';
+					document.getElementById("userinfo").style.top = (coverImg.height==0?200:coverImg.height) - 50 + 'px';
+					setlsData('inviteFriendUrl',data.Data.InviteFriendUrl);
+					changeLogin(true)
+				} else if(data.Type == 0) {
+					//登录失败
+					hideLoading();
+					setlsData('isLogin', false);
+					changeLogin(false)
+					return;
+				} else {
+					hideLoading();
+					showErr(data.Data,'','#FFFFFF','0px')
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(data) {
+				setErr('','0px')
+			});
+		}
+	var creatMedal = function(data) {
+		var container = document.getElementById("medalsContainer");
+		var items = '';
+		data.length = data.length > 5 ?　'5' : data.length ;
+		for(var i = 0;i<data.length;i++){
+			var item = '<li style="position:relative;"><img src="'+ getImgUrl(data[i].ImageUrl) +'" /><br /><span class="MedalName">'+ data[i].MedalName +'</span></li>';
+			items += item;
+		} 
+		container.innerHTML = items;
+	};
+		function GetUserMedals(userid) {
+			getDatawithToken('User/GetUserSpaceMedals', {userId:userid}, function(data) {
+				hideLoading();
+				hideErr();
+				if(data.Type == 1) {
+					if(data.Data.length > 0){
+						creatMedal(data.Data);
+					}else{
+						medalsContainer.style.display = 'none';
+					}					
+				} else if(data.Type == 0) {
+					//登录失败
+					hideLoading();
+					setlsData('isLogin', false);
+					changeLogin(false)
+					return;
+				} else {
+					hideLoading();
+					showErr(data.Data,'','#FFFFFF','0px')
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(data) {
+				setErr('','0px')
+			});
+		}
+
+		document.getElementById("allintroduce").addEventListener('tap', function() {
+			introduce.className == "introduce" ? introduce.classList.remove('introduce') : introduce.classList.add('introduce')
+			introduce.parentElement.querySelector('.mui-icon-arrowdown') ?
+				introduce.parentElement.querySelector('.mui-icon-arrowdown').className = 'mui-icon mui-icon-arrowup' :
+				introduce.parentElement.querySelector('.mui-icon-arrowup').className = 'mui-icon mui-icon-arrowdown'
+		})
+		document.getElementById("login").addEventListener('tap', function() {
+			if(mui.os.wechat){
+				getCode('',true)
+			}else{
+				mui.openWindow({
+					url: 'login.html?type=1',
+					id: 'login.html',
+					waiting: {
+						options: {
+							loading: {
+								height: '35px'
+							}
+						}
+					},
+					extras: {
+						type: '1'
+					}
+				})
+			}
+
+		})
+		document.getElementById("reg").addEventListener('tap', function() {
+			if(mui.os.wechat){
+				getCode('',true)
+			}else{
+				mui.openWindow({
+					url: 'register_account.html',
+					id: 'register_account',
+					waiting: {
+						options: {
+							loading: {
+								height: '35px'
+							}
+						}
+					},
+					extras: {
+						pageId: 'mine.html'
+					}
+				})
+			}
+
+		})
+		window.onload = function() {
+			var currUrl = main_Url;
+			weChatLogin(currUrl);
+			setTimeout(function(){
+				//getUserData(false);
+				//getNoticeNum();
+			},1000)
+		}
+		mypl.addEventListener('tap', function() {
+			var num = parseInt(mypl.querySelector('span').innerHTML);
+			userComments()
+		})
+		myask.addEventListener('tap', function() {
+			var num = parseInt(mypl.querySelector('span').innerHTML);
+			userQuestions()
+		})
+		mydocument.addEventListener('tap', function() {
+			var num = parseInt(mypl.querySelector('span').innerHTML);
+			userDocuments()
+		})
+		myevent.addEventListener('tap', function() {
+			var num = parseInt(mypl.querySelector('span').innerHTML);
+			userEvents()
+		})
+		mypoint.addEventListener('tap', function() {
+			userPoint()
+		})
+		rank.addEventListener('tap', function() {
+			userPoint()
+		})
+		pointTask.addEventListener('tap', function() {
+			userPointTask()
+		})
+		pointMall.addEventListener('tap', function() {
+			userPointMall()
+		})
+		mymedal.addEventListener('tap', function() {
+			medalShop()
+		})
+		function medalShop() {
+			var baseUrl = 'medalShop.html';
+			mui.openWindow({
+				url: baseUrl,
+				id: baseUrl,
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				}
+			})
+		}
+		function userComments() {
+			var baseUrl = 'userComments.html';
+			var url = mui.os.plus ? baseUrl : baseUrl + '?userId=' + userid + '&username=' + userName;
+			mui.openWindow({
+				url: url,
+				id: 'userComments.html',
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					userId: userid,
+					username: userName
+				}
+			})
+		}
+		function userQuestions() {
+			var baseUrl = 'userQuestions.html';
+			var url = mui.os.plus ? baseUrl : baseUrl + '?userId=' + userid + '&username=' + userName;
+			mui.openWindow({
+				url: url,
+				id: 'userQuestions.html',
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					userId: userid,
+					username: userName
+				}
+			})
+		}
+		function userDocuments() {
+			var baseUrl = 'userdocument.html';
+			var url = mui.os.plus ? baseUrl : baseUrl + '?userId=' + userid + '&username=' + userName;
+			mui.openWindow({
+				url: url,
+				id: 'userdocument.html',
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					userId: userid,
+					username: userName
+				}
+			})
+		}
+		function userEvents() {
+			var baseUrl = 'myEvent.html';
+			var url = mui.os.plus ? baseUrl : baseUrl + '?userId=' + userid + '&username=' + userName;
+			mui.openWindow({
+				url: url,
+				id: 'myEvent.html',
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					userId: userid,
+					username: userName
+				}
+			})
+		}
+		function userPoint() {
+			var baseUrl = 'userPoint.html';
+			mui.openWindow({
+				url: baseUrl,
+				id: baseUrl,
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				}
+			})
+		}
+		function userPointTask() {
+			var baseUrl = 'pointTask.html';
+			mui.openWindow({
+				url: baseUrl,
+				id: baseUrl,
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				}
+			})
+		}
+		function userPointMall() {
+			var baseUrl = 'pointMall.html';
+			mui.openWindow({
+				url: baseUrl,
+				id: baseUrl,
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				}
+			})
+		}
+		mywz.addEventListener('tap', function() {
+			var num = parseInt(mywz.querySelector('span').innerHTML);
+			usernews()
+		})
+
+		function usernews() {
+			var baseUrl = 'myNews.html';
+			var url = mui.os.plus ? baseUrl : baseUrl + '?userId=' + userid + '&username=' + userName;
+			mui.openWindow({
+				url: url,
+				id: 'myNews.html',
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					userId: userid,
+					username: userName
+				}
+			})
+		}
+		mytz.addEventListener('tap', function() {
+			var num = parseInt(mytz.querySelector('span').innerHTML);
+			userthreads()
+		})
+
+		function userthreads() {
+			var baseUrl = 'myThreads.html';
+			var url = mui.os.plus ? baseUrl : baseUrl + '?userId=' + userid + '&username=' + userName;
+			mui.openWindow({
+				url: url,
+				id: 'myThreads.html',
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					userId: userid,
+					username: userName
+				}
+			})
+		}
+		
+
+		function userCollections() {
+			var baseUrl = 'userCollections.html';
+			var url = mui.os.plus ? baseUrl : baseUrl + '?userId=' + userid + '&username=' + userName;
+			mui.openWindow({
+				url: url,
+				id: 'userCollections.html',
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					userId: userid,
+					username: userName
+				}
+			})
+		}
+		settingBtn.addEventListener('tap', function() {
+			settingPage()
+		})
+
+		function settingPage() {
+			var num = document.getElementById("noticeNum").innerHTML;
+			var baseUrl = 'sysetting.html?noticeNum=' + num;
+			var url = mui.os.plus ? baseUrl : baseUrl;
+			mui.openWindow({
+				url: url,
+				id: 'sysetting.html',
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					noticeNum: num
+				}
+			})
+		}
+		notice.addEventListener('tap', function() {
+			noticePage()
+		})
+
+		function noticePage() {
+			var baseUrl = 'userNotice_main.html';
+			var url = mui.os.plus ? baseUrl : baseUrl;
+			mui.openWindow({
+				url: url,
+				id: 'userNotice_main.html',
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+
+				}
+			})
+		}
+		followerCount.addEventListener('tap', function() {
+			//粉丝
+			userFollows('userfollower')
+		})
+		followedCount.addEventListener('tap', function() {
+			//关注
+			userFollows('userfollowed')
+		})
+
+		function userFollows(type) {
+			var baseUrl = 'userFollows_main.html';
+			var url = mui.os.plus ? baseUrl : baseUrl + '?userId=' + userid + '&username=' + userName + '&type=' + type;
+			mui.openWindow({
+				url: url,
+				id: 'userFollows_main.html',
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					userId: userid,
+					username: userName,
+					type: type
+				}
+			})
+		}
+	</script>
+
+</html>

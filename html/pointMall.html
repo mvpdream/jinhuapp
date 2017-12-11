@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--通用样式-->
+    <link rel="stylesheet" href="../css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../css/jinhu.css" />
+
+</head>
+<style>
+	.mui-pull-top-tips {
+		position: absolute;
+		top: -20px;
+		left: 50%;
+		margin-left: -25px;
+		width: 40px;
+		height: 40px;
+		border-radius: 100%;
+		z-index: 1;
+	}		
+	.mui-bar~.mui-pull-top-tips {
+		top: 24px;
+	}
+	.mui-pull-top-tips.mui-transitioning {
+		-webkit-transition-duration: 200ms;
+		transition-duration: 200ms;
+	}		
+	.mui-pull-top-tips .mui-pull-loading {
+		margin: 0;
+	}		
+	.mui-pull-top-wrapper .mui-icon,
+	.mui-pull-top-wrapper .mui-spinner {
+		margin-top: 7px;
+	}		
+	.mui-pull-top-wrapper .mui-icon.mui-reverse {
+	}
+	.mui-pull-top-canvas {
+		overflow: hidden;
+		background-color: #fafafa;
+		border-radius: 40px;
+		box-shadow: 0 4px 10px #bbb;
+		width: 40px;
+		height: 40px;
+		margin: 0 auto;
+	}		
+	.mui-pull-top-canvas canvas {
+		width: 40px;
+	}
+	.mui-pull-bottom-tips {
+		text-align: center;
+		background-color: #efeff4;
+		font-size: 15px;
+		line-height: 40px;
+		color: #777;
+	}
+	.mui-grid-view.mui-grid-9{
+		background-color: #fff !important;
+	}
+	.mui-slider .mui-slider-group .mui-slider-item img{
+		/*width: 156px;*/
+		height: 156px;
+	}
+	.changeColumn {
+	    height: 40px;
+	    line-height: 40px;
+	    padding-left: 10px;
+	    padding-right: 10px;
+	    color: #666;
+	}
+	.adaption {
+	    padding: 5px 5px 5px 8px;
+	}
+	.typeitem {
+	    display: inline-block;
+	    border: 1px solid #e4e4e4;
+	    padding-top: 5px;
+	    padding-left: 5px;
+	    padding-right: 5px;
+	}
+	.typeItemActive {
+	    border: 1px solid #bf0a10;
+	    padding-top: 5px;
+	    color: #bf0a10;
+	    position: relative;
+	}
+	.typeitemContainer {
+	    display: inline-block;
+	    margin-bottom: 5px;
+	}
+	.checked {
+	    position: absolute;
+	    font-size: 14px;
+	    width: 14px;
+	    height: 14px;
+	    top: -5px;
+	    right: -7px;
+	    color: #bf0a10;
+	}
+	#errForList{
+		margin-top: 15px !important;
+	}	
+	#slider{
+		top: 95px;
+	}
+	#switchColumn{
+		border-bottom: none;
+	}
+	.jh-scroll-wrapper.mui-slider-indicator.mui-segmented-control{
+		background: none;
+	}
+</style>
+<body style="background-color: #fff;">
+    <header class="mui-bar mui-bar-nav">
+        <button class="mui-action-back mui-btn mui-btn-blue mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+            <span class="mui-icon mui-icon-left-nav"></span>积分商城
+        </button>
+    </header>
+    <div class="mui-content" id="detail">
+        <div class="jh-shop-top">
+            <ul class="mui-list-inline">
+                <li id="Trade"></li>
+                <li class="tn-theme-color" id="UserPoints"></li>
+                <li><i class="fa fa-database tn-yellow-color"></i></li>
+                <li class="text-muted" id="getTrade"></li>
+                <li class="mui-pull-right" id="myPoint"><a href="#">我兑换的礼品</a></li>
+            </ul>
+        </div>
+        <div class="jh-gray-bar"></div>
+        <div id="slider" class="mui-slider mui-fullscreen">
+			<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted jh-scroll-wrapper">					
+				<div class="mui-scroll" id="SectionType" style="padding-right: 40px;">
+					<a class="mui-control-item mui-active" href="#itemmobile" id="0">
+						全部
+					</a>
+					<a class="mui-control-item" href="#item0mobile" id="1">
+						我可兑换
+					</a>					
+				</div>
+				<div id="switchColumn" onclick="changeSwith()">
+		            <span style="font-size:14px;margin-right:-10px;" id="CategoryName">分类</span><span class="mui-icon mui-icon-arrowdown"></span>
+		        </div>
+			</div>
+			<div class="mui-slider-group" id="sliderGroup">
+				<div id="itemmobile" class="mui-slider-item mui-control-content mui-active">
+					<div class="mui-scroll-wrapper" id="refreshContainer">
+						<div class="mui-scroll" id="scroll">
+							<ul class="mui-table-view mui-grid-view mui-grid-9">
+								<div class="mui-loading">
+									<div class="mui-spinner">
+									</div>
+								</div>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div id="item0mobile" class="mui-slider-item mui-control-content">
+					<div class="mui-scroll-wrapper"id="refreshContainer1">
+						<div class="mui-scroll" id="scroll">
+							<ul class="mui-table-view mui-grid-view mui-grid-9">
+								<div class="mui-loading">
+									<div class="mui-spinner">
+									</div>
+								</div>
+							</ul>
+						</div>
+					</div>
+				</div>									
+			</div>
+		</div>
+        <!--<div class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted jh-scroll-wrapper" data-scroll="2">
+            <div class="mui-scroll" style="transform: translate3d(0px, 0px, 0px) translateZ(0px);">
+                <a class="mui-control-item mui-active" href="#item1mobile">
+                    全部
+                </a>
+                <a class="mui-control-item" href="#item2mobile">
+                    我可兑换
+                </a>          
+            </div>
+            <div id="switchColumn" onclick="changeSwith()">
+                <span style="font-size:14px;margin-right:-10px;">分类</span><span class="mui-icon mui-icon-arrowdown"></span>
+            </div>
+        </div>-->
+        <!--<div class="jh-medal-grid jh-integral-mall">
+            <ul class="mui-table-view mui-grid-view mui-grid-9">
+                <li class="mui-table-view-cell mui-media mui-col-xs-6">
+                    <img src="../img/shop-img.jpg" />
+                    <div class="mui-media-body">小宅VR眼镜一体机虚拟现实头盔3d眼镜</div>
+                    <ul class="mui-list-inline">
+                        <li class="text-muted">兑换价：<span class="tn-theme-color">1868</span></li>
+                        <li><i class="fa fa-database tn-yellow-color"></i></li>
+                    </ul>
+                </li>
+                <li class="mui-table-view-cell mui-media mui-col-xs-6">
+                    <img src="../img/shop-img.jpg" />
+                    <div class="mui-media-body">小宅VR眼镜一体机虚拟现实头盔3d眼镜</div>
+                    <ul class="mui-list-inline">
+                        <li class="text-muted">兑换价：<span class="tn-theme-color">1868</span></li>
+                        <li><i class="fa fa-database tn-yellow-color"></i></li>
+                    </ul>
+                </li>
+                <li class="mui-table-view-cell mui-media mui-col-xs-6">
+                    <img src="../img/shop-img.jpg" />
+                    <div class="mui-media-body">小宅VR眼镜一体机虚拟现实头盔3d眼镜</div>
+                    <ul class="mui-list-inline">
+                        <li class="text-muted">兑换价：<span class="tn-theme-color">1868</span></li>
+                        <li><i class="fa fa-database tn-yellow-color"></i></li>
+                    </ul>
+                </li>
+                <li class="mui-table-view-cell mui-media mui-col-xs-6">
+                    <img src="../img/shop-img.jpg" />
+                    <div class="mui-media-body">小宅VR眼镜一体机虚拟现实头盔3d眼镜</div>
+                    <ul class="mui-list-inline">
+                        <li class="text-muted">兑换价：<span class="tn-theme-color">1868</span></li>
+                        <li><i class="fa fa-database tn-yellow-color"></i></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>        -->
+    </div>
+    <div class="mui-content" id="moreType" style="display: none;">
+		<div class="changeColumn" onclick="changeSwithMore()">
+			选择分类<span id="switchColumnQues"  class="mui-icon mui-icon-arrowup" style="float: right;line-height: 40px;"></span>
+		</div>
+		<div class="mui-row " style="padding: 5px;" id="alltypes">					
+		</div>	
+	</div>
+    <script src="../js/jquery-2.1.0.js"></script>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/service.js"></script>
+	<script src="../js/wxHelper.js"></script>
+	<script src="../js/mui.pullToRefresh.js"></script>
+	<script src="../js/mui.pullToRefresh.material.js"></script>
+	<script src="../js/mui.lazyload.js"></script>
+	<script src="../js/mui.lazyload.img.js"></script>
+</body>
+<script>
+	var detail = document.getElementById("detail");
+	var moreType = document.getElementById('moreType');
+	var UserPoints = document.getElementById('UserPoints');
+	var Trade = document.getElementById('Trade');
+	var getTrade = document.getElementById('getTrade');
+	var switchColumn = document.getElementById('switchColumn');
+	var alltypes = document.getElementById('alltypes');
+	var CategoryName = document.getElementById("CategoryName");
+	var myPoint = document.getElementById('myPoint');
+	var userPoints;
+	var productCategoryId;
+	window.onload = function() {
+		if(mui.os.plus) {
+			mui.plusReady(function() {
+				getUserPoint();
+			});			
+		}else{
+			getUserPoint();
+		}
+		if(mui.os.wechat){
+			var currUrl = location.href.split('#')[0];
+			weChatLogin(currUrl)
+		}
+	}
+	mui("#alltypes").on('tap', '.adaption', function(e) {
+		if(this.getElementsByTagName('div')[0].className == "typeitem  typeItemActive"){//e.target.parentElement.className
+			this.getElementsByTagName('div')[0].className = "typeitem"
+			this.getElementsByTagName('p')[0].style.color = "#333";
+			var icon = this.getElementsByTagName('img')[0];
+			icon.style.display = "none";
+		}else{
+			if(document.getElementById('alltypes').getElementsByClassName('typeitem  typeItemActive').length >0){
+				document.getElementById('alltypes').getElementsByClassName('typeitem  typeItemActive')[0].getElementsByTagName('p')[0].style.color = '#333';
+				document.getElementById('alltypes').getElementsByClassName('typeitem  typeItemActive')[0].className='typeitem';				
+			}
+			this.getElementsByTagName('div')[0].className = "typeitem  typeItemActive"
+			this.getElementsByTagName('p')[0].style.color = "#bf0a10";
+			var icon = this.getElementsByTagName('img')[0];
+			icon.style.display = "inline-block";
+			moreType.style.display = 'none';
+			detail.style.display = 'block';
+			productCategoryId = this.id;
+			CategoryName.innerText = this.getElementsByTagName('p')[0].innerText.substring(0,10);
+			if(document.getElementsByClassName('mui-control-item mui-active')[0].innerText == '全部'){
+				getProducts(false,0,this.id);
+			}else{
+				getProducts(false,userPoints,this.id);
+			}			
+		}
+    })
+	document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+		tabIndex = event.detail.slideNumber;
+		if(event.detail.slideNumber != 0) {
+			var index = event.detail.slideNumber -1;
+			var item = document.getElementById("item" + index + "mobile");
+			//item.querySelector('.mui-pull-bottom-tips').style.display = 'none';
+			if(item.querySelector('.mui-loading')) {				
+				if(index == 0){
+					getProducts(false,userPoints,productCategoryId)
+				}
+			}
+		}else{
+			var item = document.getElementById("itemmobile");
+			//item.querySelector('.mui-pull-bottom-tips').style.display = 'none';
+			getProducts(false,0,productCategoryId)
+		}
+	});
+	mui("#sliderGroup").on('tap', '.mui-table-view-cell', function(e) {
+		var productId = this.id;
+		var baseUrl = 'pointDetail.html';
+		var url = mui.os.plus ? baseUrl : baseUrl + '?productId=' + productId;
+		var curl = shareUrl+ baseUrl + '?productId=' + productId;
+		setlsData('currUrl', curl);
+		mui.openWindow({
+			url: url,
+			id: 'pointDetail.html',
+			show: {
+				autoShow: true
+			},				
+			waiting: {
+				options: {
+					loading: {
+						height: '35px'
+					}
+				}
+			},
+			extras: {
+				productId: productId
+			}
+		})
+	})
+	mui("#detail").on('tap', '#getTrade', function(e) {
+		var baseUrl = 'pointTask.html';
+		var url = mui.os.plus ? baseUrl : baseUrl;
+		var curl = shareUrl+ baseUrl+ baseUrl;
+		setlsData('currUrl', curl);
+		mui.openWindow({
+			url: url,
+			id: 'pointTask.html',
+			show: {
+				autoShow: true
+			},				
+			waiting: {
+				options: {
+					loading: {
+						height: '35px'
+					}
+				}
+			}
+		})
+	})
+	mui("#detail").on('tap', '#myPoint', function(e) {
+		//var productId = this.id;
+		var baseUrl = 'myPoint.html';//+ '?productId=' + productId
+		var url = mui.os.plus ? baseUrl : baseUrl ;
+		var curl = shareUrl+ baseUrl+ baseUrl;
+		setlsData('currUrl', curl);
+		mui.openWindow({
+			url: url,
+			id: 'myPoint.html',
+			show: {
+				autoShow: true
+			},				
+			waiting: {
+				options: {
+					loading: {
+						height: '35px'
+					}
+				}
+			}
+//			},
+//			extras: {
+//				productId: productId
+//			}
+		})
+	})
+	var selel = document.getElementsByClassName("mui-control-item mui-active");
+	(function($) {
+		//阻尼系数
+		var deceleration = mui.os.ios ? 0.003 : 0.0009;
+		$('.mui-scroll-wrapper').scroll({
+			bounce: false,
+			indicators: true, //是否显示滚动条
+			deceleration: deceleration
+		});
+		$.ready(function() {
+			//循环初始化所有下拉刷新，上拉加载。
+			var refresh = document.querySelectorAll('.mui-scroll-wrapper .mui-scroll');	
+			$.each(document.querySelectorAll('.mui-scroll-wrapper #scroll'), function(index, pullRefreshEl) {
+				$(pullRefreshEl).pullToRefresh({
+					down: {
+						callback: function() {
+							var self = this;
+							if(selel[0].id == '0') {
+								getProducts(false,0,productCategoryId)
+							}
+							if(selel[0].id == '1') {									
+								getProducts(true,userPoints,productCategoryId)
+							}
+							setTimeout(function() {
+								self.endPullDownToRefresh();
+							}, 1000);
+						}
+					},
+					up: {
+						callback: function() {									
+							var self = this;
+							if(selel[0].id == '0') {
+								getProducts(true,0,productCategoryId)
+							}
+							if(selel[0].id == '1') {									
+								getProducts(true,userPoints,productCategoryId)
+							}
+							setTimeout(function() {
+								self.endPullUpToRefresh();
+							}, 1000);
+						}
+					}
+				});
+			});
+		});
+	})(mui);
+	function changeSwith() {
+		moreType.style.display = 'block';
+		detail.style.display = 'none';			
+	}
+	function changeSwithMore() {
+		moreType.style.display = 'none';
+		detail.style.display = 'block';			
+	}
+	var creatTypes = function(data) {
+			var a = [];
+			var b =[];	
+			var fragment = document.getElementById('alltypes');
+			fragment.innerHTML ="";
+			var newData = [{
+				CategoryId: '0',
+				CategoryName: "全部"
+			}];
+			var data = newData.concat(data)
+			for(var j = 0; j < data.length; j++) {
+				a.push({TagName:data[j].CategoryName,length:data[j].CategoryName.length,TagId:data[j].CategoryId});
+				function compare(property){
+				    return function(a,b){
+				        var value1 = a[property];
+				        var value2 = b[property];
+				        return value1 - value2;
+				    }
+			}
+			}
+			b = a.sort(compare('length'))
+			var lengthL = b.length ;
+			var c = b.slice(0,lengthL);
+			
+			var div;
+			var ii = 1;
+			var dataArray = [];	
+			for(var i = 0; i < c.length; i++) {
+				ii++;				
+				div = document.createElement('div');
+				div.className = "adaption";
+				div.id = c[i].TagId;
+				div.style.display = "inline-block";
+				//+ data[i].TagName.substring(0, 5)+
+				//div.className = 'mui-col-xs-4';//'<div class="typeitem " id=' + ii + '>' //class='+isActive+'
+				//div.style.padding = '10px';//div.innerHTML = '<div class="typeitem " id=' + ii + '>' + data[i].TagName.substring(0, 6)+ '<span class="mui-icon mui-icon-checkmarkempty"></span></div>';
+				div.innerHTML = '<div  class="typeitem " ><p id='+c[i].TagName+' class="typeitemContainer">'+ c[i].TagName+ '</p><img class="checked" style="display:none;" src="../img/checked.png"/></div>';
+				fragment.appendChild(div);
+			}
+	}
+	var creatElement = function(data, id,more) {
+		var fragment = document.getElementById(id);
+		var cfragment = fragment.firstElementChild;
+		var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+		var newFragment = document.createDocumentFragment();
+		for(var i = 0; i < data.length; i++) {
+			var li = document.createElement('li');
+			li.className = 'mui-table-view-cell mui-media mui-col-xs-6';
+			li.id = data[i].ProductId;
+			li.innerHTML =  '<img src="'+ getImgUrl(data[i].ImageAttachment) +'" />'+
+							'<div class="mui-media-body">'+ data[i].Name +'</div>'+
+							'<ul class="mui-list-inline">'+
+							'<li class="text-muted">兑换价：<span class="tn-theme-color">'+ data[i].Price +'</span></li>'+
+							'<li><i class="fa fa-database tn-yellow-color"></i></li>'+
+							'</ul>';
+			if(more == true){
+					finel.appendChild(li);
+				}else{
+					newFragment.appendChild(li);
+				}
+		}
+		if(more == false){
+			finel.innerHTML=nodeToString(newFragment);
+		}
+	};
+	function getUserPoint(){
+		getDatawithToken('PointMall/CurrentUserPoints',{}, function(data) {				
+			if(data.Type == 1) {
+				userPoints = data.Data.UserPoints;
+				UserPoints.innerText = data.Data.UserPoints;
+				Trade.innerText = '可用'+data.Data.Trade;
+				getTrade.innerText = '去赚'+data.Data.Trade;
+				getProducts(false,0,0);
+				getCategories();
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(err) {
+			//hideLoading();
+		})
+	}
+	var selel = document.getElementsByClassName("mui-control-item mui-active");				
+	var pageindex = 1;
+	var idName = "";
+	function getProducts(more,userPoints,productCategoryId){
+		var idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+		var fragment = document.getElementById(idName);
+		var cfragment = fragment.firstElementChild;
+		var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+		if(more) {
+			pageindex++;
+		} else {
+			//finel.innerHTML = '';
+			pageindex = 1;
+		}
+		//productCategoryId = productCategoryId;
+		var params = {
+			userPoints:userPoints,
+			productCategoryId:productCategoryId,
+			pageSize:10,
+			pageIndex:pageindex
+		};	
+		getData('PointMall/GetProducts',params, function(data) {				
+			if(data.Type == 1) {
+				if(data.Data.length > 0 && typeof(data.Data) == 'object'){
+					var idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+					if(data.Data.length < 10){
+						document.getElementById(idName).getElementsByClassName('mui-pull-bottom-tips')[0].style.display='none';
+					}
+					creatElement(data.Data,idName,more);	
+				}else{
+					document.getElementById(idName).querySelector('.mui-loading').style.display = 'none';
+					if(data.Data == '暂时没有商品'){
+						var idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+						var errForList = showErrForList('暂无数据', '', '0', idName);
+						if(errForList) {
+							finel.appendChild(showErrForList('暂无数据', '', '0', idName))
+							document.getElementById(idName).getElementsByClassName('mui-pull-bottom-tips')[0].style.display='none';
+						}
+					}					
+					mui.toast(data.Data);
+				}
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(err) {
+			//hideLoading();
+		})
+	}
+	function getCategories(){		
+		getData('PointMall/GetCategories',{}, function(data) {				
+			if(data.Type == 1) {
+				if(data.Data.length == 0){
+					switchColumn.style.display = 'none';
+				}else{
+					creatTypes(data.Data);
+				}				
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(err) {
+			//hideLoading();
+		})
+	}
+</script>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<!--通用样式-->
+		<link rel="stylesheet"  href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet"  href="../css/jinhu.css"/>
+
+	</head>
+	<style>
+		.mui-col-xs-4{
+			margin-top: 5px;
+		}
+		.mui-input-group .mui-input-row:after{
+			height: 0;
+		}
+		 input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+
+　　color: #666;font-size:16px;
+
+　　}
+
+　　input:-moz-placeholder, textarea:-moz-placeholder {
+
+　　color:#666;font-size:16px;
+
+　　}
+
+　　input::-moz-placeholder, textarea::-moz-placeholder {
+
+　　color:#666;font-size:16px;
+
+　　}
+
+　　input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+
+　　color:#666;font-size:16px;
+
+　　}
+	</style>
+
+	<body style=" background-color: #fff;">
+		<div class="mui-content">
+			<div class="mui-text-center jh-login-logo">
+				<img src="../img/jh_logonew.png" srcset="../img/jh_logonew@2x.png 2x" />
+			</div>
+			<div class="mui-content-padded">
+
+				<button id="loginBtn" class="mui-btn mui-btn-block mui-btn-primary" style="margin-bottom:15px;">登录</button>
+				<button id="registerBtn" class="mui-btn mui-btn-block">注册</button>
+			</div>
+		</div>
+		
+		<div class="mui-content-padded jh-login-third" id="thirdLog" style="display: none;">
+			<div class="mui-text-center jh-login-top">
+				<h5>第三方登录</h5>
+				
+			</div>
+			<div class="mui-text-center jh-login-img">
+				<img id="qq" src="../img/login-qq.png">
+				<img id="weixin" src="../img/login-weixin.png">
+			</div>
+		</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/app.js"></script>
+		<script src="../js/user.js"></script>
+		
+	</body>
+	<script>
+		if(mui.os.wechat){
+			alert('微信版禁止访问！')
+			mui.back();
+		}else{
+			login.init();
+		}
+		
+	</script>
+
+</html>

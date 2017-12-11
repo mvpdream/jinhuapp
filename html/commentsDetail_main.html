@@ -1,0 +1,240 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/jinhu.css"/>
+	</head>
+
+	<body style="background-color: #FFFFFF;">
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span>评论列表
+			</button>
+		</header>
+		<div id="refreshContainer" class="mui-content mui-scroll-wrapper" style="padding-bottom: 50px;">
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<div id="commentArea" class="mui-content-padded">
+
+				</div>
+			</div>
+		</div>
+		<div class="mui-bar mui-bar-tab jh-bar-comment">
+
+		</div>
+	<!--	<div class="mui-content"></div>-->
+		
+
+		
+	</body>
+	<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.zoom.js"></script>
+		<script src="../js/mui.previewimage.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/comment.js"></script>
+		<script src="../js/share.js"></script>
+		<script>
+		mui.init({
+			gestureConfig: {
+				swipeBack: true //启用右滑关闭功能
+			},
+			pullRefresh: {
+				container: "#refreshContainer", //下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+				down: {
+					style: 'circle', //必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+					color: '#bf0a10', //可选，默认“#2BD009” 下拉刷新控件颜色
+					height: 50, //可选,默认50.触发下拉刷新拖动距离,
+					auto: false, //可选,默认false.首次加载自动上拉刷新一次
+					callback: pulldownRefresh
+				},
+				up: {
+					height: 50, //可选.默认50.触发上拉加载拖动距离
+					auto: false, //可选,默认false.自动上拉加载一次
+					contentrefresh: "正在加载...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+					contentnomore: '没有更多数据了', //可选，请求完毕若没有更多数据时显示的提醒内容；
+					callback: pullupRefresh
+				}
+			}
+		});
+		
+			
+			var page = 1;
+			var commentAreas = document.getElementById("commentArea");
+			showLoading('', '', '#FFFFFF');
+
+			function getDetail(commentedObjectId, tenantTypeId, more,downcount) {
+				if(more) {
+					page++;
+				} else {
+					page = 1;
+				}	
+				switch(tenantTypeId){
+						case 'Vote':
+							var action = 'Vote/GetCommentsDetail';
+						break;
+						case 'Document':
+							var action = 'Document/GetCommentsDetail';
+						break;
+						case 'Event':
+							var action = 'Event/GetCommentsDetail';
+						break;
+						case 'Question':
+							var action = 'Ask/GetCommentsDetail';
+						break;
+						case 'Answer':
+							var action = 'Ask/GetCommentsDetail';
+						break;
+						case 'PointMall':
+							var action = 'PointMall/GetCommentsDetail';
+						break;
+						default:
+							var action = 'Comment/GetCommentsDetail';
+						break;					
+				}
+				var params = {
+					commentedObjectId: commentedObjectId,
+					tenantTypeId: tenantTypeId,
+					pageIndex: page
+				}				
+				getData(action, params, function(data) {
+					hideLoading()
+					if(data.Type == 1) {
+						console.log(JSON.stringify(data))
+						if(data.Data && typeof(data.Data) == 'object') {
+							console.log(1);
+							//hideErrForList('','pullrefresh');
+							var data = data.Data;
+							if(data.length > 0) {
+								if(more) {
+									commentAreas.appendChild(createComFragment(data))
+								} else {
+									commentAreas.innerHTML = '';
+									commentAreas.appendChild(createComFragment(data,downcount))
+								}
+								setLastBoard()
+
+							} else {
+								if(!more){
+									var errForList=showErrForList('暂无数据','','','refreshContainer');
+									if(errForList){
+										document.getElementById("refreshContainer").appendChild(errForList)
+									}
+									
+								}
+								mui('#refreshContainer').pullRefresh().disablePullupToRefresh();
+							}
+
+						} else {
+							mui.toast(data.Data);
+						}
+					} else if(data.Type == 0) {
+						//登录失败                                                                                                                
+						mui.toast("请登录后再进行操作");
+						login();
+						return;
+					} else {
+						//逻辑错误   
+						var errForList=showErrForList(data.Data,'','','refreshContainer');
+						if(errForList){
+							document.getElementById("refreshContainer").appendChild(showErrForList(data.Data,'','','refreshContainer'))
+						}
+						mui.toast(data.Data);
+						return;
+					}
+				}, function(err) {
+					setErr('','0px')
+				})
+			}
+
+			mui("#commentAreas").on('tap', '.creator_img_comment', function(e) {
+				var userid = this.getAttribute('id');
+				var baseUrl = 'userHomepage.html';
+				var url = baseUrl + '?userId=' + userid;
+				mui.openWindow({
+					url: url,
+					id: 'userHomepage.html',
+					show: {
+						autoShow: false
+					},
+					waiting: {
+						options: {
+							loading: {
+								height: '35px'
+							}
+						}
+					},
+					extras: {
+						userId: userid
+					}
+				})
+			})
+
+			var commentedObjectId = 0;
+			var tenantTypeId = '';
+			var interfaceType;
+			//B页面onload从服务器获取列表数据；                                                                                                            
+			window.onload = function() {
+				//获取url中的targetId参数                                                                                                           
+				if(mui.os.plus) {
+					mui.plusReady(function() {
+						var self = plus.webview.getWebviewById('commentsDetail_main.html');
+						commentedObjectId = self.commentedObjectId;
+						tenantTypeId = self.tenantTypeId;
+						getDetail(commentedObjectId, tenantTypeId, false);
+						setIdandType(commentedObjectId, tenantTypeId, 0)
+						//关闭等待框                                                                                                               
+						plus.nativeUI.closeWaiting();
+						//显示当前页面                                                                                                              
+						mui.currentWebview.show();
+					});
+				} else {					
+					commentedObjectId = getUrlParam('commentedObjectId');
+					tenantTypeId = getUrlParam('tenantTypeId');
+					getDetail(commentedObjectId, tenantTypeId, false);
+					setIdandType(commentedObjectId, tenantTypeId, 0)
+				}
+
+			}
+			if(document.querySelector('.jh-comment-right')){
+				document.querySelector('.jh-comment-right').style.display = 'none';
+			}
+			if(document.querySelector('.jh-comment-edit')){
+				document.querySelector('.jh-comment-edit').style.display = 'block';
+				document.querySelector('.jh-comment-edit').style.width = '100%';
+			}
+			
+			/**                                                                                                                               
+			 * 下拉刷新具体业务实现                                                                                                                     
+			 */
+			var downcount = 0;
+			function pulldownRefresh() {
+				setTimeout(function() {
+					getDetail(commentedObjectId, tenantTypeId, false,downcount);
+					mui('#refreshContainer').pullRefresh().endPulldownToRefresh(); //refresh completed                                             
+				}, 1500);
+			}
+			var count = 0;
+			/**                                                                                                                               
+			 * 上拉加载具体业务实现                                                                                                                     
+			 */
+			function pullupRefresh() {
+				setTimeout(function() {
+					getDetail(commentedObjectId, tenantTypeId, true);
+					mui('#refreshContainer').pullRefresh().endPullupToRefresh((++count > 2)); //参数为true代表没有更多数据了。                                                                                                                              
+				}, 1500);
+			}
+	
+	
+		</script>
+
+</html>

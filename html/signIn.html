@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../css/jinhu.css">
+		<!-- 引用控制层插件样式 -->
+		<link rel="stylesheet" href="../css/zyUpload.css" type="text/css">
+
+		<script src="../js/jquery-2.1.0.js"></script>
+		<!-- 引用核心层插件 -->
+		<script type="text/javascript" src="../js/zyFile.js"></script>
+		<!-- 引用控制层插件 -->
+		<script type="text/javascript" src="../js/zyUpload.js"></script>
+		<!-- 引用初始化JS -->
+		<script type="text/javascript" src="../js/zyUploadFile.js"></script>
+		<!--
+        	.mui-input-row span {
+			line-height: 40px;
+			font-size: 16px;
+		}
+        -->
+	</head>
+	<style>
+		.jh-calendar .jh-calendar-title {
+		    margin-top: 10px;
+		    margin-bottom: 0px !important;
+		}
+		.jh-calendar{
+			margin-top: 35px;
+			padding-top: 10px !important;
+			padding-left: 0rem !important;
+		}
+		.jh-calendar .jh-calendar-body table td.on:before {
+		    margin-left: 0px;
+		    bottom: -27px;
+		}
+		.jh-calendar .jh-calendar-body {
+    		margin-left: -3px;
+    		margin-right: -10px;
+		}
+		#information{
+			margin-top: 70px;
+		}
+		#newInfo{
+			margin-top: 24px;
+		}
+		#money{
+			color: #3C763D;
+			margin-top: 20px;
+		}
+	</style>
+	<body style=" background-color: #fff;">
+		<div id="BgDiv1"></div>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span>签到领金币</button>			
+		</header>
+		<div class="jh-calendar">
+            <div class="jh-calendar-title">
+                <table>
+                    <tbody>
+                        <tr id="nowMonth">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="jh-calendar-body">
+                <table>
+                    <tbody>
+                        <tr id="day">
+                            <td></td>
+                            <td class="on"></td>
+                            <td class="on"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="jh-calendar-info" id="information"><span></span><span></span></p>
+            <p class="jh-calendar-info" id="money"><span></span><span></span></p>
+            <p class="jh-calendar-success" id="newInfo" style="display: none;"><i class="fa fa-check-circle"></i>今日已签到</p>
+        </div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/crypto-js.js"></script>
+		<script src="../js/mui.zoom.js"></script>
+		<script src="../js/mui.previewimage.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/service.js"></script>
+		
+		
+		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script type="text/javascript" src="../js/loading.js"></script>
+		<script src="../js/jhUpload.js"></script>
+		<script src="../js/wxHelper.js"></script>
+		<script src="../js/signIn.js"></script>
+	</body>
+	<script>
+		
+	</script>
+</html>

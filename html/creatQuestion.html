@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<!--通用样式-->
+		<link rel="stylesheet"  href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet"  href="../css/jinhu.css"/>
+		<link rel="stylesheet"  href="../css/question.css"/>
+		<link rel="stylesheet" href="../css/loading.css" />
+		<link href="../css/mui.picker.css" rel="stylesheet" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<!-- 引用控制层插件样式 -->
+		<link rel="stylesheet" href="../css/zyUpload.css" type="text/css">
+
+		<script src="../js/jquery-2.1.0.js"></script>
+		<!-- 引用核心层插件 -->
+		<script type="text/javascript" src="../js/zyFile.js"></script>
+		<!-- 引用控制层插件 -->
+		<script type="text/javascript" src="../js/zyUpload.js"></script>
+		<!-- 引用初始化JS -->
+		<script type="text/javascript" src="../js/zyUploadFile.js"></script>
+		<!--
+        	.mui-input-row span {
+			line-height: 40px;
+			font-size: 16px;
+		}
+        -->
+	</head>
+	<style>
+		#subject:after{
+			border-bottom:1px #E3E3E3 dashed ;
+		}		
+		.mui-icon {
+		    font-size: 20px;
+		    font-weight: 400;
+		    font-style: normal;
+		    line-height: 1;
+		    display: inline-block;
+		    text-decoration: none;
+		    -webkit-font-smoothing: antialiased;
+		}
+		.spacing {
+			margin-top: 0.5rem;
+		}
+
+		.mui-input-row span {
+			    color: #999;
+			font-size: 16px;
+		}
+		
+		.angledown {
+			font-size: 1.2rem;
+			color: #999999;
+		}
+		
+		.closeIcon {
+			font-size: 25px;
+		}
+		
+		.threadBody {
+			line-height: 20px;
+			font-size: 16px;
+			border: none;
+			height: 537;
+		}
+		
+		.jh-comment-right a {
+			padding-left: 10px;
+		}
+		
+		.creat_menu {
+			float: left;
+			line-height: 25px;
+			width: 15%;
+			text-align: center;
+			color: #999999
+		}
+		
+		.face {
+			width: 30px;
+			height: 30px;
+			padding: 8px;
+		}
+		
+		.creat-img {
+			width: 100px;
+			height: 150px
+		}
+		.mui-input-row label {
+          width: 24%;
+          font-family: 微软雅黑;
+          font-size: 16px;
+        }
+        .creat-img-close {
+			position: relative;
+			right: 15px;
+			top: -75px;
+			color: gray;
+			
+		}
+		/*.creat-img-close {
+			position: absolute;
+			left: 95px;
+			top: -4px;
+			color: gray;
+			overflow: hidden;
+		}*/
+		.threadBody-question {
+			border-bottom: 1px;
+		}
+		.mui-switch-red.mui-active{
+    		border: 2px solid #bf0a10;
+    		background-color: #bf0a10;
+		}
+		.mui-input-row .mui-input-clear~.mui-icon-clear,
+		.mui-input-row .mui-input-password~.mui-icon-eye,
+		.mui-input-row .mui-input-speech~.mui-icon-speech {
+			top: 0;
+		}
+		html, body {
+		    height: 100%;
+		    margin: 0px;
+		    padding: 0px;
+		    overflow: hidden;
+		    -webkit-touch-callout: none;
+		    -webkit-user-select: none;
+		}
+		#switchColumn {
+		    background-color: #fff;
+		    position: absolute;
+		    right: 0px;
+		    z-index: 9999999;
+		    height: 40px;
+		}
+		#mui-content{
+			position: absolute;
+			top: 100px;
+			background-color: #000000;
+		}
+		.changeColumn {
+		    height: 40px;
+		    line-height: 40px;
+		    padding-left: 10px;
+		    padding-right: 10px;
+		    color: #666;
+		}
+		.mui-row {
+		    margin-left: -5px;
+		    margin-right: -5px;
+		    margin-bottom: 10px;
+		}
+		.adaption{
+			padding: 5px 5px 5px 8px;
+		}
+		.typeitem {
+			display: inline-block;
+		    border: 1px solid #e4e4e4;
+		    padding-top: 5px;
+		    padding-left: 5px;
+		    padding-right: 5px;		    
+		}
+		.typeitemContainer{
+			display: inline-block;
+			margin-bottom: 5px;
+		}
+		.typeItemActive {
+		    border: 1px solid #bf0a10;
+		    padding-top: 5px;
+		    color: #bf0a10;
+		    position: relative;
+		}
+		.mui-selected{
+			content: '\e472';
+		}
+		.mui-input-row .newTag {
+			font-size: 16px;
+			border: 1px solid gray;
+			border-radius: 2px;
+			padding: 5px;
+		}
+		.newtag{
+			border: 1px solid gray;
+		    border-radius: 2px;
+		    padding: 5px;
+		    margin-right: 5px;
+		    margin-top: 5px;
+		}
+		.checked{
+			    position: absolute;
+			    font-size: 14px;
+			    width: 14px;
+			    height: 14px;
+			    top: -5px;
+			    right: -7px;
+			/*color: #bf0a10;*/
+		}
+		/*#Category{
+			line-height: 40px;
+		}*/
+		#tags1{
+			display: flex;
+			display: -webkit-flex; /* Safari */
+			-webkit-flex-wrap:wrap;
+			flex-wrap: wrap;
+			padding-bottom: 2px;
+		}
+		#IsAnonymous{
+			padding-top: 10px;
+		}
+		#title{
+			margin-left: 8px;
+		}
+		#subject span{
+			margin-top: 7px;
+		}
+		.mui-input-group .mui-input-row:after{
+			border-bottom: 1px solid #ccc;
+			height: 0;
+		}
+		
+</style>
+	<body style=" background-color: #fff;">
+		<div id="BgDiv1"></div>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span>我要提问</button>
+			<span class="mui-pull-right">
+					<span id="Progress" style="line-height:50px"></span>
+			<button id="creat_Btn" data-loading-text="提交中" type="button" style="background-color: #bf0a10;margin-top: 5px;height: 28px;padding-top: 2px;" class="mui-btn mui-btn-red">发布</button>
+			</span>
+		</header>
+		<div class="mui-scroll-wrapper" id="scrollContainer" style="padding-top: 50px;padding-bottom: 100px;">
+    <div class="mui-scroll">
+		<div id="sheetMenu" class="mui-popover mui-popover-bottom mui-popover-action">
+			<!-- 可选择菜单 -->
+			<ul id="selectMenu" class="mui-table-view">
+			</ul>
+			<!-- 取消菜单 -->
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<a href="#sheetMenu"><b>取消</b></a>
+				</li>
+			</ul>
+		</div>			
+        	<div class="mui-content" id="detail" style=" background-color: #fff;">
+			<form class="mui-input-group my-question">
+				
+				<div class="mui-input-row spacing" id="subject" style="height: auto;padding-bottom: 0.5rem;">
+					<label style="color: #666666;width: 60px;padding-left: 11px;line-height: 24px;">问题</label>
+					<input id='title' type="text" style="font-size: 16px;" class="mui-input mui-input-clear">
+				</div>						
+			<textarea rows="10" class="threadBody threadBody-question" style="padding-left: 10px;" id="upload-textarea" placeholder="问题补充"></textarea>
+			<div id="imgPop" style="border-bottom: 1px solid #e3e3e3;">
+				<div style="height: 200px;" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+				    <div id="imgs" class="mui-scroll">
+				    	
+				    </div>
+				</div>
+			</div>
+			<div class="jh-gray-bar"></div>
+			<div class="mui-input-row"id="tags"onclick="changeSwith()"style="height: auto;padding: 0px 15px;padding-top: 12px;padding-bottom: 12px;">
+					<span id="Category" >
+						<span id="Categorytext" style="color: #666666;">设置标签</span>
+					<span id="switchColumnQue" style="float: right;"><i class="fa fa-angle-down angledown" aria-hidden="true"></i></span>
+
+					</span>
+					<span id="tags1"></span>
+					
+				</div>
+			<div id="Reward" class="mui-input-row " style="height: auto;padding-top:12px;padding-bottom: 12px;font-size: 16px;">					
+					<span style="padding: 10px 15px;color: #666666;;">悬赏金额</span>
+					<span >
+						<span id="Rewardtext" style="float: right;margin-right: 1rem;">0</span>
+					
+					</span>
+			</div>
+			<div class="mui-input-row" style="height: auto;padding-top:8px;padding-bottom: 8px;" >
+					<label id="IsAnonymous"style="color: #666666;padding-right: 0;width: 30%;">匿名提问</label>
+					<div class="mui-switch mui-switch-red"id="mySwitch"style="margin-right: 10px;">
+                       <div class="mui-switch-handle"></div>
+                    </div>
+			</div>
+			</form>
+			
+			<div id="demo" class="demo" style="display: none;"></div> 
+		</div>
+		
+		<div class="mui-content" id="moreType" style="display: none;">
+			<div class="changeColumn" onclick="changeSwith()">
+				选择标签<span id="switchColumnQues"  class="mui-icon mui-icon-arrowup" style="float: right;line-height: 40px;"></span>
+			</div>
+			<div class="mui-row " style="padding: 5px;" id="alltypes">
+				
+			</div>
+
+		</div>
+		
+	</div>
+	</div>
+		<div class="mui-bar mui-bar-tab jh-bar-comment" id="bottomBox" style="background-color:#F2F2F2;height: 60px;bottom: 0px;display: none;">
+			<div id="bottomBar" class="jh-comment-right" style="float: left;width: 100%;display: none;">
+				<a onclick="galleryImgsMaximum()"><i class="mui-icon fa fa-picture-o creat_menu" aria-hidden="true"></i></a>
+				<a id="getcamera" onclick="getImages()"><i class="mui-icon fa fa-camera angledown creat_menu" aria-hidden="true"></i></a>
+			</div>
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.zoom.js"></script>
+		<script src="../js/mui.previewimage.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script type="text/javascript" src="../js/loading.js"></script>
+		<script src="../js/jhUpload.js"></script>
+		<script src="../js/wxHelper.js"></script>
+		<script src="../js/jweixin-1.2.0.js"></script>
+		<script src="../js/creatUpload.js"></script>
+	</body>
+	<script>
+		
+	var oldImageAttachments = [];
+	var height = document.documentElement.clientHeight || document.body.clientHeight;
+	document.getElementById('detail').style.minHeight=height+'px';
+	if(!mui.os.wechat) {
+		mui.previewImage();
+	}
+	if(mui.os.plus||mui.os.wechat){
+		document.getElementById("getcamera").style.display=''
+	}else{
+		document.getElementById("getcamera").style.display='none'
+	}
+	creatloadingEL();
+	if(mui.os.wechat) {
+		initWx();
+		wx.ready(function() {
+			wx.checkJsApi({
+				jsApiList: ['chooseImage', 'uploadImage', 'previewImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+				success: function(res) {
+					// 以键值对的形式返回，可用的api值true，不可用为false
+					// 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+				}
+			});
+		});
+		wx.error(function(res) {
+	
+		});
+	}
+	var commenttextarea=document.getElementById("upload-textarea");
+	var selectMenu=document.getElementById("selectMenu");
+	var facePop=document.getElementById("facePop");
+	var bottomBarContainer = document.getElementById("bottomBarContainer");
+	var bottomBar=document.getElementById("bottomBar");
+	var creatBtn=document.getElementById("creat_Btn");
+	var plusimgArea=document.getElementById("imgPop");
+	var imgArea=document.getElementById("demo");
+	var Reward = document.getElementById("Reward");
+	var Rewardtext = document.getElementById("Rewardtext");
+	var IsAnonymous = document.getElementById("IsAnonymous");
+	var RewardId = "";
+	var hasReward;
+	var files=[];
+	var Tags="";
+	var pickdata = [];
+	var picker = new mui.PopPicker();
+	var classNames;
+	var tagsList = []; 
+	ZYFILE.url=Http_Url+'/Ask/UploadFiles';
+	var imgFiles = [];
+	var wxIds = [];
+	var fragment = document.getElementById('alltypes');
+	var icon = document.getElementById("icon");
+	var deceleration = mui.os.ios ? 0.003 : 0.0009;
+	var left=95;
+	mui('.mui-scroll-wrapper').scroll({
+		bounce: false,
+		indicators: true, //是否显示滚动条
+		deceleration: deceleration
+	});
+	function getReward() {
+		var waiting = showWaiting();			
+		getDatawithToken('Ask/GetReward', {}, function(data) {
+			closeWaiting(waiting);
+			if(data.Type == 1) {
+				if(data.Data && typeof(data.Data) == 'object') {
+					if(data.Data && data.Data.length != 0) {
+						hasReward = true;
+						pickdata = [];
+						for(var i = 0; i < data.Data.rewards.length; i++) {																
+							pickdata.push({ value: i+1, text: data.Data.rewards[i].toString() })								
+						}
+						picker.setData(pickdata);							
+					} else {
+						hasReward = false
+					}
+				} else {
+					mui.toast(data.Data);
+				}
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(err) {
+			closeWaiting(waiting);
+		})
+	}
+	Reward.addEventListener('tap', function() {
+		getReward();
+		picker.show(function(selectItems) {
+			RewardId = selectItems[0].value;
+			Rewardtext.innerHTML = selectItems[0].text;
+		})
+	})
+	mui("#alltypes").on('tap', '.typeitemContainer', function(e) {			
+		if(e.target.parentElement.className == "typeitem  typeItemActive"){
+			e.target.parentElement.className = "typeitem"
+			e.target.style.color = "#333";
+			var icon = e.target.parentElement.getElementsByTagName("img")[0];
+			icon.style.display = "none";
+		}else{
+			e.target.parentElement.className = "typeitem  typeItemActive"
+			e.target.style.color = "#bf0a10";
+			var icon = e.target.parentElement.getElementsByTagName("img")[0];
+			icon.style.display = "inline-block";								
+		}
+		classNames = document.getElementsByClassName("typeitem  typeItemActive");
+		if(classNames.length >= 5){	
+			if(classNames.length >5){				
+				e.target.parentElement.className = "typeitem"
+				e.target.style.color = "#333";
+				var icon = e.target.parentElement.getElementsByTagName("img")[0];
+				icon.style.display = "none";
+				mui.toast("您只能选择1-5个标签")
+			}				
+		}
+    })		
+	function changeSwith() {
+		var moreType = document.getElementById("moreType");
+		var detail = document.getElementById("detail");
+		if(moreType.style.display == "block") {	
+			detail.style.display = "block";
+			creatBtn.style.display = "block";
+			var tagsContainer = "";
+			var tagsContainers = "";
+			if(classNames != null){
+				for(var i =0;i<classNames.length;i++){
+					tagsContainer = '<span id='+ classNames[i].innerText +' class="newtag">'+
+							 		classNames[i].innerText +	
+									'<span id=' + i + ' style="font-size: 16px;" class="mui-icon mui-icon-closeempty"></span>'+
+									'</span>';
+					tagsContainers += tagsContainer;						
+				}
+			}								
+			moreType.style.display = "none";
+			//已选择完标签
+			var tags = document.getElementById("tags");
+			var tags1 = document.getElementById("tags1");								
+			tags1.innerHTML = tagsContainers;//标签容器
+		} else {
+			var tagsAct = document.getElementsByClassName("newtag");
+			if(tagsAct.length>0){
+				detail.style.display = "none";
+				moreType.style.display = "block";
+				creatBtn.style.display = "none";
+			}else{
+				detail.style.display = "none";
+				moreType.style.display = "block";
+				creatBtn.style.display = "none";
+				creatTags();
+			}				
+		}
+	}
+	mui(".mui-content").on('tap', '.mui-icon-closeempty', function(e) {
+		var typeItem = fragment.getElementsByTagName('p');
+		for(var i = 0;i<typeItem.length;i++){
+			if(typeItem[i].id == e.target.parentElement.id){
+				typeItem[i].style.color = "#333";
+				typeItem[i].parentNode.getElementsByTagName('img')[0].style.display = "none";
+				typeItem[i].parentNode.className = "typeitem"					
+			}
+		}			
+		e.target.parentElement.parentElement.removeChild(e.target.parentElement);
+		classNames = [];
+		classNames = document.getElementsByClassName("typeitem  typeItemActive");
+	})
+	var creatTypes = function(data) {
+		var creatTagsLength = [];
+		var creatTagsSort =[];	
+		var fragment = document.getElementById('alltypes');
+		fragment.innerHTML ="";
+		for(var j = 0; j < data.length; j++) {
+			creatTagsLength.push({TagName:data[j].TagName,length:data[j].TagName.length});
+			function compare(property){
+				return function(a,b){
+				    var value1 = a[property];
+				    var value2 = b[property];
+				    return value1 - value2;
+				}
+			}
+		}
+		creatTagsSort = creatTagsLength.sort(compare('length'))
+		var lengthL = creatTagsSort.length ;
+		var creatTagsFinal = creatTagsSort.slice(0,lengthL);			
+		var div;
+		var ii = 1;
+		var dataArray = [];	
+		for(var i = 0; i < creatTagsFinal.length; i++) {
+			ii++;				
+			div = document.createElement('div');
+			div.className = "adaption";
+			div.style.display = "inline-block";
+			div.innerHTML = '<div  class="typeitem " ><p id='+creatTagsFinal[i].TagName+' class="typeitemContainer">'+ creatTagsFinal[i].TagName+ '</p><img class="checked" style="display:none;" src="../img/checked.png"/></div>';
+			fragment.appendChild(div);
+		}
+	}
+	function creatTags(){
+		showLoading();
+		getData('Ask/GetTags', {}, function(data) {
+			hideLoading()
+			if(data.Type == 1) {
+				if(data.Data && typeof(data.Data) == 'object') {
+					creatTypes(data.Data);
+				} else {
+					mui.toast(data.Data);
+				}
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(err) {
+			hideLoading()
+		})
+	}		
+		// H5 plus事件处理
+	function plusReady(){
+			
+	}
+	if(window.plus){
+		plusReady();
+	}else{
+		document.addEventListener('plusready', plusReady, false);
+	}
+	var sectionId;
+	var currid="";
+	window.onload = function() {
+		files = [];
+		//获取url中的targetId参数
+		if(mui.os.plus) {
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				//关闭等待框
+				plus.nativeUI.closeWaiting();
+				//显示当前页面
+				mui.currentWebview.show();
+			});
+		} else {
+
+		}
+		if(mui.os.wechat){
+			var currUrl = location.href.split('#')[0];
+			weChatLogin(currUrl)
+		}
+	}
+	creatBtn.addEventListener('tap',function(){
+		upload()
+	})		
+	function CreateQuestion(title,body,attachmentIds,reward,tagsList,isAnonymous){
+		var params = {
+			Subject: title,
+			Body:body,
+			Tags:tagsList,
+			AttachmentIds:attachmentIds,
+			Reward:reward,
+			IsAnonymous:isAnonymous
+		};
+		showLoading();
+		postDatawithToken('Ask/CreateQuestion', params, function(data) {
+			hideLoading();
+			mui('#creat_Btn').button('reset');
+			if(data.Type == 1) {
+				mui.toast(data.Data);
+				if(mui.os.plus) {
+					var wobj = plus.webview.getWebviewById("ask.html");
+					wobj.reload(true);
+					setTimeout(function() { mui.back(); }, 1000)
+				} else {
+					mui.back();
+				}
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(data) {
+			mui('#creat_Btn').button('reset');
+			hideLoading();
+		});
+	}
+	var reward="";
+	var title="";
+	var body="";
+	var isAnonymous=false;
+	document.getElementById("mySwitch").addEventListener("toggle",function(event){
+        if(event.detail.isActive){
+            isAnonymous = true;
+            IsAnonymous.style.color = "#333";
+        }else{
+            isAnonymous = false;
+            IsAnonymous.style.color = "#999";
+        }
+    })
+	// 上传文件
+	var tagstrs = "";
+	var newListTouch = [];
+	function upload(){			
+		title = TrimAll(document.getElementById("title").value);
+		reward = TrimAll(document.getElementById("Rewardtext").innerText);
+		var tags1 = document.getElementById("tags1");
+		var newtag = document.getElementsByClassName("newtag");
+		for(var i = 0;i<newtag.length;i++){
+			var tag = newtag[i].innerText;
+			tagsList.push(tag);				
+		}			
+		tagstrs = tagsList.join(';')
+		body=TrimAll(commenttextarea.value);
+		if(tagsList==""){
+			mui.toast("请选择标签分类")
+			return
+		}
+		if(title == "") {
+			mui.toast("问题标题不能为空")
+			return 
+		}
+		if(mui.os.plus){
+			filesUploadforApp('/Ask/UploadFiles',function(e){
+				if(e==''){
+					CreateQuestion(title,body,"",reward,tagstrs,isAnonymous);
+				}else{
+					CreateQuestion(title,body,e,reward,tagstrs,isAnonymous);
+				}
+			})
+		}else{	
+			var lengthList = zyUpload.webFiles.length;
+			var touchArray = [];
+			for(var i=0;i<lengthList;i++){
+				touchArray.push(document.getElementsByClassName('creat-img')[i]);
+			}
+			if(touchArray.length > 0){
+				appendFileTouch('/Ask/UploadFiles',0,touchArray,function(e){
+					CreateQuestion(title,body,e,reward,tagstrs,isAnonymous);
+				})
+			}else{
+				CreateQuestion(title,body,"",reward,tagstrs,isAnonymous);
+			}							
+		}			
+	}
+	function onCompletes(response){
+		setTimeout(function() {hideLoading()}, 500)
+		CreateQuestion(title,body,attachmentIds.join(';'),reward,tagstrs,isAnonymous);
+	}
+	function onFailures(){
+		mui.toast('文件上传失败，请重试！');
+		return
+	}	
+
+	</script>
+</html>

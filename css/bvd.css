@@ -1,0 +1,272 @@
+@keyframes vhide {0% {opacity: 1;}100% {opacity: 0;}}
+
+webkit-keyframes vhide {0% {opacity: 1;}100% {opacity: 0;}}
+
+.vhidden {
+    animation: vhide 5s ease-in;
+	-webkit-animation: vhide 5s ease-in;
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode: forwards;
+}
+
+@keyframes lockhide {0% {transform: translate(0%,-50%);}100% {transform: translate(120%,-50%);}}
+
+webkit-keyframes lockhide {0% {transform: translate(0%,-50%);}100% {transform: translate(120%,-50%);}}
+
+.lockhidden {
+	animation: lockhide 1s 3s linear;
+	-webkit-animation: lockhide 1s 3s linear;
+	animation-fill-mode:forwards;
+	-webkit-animation-fill-mode: forwards;
+}
+
+
+.bad-video video {
+
+}
+video::-webkit-media-controls-enclosure {
+    /*禁用播放器控制栏的样式*/
+    display: none !important;
+}
+video::-webkit-media-controls {
+  display:none !important;
+}
+
+.bad-video {
+	position: relative;
+	/*overflow: hidden;*/
+	/*background-color: #CCCCCC;*/
+}
+
+.bad-video .vplay {
+	position: absolute;
+	width: 15%;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+.bad-video .controls {
+	width: 100%;
+	height: 2.1rem;
+	line-height: 2.1rem;
+	font-size: .8rem;
+	color: white;
+	display: block;
+	position: absolute;
+	bottom: 0;
+	/*background-color: rgba(0, 0, 0, .55);*/
+	display: -webkit-flex;
+	display: flex;
+	
+}
+
+/*.bad-video .controls>* {
+	width: 100%;
+}*/
+
+/*.bad-video .controls>*:nth-child(n+1){
+	text-align: center;
+}*/
+
+
+.bad-video .controls>*:nth-child(1) {
+	width: 15%;
+	padding-left: .5rem;
+}
+.bad-video .controls>*:nth-child(2) {
+	width: 60%;
+	padding-left: .5rem;
+}
+.bad-video .controls>*:nth-child(3) {
+	width: 15%;
+	padding-left: .5rem;
+}
+.bad-video .controls>*:nth-child(4) {
+	width: 15%;
+	text-align: right;
+	padding-left: .5rem;
+}
+
+
+.bad-video .fill{
+	display: flex;
+	display: -webkit-flex;
+	align-items: center;
+	justify-content: center;
+	
+}
+.bad-video .fill img{
+	margin-top: .4rem;
+	width: 1.2rem;
+}
+
+.bad-video .controls .progressBar {
+	margin: .85rem 5%;
+	position: relative;
+	width: 90%;
+	height: .3rem;
+	background-color: rgba(200, 200, 200, .55);
+	border-radius: 10px;
+	/*overflow: hidden;*/
+}
+
+.bad-video .controls .timeBar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 0;
+	height: 100%;
+	background-color: rgba(99, 110, 225, .85);
+	border-radius: 10px;
+	/*width: 30%;*/
+}
+
+
+
+
+
+.bad-video .controls .timeBar .crr{
+	position: absolute;
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+	top: 50%;
+	right: 0;
+	height: .2rem;
+	width: .2rem;
+	border-radius: 100%;
+	border: .5rem solid white;
+	
+	box-sizing: content-box;
+}
+@keyframes vhide {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+webkit-keyframes vhide {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+.vhidden {
+	animation: vhide 5s ease-in;
+	-webkit-animation: vhide 5s ease-in;
+	animation-fill-mode: forwards;
+	-webkit-animation-fill-mode: forwards;
+}
+
+.bad-video video {
+	width: 100%;
+	height: 100%;
+	display: block;
+	object-fit: fill;
+}
+
+.bad-video {
+	position: relative;
+	/*overflow: hidden;*/
+	/*background-color: #CCCCCC;*/
+}
+
+.bad-video .vplay {
+	position: absolute;
+	width: 15%;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+.bad-video .controls {
+	width: 100%;
+	height: 2.1rem;
+	line-height: 2.1rem;
+	font-size: .8rem;
+	color: white;
+	display: block;
+	position: absolute;
+	bottom: 0;
+	/*background-color: rgba(0, 0, 0, .55);*/
+	display: -webkit-flex;
+	display: flex;
+}
+
+
+/*.bad-video .controls>*:nth-child(n+1) {
+	text-align: center;
+}
+
+.bad-video .controls>*:nth-child(2) {
+	flex: 5;
+	padding-left: .5rem;
+}*/
+
+.bad-video .fill {
+	display: flex;
+	display: -webkit-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.bad-video .fill img {
+	margin-top: .4rem;
+	width: 1.2rem;
+}
+
+.bad-video .controls .progressBar {
+	margin: .85rem 5%;
+	position: relative;
+	width: 90%;
+	height: .3rem;
+	background-color: rgba(200, 200, 200, .55);
+	border-radius: 10px;
+	/*overflow: hidden;*/
+}
+
+.bad-video .controls .timeBar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 0;
+	height: 100%;
+	background-color: rgba(99, 110, 225, .85);
+	border-radius: 10px;
+	/*width: 30%;*/
+}
+
+.bad-video .controls .timeBar .crr {
+	position: absolute;
+	-webkit-transform: translateY(-50%);
+	transform: translateY(-50%);
+	top: 50%;
+	right: 0;
+	height: .2rem;
+	width: .2rem;
+	background: red;
+	border-radius: 100%;
+	border: .5rem solid white;
+	box-sizing: content-box;
+}
+
+.bad-video .lock {
+	padding: .3rem;
+	width: 3rem;
+	height: 3rem;
+	position: absolute;
+	right: .5rem;
+	top: 50%;
+	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	visibility: hidden;
+}
+

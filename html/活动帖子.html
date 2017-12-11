@@ -1,0 +1,224 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>活动帖子</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--通用样式-->
+    <link rel="stylesheet" href="../css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../css/jinhu.css" />
+</head>
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <button class="mui-action-back mui-btn mui-btn-blue mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+            <span class="mui-icon mui-icon-left-nav"></span>活动详情
+        </button>
+        <a class="mui-icon mui-icon-bars mui-pull-right" style="color: #333;"></a>
+    </header>
+
+    <div class="mui-content">
+        <div class="mui-content-padded">
+            <h4 class="jh-detail-title"><span class="theme-color">置顶 </span>五年内超越三星苹果？华为距离“全球第一”的手机梦还有多远？</h4>
+            <div class="detail_content">
+                <p>
+                    <img src="../img/slider-1.jpg" data-preview-src="" data-preview-group="1" />
+                </p>
+            </div> 
+            <div class="jh-activity-detail">
+                <ul class="mui-table-view">
+                    <li class="mui-table-view-cell">
+                        <ul class="mui-list-inline">
+                            <li><i class="fa fa-clock-o text-muted"></i></li>
+                            <li>2017-04-17 09:30—04-17 11:00</li>
+                        </ul>
+                    </li>
+                    <li class="mui-table-view-cell">
+                        <ul class="mui-list-inline">
+                            <li style="width:5%;vertical-align:top;"><i class="fa fa-map-marker text-muted"></i> </li>
+                            <li style="width:90%;line-height:1.5;"><a href="">山东省青岛市，李沧区九水东路130号青岛-亚马逊AWS联合创新中心17楼国际孵化器<img src="../img/map-img.jpg"/></a></li>
+                        </ul>
+                    </li>
+                    <li class="mui-table-view-cell">
+                        <ul class="mui-list-inline">
+                            <li><img class="creator_img" src="../img/avatar-mini.png" /></li>
+                            <li><a href="">青岛小哥</a></li>
+                        </ul>
+                    </li>
+                    <li class="mui-table-view-cell">
+                        报名截止时间：2017-04-16 18:00
+                    </li>
+                    <li class="mui-table-view-cell">
+                        <ul class="mui-list-inline">
+                            <li>已报名 <span class="tn-theme-color">820</span>/2000 </li>
+                            <li class="mui-pull-right">浏览  10000</li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="mui-text-center tn-mt-10">
+                    <button type="button" class="mui-btn mui-btn-primary">我要报名</button>
+                    <a href="#" class="mui-pull-right">管理报名信息</a>
+                    <!--<button type="button" class="mui-btn jh-btn-gray" disabled="disabled">报名已截止</button>-->
+                </div>
+            </div>
+
+            <div class="mui-bar mui-bar-tab jh-bar-comment">
+                <a href="#popView_comment">
+                    <div class="jh-comment-edit">
+                        <i class="fa fa-pencil mui-icon mui-icon-bars mui-pull-right" aria-hidden="true"></i>
+                    </div>
+                </a>
+                <div class="jh-comment-right">
+                    <a href="#popView_comment">
+                        <span class="mui-icon mui-icon-chat comment_menu"><span id="supportNum" class="jh-bar-comment-num">99</span></span>
+                    </a>
+                    <a id="favorNew"><span id="favorNews" class="mui-icon mui-icon-extra mui-icon-extra-heart comment_menu"></span></a>
+                    <a href="#popView_share">
+                        <span class="mui-icon mui-icon-extra mui-icon-extra-share comment_menu"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div id="popView_comment" class="box mui-popover mui-popover-action mui-popover-bottom">
+            <div class="pop_view">
+                <textarea rows="5" name="textarea" placeholder="输入评论" id="comment-textarea" autofocus="autofocus"></textarea>
+                <div class="mui-text-center" style="margin-top:-10px;">
+                    <button class="mui-btn mui-pull-left">取消</button>
+                    <button class="mui-btn mui-btn-primary mui-pull-right">发送</button>
+                </div>
+            </div>
+        </div>
+        <div id="popView_share" class="box mui-popover mui-popover-action mui-popover-bottom">
+            <div class="pop_view_share">
+                <div class="pop_view_item">
+                    <img src="../img/weixin-icon.png" />
+                    <div>微信好友</div>
+                </div>
+                <div class="pop_view_item">
+                    <img src="../img/pyy-icon.png" />
+                    <div>微信朋友圈</div>
+                </div>
+                <div class="pop_view_item">
+                    <img src="../img/qq-icon.png" />
+                    <div>QQ空间</div>
+                </div>
+                <div class="pop_view_item">
+                    <img src="../img/weibo-icon.png" />
+                    <div>微博</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted jh-scroll-wrapper" data-scroll="2">
+        <div class="mui-scroll" style="transform: translate3d(0px, 0px, 0px) translateZ(0px);">
+            <a class="mui-control-item mui-active" href="#item1mobile">
+                活动详情
+            </a>
+            <a class="mui-control-item" href="#item2mobile">
+                已报名
+            </a>
+            <a class="mui-control-item" href="#item3mobile">
+                用户讨论
+            </a>
+        </div>
+    </div>
+    <div class="mui-content" style="padding:10px;padding-bottom:60px;">
+        <div class="detail_content">
+            <p style="text-indent:2em;">详情活动详情活动详情活动详情活动详情活动活动详情活动详情活动详情活动详情活动详情活动活动详情活动详情活动详情活动详情活动详情活动活动详情活动详情活动详情活动详情活动详情动活动详情活动详情活动详情</p>
+            <p style="text-indent:2em;">详情活动详情活动详情活动详情活动详情活动活动详情活动详情活动详情活动详情活动详情活动活动详情活动详情活动详情活动详情活动详情活动活动详情活动详情活动详情活动详情活动详情动活动详情活动详情活动详情</p>
+        </div>
+        <div class="jh-activity-enroll">
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell">
+                    <ul class="mui-list-inline">
+                        <li><img class="creator_img_comment " src="../img/avatar-mini.png" /></li>
+                        <li>姓名</li>
+                        <li>2016-012-12</li>
+                        <li class="mui-pull-right"><span class="tn-orange-color">审核中</span></li>
+                    </ul>
+                </li>
+                <li class="mui-table-view-cell">
+                    <ul class="mui-list-inline">
+                        <li><img class="creator_img_comment " src="../img/avatar-mini.png" /></li>
+                        <li>姓名</li>
+                        <li>2016-012-12</li>
+                        <li class="mui-pull-right"><span class="tn-green-color">审核通过</span></li>
+                    </ul>
+                </li>
+                <li class="mui-table-view-cell">
+                    <ul class="mui-list-inline">
+                        <li><img class="creator_img_comment " src="../img/avatar-mini.png" /></li>
+                        <li>姓名</li>
+                        <li>2016-012-12</li>
+                        <li class="mui-pull-right"><span class="tn-orange-color">审核中</span></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="comment_body">
+            <div class="comment_img">
+                <img class="creator_img_comment " src="../img/avatar-mini.png" />
+            </div>
+            <div class="comment_content">
+                <div class="comment_top">
+                    <h5 class="comment_top_left">姓名</h5>
+                    <h5 class="comment_top_right">2016-06-03</h5>
+                </div>
+                <p>
+                    回复内容回复内容回复内容回复内容回复内容回复内容回复内容
+                </p>
+            </div>
+        </div>
+        <div class="comment_body">
+            <div class="comment_img">
+                <img class="creator_img_comment" src="../img/avatar-mini.png" />
+            </div>
+            <div class="comment_content">
+                <div class="comment_top">
+                    <h5 class="comment_top_left">姓名</h5>
+                    <h5 class="comment_top_right">2016-06-03</h5>
+                </div>
+                <p>
+                    回复内容回复内容回复内容回复内容回复内容回复内容回复内容
+                </p>
+                <div class="jh-comment-reply">
+                    <p>姓名回复小明： 评论内容评论内容评论内容评论内容评论内容</p>
+                    <p>姓名回复小明： 评论内容评论内容评论内容评论内容评论内容</p>
+                    <h5 class="mui-text-center">
+                        <a href="#">共20条评论>></a>
+                    </h5>
+                </div>
+            </div>
+        </div>
+        <div class="comment_body">
+            <div class="comment_img">
+                <img class="creator_img_comment " src="../img/avatar-mini.png" />
+            </div>
+            <div class="comment_content">
+                <div class="comment_top">
+                    <h5 class="comment_top_left">姓名</h5>
+                    <h5 class="comment_top_right">1楼</h5>
+                </div>
+                <p>
+                    回复内容回复内容回复内容回复内容回复内容回复内容回复内容
+                </p>
+                <div class="comment_top">
+                    <h5 class="comment_top_left">2016-06-03</h5>
+                    <h5 class="comment_top_right">回复（10）</h5>
+                </div>
+            </div>
+        </div>
+        <div class="comment_more">
+            <a href="#" class="comment_more_text">
+                点击查看更多评论
+            </a>
+        </div>
+    </div>
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/mui.zoom.js"></script>
+    <script src="../js/mui.previewimage.js"></script>
+</body>
+</html>

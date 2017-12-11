@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/jinhu.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<script src="https://static.mlinks.cc/scripts/dist/mlink.min.js"></script>
+	</head>
+
+	<style>
+
+	</style>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="position: fixed;z-index: 999999;">
+			<h1 class="mui-title">
+				<img src="../img/logo.png" style="height:20px" />
+			</h1>
+			<a id="search" class="mui-icon mui-icon-search mui-pull-right" style="color: #333;"></a>
+		</header>
+		<div style="background-color: rgba(0, 0, 0, 0.6);position: fixed;z-index: 999999;width: 100%;padding: 5px;bottom: 0;">
+			<div style="float: left;">
+				<img src="../img/180.png" style="width: 50px;height: 50px;border-radius: 10px;">
+				<span>123456</span>
+			</div>
+			<div style="float: right;line-height: 50px;">
+				<button style="vertical-align: middle;"><a id="btnOpenApp">立即打开</a></button>
+			</div >
+		</div>
+		
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/jquery-2.1.0.js"></script>
+		<script>
+			var options={
+				mlink: "https://a.mlinks.cc/AchY",
+			    button: document.querySelector('a#btnOpenApp'),
+			    autoLaunchApp : false,
+			    autoRedirectToDownloadUrl: true,
+			    downloadWhenUniversalLinkFailed: false,
+			    inapp : true,
+			    cparams:{
+			    	name:'newsDetail',
+			    	id:'19',
+			    	other:JSON.stringify({
+			    		qq:'102222',
+			    		cb:'sss'
+			    	})
+			    }
+			}
+			new Mlink(options);
+//			var timer = null　　
+//			var appstore;
+//			if(mui.os.android) {
+//				appstore = 'market://search?q=com.singtel.travelbuddy.android';
+//			}
+//			if(mui.os.ios) {
+//				appstore = "https://itunes.apple.com/cn/app/wei-xin/id414478124?mt=8&ign-mpt=uo%3D4";
+//			}
+//			function applink(fail) {
+//				window.setTimeout(function(){
+//        window.location = fail;
+//      },2000)
+//				return function() {
+//					var clickedAt = +new Date;
+//					timer=setTimeout(function() {
+//						if(+new Date - clickedAt < 2000) {
+//							window.location = fail;
+//						}
+//					}, 500);
+//				};
+//			}
+//			/**
+//			 * 解决当页面成功唤起app之后，我们再切换回来浏览器，发现跳转到了下载页面。
+//			 */
+//			$(document).on('visibilitychange webkitvisibilitychange', function() {
+//				var tag = document.hidden || document.webkitHidden;
+//				if(tag) {
+//					clearTimeout(timer);
+//				}
+//			})
+//
+//			$(window).on('pagehide', function() {
+//				clearTimeout(timer);
+//			})
+//			document.getElementById("btnOpenApp").addEventListener('tap', function() {
+//				window.location.href='jhapp://newDetail.html?ContentItemId=19'
+//				if(mui.os.wechat) {
+//					alert('请在浏览器中打开此链接')
+//				}
+//				applink(appstore);
+//			})
+		</script>
+	</body>
+
+</html>

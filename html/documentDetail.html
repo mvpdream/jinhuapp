@@ -1,0 +1,817 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>文库详情</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/jinhu.css">
+	</head>
+	<style>
+		.nav {
+			display: inline-block;
+			display: -moz-box;
+			-moz-box-orient: horizontal;
+			display: -webkit-box;
+			-webkit-box-orient: horizontal;
+			display: box;
+			box-orient: horizontal;
+		}
+		.bar-item {
+			-webkit-box-flex: 1.0;
+			-moz-box-flex: 1.0;
+			box-flex: 1.0;
+			color: #666;
+		}
+		.downloadpop{
+			position: fixed;
+			text-align: center;
+			width: 80%;
+			margin-left: 10%;
+			margin-right: 10%;
+			top: 25%;
+		}
+		#starts{  
+		    width:auto !important;  
+		}  
+		#starts img{
+			width: 1.5rem;
+			height: 1.5rem;
+			margin: 0 5px 0 5px;
+		}
+		.jh-dropdown-list i {
+		    font-size: 22px;
+		    width: 22px;
+		}
+		#icon{
+			font-size: 3em;
+		}
+		.jh-detail-title{
+			display: flex;
+			display: -webkit-flex;
+			/* Safari */
+			-webkit-flex-wrap: wrap;
+			flex-wrap: wrap;
+		}
+		#starNum i{
+			line-height: 27px;
+			padding-left: 3px;
+		}
+		.jh-red-border{
+			vertical-align: middle;
+            position: absolute;
+            top: 12px;
+            padding: 2px 3px 0;
+		}
+		#reportContainer{
+			position: fixed;
+			margin-left: 5%;
+			min-height: 375px;
+			background-color: #ffffff;
+		}
+		#reportContainer button{
+			width: 50%;
+		    height: 40px;
+		    line-height: 24px;
+		    border-right: 1px solid #eff2f9;
+		    border-top: none;
+		    border-bottom: none;
+		    text-align: center;
+		    margin-right: 0px;
+		}
+		#reportContainer p {
+			margin-bottom: 0px;
+		    height: 40px;
+		    line-height: 40px;
+		    width: 100%;
+		    border-top: 1px solid #eff2f9;
+		}
+		#reportContainer ul{
+			background-color: #fff;
+			margin: 5px 5px;
+			padding: 3px;
+		}
+	</style>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+            <span class="mui-icon mui-icon-left-nav"></span><span id="CategoryName"></span>
+        </button>
+			<a id="documentOpt" class="mui-icon mui-icon-bars mui-pull-right" style="color: #333;"></a>
+		</header>
+
+		<div id="popover" class="mui-popover" style="position:fixed;width: 130px;height: auto;background-color: #FFFFFF;right: 5px;top: 50px;border-radius:0">
+			<ul class="mui-list-unstyled jh-dropdown-list" style="margin-top:0px;border: none;">
+				<li id="EssentialOperation" style="height: 30px;line-height: 30px;">
+
+				</li>
+				<li id="StickyOperation" style="height: 30px;line-height: 30px;">
+
+				</li>
+				<li id="editDoc" style="height: 30px;line-height: 30px;display: none;">
+					<a><i class="fa fa-edit" aria-hidden="true"></i>&nbsp;&nbsp编辑</a>
+				</li>
+				<li id="Deletedocument" style="height: 30px;line-height: 30px;padding-top: 3px;">
+					<a><i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp删除</a>
+				</li>
+				<li id="report" style="height：30px;line-height: 30px;padding-top: 3px;">
+					<a><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;&nbsp举报</a>
+				</li>
+			</ul>
+		</div>
+		
+	
+		
+		<div id="canDownloadPop" class="jh-wenku-popup mui-popover downloadpop">
+	        <div class="mui-popup-inner" style="border-radius:13px">
+	            <div class="mui-popup-title jh-detail-title" style="text-align: center;word-break: break-all;">
+	            	<span><span id="pop_title"></span><span id="pop_size"></span></span>
+	            </div>
+	            <p>下载文档，需要支付<span class="tn-red-color tn-font-20" id="pop_price"></span>个<span class="pointName"></span></p>
+	            <p>您当前持有<span id="pop_userprice"></span>个<span class="pointName"></span></p>
+	            <div class="mui-popup-buttons">
+	                <span class="mui-popup-button">
+	                    <button class="mui-btn mui-btn-primary" id="confirmDownload">确认下载</button>
+	                    <button type="button" class="mui-btn" id="cancelDownload">取消</button>
+	                </span>
+	            </div>
+	        </div>
+	    </div>
+	    
+	    <div id="downloadPop" class="jh-wenku-popup mui-popover downloadpop">
+	        <div class="mui-popup-inner" style="border-radius:13px">
+	            <div class="mui-popup-title jh-detail-title" style="text-align: center;word-break: break-all;">
+	            	<span><span id="pop_titles"></span><span id="pop_sizes"></span></span>
+	            </div>
+	            <div class="alert alert-warning" role="alert">抱歉，您的<span class="pointName"></span>不足，不能下载该文档！</div>
+	            <p>下载文档，需要支付<span class="tn-red-color tn-font-20" id="pop_prices"></span>个<span class="pointName"></span></p>
+	            <p>您当前持有<span id="pop_userprices"></span>个<span class="pointName"></span></p>
+	            <div class="mui-popup-buttons">
+	                <span class="mui-popup-button">
+	                    <button class="mui-btn mui-btn-primary" id="closeDownload">关闭</button>
+	                </span>
+	            </div>
+	        </div>
+	    </div>
+	    
+	   	<div id="scorePop" class="jh-wenku-popup mui-popover downloadpop">
+	        <div class="mui-popup-inner" style="border-radius:13px">
+	            <div class="mui-popup-title" style="text-align: center;" id="scoreTitle"></div>
+	            <div id="starts"></div>
+	            <div class="mui-popup-buttons">
+	                <span class="mui-popup-button">
+	                    <button class="mui-btn mui-btn-primary" id="confirmScore">确定</button>
+	                </span>
+	            </div>
+	        </div>
+	    </div>
+    
+
+		<div class="mui-content jh-detail-content">
+			<div class="jh-gray-bar"></div>
+			<div class="mui-content-padded" style="margin-bottom: 0;">
+				<div class="mui-text-center" id="Type"></div>
+				<h4 class="jh-detail-title" id="docTitledl">
+            	<span>
+	            	<span id="documentTitle"></span>
+	                <span style="display:inline-block;position: relative;width: 38px;height: 28px;" id="essentialState"></span>
+	                <span style="display:inline-block;position: relative;width: 38px;height: 28px;" id="stickyState"></span>
+	                <span style="display:inline-block;position: relative;width: 85px;height: 28px;">
+	                	<span class="jh-comment-star text-muted" id="starNum" style="position: absolute;top: 8px;"></span>
+	                </span>
+                </span>
+            </h4>
+	            <div id="downloadPro" class="mui-progressbar mui-progressbar-success" style="display: none;">
+					<span></span>
+				</div>
+				<ul class="mui-list-inline text-muted">
+					<li><i class="fa fa-database tn-yellow-color" aria-hidden="true">&nbsp;<span id="Price"></span></i></li>
+					<li id="UserDisplayName"></li>
+					<li><span id="LastModified"></span> 上传</li>
+					<li class="mui-pull-right" style="margin-top:3px;"><span id="DownloadCount"></span>次下载</li>
+					<li class="mui-pull-right" style="margin-top:3px;" id="FriendlyFileLength"></li>
+				</ul>
+				<div class="detail_content" id="Summary">
+
+				</div>
+				<hr />
+				<div class="jh-hot-label" id="tagsContainer" style="display: none;padding-top: 5px;">
+					<span>
+					<i class="fa fa-tags text-muted"  aria-hidden="true"></i>
+				</span>
+					<span id="tags">
+					
+				</span>
+
+				</div>
+			</div>
+
+			<div class="jh-title-container" id="jgb" style="margin-top: 5px;">
+				<span class="home_content_title">评论列表</span>
+				<span class="mui-pull-right" id="submitComment" style="padding-right: 10px;"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;<span class="text-muted">评论</span></span>
+			</div>
+			<div class="loadingItem" id="noCom" style="padding-top: 20px;padding-bottom: 20px;color: #CCCCCC;display: none;">
+				<i class="fa fa-info-circle fa-2x" style="vertical-align:middle;"></i>
+				<span id="loadmsgtext" style="vertical-align:middle;padding-left: 5px;"> 暂无评论</span>
+			</div>
+			
+			<div class="mui-content mui-content-padded" id="commentList">
+				<div id="commentArea">
+
+				</div>
+
+				<div class="mui-text-center" style="margin-top: 1rem;display: none;" id="morecomment">
+					<span class="more-news">查看更多评论</span>
+				</div>
+			</div>
+			<div class="mui-bar mui-bar-tab jh-bar-comment" style="padding: 0px 10px;">
+
+			</div>
+		</div>
+		<div id="reportContainer" class="jh-medal-popover box mui-popover" style="background-color: #fff;display: none;padding: 0px !important;">
+			<ul class="mui-table-view jh-word-vote" id="itemContainer">
+				<span style="margin-left: 15px;">举报原因</span><span style="color: red;">*</span>
+				<form class="mui-input-group" style="background-color: #fff;margin-bottom: 0px;">
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">恶意灌水</span>
+						<input name="style" type="radio" class="mui-pull-left" id="1"/>
+					</div>
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">淫秽色情</span>
+						<input name="style" type="radio" class="mui-pull-left" id="2"/>
+					</div>
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">内容侵权</span>
+						<input name="style" type="radio" class="mui-pull-left" id="3"/>
+					</div>
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">广告诈骗</span>
+						<input name="style" type="radio" class="mui-pull-left" id="4"/>
+					</div>
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">其他</span>
+						<input name="style" type="radio" class="mui-pull-left" id="99"/>
+					</div>
+				</form>
+			</ul>
+	    	<ul class="mui-table-view">
+				<li style="padding-bottom: 0px; font-size: 16px;padding: 6px 10px;">
+					<textarea id="reason" rows="2" placeholder="请输入举报原因"></textarea>
+				</li>
+			</ul>
+			<p>
+				<button class="Fbutton" style="border-radius: 0px 0px 0px 5px;color: #999;" id="cancelReport">取消</button>
+				<button class="Fbutton" id="submitReport" style="color: #bf0a10;border-right: none;border-left:none;float: right;border-radius: 0px 0px 5px 0px;">确定</button>
+			</p>
+	    </div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.zoom.js"></script>
+		<script src="../js/mui.previewimage.js"></script>
+		<script src="../js/share.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/comment.js"></script>
+		<script src="../js/wxHelper.js"></script>
+		<script src="../js/jweixin-1.2.0.js"></script>
+		<script src="../js/openApp.js"></script>
+		<script src="../js/jquery-2.1.0.js"></script>
+		<script src="../js/jquery.raty.min.js"></script>
+		<script src="https://static.mlinks.cc/scripts/dist/mlink.min.js"></script>
+		<script src="../js/attachment.js"></script>
+	</body>
+	<script type="text/javascript">
+		
+		$(function(){  
+	        $("#starts").raty({  
+	            number : 5,//星星个数  
+	            readOnly: false,
+	            path : 'img',//图片路径  
+	            starOn : '../../img/pf-on.png',//黄色星星图片（可自定义）  
+	            starOff : '../../img/pf-off.png',//灰色星星图片（可自定义）  
+	            click : function(score, evt) {  
+	            	userStarReview=score;
+	            }  
+	        });   
+		}); 
+		mui("#downloadPro").progressbar().hide();
+		var height = document.documentElement.clientHeight || document.body.clientHeight;
+		document.querySelector('.jh-detail-content').style.minHeight = height + 'px';
+		var CategoryName = document.getElementById("CategoryName");
+		var Type = document.getElementById("Type");
+		var Title = document.getElementById('documentTitle');
+		var starNum = document.getElementById('starNum');
+		var Price = document.getElementById('Price');
+		var UserDisplayName = document.getElementById('UserDisplayName');
+		var LastModified = document.getElementById('LastModified');
+		var DownloadCount = document.getElementById('DownloadCount');
+		var FriendlyFileLength = document.getElementById('FriendlyFileLength');
+		var Summary = document.getElementById('Summary');
+		var tagsContainer = document.getElementById("tagsContainer");
+		var EssentialOperation = document.getElementById("EssentialOperation"); //精华
+		var StickyOperation = document.getElementById("StickyOperation"); //置顶
+		var Deletedocument = document.getElementById("Deletedocument"); //删除
+		var documentOpt = document.getElementById("documentOpt");
+		var commentArea = document.getElementById("commentArea");
+		var pop_title=document.getElementById("pop_title");
+		var pop_size=document.getElementById("pop_size");
+		var pop_price=document.getElementById("pop_price");
+		var pop_userprice=document.getElementById("pop_userprice");
+		var pop_titles=document.getElementById("pop_titles");
+		var pop_sizes=document.getElementById("pop_sizes");
+		var pop_prices=document.getElementById("pop_prices");
+		var pop_userprices=document.getElementById("pop_userprices");
+		var docdownload=document.getElementById("docdownload");
+		var downloadPro=document.getElementById("downloadPro");
+		var essentialState=document.getElementById("essentialState");
+		var stickyState=document.getElementById("stickyState");
+		var editDoc = document.getElementById('editDoc');
+		
+		
+		var uip = document.getElementById("popover"); //topPopover是popover 的最外层div
+		uip.style.position = "absolute";
+		var islog = getlsData('isLogin');
+		//documentOpt.style.display = (islog == 'true') ? 'inherit' : 'none';
+		var ManagerLevel=0;
+		var canDownload=false;
+		var userStarReview=0;
+		var documentTitle='';
+		var documentId=0;
+		var isDownload=false;
+		var isEssential=false;
+		var enableDownload=true;
+		var isSticky=false;
+		var currId = "";
+		var beforetype;
+		
+		var list = document.getElementsByClassName("jh-hot-label");
+		mui(".jh-hot-label").on('tap', '.label-default', function(e) {
+			var tagId = e.target.parentElement.getAttribute('id');
+			var tagName = this.innerText;
+			var baseUrl = 'document-label-list.html';
+			var url = mui.os.plus ? baseUrl : baseUrl + '?tagId=' + tagId + '&tagName=' + tagName;
+			mui.openWindow({
+				url: url,
+				id: 'document-label-list.html',
+				show: {
+					autoShow: true
+				},
+				createNew: true,
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					tagId: tagId,
+					tagName: tagName
+				}
+			})
+		})
+		if(!mui.os.plus) {
+			creatBanner();
+		}
+		showLoading('', '', '#FFFFFF', '50px');
+		mui.init();
+		if(!mui.os.wechat) {
+			mui.previewImage();
+		}
+		if(mui.os.wechat) {
+			initWx();
+			wx.ready(function() {
+				wx.checkJsApi({
+					jsApiList: ['previewImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+					success: function(res) {
+						// 以键值对的形式返回，可用的api值true，不可用为false
+						// 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+					}
+				});
+			});
+			wx.error(function(res) {
+
+			});
+		}
+		currId = "";
+		//B页面onload从服务器获取列表数据；
+		window.onload = function() {
+			//获取url中的targetId参数
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					documentId = self.documentId;
+					currId = self.currId;
+					beforetype = self.type;
+					getDetail(documentId)
+					//关闭等待框
+					plus.nativeUI.closeWaiting();
+					//显示当前页面
+					mui.currentWebview.show();
+				});
+			} else {
+				documentId = getUrlParam('documentId');
+				getDetail(documentId)
+			}
+			if(!mui.os.plus) {
+				initOpenApp('documentDetail', documentId)
+			}
+			if(mui.os.wechat) {
+				var currUrl = location.href.split('#')[0];
+				weChatLogin(currUrl)
+			}
+
+		}
+		function setPopHeight(idname) { 
+			var height = document.documentElement.clientHeight || document.body.clientHeight;
+			var popHeight = parseInt(window.getComputedStyle(document.getElementById(idname), null).minHeight);
+			document.getElementById(idname).style.top = (height - popHeight)/2 + 'px';
+		}
+		document.getElementById('cancelReport').addEventListener('tap',function(){
+			mui('#reportContainer').popover('toggle');
+		})
+		document.getElementById('submitReport').addEventListener('tap',function(){
+			var checked = false;
+			for(var i = 0;i<document.getElementById('itemContainer').getElementsByTagName('input').length;i++){
+				if(document.getElementById('itemContainer').getElementsByTagName('input')[i].checked == true){
+					checked = true;
+					var id = document.getElementById('itemContainer').getElementsByTagName('input')[i].id;
+				}
+			}
+			if(checked == false){
+				mui.toast("请选择举报原因");
+				return;
+			}
+			var Description = TrimAll(document.getElementById('reason').value);
+			EditReport(id,Description);
+			mui('#reportContainer').popover('toggle');
+		})
+		var subject;
+		function EditReport(id,Description){
+			var params = {
+				TenantTypeId:101200,
+				Reason:id,
+				Title:subject,
+				Description:Description,
+				ReportObjectId:documentId
+			}
+			postDatawithToken('User/EditReport',params, function(data) {
+				if(data.Type == 1) {
+					mui.toast(data.Data);					
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误					
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(data) {
+				hideLoading()
+			});
+		}
+		mui("#popover").on('tap', '#editDoc', function(e) {
+			mui('#popover').popover('hide');
+				var baseUrl = 'editDoc.html';
+				var url = mui.os.plus ? baseUrl : baseUrl + '?documentId=' + documentId;
+				mui.openWindow({
+					url: url,
+					id: 'editDoc.html',
+					show: {
+						autoShow: true
+					},				
+					waiting: {
+						options: {
+							loading: {
+								height: '35px'
+							}
+						}
+					},
+					extras: {
+						documentId: documentId,
+						type:beforetype
+					}
+				})
+		})
+		document.getElementById("docTitledl").addEventListener('tap',function(){
+			if(enableDownload){
+				var islog = getlsData('isLogin');
+			if(islog == 'true') {
+				if(isDownload) {
+					DownloadDocument(commentedObjectId)
+				} else {
+					if(ManagerLevel == 0) {
+						if(canDownload) {
+							mui('#canDownloadPop').popover('toggle');
+						} else {
+							mui('#downloadPop').popover('toggle');
+						}
+					} else {
+						DownloadDocument(commentedObjectId)
+					}
+				}
+		
+			} else {
+				login()
+			}
+			}
+			
+		})
+		function getDocumentStar(num) {
+			var starTxt = '';
+			var newNum = num.toFixed(1); //0.0
+			var leftNum = Number(newNum.substring(0, 1));
+			var rightNum = Number(newNum.substring(2, 3));
+			for(var a = 1; a < 6; a++) {
+				if(a <= leftNum) {
+					//满星
+					starTxt += '<i class="fa fa-star tn-orange-color"></i>'
+				} else {
+					if(a == leftNum + 1) {
+						if(rightNum <= 5&&rightNum>0) {
+							//半星
+							starTxt += '<i class="fa fa-star-half-o tn-orange-color"></i>'
+						} else if(rightNum==0){
+							starTxt += '<i class="fa fa-star-o"></i>'
+						} else{
+							//满星
+							starTxt += '<i class="fa fa-star tn-orange-color"></i>'
+						}
+					} else {
+						//初始值
+						starTxt += '<i class="fa fa-star-o"></i>'
+					}
+
+				}
+
+			}
+			return starTxt;
+		}
+
+
+		function createTags(data) {
+			var fragment = document.createDocumentFragment();
+			var a;
+			for(var i = 0; i < data.length; i++) {
+				a = document.createElement('a');
+				a.style.marginLeft = (i == 0) ? '0' : '10px'
+				a.id = data[i].TagId;
+				a.innerHTML = '<span class="label label-default mui-ellipsis-1">' + data[i].TagName + '</span>';
+				fragment.appendChild(a);
+			}
+			return fragment;
+		};
+
+		function getDetail(id) {
+			showLoading('', '', '#FFFFFF', '50px');
+			getDatawithToken('Document/GetDetail', {
+				documentId: id
+			}, function(data) {
+				hideLoading();
+				hideErr();
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						var data = data.Data;
+						editDoc.style.display = data.IsAllowMobileEdit == true && data.ManagerLevel >　0 ?　'block' :　'none';
+						setIdandType(documentId, 'Document', data.CommentCount)
+						CategoryName.innerHTML = data.CategoryName.substring(0, 15);
+						Type.innerHTML = getDocumentType(data.Extension);
+						Title.innerHTML = data.Subject;
+						pop_title.innerHTML = data.Subject;
+						pop_size.innerHTML='（'+data.FriendlyFileLength+'）';
+						pop_price.innerHTML=data.Price;
+						pop_userprice.innerHTML=data.UserGold;
+						pop_titles.innerHTML = data.Subject;
+						subject = data.Subject;
+						pop_sizes.innerHTML='（'+data.FriendlyFileLength+'）';
+						pop_prices.innerHTML=data.Price;
+						pop_userprices.innerHTML=data.UserGold;
+						userid = data.UserId;
+						EssentialOperation.style.display = (islog == 'true') ? 'inherit' : 'none';
+						StickyOperation.style.display = (islog == 'true') ? 'inherit' : 'none';
+						if(data.IsEssential) {
+							//精华
+							essentialState.style.display='inline-block';
+							essentialState.innerHTML = '<span class="jh-label jh-red-border">精华</span>';
+							EssentialOperation.innerHTML = '<a><i class="fa fa-star-o" aria-hidden="true"></i>&nbsp;&nbsp取消加精</a>'
+						} else {
+							//非精华
+							essentialState.style.display='none';
+							EssentialOperation.innerHTML = '<a><i class="fa fa-star" aria-hidden="true"></i>&nbsp;&nbsp加精</a>'
+						}
+						if(data.IsSticky) {
+							//置顶
+							stickyState.style.display='inline-block';
+							stickyState.innerHTML += '<span class="jh-label jh-red-border">置顶</span>';
+							StickyOperation.innerHTML = '<a><i class="fa fa-chevron-down" aria-hidden="true"></i>&nbsp;&nbsp取消置顶</a>';
+						} else {
+							//非置顶
+							stickyState.style.display='none';
+							StickyOperation.innerHTML = '<a><i class="fa fa-chevron-up" aria-hidden="true"></i>&nbsp;&nbsp置顶</a>';
+						}
+						docCanComment(data.EnableComment);
+						docCanDownload(data.EnableDownload);
+						enableDownload=data.EnableDownload;
+						starNum.innerHTML = getDocumentStar(data.StarReview);
+						Price.innerHTML = data.Price;
+						UserDisplayName.innerHTML = data.UserDisplayName;
+						LastModified.innerHTML = data.LastModified;
+						DownloadCount.innerHTML = data.DownloadCount;
+						FriendlyFileLength.innerHTML = data.FriendlyFileLength;
+						Summary.innerHTML = data.Summary;
+						if(data.TagNames.length > 0) {
+							tagsContainer.style.display = 'block';
+							tags.appendChild(createTags(data.TagNames))
+						} else {
+							tagsContainer.style.display = 'none';
+						}
+						if(data.Comments && data.Comments.length==0&&data.EnableComment){
+							document.getElementById("noCom").style.display=''
+						}else{
+							document.getElementById("noCom").style.display='none'
+							if(data.Comments && data.Comments.length < 5) {
+								morecomment.style.display = 'none';
+							} else {
+								morecomment.style.display = 'block';
+							}
+							commentArea.appendChild(createComFragment(data.Comments));
+						}
+						setLastBoard();
+						setShareInfo(getlsData('currUrl'), data.Subject, data.Subject);
+						com.isFavorited = data.IsFavorite;
+						favorDoc(data.IsFavorite);
+						if(data.ManagerLevel == 0) {
+							document.getElementById("Deletedocument").style.display = 'none';
+						}
+						if(data.ManagerLevel == 1){
+							document.getElementById("EssentialOperation").style.display = 'none';
+							document.getElementById("StickyOperation").style.display = 'none';
+						}
+						if(data.ManagerLevel == 2){
+							documentOpt.style.display = 'inherit';
+						}
+						if(data.UserGold>=data.Price){
+							canDownload=true;
+						}else{
+							canDownload=false;
+						}
+						ManagerLevel=data.ManagerLevel;
+						if(data.UserStarReview>0){
+							//已经评价过
+							isScore=true
+						}
+						ScoreDoc(isScore,data.UserStarReview);
+						userStarReview=data.UserStarReview;
+						documentTitle=data.Subject+'.'+data.Extension;
+						isDownload=data.IsDownload;
+						isEssential=data.IsEssential;
+						isSticky=data.IsSticky;
+						for(var i=0;i<document.querySelectorAll('.pointName').length;i++){
+							document.querySelectorAll('.pointName')[i].innerHTML=data.PointName
+						}
+						
+					} else {
+						documentOpt.style.display = 'none';
+						showErr(data.Data, '', '#FFFFFF', '50px')
+						mui.toast(data.Data);
+					}
+				}else {
+					//逻辑错误
+					documentOpt.style.display = 'none';
+					showErr(data.Data, '', '#FFFFFF', '50px')
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				hideLoading();
+				setErr('','50px');
+				documentOpt.style.display = 'none';
+				
+			})
+		}
+		documentOpt.addEventListener('tap', function() {
+			mui('#popover').popover('toggle');			
+		})
+		function updateEssential(isEssential){
+			if(isEssential){
+				essentialState.innerHTML = ''
+				EssentialOperation.innerHTML = '<a><i class="fa fa-star-o" aria-hidden="true"></i>&nbsp;&nbsp加精</a>'
+			}else{
+				essentialState.innerHTML = '<span class="jh-label jh-red-border">精华</span>'
+				EssentialOperation.innerHTML = '<a><i class="fa fa-star-o" aria-hidden="true"></i>&nbsp;&nbsp取消加精</a>'
+			}			
+		}
+		function updateSticky(isSticky){
+			if(isSticky){
+				stickyState.innerHTML = ''
+				StickyOperation.innerHTML = '<a><i class="fa fa-chevron-up" aria-hidden="true"></i>&nbsp;&nbsp置顶</a>'
+			}else{
+				stickyState.innerHTML += '<span class="jh-label jh-red-border">置顶</span>';
+				StickyOperation.innerHTML = '<a><i class="fa fa-chevron-down" aria-hidden="true"></i>&nbsp;&nbsp取消置顶</a>'
+			}
+		}
+		
+
+		function documentHandle(type) {
+			showLoading();
+			var url = 'Document/DocumentHandle?documentId=' + documentId + '&method=' + type;
+			if(type == 'delete') {
+				url = 'Document/DeleteDocument?documentId=' + documentId;
+			}
+			postDatawithToken(url, {}, function(data) {
+				hideLoading();
+				if(data.Type == 1) {
+					mui.toast(data.Data);
+					if(mui.os.plus){
+						var wobj = plus.webview.getWebviewById(currId);
+						wobj.reload(true);
+						//wobj.evalJS('changeTab(1)');
+					}
+					switch (type){
+						case "essential":
+							updateEssential(isEssential)
+							isEssential=!isEssential;
+							break;
+						case "sticky":
+							updateSticky(isSticky)
+							isSticky=!isSticky;
+							break;
+					}
+				} else if(data.Type == 0) {
+					mui.toast(data.Data);
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr('','',false)
+			})
+		}
+		mui(".mui-list-unstyled").on('tap', 'li', function(e) {
+			mui('#popover').popover('toggle');
+			switch(this.getAttribute('id')) {
+				case "EssentialOperation":
+					//加精or取消加精
+					documentHandle('essential')
+					break;
+				case "StickyOperation":
+					//置顶or取消置顶
+					documentHandle('sticky')
+					break;
+				case "report":
+					//举报					
+					mui('#popover').popover('toggle');
+					if(islog == 'true'){
+						mui('#reportContainer').popover('toggle');
+						setPopHeight('reportContainer');
+					}else{
+						login();
+					}
+					break;
+				case "Deletedocument":
+					//删除
+					mui('#popover').popover('toggle');
+					var btnArray = ['取消', '确定'];
+					mui.confirm('确认删除？', '文档', btnArray, function(e) {
+						if(e.index == 1) {
+							documentHandle('delete');
+							if(mui.os.plus) {
+								mui.back()
+							}
+						}
+					});
+					break;
+				default:
+					break;
+			}
+		})
+		var sendComment = document.getElementById("submitComment");
+		sendComment.addEventListener('tap', function() {
+			var islog = getlsData('isLogin');
+			parentId = 0;
+			if(islog == 'true') {
+				mui('#popView_comment').popover('toggle');
+			} else {
+				mui.toast('请登录后再进行操作');
+				login();
+			}
+		})
+		function setPopHeight(idname){
+			var height = document.documentElement.clientHeight || document.body.clientHeight;
+			var popHeight=parseInt(document.getElementById(idname).offsetHeight);
+			document.getElementById(idname).style.top=(height-popHeight)/2+'px';
+		}
+	
+	</script>
+
+</html>

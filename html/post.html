@@ -1,0 +1,245 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/jinhu.css" />
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+
+		<style>
+			.mui-bar-nav~.mui-content .mui-pull-top-pocket {
+				top: 85px !important;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: #fff;">
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">贴吧</h1>
+			<a id="search" class="mui-icon mui-icon-search mui-pull-right" style="color: #333;"></a>
+		</header>
+
+						
+		<div class="mui-content  mui-bar-nav" >
+			<div id="sliderSegmentedControl" id="postTab" style="border: none;height: 40px;background:none;border-bottom: 0px solid #e4e4e4;" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted jh-scroll-wrapper">
+				<div class="mui-scroll mui-scroll-wrapper" style="float: left;">
+					<a class="mui-control-item mui-active" id="postList" href="postList.html" style="line-height: 37px;height: 40px;">
+						最新贴子
+					</a>
+					<a class="mui-control-item" id="recommendpostList" href="recommendpostList.html" style="line-height: 37px;height: 40px">
+						推荐贴子
+					</a>
+					<a class="mui-control-item" id="enterPost" href="enterPost.html" style="line-height: 37px;height: 40px">
+						进贴吧
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+	</body>
+	<script>
+		
+	//var currPageIndex = 0;
+	var clientWidth = document.body.clientWidth;
+
+	// 添加子页面
+	function addSubPages() {
+
+		var self = plus.webview.currentWebview();
+
+		for(var i = 0; i < 1; i++) {
+			var tempPage = plus.webview.create(subPages[i], subPages[i], subPagesStyle);
+			if(i > 0) {
+				tempPage.hide();
+			}
+			self.append(tempPage);
+		}
+
+	}
+
+	/*浏览器的兼容处理方法*/
+	var createIframe = function(el, opt) {
+		var elContainer = document.querySelector(el);
+		var wrapper = document.querySelector(".mui-iframe-wrapper");
+		if(!wrapper) {
+			// 创建wrapper 和 iframe
+			wrapper = document.createElement('div');
+			wrapper.className = 'mui-iframe-wrapper';
+			for(var i in opt.style) {
+				wrapper.style[i] = opt.style[i];
+			}
+			var iframe = document.createElement('iframe');
+			iframe.src = opt.url;
+			iframe.id = opt.id || opt.url;
+			iframe.name = opt.id;
+			wrapper.appendChild(iframe);
+			elContainer.appendChild(wrapper);
+		} else {
+			var iframe = wrapper.querySelector('iframe');
+			iframe.src = opt.url;
+			iframe.id = opt.id || opt.url;
+			iframe.name = iframe.id;
+		}
+	}
+
+	var subpages = ["postList.html",
+		"recommendpostList.html",
+		"enterPost.html"
+	];
+	var subpage_style = {
+		top: "91px",
+		bottom: "0px"
+	};
+	var aniShow = {};
+	// 当前激活选项
+	var activeTab = subpages[0];
+	var title = document.getElementById("title");
+	if(mui.os.plus) {
+		window.addEventListener('show', function(event) {
+			// 创建子页面，首个选项卡页面显示，其它均隐藏；
+			mui.plusReady(function() {
+				//获得事件参数
+				var self = plus.webview.currentWebview();
+				for(var i = 0; i < 4; i++) {
+					var temp = {};
+					var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
+					if(i > 0) {
+						sub.hide();
+
+					} else {
+						temp[subpages[i]] = "true";
+						mui.extend(aniShow, temp);
+					}
+					self.append(sub);
+				}
+			});
+		})
+
+	} else {
+		// 创建iframe代替子页面
+		createIframe('.mui-content', {
+			url: activeTab,
+			style: subpage_style
+		});
+	}
+	var recommendPost = false;
+	var enterPost = false;
+	// 选项卡点击事件
+	mui('.mui-scroll').on('tap', 'a', function(e) {
+		var targetTab = this.getAttribute('href');
+		setlsData('postTab',targetTab)
+		if(targetTab == activeTab) {
+			return;
+		}
+		//更换标题
+		//title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;
+		//显示目标选项卡
+		if(mui.os.plus) {
+			var waiting = showWaiting();
+			var detailPage = plus.webview.getWebviewById(targetTab);
+			closeWaiting(waiting);
+			if(detailPage.id == "recommendpostList.html" && !recommendPost) {
+				mui.fire(detailPage, 'show', {
+					show: true
+				})
+				recommendPost = true;
+			} 
+			if(detailPage.id == "enterPost.html" && !enterPost) {
+				mui.fire(detailPage, 'show', {
+					show: true
+				})
+				enterPost = true;
+			}
+			//若为iOS平台或非首次显示，则直接显示
+			if(mui.os.ios || aniShow[targetTab]) {
+				plus.webview.show(targetTab);
+			} else {
+				//否则，使用fade-in动画，且保存变量
+				var temp = {};
+				temp[targetTab] = "true";
+				mui.extend(aniShow, temp);
+				plus.webview.show(targetTab, "fade-in", 300);
+			}
+			//隐藏当前;
+			plus.webview.hide(activeTab);
+		} else {
+			// 创建iframe代替子页面
+			createIframe('.mui-content', {
+				url: targetTab,
+				style: subpage_style
+			});
+		}
+		//更改当前活跃的选项卡
+		activeTab = targetTab;
+	});
+	window.addEventListener('touchstart', function(e) {
+		e.preventDefault();
+	});
+	window.addEventListener('touchmove', function(e) {
+		e.preventDefault();
+	});
+	document.getElementById("search").addEventListener('tap', function() {
+		mui.openWindow({
+			url: 'search.html?type=post',
+			id: 'search.html',
+			waiting: {
+				options: {
+					loading: {
+						height: '35px'
+					}
+				}
+			},
+
+		})
+	})
+
+	function changeTab(index) {
+		var gallery = mui('#sliderSegmentedControl');
+		gallery.scroll().gotoPage(index); //跳转到第index张图片，index从0开始；
+		switch (index){
+			case 0:
+				mui.trigger(document.getElementById("postList"), 'tap');
+				break;
+			case 1:
+				mui.trigger(document.getElementById("recommendpostList"), 'tap');
+				break;
+			case 2:
+				mui.trigger(document.getElementById("enterPost"), 'tap');
+				break;
+			default:
+				mui.trigger(document.getElementById("postList"), 'tap');
+				break;
+		}
+	}
+	if(!mui.os.plus){
+		var pId=getlsData('postTab');
+		switch (pId){
+			case 'postList.html':
+				changeTab(0)
+				break;
+			case 'recommendpostList.html':
+				changeTab(1)
+				break;
+			case 'enterPost.html':
+				changeTab(2)
+				break;
+			default:
+				changeTab(0)
+				break;
+		}
+		setlsData('postTab','')
+	}
+
+	</script>
+
+</html>

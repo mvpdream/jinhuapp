@@ -1,0 +1,669 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet"  href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />		
+		<link rel="stylesheet" href="../css/jinhu.css"/>
+
+	</head>
+	<style>
+	.mui-pull-top-tips {
+			position: absolute;
+			top: -20px;
+			left: 50%;
+			margin-left: -25px;
+			width: 40px;
+			height: 40px;
+			border-radius: 100%;
+			z-index: 1;
+		}
+		
+		.mui-bar~.mui-pull-top-tips {
+			top: 24px;
+		}		
+		.mui-pull-top-wrapper {
+			width: 42px;
+			height: 42px;
+			display: block;
+			text-align: center;
+			background-color: #efeff4;
+			border: 1px solid #ddd;
+			border-radius: 25px;
+			background-clip: padding-box;
+			box-shadow: 0 4px 10px #bbb;
+			overflow: hidden;
+		}		
+		.mui-pull-top-tips.mui-transitioning {
+			-webkit-transition-duration: 200ms;
+			transition-duration: 200ms;
+		}		
+		.mui-pull-top-tips .mui-pull-loading {
+			margin: 0;
+		}		
+		.mui-pull-top-wrapper .mui-icon,
+		.mui-pull-top-wrapper .mui-spinner {
+			margin-top: 7px;
+		}		
+		.mui-pull-top-wrapper .mui-icon.mui-reverse {
+		}		
+		.mui-pull-bottom-tips {
+			text-align: center;
+			background-color: #efeff4;
+			font-size: 15px;
+			line-height: 40px;
+			color: #777;
+		}		
+		.mui-pull-top-canvas {
+			overflow: hidden;
+			background-color: #fafafa;
+			border-radius: 40px;
+			box-shadow: 0 4px 10px #bbb;
+			width: 40px;
+			height: 40px;
+			margin: 0 auto;
+		}		
+		.mui-pull-top-canvas canvas {
+			width: 40px;
+		}		
+		.mui-slider-indicator.mui-segmented-control {
+			background-color: #efeff4;
+		}		
+		.mui-scroll{
+			min-height: 100%;
+		}
+		.popover-item{
+			padding:13px 15px;border-radius:0;color:#333333
+		}
+	</style>
+	<body style="background-color: #FFFFFF;">
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span><span id="navtil"></span>
+			</button>
+		</header>
+		<div class="mui-content" id="contentArea" style="display: block">
+			<div id="slider" class="mui-slider mui-fullscreen">
+				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted jh-scroll-wrapper">
+					<div class="mui-scroll" id="SectionType" style="padding-right: 40px;">
+						<a class="mui-control-item mui-active" href="#itemmobile" id="0">
+							发布的活动
+						</a>
+						<a class="mui-control-item" href="#item0mobile" id="1">
+							参与的活动
+						</a>
+						<a class="mui-control-item" href="#item1mobile" id="2">
+							收藏的活动
+						</a>						
+						
+					</div>
+				</div>
+				<div class="mui-slider-group" id="sliderGroup"style="top: 40px;">
+					<div id="itemmobile" class="mui-slider-item mui-control-content mui-active">
+						<div class="mui-scroll-wrapper" id="refreshContainer">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									<div class="mui-loading">
+										<div class="mui-spinner">
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item0mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper" id="refreshContainer1">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									<div class="mui-loading">
+										<div class="mui-spinner">
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>		
+					<div id="item1mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper" id="refreshContainer2">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									<div class="mui-loading">
+										<div class="mui-spinner">
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>				
+				</div>
+			</div>
+			<script src="../js/mui.min.js"></script>
+			<script src="../js/mui.pullToRefresh.js"></script>
+			<script src="../js/mui.pullToRefresh.material.js"></script>
+			<script src="../js/service.js"></script>
+			<script src="../js/common.js"></script>
+			<script src="../js/wxHelper.js"></script>
+			<script src="../js/homepage.js"></script>
+	</body>
+	<script type="text/javascript">
+		
+		var userId = 0;
+		var username = "";
+		window.onload = function() {
+			//获取url中的targetId参数                                                                                                           
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					userId = self.userId;
+					GetmyEvents(false, userId,'create')
+					username = self.username;
+					username = (username == "me") ? "我" : username
+					document.getElementById("navtil").innerHTML = username + '的活动';
+					//关闭等待框                                                                                                               
+					plus.nativeUI.closeWaiting();
+					//显示当前页面                                                                                                              
+					mui.currentWebview.show();
+				});
+			} else {
+				userId = getUrlParam('userId');
+				GetmyEvents(false, userId,'create')
+				username = getUrlParam('username');
+			}
+			username = (username == "me") ? "我" : username
+			document.getElementById("navtil").innerHTML = username + '的活动';
+		}
+
+		mui.init({
+			gestureConfig: {
+				tap: true, //默认为true
+				longtap: true, //默认为false
+			}
+		})
+
+		function creatDeletePop() {
+			var div = document.createElement('div');
+			div.id = 'mydelpopover';
+			div.style.display = "none"
+			div.className = 'box mui-popover mui-popover-action mui-popover-bottom';
+			div.innerHTML = ' <ul class="mui-table-view popover-all" style="margin:0px;border-radius:0">' +
+				'<li class="mui-table-view-cell popover-item" id="mydelete"><a href="#">删除</a></li>' +
+				'<li style="height:10px;background-color: rgba(0,0,0,.2);"></li>' +
+				'<li class="mui-table-view-cell popover-item"id="myCancel"><a href="#">取消</a></li>' +
+				'</ul>';
+			bigContainer.appendChild(div);
+		}
+		function creatFavPop() {
+			var div = document.createElement('div');
+			div.id = 'myfavpopover';
+			div.style.display = "none"
+			div.className = 'box mui-popover mui-popover-action mui-popover-bottom';
+			div.innerHTML = ' <ul class="mui-table-view popover-all" style="margin:0px;border-radius:0">' +
+				'<li class="mui-table-view-cell popover-item" id="calFav"><a href="#">取消收藏</a></li>' +
+				'<li style="height:10px;background-color: rgba(0,0,0,.2);"></li>' +
+				'<li class="mui-table-view-cell popover-item"id="myfavCancel"><a href="#">取消</a></li>' +
+				'</ul>';
+			bigContainer.appendChild(div);
+		}
+		creatDeletePop();
+		creatFavPop();
+		var eventId;
+		var mydelete = document.getElementById("mydelete");
+		mydelete.addEventListener("tap", function(e) {
+			deleteEvent(eventId);
+			mui('#mydelpopover').popover('toggle');
+			var content = document.getElementById("refreshContainer").getElementsByTagName("ul")[0];
+			content.innerHTML = "";
+			mui('#refreshContainer').scroll().scrollTo(0, 0);
+		})
+		var myCancel = document.getElementById("myCancel")
+		myCancel.addEventListener("tap", function(e) {
+			mui('#mydelpopover').popover('hide');
+		})
+		mui("#itemmobile").on('longtap', '.jh-news-list', function(e) {
+			mui('#mydelpopover').popover('toggle');
+			eventId = this.getAttribute("id");
+		})
+		
+		
+		var cancelFav=document.getElementById("calFav");
+		cancelFav.addEventListener("tap", function(e) {
+			cancelFavEvent(eventId);
+			mui('#myfavpopover').popover('toggle');
+			var content = document.getElementById("refreshContainer2").getElementsByTagName("ul")[0];
+			content.innerHTML = "";
+			mui('#refreshContainer2').scroll().scrollTo(0, 0);
+		})
+		var myfavCancel = document.getElementById("myfavCancel")
+		myfavCancel.addEventListener("tap", function(e) {
+			mui('#myfavpopover').popover('hide');
+		})
+		mui("#item1mobile").on('longtap', '.jh-news-list', function(e) {
+			mui('#myfavpopover').popover('toggle');
+			eventId = this.getAttribute("id");
+		})
+		
+		
+
+		function deleteEvent(id) {
+			postDatawithToken('Event/DeleteEvent?eventId=' + id, {}, function(data) {
+				if(data.Type == 1) {
+					mui.toast("删除成功")
+					if(mui.os.plus) {
+						mui.plusReady(function() {
+							var self = plus.webview.currentWebview();
+							userId = self.userId;
+							//关闭等待框                                                                                                               
+							plus.nativeUI.closeWaiting();
+							//显示当前页面                                                                                                              
+							mui.currentWebview.show();
+						});
+					} else {
+						userId = getUrlParam('userId');
+					}
+					GetmyEvents(false, userId,'create')
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {})
+		}
+		function cancelFavEvent(id){
+			postDatawithToken('Event/FavoriteEvent?eventId=' + id, {}, function(data) {
+				if(data.Type == 1) {
+					mui.toast(data.Data)
+					if(mui.os.plus) {
+						mui.plusReady(function() {
+							var self = plus.webview.currentWebview();
+							userId = self.userId;
+							//关闭等待框                                                                                                               
+							plus.nativeUI.closeWaiting();
+							//显示当前页面                                                                                                              
+							mui.currentWebview.show();
+						});
+					} else {
+						userId = getUrlParam('userId');
+					}
+					GetmyEvents(false, userId,'')
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {})
+		}
+		var selel = document.getElementsByClassName("mui-control-item mui-active");
+		mui('.mui-slider').slider();
+		var deceleration = mui.os.ios ? 0.003 : 0.0009;
+		mui('.mui-scroll-wrapper.mui-slider-indicator.mui-segmented-control').scroll({
+			scrollY: false,
+			scrollX: true,
+			indicators: false,
+			deceleration: deceleration,
+			snap: '.mui-control-item'
+		});
+		var tabIndex = 0;
+		document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+			tabIndex = event.detail.slideNumber;
+			if(event.detail.slideNumber != 0) {
+				var index = event.detail.slideNumber - 1;
+				var item = document.getElementById("item" + index + "mobile");
+				item.querySelector('.mui-pull-bottom-tips').style.display = 'none';
+				if(item.querySelector('.mui-loading')) {
+					if(index == 0) {
+						GetmyEvents(false, userId,'join')
+					}else{
+						GetmyEvents(false, userId,'')
+					}
+				}
+			}
+		});
+		var pageindex = 1;
+		(function($) {
+			//阻尼系数
+			var deceleration = mui.os.ios ? 0.003 : 0.0009;
+			$('.mui-scroll-wrapper').scroll({
+				bounce: false,
+				indicators: true, //是否显示滚动条
+				deceleration: deceleration
+			});
+			$.ready(function() {
+				//循环初始化所有下拉刷新，上拉加载。
+				$.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+					$(pullRefreshEl).pullToRefresh({
+						down: {
+							callback: function() {
+								var self = this;
+								document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'none';
+								if(selel[0].id == '0') {
+									GetmyEvents(false,userId,'create')
+								}
+								if(selel[0].id == '1') {
+									GetmyEvents(false,userId,'join')
+								}
+								if(selel[0].id == '2') {
+									GetmyEvents(false,userId,'')
+								}
+								setTimeout(function() {
+									self.endPullDownToRefresh();
+								}, 1000);
+							}
+						},
+						up: {
+							show: false,
+							callback: function() {
+								var self = this;
+								if(selel[0].id == '0') {
+									GetmyEvents(true,userId,'create')
+								}
+								if(selel[0].id == '1') {
+									GetmyEvents(true,userId,'join')
+								}
+								if(selel[0].id == '2') {
+									GetmyEvents(true,userId,'')
+								}
+								setTimeout(function() {
+									self.endPullUpToRefresh();
+								}, 1000);
+							}
+						}
+					});
+				});
+			});
+		})(mui);
+		
+			mui("#slider").on('tap', '.jh-news-list', function(e) {
+					var eventId = this.getAttribute('id');
+					var urlId = 'eventDetail.html';
+					var baseUrl = 'eventDetail.html?eventId=' + eventId;
+					var curl = shareUrl + baseUrl;
+					setlsData('currUrl', curl);
+					mui.openWindow({
+						url: baseUrl,
+						id: urlId,
+						show: {
+							autoShow: true
+						},
+						waiting: {
+							options: {
+								loading: {
+									height: '35px'
+								}
+							}
+						},
+						extras: {
+							eventId: eventId,
+							currId: 'event.html'
+						}
+					})
+			})
+		
+		var creatEventElement = function(data, id,more) {
+			var fragment = document.getElementById(id);
+			var cfragment = fragment.firstElementChild;
+			var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+			var newFragment = document.createDocumentFragment();
+			for(var i = 0; i < data.length; i++) {
+				var imgDisplay = data[i].ImageAttachment == "" ? "none" : "block";
+				var addressDis = data[i].CompleteAddress == "" ? "none" : "block";
+				var state = data[i].IsEnded ? '<img class="sign" src="../img/over-sign.png">' : '';
+				var memberCountText=data[i].MemberCount;
+				if(memberCountText==0){
+					memberCountText ='无限制'
+				}
+				if(data[i].ApprovalStatus == 20 || data[i].ApprovalStatus == 30) { //"ApprovalStatus:审核状态：10=未通过，20=待审核，30=需再审核，40=通过"
+					var ApprovalStatus = data[i].ApprovalStatus == 20 ? '<span style="color: #FF9900;">待审核</span>' : '<span style="color: #FF9900;">需再审核</span>'
+				}
+				if(data[i].ApprovalStatus == 10) {
+					var ApprovalStatus = '<span style="color: #FF0000;">审核未通过</span>'
+				}
+				if(data[i].ApprovalStatus == 40) {
+					//var ApprovalStatus = '<span style="color: #008000;">审核通过</span>'
+					var ApprovalStatus = '已报名<br/> '+'<span class="tn-theme-color">' + data[i].AttendCount + '</span>/' + memberCountText;
+				}
+				var li;
+				li = document.createElement('li');
+				li.className = 'mui-table-view-cell jh-news-list';
+				li.id = data[i].Id;
+				li.title = data[i].VoteType;				
+				li.innerHTML = '<div class="divImg" style="display:' + imgDisplay + '";padding: 5px 0 5px 0"><img style="display:' + imgDisplay + '" src=' + getImgUrl(data[i].ImageAttachment)+ '  ></div>' +
+					'<h5 class="listTitle">' + data[i].Subject + '</h5>' +
+					'<ul class="mui-list-inline text-muted">' +
+					'<li style="display: block;">活动时间：<span>' + data[i].StartDate + '</span>—<span>' + data[i].EndDate + '</span></li>' +
+					'<li style="display:' + addressDis + '">活动地址：' + data[i].CompleteAddress + '</li>' +
+					'<li style="width:100%"><span class="mui-pull-left">'+ApprovalStatus+'</span>'+
+//					'<span class="mui-pull-right">'</span></li>' +
+					'</li>'+
+					'</ul>' +
+					'</li>';
+				if(more == true){
+					finel.appendChild(li);
+				}else{
+					newFragment.appendChild(li);
+				}
+			}
+			if(more == false){
+				finel.innerHTML=nodeToString(newFragment);
+			}
+		};
+		
+		
+		var creatNormalEventElement = function(data, id,more) {
+			var fragment = document.getElementById(id);
+			var cfragment = fragment.firstElementChild;
+			var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+			var newFragment = document.createDocumentFragment();
+			for(var i = 0; i < data.length; i++) {
+				var imgDisplay = data[i].ImageAttachment == "" ? "none" : "block";
+				var addressDis = data[i].CompleteAddress == "" ? "none" : "block";
+				var state = data[i].IsEnded ? '<img class="sign" src="../img/over-sign.png">' : '';
+				var li;
+				li = document.createElement('li');
+				li.className = 'mui-table-view-cell jh-news-list';
+				li.id = data[i].Id;
+				li.title = data[i].VoteType;
+				var memberCountText=data[i].MemberCount;
+				if(memberCountText==0){
+					memberCountText ='无限制'
+				}
+				li.innerHTML = '<div class="divImg" style="display:' + imgDisplay + '";padding: 5px 0 5px 0"><img style="display:' + imgDisplay + '" src=' + getImgUrl(data[i].ImageAttachment) + '  ></div>' +
+					'<h5 class="listTitle">' + data[i].Subject + '</h5>' +
+					'<ul class="mui-list-inline text-muted">' +
+					'<li style="display: block">活动时间：<span>' + data[i].StartDate + '</span>—<span>' + data[i].EndDate + '</span></li>' +
+					'<li style="display:' + addressDis + '">活动地址：' + data[i].CompleteAddress + '</li>' +
+					'<li>已报名 <span class="tn-theme-color">' + data[i].AttendCount + '</span>/' + memberCountText + '</li>' +
+					'</ul>' +
+					'</li>';
+				if(more == true){
+					finel.appendChild(li);
+				}else{
+					newFragment.appendChild(li);
+				}
+			}
+			if(more == false){
+				finel.innerHTML=nodeToString(newFragment);
+			}
+		};
+
+		var page = 1;
+		var idName = "";
+		var bool;
+
+		function GetmyEvents(more, userId,eventType) {
+//			if(!more) {
+//				showLoading('', '', '#FFFFFF', '90px', '1');
+//			}
+			idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+			var fragment = document.getElementById(idName);
+			var cfragment = fragment.firstElementChild;
+			var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+			if(finel.querySelector('.mui-loading')) {
+				finel.removeChild(finel.childNodes[1]);
+			}
+			if(more) {
+				page++;
+			} else {
+				//finel.innerHTML = '';
+				page = 1;
+			}
+			var params = {
+				userId: userId,
+				eventType:eventType,
+				pageSize: 10,
+				pageIndex: page,
+			};
+			getDatawithToken('Event/GetUserEvents', params, function(data) {
+				hideLoading()
+				var bottomTip = document.querySelectorAll('.mui-pull-bottom-tips');
+				document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'none';
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						hideErrForList('', idName);
+						if(data.Data.length <= 5) {
+							document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'none';
+							document.getElementById(idName).querySelector('.mui-pull-bottom-tips').firstElementChild.style.display = 'none';
+						} else {
+							document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'block';
+							document.getElementById(idName).querySelector('.mui-pull-bottom-tips').firstElementChild.style.display = 'block';
+						}
+						if(data.Data.length == 0) {
+							if(!more) {
+								var errForList = showErrForList('暂无活动', '', '', idName);
+								if(errForList) {
+									fragment.appendChild(showErrForList('暂无活动', '', '', idName))
+								}
+							}
+						}
+						if(idName=='itemmobile'){
+							creatEventElement(data.Data, idName,more);
+						}else{
+							creatNormalEventElement(data.Data, idName,more)
+						}
+					} else {
+						finel.innerHTML = '';
+						if(!more) {
+							var errForList = showErrForList('暂无活动', '', '', idName);
+							if(errForList) {
+								fragment.appendChild(showErrForList('暂无活动', '', '', idName))
+							}
+						}
+						document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'none';
+						mui.toast(data.Data);
+					}
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					var errForList = showErrForList(data.Data, '', '', idName);
+					if(errForList) {
+						fragment.appendChild(showErrForList(data.Data, '', '', idName))
+					}
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr('','90px')
+			})
+		}
+
+		function GetfavNews(more, isThread) {
+			if(!more) {
+				showLoading('', '', '#FFFFFF', '90px', '1');
+			}
+			idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+			var cfragment = document.getElementById("refreshContainer1")
+			var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+			if(more) {
+				page++;
+			} else {
+				finel.innerHTML = '';
+				page = 1;
+			}
+			var params = {
+				isThread: isThread,
+				pageIndex: page,
+			};
+			getDatawithToken('User/GetUserFavorite', params, function(data) {
+				hideLoading()
+				var bottomTip = document.querySelectorAll('.mui-pull-bottom-tips');
+				if(data.Type == 1) {
+					console.log(data)
+					if(data.Data && typeof(data.Data) == 'object') {
+						hideErrForList('', idName);
+						if(data.Data.length <= 10) {
+							document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'none';
+						} else {
+							document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'block';
+						}
+						creatfavNewsElement(data.Data, idName);
+					} else {
+						if(!more) {
+							var errForList = showErrForList(data.Data, '', '', idName);
+							if(errForList) {
+								document.getElementById(idName).appendChild(showErrForList(data.Data, '', '', idName))
+							}
+						}
+						mui.toast(data.Data);
+					}
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					var errForList = showErrForList(data.Data, '', '', idName);
+					if(errForList) {
+						document.getElementById(idName).appendChild(showErrForList(data.Data, '', '', idName))
+					}
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr('','90px')
+			})
+		}
+
+		function changeTab(index) {
+			var gallery = mui('#sliderSegmentedControl');
+			var gallerys = mui('#slider');
+			gallery.scroll().gotoPage(index);
+			gallerys.slider().gotoItem(index);
+			switch (index){
+				case 0:
+					GetmyEvents(false,userId,'create')
+					mui('#refreshContainer').scroll().scrollTo(0, 0);
+					break;
+				case 1:
+					GetmyEvents(false,userId,'join')
+					mui('#refreshContainer1').scroll().scrollTo(0, 0);
+					break;
+				default:
+					GetmyEvents(false,userId,'')
+					mui('#refreshContainer2').scroll().scrollTo(0, 0);
+					break;
+			}
+		}
+	</script>
+
+</html>

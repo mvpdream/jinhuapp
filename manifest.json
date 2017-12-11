@@ -1,0 +1,4249 @@
+{
+	"@platforms": [
+		"android",
+		"iPhone",
+		"iPad"
+	],
+	"id": "H566CC496",/*应用的标识，创建应用时自动生成，勿手动修改*/
+	"name": "近乎",/*应用名称，程序桌面图标名称*/
+	"version": {
+		"name": "5.2.1",/*应用版本名称*/
+		"code": "83"
+	},
+	"description": "",/*应用描述信息*/
+	"icons": {
+		"72": "icon.png"
+	},
+	"launch_path": "index.html",/*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
+	"developer": {
+		"name": "",/*开发者名称*/
+		"email": "",/*开发者邮箱地址*/
+		"url": "http://www.dcloud.io"
+	},
+	"permissions": {
+		
+		
+		"Cache": {
+			"description": "管理应用缓存"
+		},
+
+		"Console": {
+			"description": "跟踪调试输出日志"
+		},
+		"Contacts": {
+			"description": "访问系统联系人信息"
+		},
+		"Device": {
+			"description": "访问设备信息"
+		},
+		"Downloader": {
+			"description": "文件下载管理"
+		},
+		"Events": {
+			"description": "应用扩展事件"
+		},
+		"File": {
+			"description": "访问本地文件系统"
+		},
+
+		"Geolocation": {
+			"description": "访问位置信息"
+		},
+		"Invocation": {
+			"description": "使用Native.js能力"
+		},
+
+		"Orientation": {
+			"description": "访问方向感应器"
+		},
+		"Proximity": {
+			"description": "访问距离感应器"
+		},
+		"Storage": {
+			"description": "管理应用本地数据"
+		},
+
+
+		"Runtime": {
+			"description": "访问运行期环境"
+		},
+		"XMLHttpRequest": {
+			"description": "跨域网络访问"
+		},
+		
+		
+		"Maps": {
+			"description": "管理地图插件"
+		},
+		
+		"Webview": {
+			"description": "窗口管理"
+		},
+		"NativeUI": {
+			"description": "原生UI控件"
+		},
+		"Navigator": {
+			"description": "浏览器信息"
+		},
+		"NativeObj": {
+			"description": "原生对象"
+		},
+		"Camera": {},
+		"Gallery": {},
+		"Uploader": {},
+		"OAuth": {},
+		"Share": {},
+		"Push": {}
+	},
+	"plus": {
+		"splashscreen": {
+			"autoclose": false,/*是否自动关闭程序启动界面，true表示应用加载应用入口页面后自动关闭；false则需调plus.navigator.closeSplashscreen()关闭*/
+			"waiting": true,
+			"delay": "300"
+		},
+		"allowsInlineMediaPlayback": true,/*设置ios下允许内联播放*/
+		"runmode": "liberate",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
+		"signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
+		"distribute": {
+			"plugins": {"maps":{"baidu":{"appkey_ios":"quxOykoRWST74GFYr0Rt7RPqEVQPIkO9","appkey_android":"lqW65ZINE8cqY8VA039V9TWUdi1iXsWW","appkey":"","description":""}},
+				"push": {
+					"igexin": {
+						"appid": "1X9mRTI6OU7MAXeNsH2eb4",
+						"appkey": "SHdlwAkrvw98jERE34nN74",
+						"appsecret": "2X9fKrKAPOA3NtEqDQhA96"
+					}
+				},
+				"share": {
+					"qq": {
+						"appid": "100588512",
+						"description": "QQ分享"
+					},
+					"weixin": {
+						"appid": "wx42c2da0b23f6d15b",
+						"appsecret": "bf8df6d2c5e0878b8c0fd5dafd49b1dd",
+						"description": "可选，微信分享"
+					},
+					"sina": {
+						"appkey": "3300583087",
+						"appsecret": "ba73243b2595ce18aa2f70db0d8e9ccf",
+						"redirect_uri": "https://api.weibo.com/oauth2/default.html",
+						"description": "可选，新浪微博分享"
+					}
+				},
+				"oauth": {
+					"qq": {
+						"appid": "100588512"
+					},
+					"weixin": {
+						"appid": "wx42c2da0b23f6d15b",
+						"appsecret": "bf8df6d2c5e0878b8c0fd5dafd49b1dd"
+					},
+					"sina": {
+						"appkey": "3300583087",
+						"appsecret": "ba73243b2595ce18aa2f70db0d8e9ccf",
+						"redirect_uri": "https://api.weibo.com/oauth2/default.html"
+					}
+				}
+			},
+			"apple": {
+				"appid": "com.tunynet.spacebuilder",/*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
+				"mobileprovision": "",/*iOS应用打包配置文件*/
+				"password": "",/*iOS应用打包个人证书导入密码*/
+				"p12": "",/*iOS应用打包个人证书，打包配置文件关联的个人证书*/
+				"devices": "universal",/*iOS应用支持的设备类型，可取值iphone/ipad/universal*/
+				"urltypes": [
+					{
+						"urlidentifier": "com.tunynet.spacebuilder",
+						"urlschemes": [
+							"jhapp"
+						]
+					}
+				],
+				"frameworks": []
+			},
+			"google": {
+				"hardwareAccelerated": true,/*Android硬件加速*/
+				"packagename": "com.tunynet.spacebuilder",/*Android应用包名，如io.dcloud.HelloH5*/
+				"keystore": "",/*Android应用打包使用的密钥库文件*/
+				"password": "tunynet",/*Android应用打包使用密钥库中证书的密码*/
+				"aliasname": "jinhu",/*Android应用打包使用密钥库中证书的别名*/
+				"schemes": [
+					"jhapp"
+				],
+				"permissions": ["<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>","<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>","<uses-permission android:name=\"android.permission.GET_TASKS\"/>","<uses-permission android:name=\"android.permission.VIBRATE\"/>","<uses-permission android:name=\"android.permission.READ_LOGS\"/>","<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>","<uses-feature android:name=\"android.hardware.camera.autofocus\"/>","<uses-permission  android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>","<uses-permission android:name=\"android.permission.SYSTEM_ALERT_WINDOW\"/>","<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>","<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\"/>","<uses-permission android:name=\"com.android.launcher.permission.UNINSTALL_SHORTCUT\"/>","<uses-permission android:name=\"android.permission.CAMERA\"/>","<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>","<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>","<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>","<uses-permission android:name=\"com.android.launcher.permission.INSTALL_SHORTCUT\"/>","<uses-permission android:name=\"android.permission.INTERNET\"/>","<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>","<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>","<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>","<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>","<uses-permission android:name=\"android.permission.CALL_PHONE\"/>","<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>","<uses-feature android:name=\"android.hardware.camera\"/>","<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>","<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>","<uses-permission android:name=\"android.permission.RECEIVE_USER_PRESENT\"/>","<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"]
+			},
+			"orientation": [
+				"portrait-primary"
+			],/*应用支持的方向，portrait-primary：竖屏正方向；portrait-secondary：竖屏反方向；landscape-primary：横屏正方向；landscape-secondary：横屏反方向*/
+			"icons": {
+				"ios": {
+					"prerendered": true, /*应用图标是否已经高亮处理，在iOS6及以下设备上有效*/
+					"auto": "", /*应用图标，分辨率：512x512，用于自动生成各种尺寸程序图标*/
+					"iphone": {
+						"normal": "unpackage/res/icons/57x57.png",/*iPhone普通屏幕程序图标，分辨率：57x57*/
+						"retina": "unpackage/res/icons/114x114.png",/*iPhone高分屏程序图标，分辨率：114x114*/
+						"retina7": "unpackage/res/icons/120x120.png",/*iPhone iOS7高分屏程序图标，分辨率：120x120*/
+						"spotlight-normal": "unpackage/res/icons/29x29.png", /*iPhone Spotlight搜索程序图标，分辨率：29x29*/
+						"spotlight-retina": "unpackage/res/icons/58x58.png", /*iPhone高分屏Spotlight搜索程序图标，分辨率：58x58*/
+						"spotlight-retina7": "unpackage/res/icons/80x80.png",/*iPhone iOS7高分屏Spotlight搜索程序图标，分辨率：80x80*/
+						"settings-normal": "unpackage/res/icons/29x29.png", /*iPhone设置页面程序图标，分辨率：29x29*/
+						"settings-retina": "unpackage/res/icons/58x58.png",
+						"retina8": "unpackage/res/icons/180x180.png",
+						"settings-retina8": "unpackage/res/icons/87x87.png"
+					},
+					"ipad": {
+						"normal": "unpackage/res/icons/72x72.png", /*iPad普通屏幕程序图标，分辨率：72x72*/
+						"retina": "unpackage/res/icons/144x144.png", /*iPad高分屏程序图标，分辨率：144x144*/
+						"normal7": "unpackage/res/icons/76x76.png", /*iPad iOS7程序图标，分辨率：76x76*/
+						"retina7": "unpackage/res/icons/152x152.png", /*iPad iOS7高分屏程序图标，分辨率：152x152*/
+						"spotlight-normal": "unpackage/res/icons/50x50.png", /*iPad Spotlight搜索程序图标，分辨率：50x50*/
+						"spotlight-retina": "unpackage/res/icons/100x100.png", /*iPad高分屏Spotlight搜索程序图标，分辨率：100x100*/
+						"spotlight-normal7": "unpackage/res/icons/40x40.png",/*iPad iOS7 Spotlight搜索程序图标，分辨率：40x40*/
+						"spotlight-retina7": "unpackage/res/icons/80x80.png",/*iPad iOS7高分屏Spotlight搜索程序图标，分辨率：80x80*/
+						"settings-normal": "unpackage/res/icons/29x29.png",/*iPad设置页面程序图标，分辨率：29x29*/
+						"settings-retina": "unpackage/res/icons/58x58.png"
+					}
+				},
+				"android": {
+					"mdpi": "unpackage/res/icons/48x48.png", /*普通屏程序图标，分辨率：48x48*/
+					"ldpi": "unpackage/res/icons/48x48.png", /*大屏程序图标，分辨率：48x48*/
+					"hdpi": "unpackage/res/icons/72x72.png", /*高分屏程序图标，分辨率：72x72*/
+					"xhdpi": "unpackage/res/icons/96x96.png",/*720P高分屏程序图标，分辨率：96x96*/
+					"xxhdpi": "unpackage/res/icons/144x144.png",
+					"xxxhdpi": "unpackage/res/icons/180x180.png"
+				}
+			},
+			"splashscreen": {
+				"ios": {
+					"iphone": {
+						"default": "", /*iPhone3启动图片选，分辨率：320x480*/
+						"retina35": "img/splashImg/640x960.png",/*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
+						"retina40": "img/splashImg/640x1136.png",
+						"retina55": "img/splashImg/1242x2208.png",
+						"retina47": "img/splashImg/750x1334.png"
+					},
+					"ipad": {
+						"portrait": "img/splashImg/768v1004.png", /*iPad竖屏启动图片，分辨率：768x1004*/
+						"portrait-retina": "img/splashImg/1536x2008.png",/*iPad高分屏竖屏图片，分辨率：1536x2008*/
+						"landscape": "", /*iPad横屏启动图片，分辨率：1024x748*/
+						"landscape-retina": "", /*iPad高分屏横屏启动图片，分辨率：2048x1496*/
+						"portrait7": "img/splashImg/768x1024.png", /*iPad iOS7竖屏启动图片，分辨率：768x1024*/
+						"portrait-retina7": "img/splashImg/1536x2048.png",/*iPad iOS7高分屏竖屏图片，分辨率：1536x2048*/
+						"landscape7": "", /*iPad iOS7横屏启动图片，分辨率：1024x768*/
+						"landscape-retina7": ""
+					}
+				},
+				"android": {
+					"mdpi": "", /*普通屏启动图片，分辨率：240x282*/
+					"ldpi": "", /*大屏启动图片，分辨率：320x442*/
+					"hdpi": "img/splashImg/480x762.png", /*高分屏启动图片，分辨率：480x762*/
+					"xhdpi": "img/splashImg/720x1242.png", /*720P高分屏启动图片，分辨率：720x1242*/
+					"xxhdpi": "img/splashImg/1080x1882.png"
+				}
+			}
+		}
+	},
+	"dependencies": {
+		"pages": {
+			"index.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"indexSub.html",
+					"img/startBanner2.png",
+					"img/startBanner1.png",
+					"img/startBanner3.png",
+					"img/startBanner4.png",
+					"home.html",
+					"img/logo.png",
+					"css/font-awesome.min.css",
+					"fonts/fontawesome-webfont.ttf",
+					"js/mui.js",
+					"fonts/fontawesome-webfont.woff2",
+					"js/service.js",
+					"js/common.js",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"js/main.js",
+					"js/wxHelper.js",
+					"js/openApp.js",
+					"js/jquery-2.1.0.js",
+					"html/home.html",
+					"css/icons-extra.css",
+					"js/main.js",
+					"js/wxHelper.js",
+					"js/openApp.js",
+					"js/jquery-2.1.0.js",
+					"html/home.html",
+					"fonts/fontawesome-webfont.woff",
+					"html/ask.html",
+					"js/app.js"
+				],
+				"refer": [
+					"set.html",
+					"mail.html",
+					"tel.html",
+					"news.html",
+					"tieba.html",
+					"mine.html",
+					"yingyong.html",
+					"application.html",
+					"html/main.html",
+					"html/login.html",
+					"html/document.html",
+					"html/news.html",
+					"html/mine.html",
+					"html/post.html",
+					"html/vote.html",
+					"html/event.html",
+					"html/apply.html"
+				],
+				"priority": 0
+			},
+			"indexSub.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"img/slider-3.jpg",
+					"img/slider-1.jpg",
+					"img/slider-2.jpg",
+					"fonts/mui.ttf",
+					"img/160-3.jpg",
+					"img/160-2.jpg",
+					"img/160-1.jpg"
+				],
+				"refer": [
+					"detail.html"
+				],
+				"priority": 0
+			},
+			"detail.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"img/slider-3.jpg",
+					"img/slider-1.jpg",
+					"img/slider-2.jpg",
+					"js/mui.zoom.js",
+					"js/mui.previewimage.js",
+					"img/avatar-mini.png",
+					"css/icons-extra.css",
+					"fonts/mui-icons-extra.ttf",
+					"img/wchat_friend.png",
+					"img/wchat_space.png",
+					"img/qq_space.png",
+					"fonts/fontawesome-webfont.ttf",
+					"css/font-awesome.min.css",
+					"fonts/fontawesome-webfont.woff2"
+				],
+				"refer": [
+					"newsComments.html",
+					"newsComments_main.html"
+				],
+				"priority": 0
+			},
+			"home.html": {
+				"resources": [
+					"img/160-3.jpg",
+					"img/160-2.jpg",
+					"img/slider-3.jpg",
+					"img/slider-1.jpg",
+					"img/160-1.jpg",
+					"img/slider-2.jpg",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"img/logo.png",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"fonts/fontawesome-webfont.ttf"
+				],
+				"refer": [
+					"detail.html"
+				],
+				"priority": 0
+			},
+			"tieba.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/mui.pullToRefresh.js",
+					"js/mui.pullToRefresh.material.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"fonts/fontawesome-webfont.ttf",
+					"img/u55.jpg",
+					"img/avatar-mini.png",
+					"fonts/fontawesome-webfont.woff2",
+					"img/muwu.jpg",
+					"img/avatar.jpg",
+					"img/160-2.jpg",
+					"img/slider-3.jpg",
+					"img/160-1.jpg",
+					"img/160-3.jpg",
+					"img/slider-1.jpg",
+					"img/slider-2.jpg"
+				],
+				"refer": [
+					"detail.html",
+					"findBars.html",
+					"tiebaIndex.html",
+					"postDetail.html"
+				],
+				"priority": 0
+			},
+			"mine.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"/img/yuantiao.jpg",
+					"img/yuantiao.jpg",
+					"img/avatar.jpg",
+					"css/font-awesome.min.css",
+					"fonts/fontawesome-webfont.ttf",
+					"js/feedback.js",
+					"js/mui.view.js",
+					"fonts/fontawesome-webfont.woff2"
+				],
+				"refer": [
+					"setting.html",
+					"userlist_main.html"
+				],
+				"priority": 0
+			},
+			"news.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"js/mui.pullToRefresh.js",
+					"js/mui.pullToRefresh.material.js",
+					"img/u55.jpg",
+					"css/font-awesome.min.css",
+					"fonts/fontawesome-webfont.ttf",
+					"img/cbd.jpg",
+					"js/mui.js",
+					"fonts/fontawesome-webfont.woff2",
+					"img/muwu.jpg",
+					"img/yuantiao.jpg"
+				],
+				"refer": [
+					"detail.html"
+				],
+				"priority": 0
+			},
+			"yingyong.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"newsComments.html": {
+				"resources": [
+					"js/mui.zoom.js",
+					"js/mui.previewimage.js",
+					"js/mui.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"newsComments_sub.html": {
+				"resources": [
+					"js/mui.min.js",
+					"js/mui.zoom.js",
+					"img/avatar-mini.png",
+					"css/mui.min.css",
+					"js/mui.previewimage.js",
+					"css/icons-extra.css",
+					"fonts/mui.ttf",
+					"img/wchat_friend.png",
+					"img/wchat_space.png",
+					"img/qq_space.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"newsComments_main.html": {
+				"resources": [
+					"newsComments_sub.html",
+					"js/mui.zoom.js",
+					"js/mui.previewimage.js",
+					"fonts/mui-icons-extra.ttf",
+					"fonts/mui.ttf",
+					"img/wchat_friend.png",
+					"js/mui.min.js",
+					"img/wchat_space.png",
+					"css/mui.min.css",
+					"img/qq_space.png",
+					"css/icons-extra.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"application.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/font-awesome.min.css",
+					"fonts/fontawesome-webfont.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"setting.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"userlist_sub.html": {
+				"resources": [
+					"img/wchat_friend.png",
+					"img/avatar-mini.png",
+					"img/wchat_space.png",
+					"img/qq_space.png",
+					"js/mui.min.js",
+					"js/mui.zoom.js",
+					"css/mui.min.css",
+					"js/mui.previewimage.js",
+					"css/icons-extra.css",
+					"fonts/mui.ttf",
+					"img/160-1.jpg",
+					"img/160-3.jpg",
+					"img/160-2.jpg",
+					"img/avatar.jpg",
+					"img/muwu.jpg"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"userlist_main.html": {
+				"resources": [
+					"fonts/mui-icons-extra.ttf",
+					"js/mui.zoom.js",
+					"js/mui.previewimage.js",
+					"userlist_sub.html",
+					"css/icons-extra.css",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"findBars.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"js/mui.min.js",
+					"js/mui.pullToRefresh.material.js",
+					"img/160-3.jpg",
+					"img/160-2.jpg",
+					"img/avatar-mini.png",
+					"fonts/mui.ttf",
+					"img/160-1.jpg",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"img/avatar.jpg",
+					"img/u55.jpg"
+				],
+				"refer": [
+					"detail.html",
+					"tiebaIndex.html"
+				],
+				"priority": 0
+			},
+			"tiebaIndex.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/fontawesome-webfont.ttf",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"img/yuantiao.jpg",
+					"img/avatar.jpg",
+					"img/160-1.jpg",
+					"img/slider-1.jpg",
+					"/css/app.css",
+					"img/160-2.jpg",
+					"img/slider-3.jpg",
+					"img/avatar-mini.png",
+					"img/muwu.jpg",
+					"js/mui.pullToRefresh.js",
+					"js/mui.pullToRefresh.material.js",
+					"css/app.css",
+					"fonts/fontawesome-webfont.woff2"
+				],
+				"refer": [
+					"userlist_main.html",
+					"postDetail.html"
+				],
+				"priority": 0
+			},
+			"postDetail.html": {
+				"resources": [
+					"fonts/mui-icons-extra.ttf",
+					"js/mui.zoom.js",
+					"img/wchat_friend.png",
+					"img/wchat_space.png",
+					"js/mui.previewimage.js",
+					"img/qq_space.png",
+					"css/icons-extra.css",
+					"img/slider-3.jpg",
+					"img/avatar-mini.png",
+					"img/slider-1.jpg",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"img/slider-2.jpg",
+					"css/app.css",
+					"fonts/fontawesome-webfont.ttf",
+					"css/font-awesome.min.css"
+				],
+				"refer": [
+					"newsComments_main.html"
+				],
+				"priority": 0
+			},
+			"html/index.html": {
+				"resources": [
+					"html/mine.html",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"fonts/fontawesome-webfont.woff2",
+					"html/home.html",
+					"js/mui.min.js",
+					"css/jinhu.css"
+				],
+				"refer": [
+					"html/application.html",
+					"html/news.html",
+					"html/tieba.html"
+				],
+				"priority": 0
+			},
+			"html/mine.html": {
+				"resources": [
+					"fonts/mui.ttf",
+					"img/yuantiao.jpg",
+					"js/mui.min.js",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"fonts/fontawesome-webfont.woff2",
+					"img/avatar.jpg",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"img/star3.png",
+					"img/star1.png",
+					"img/star2.png",
+					"fonts/fontawesome-webfont.ttf",
+					"fonts/mui-icons-extra.ttf",
+					"js/service.js",
+					"js/common.js",
+					"js/jquery-2.1.0.js",
+					"img/loadingicon.gif",
+					"img/5-121204193R0.gif",
+					"img/5-121204193R5-50.gif",
+					"js/faces.json",
+					"img/Emotions/default/1.gif",
+					"img/minebanner.png",
+					"fonts/fontawesome-webfont.woff",
+					"js/wxHelper.js",
+					"js/crypto-js.js"
+				],
+				"refer": [
+					"html/userlist_main.html",
+					"html/setting.html",
+					"html/userThreads_main.html",
+					"html/userComments.html",
+					"html/userCollections.html",
+					"html/sysetting.html",
+					"html/login.html",
+					"html/userNotice_main.html",
+					"html/userFollows_main.html",
+					"html/user_login.html",
+					"html/userNews_main.html",
+					"html/register_account.html",
+					"html/userQuestions.html",
+					"html/myNews.html",
+					"html/myThreads.html",
+					"html/userdocument.html",
+					"html/pointTask.html",
+					"html/pointTask.html",
+					"html/myPoint.html",
+					"html/userPoint.html",
+					"html/medalShop.html",
+					"html/myEvent.html",
+					"html/pointMall.html"
+				],
+				"priority": 0
+			},
+			"html/home.html": {
+				"resources": [
+					"fonts/mui.ttf",
+					"img/160-3.jpg",
+					"img/160-2.jpg",
+					"img/160-1.jpg",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"img/logo.png",
+					"img/slider-3.jpg",
+					"img/slider-1.jpg",
+					"img/slider-2.jpg",
+					"css/jinhu.css",
+					"js/service.js",
+					"js/common.js",
+					"js/main.js",
+					"html/news.html",
+					"css/font-awesome.min.css",
+					"fonts/fontawesome-webfont.woff2",
+					"css/icons-extra.css",
+					"fonts/mui-icons-extra.ttf",
+					"fonts/fontawesome-webfont.woff",
+					"img/avatar.jpg",
+					"js/wxHelper.js",
+					"js/jweixin-1.0.0.js",
+					"js/sha1.js",
+					"js/jquery-2.1.0.js",
+					"js/openApp.js",
+					"fonts/fontawesome-webfont.ttf",
+					"js/home.js",
+					"js/app.js",
+					"img/jh_logo@2x.png",
+					"img/近乎new.@3x.png",
+					"img/近乎new@2x.png",
+					"img/jh_logo.png"
+				],
+				"refer": [
+					"html/detail.html",
+					"html/mine.html",
+					"html/post.html",
+					"html/postDetail.html",
+					"html/newsDetail.html",
+					"html/videoDetail.html",
+					"html/imgsDetail.html",
+					"html/search.html",
+					"html/user_login.html",
+					"html/qiandao.html",
+					"html/signIn.html",
+					"html/threadDetail.html"
+				],
+				"priority": 0
+			},
+			"html/news.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"js/mui.pullToRefresh.material.js",
+					"img/cbd.jpg",
+					"img/muwu.jpg",
+					"img/yuantiao.jpg",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"fonts/fontawesome-webfont.woff2",
+					"css/jinhu.css",
+					"css/news.css",
+					"css/icons-extra.css",
+					"img/cbd-small.jpg",
+					"img/avatar-mini.png",
+					"fonts/fontawesome-webfont.ttf",
+					"fonts/mui-icons-extra.ttf",
+					"js/common.js",
+					"js/service.js",
+					"js/faces.json",
+					"js/mui.lazyload.js",
+					"js/mui.lazyload.img.js",
+					"img/border-bg.jpg",
+					"img/avatar.jpg",
+					"js/cms.js"
+				],
+				"refer": [
+					"html/detail.html",
+					"html/newsDetail.html",
+					"html/videoDetail.html",
+					"html/imgsDetail.html",
+					"html/search.html"
+				],
+				"priority": 0
+			},
+			"html/tieba.html": {
+				"resources": [
+					"img/slider-3.jpg",
+					"img/avatar-mini.png",
+					"img/muwu.jpg",
+					"img/avatar.jpg",
+					"img/160-2.jpg",
+					"img/160-1.jpg",
+					"img/160-3.jpg",
+					"img/slider-1.jpg",
+					"img/slider-2.jpg"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/detail.html": {
+				"resources": [
+					"fonts/mui-icons-extra.ttf",
+					"js/mui.zoom.js",
+					"img/wchat_friend.png",
+					"img/slider-1.jpg",
+					"img/wchat_space.png",
+					"js/mui.previewimage.js",
+					"img/qq_space.png",
+					"img/slider-2.jpg",
+					"css/icons-extra.css",
+					"img/slider-3.jpg",
+					"img/avatar-mini.png",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"fonts/fontawesome-webfont.woff2",
+					"css/jinhu.css",
+					"css/detail.css",
+					"img/weixin-icon.png",
+					"img/pyy-icon.png",
+					"img/weibo-icon.png",
+					"img/qq-icon.png",
+					"img/excel-icon.png",
+					"img/more-icon.png",
+					"img/word-icon.png",
+					"img/ppt-icon.png"
+				],
+				"refer": [
+					"html/newsComments_main.html"
+				],
+				"priority": 0
+			},
+			"html/userlist_main.html": {
+				"resources": [
+					"js/mui.zoom.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/mui.previewimage.js",
+					"html/userlist_sub.html",
+					"css/icons-extra.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/newsComments_main.html": {
+				"resources": [
+					"html/newsComments_sub.html"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/login.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"img/logo.png",
+					"img/login-weixin.png",
+					"img/login-qq.png",
+					"js/app.js",
+					"js/mui.enterfocus.js",
+					"js/thirdLogin.js",
+					"js/service.js",
+					"js/common.js",
+					"fonts/fontawesome-webfont.woff2",
+					"img/post-news-img.jpg",
+					"js/faces.json",
+					"img/Emotions/default/1.gif",
+					"dist/js/crypto-js.js",
+					"js/user.js",
+					"img/jh_logo.png",
+					"img/jh_logonew.png",
+					"img/jh_logonew@2x.png"
+				],
+				"refer": [
+					"html/user_login.html",
+					"html/register_account.html",
+					"html/third_login.html",
+					"html/main.html"
+				],
+				"priority": 0
+			},
+			"html/postDetail.html": {
+				"resources": [
+					"img/weixin-icon.png",
+					"fonts/mui.ttf",
+					"css/jinhu.css",
+					"img/excel-icon.png",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"img/pyy-icon.png",
+					"fonts/mui-icons-extra.ttf",
+					"img/more-icon.png",
+					"js/mui.zoom.js",
+					"img/avatar-mini.png",
+					"img/slider-1.jpg",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/font-awesome.min.css",
+					"js/mui.previewimage.js",
+					"img/weibo-icon.png",
+					"img/word-icon.png",
+					"img/qq-icon.png",
+					"img/ppt-icon.png",
+					"js/service.js",
+					"js/common.js",
+					"img/qq/1.gif",
+					"img/slider-2.jpg",
+					"img/qq/52.gif",
+					"img/qq/132.gif",
+					"img/qq/89.gif",
+					"img/qq/62.gif",
+					"img/qq/124.gif",
+					"img/qq/87.gif",
+					"img/qq/113.gif",
+					"img/qq/45.gif",
+					"img/qq/65.gif",
+					"img/qq/106.gif",
+					"img/qq/56.gif",
+					"img/qq/53.gif",
+					"img/qq/98.gif",
+					"img/qq/131.gif",
+					"img/qq/11.gif",
+					"img/qq/88.gif",
+					"img/qq/21.gif",
+					"img/qq/92.gif",
+					"img/qq/101.gif",
+					"img/qq/72.gif",
+					"img/qq/96.gif",
+					"img/qq/30.gif",
+					"img/qq/84.gif",
+					"img/qq/32.gif",
+					"img/qq/25.gif",
+					"img/qq/17.gif",
+					"img/qq/102.gif",
+					"img/qq/42.gif",
+					"img/qq/59.gif",
+					"img/qq/112.gif",
+					"img/qq/16.gif",
+					"img/qq/111.gif",
+					"img/qq/107.gif",
+					"img/qq/35.gif",
+					"img/qq/39.gif",
+					"img/qq/110.gif",
+					"img/qq/7.gif",
+					"img/qq/94.gif",
+					"img/qq/9.gif",
+					"img/qq/115.gif",
+					"img/qq/67.gif",
+					"img/qq/86.gif",
+					"img/qq/119.gif",
+					"img/qq/12.gif",
+					"img/qq/69.gif",
+					"img/qq/50.gif",
+					"img/qq/26.gif",
+					"img/qq/130.gif",
+					"img/qq/43.gif",
+					"img/qq/85.gif",
+					"img/qq/95.gif",
+					"img/qq/129.gif",
+					"img/qq/10.gif",
+					"img/qq/20.gif",
+					"img/qq/116.gif",
+					"img/qq/74.gif",
+					"img/qq/100.gif",
+					"img/qq/61.gif",
+					"img/qq/90.gif",
+					"img/qq/91.gif",
+					"img/qq/125.gif",
+					"img/qq/27.gif",
+					"img/qq/19.gif",
+					"img/qq/24.gif",
+					"img/qq/23.gif",
+					"img/qq/97.gif",
+					"img/qq/105.gif",
+					"img/qq/31.gif",
+					"img/qq/99.gif",
+					"img/qq/73.gif",
+					"img/qq/122.gif",
+					"img/qq/83.gif",
+					"img/qq/78.gif",
+					"img/qq/60.gif",
+					"img/qq/109.gif",
+					"img/qq/15.gif",
+					"img/qq/126.gif",
+					"img/qq/108.gif",
+					"img/qq/3.gif",
+					"img/qq/123.gif",
+					"img/qq/28.gif",
+					"img/qq/118.gif",
+					"img/qq/41.gif",
+					"img/qq/64.gif",
+					"img/qq/5.gif",
+					"img/qq/33.gif",
+					"img/qq/80.gif",
+					"img/qq/57.gif",
+					"img/qq/51.gif",
+					"img/qq/103.gif",
+					"img/qq/36.gif",
+					"img/qq/18.gif",
+					"img/qq/58.gif",
+					"img/qq/34.gif",
+					"img/qq/79.gif",
+					"img/qq/49.gif",
+					"img/qq/4.gif",
+					"img/qq/38.gif",
+					"img/qq/6.gif",
+					"img/qq/81.gif",
+					"img/qq/68.gif",
+					"img/qq/40.gif",
+					"img/qq/2.gif",
+					"img/qq/14.gif",
+					"img/qq/54.gif",
+					"img/qq/75.gif",
+					"img/qq/117.gif",
+					"img/qq/44.gif",
+					"img/qq/104.gif",
+					"img/qq/55.gif",
+					"img/qq/8.gif",
+					"img/qq/121.gif",
+					"img/qq/71.gif",
+					"img/qq/127.gif",
+					"img/qq/70.gif",
+					"img/qq/76.gif",
+					"img/qq/13.gif",
+					"img/qq/48.gif",
+					"img/qq/93.gif",
+					"img/qq/128.gif",
+					"img/qq/46.gif",
+					"img/qq/66.gif",
+					"img/qq/47.gif",
+					"img/qq/114.gif",
+					"img/qq/29.gif",
+					"img/qq/22.gif",
+					"img/qq/77.gif",
+					"img/qq/63.gif",
+					"img/qq/120.gif",
+					"img/qq/37.gif",
+					"img/qq/82.gif",
+					"js/comment.js",
+					"img/Emotions/default/68.gif",
+					"img/Emotions/default/47.gif",
+					"img/Emotions/default/35.gif",
+					"img/Emotions/default/79.gif",
+					"js/share.js",
+					"fonts/fontawesome-webfont.ttf",
+					"img/Emotions/default/36.gif",
+					"img/Emotions/default/22.gif",
+					"img/Emotions/default/5.gif",
+					"img/Emotions/default/43.gif",
+					"img/Emotions/default/18.gif",
+					"img/Emotions/default/17.gif",
+					"img/qq-icon@2x.png",
+					"img/weixin-icon@2x.png",
+					"img/pyy-icon@2x.png",
+					"img/weibo-icon@2x.png",
+					"js/wxHelper.js",
+					"js/jweixin-1.2.0.js",
+					"js/openApp.js",
+					"js/mui.pullToRefresh.js",
+					"js/mui.pullToRefresh.material.js",
+					"img/border-bg.jpg",
+					"js/jquery-2.1.0.js",
+					"js/post.js"
+				],
+				"refer": [
+					"html/commentsDetail_main.html",
+					"html/userHomepage.html",
+					"html/user_login.html",
+					"html/creatThread.html",
+					"html/threadDetail.html",
+					"html/creatVoteThread.html",
+					"html/creatEvent.html",
+					"html/eventThreadDetail.html"
+				],
+				"priority": 0
+			},
+			"html/newImg.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"img/avatar-mini.png",
+					"js/mui.min.js",
+					"js/mui.pullToRefresh.material.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"img/cbd.jpg",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"img/news-img.jpg",
+					"img/slider-1.jpg",
+					"fonts/mui-icons-extra.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/newsImg.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"js/mui.pullToRefresh.material.js",
+					"img/weixin-icon.png",
+					"fonts/mui.ttf",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"img/pyy-icon.png",
+					"fonts/mui-icons-extra.ttf",
+					"img/slider-1.jpg",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/font-awesome.min.css",
+					"img/weibo-icon.png",
+					"img/cbd.jpg",
+					"img/qq-icon.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/newsDetail.html": {
+				"resources": [
+					"img/weixin-icon.png",
+					"fonts/mui.ttf",
+					"css/jinhu.css",
+					"img/excel-icon.png",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"img/pyy-icon.png",
+					"fonts/mui-icons-extra.ttf",
+					"img/more-icon.png",
+					"js/mui.zoom.js",
+					"img/avatar-mini.png",
+					"img/slider-1.jpg",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/font-awesome.min.css",
+					"js/mui.previewimage.js",
+					"img/weibo-icon.png",
+					"img/word-icon.png",
+					"img/qq-icon.png",
+					"img/ppt-icon.png",
+					"js/comment.js",
+					"js/service.js",
+					"img/Emotions/default/20.gif",
+					"img/Emotions/default/3.gif",
+					"js/common.js",
+					"js/share.js",
+					"img/Emotions/default/6.gif",
+					"img/Emotions/default/8.gif",
+					"img/Emotions/default/18.gif",
+					"img/Emotions/default/46.gif",
+					"img/weixin-icon@2x.png",
+					"img/qq-icon@2x.png",
+					"img/pyy-icon@2x.png",
+					"img/weibo-icon@2x.png",
+					"js/wxHelper.js",
+					"js/jweixin-1.2.0.js",
+					"js/openApp.js",
+					"js/jquery-2.1.0.js",
+					"fonts/fontawesome-webfont.ttf",
+					"img/avatar.jpg",
+					"img/wx.png",
+					"js/crypto-js.js",
+					"js/cms.js",
+					"js/attachment.js",
+					"img/Emotions/default/1.gif",
+					"img/Emotions/default/70.gif",
+					"img/Emotions/default/4.gif",
+					"img/Emotions/default/7.gif",
+					"img/Emotions/default/5.gif",
+					"img/Emotions/default/30.gif",
+					"img/Emotions/default/57.gif",
+					"img/Emotions/default/28.gif",
+					"img/Emotions/default/2.gif",
+					"img/Emotions/default/13.gif",
+					"img/Emotions/default/10.gif",
+					"img/Emotions/default/12.gif",
+					"img/Emotions/default/23.gif"
+				],
+				"refer": [
+					"html/commentsDetail_main.html",
+					"html/newsBytag_main.html",
+					"html/user_login.html",
+					"html/userHomepage.html",
+					"html/editNew.html"
+				],
+				"priority": 0
+			},
+			"html/post.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"img/avatar-mini.png",
+					"js/mui.min.js",
+					"js/mui.pullToRefresh.material.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"img/cbd.jpg",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"img/post-news-img.jpg",
+					"js/home_copy.js",
+					"fonts/fontawesome-webfont.ttf",
+					"css/app.css",
+					"js/common.js",
+					"js/service.js",
+					"img/160-2.jpg",
+					"js/index.js",
+					"html/enterPost.html",
+					"html/aboutJinhu.html",
+					"html/postList.html",
+					"js/post.js",
+					"fonts/mui-icons-extra.ttf",
+					"js/faces.json",
+					"img/border-bg.jpg",
+					"html/recommendpostList.html"
+				],
+				"refer": [
+					"html/mine.html",
+					"html/search.html"
+				],
+				"priority": 0
+			},
+			"html/enterPost.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"img/post-news-img.jpg",
+					"img/avatar-mini.png",
+					"js/mui.min.js",
+					"js/mui.pullToRefresh.material.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"img/160-2.jpg",
+					"fonts/fontawesome-webfont.ttf",
+					"js/common.js",
+					"js/service.js",
+					"fonts/mui-icons-extra.ttf",
+					"js/faces.json",
+					"js/mui.lazyload.js",
+					"js/mui.lazyload.img.js",
+					"js/wxHelper.js",
+					"html/postList.html"
+				],
+				"refer": [
+					"html/postDetail.html",
+					"html/tiebaDetail.html",
+					"html/user_login.html",
+					"html/recommendpostList.html"
+				],
+				"priority": 0
+			},
+			"html/tiebaDetail.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"img/post-news-img.jpg",
+					"img/avatar-mini.png",
+					"js/mui.min.js",
+					"js/mui.pullToRefresh.material.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"img/slider-1.jpg",
+					"img/avatar.jpg",
+					"img/160-2.jpg",
+					"img/slider-3.jpg",
+					"img/160-1.jpg",
+					"html/img/slider-3.jpg",
+					"img/muwu.jpg",
+					"js/common.js",
+					"js/service.js",
+					"fonts/mui-icons-extra.ttf",
+					"js/jquery-2.1.0.js",
+					"fonts/fontawesome-webfont.ttf",
+					"js/faces.json",
+					"img/Emotions/default/1.gif",
+					"fonts/fontawesome-webfont.woff",
+					"js/wxHelper.js",
+					"js/crypto-js.js"
+				],
+				"refer": [
+					"html/tiebaData.html",
+					"html/creatThread.html",
+					"html/postDetail.html",
+					"html/user_login.html"
+				],
+				"priority": 0
+			},
+			"html/tiebaData.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"js/mui.min.js",
+					"js/mui.pullToRefresh.material.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"img/avatar.jpg",
+					"js/common.js",
+					"js/service.js"
+				],
+				"refer": [
+					"html/userHomepage.html"
+				],
+				"priority": 0
+			},
+			"html/aboutJinhu.html": {
+				"resources": [
+					"js/mui.zoom.js",
+					"img/logo-about.png",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"js/mui.previewimage.js",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"js/service.js",
+					"js/common.js",
+					"img/logo.png",
+					"img/jh_logonew.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/personalData.html": {
+				"resources": [
+					"img/star3.png",
+					"img/star1.png",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"img/yuantiao.jpg",
+					"css/jinhu.css",
+					"img/star2.png",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"img/avatar.jpg",
+					"js/mui.picker.js",
+					"js/mui.poppicker.js",
+					"css/mui.poppicker.css",
+					"css/mui.picker.css",
+					"js/city.data-4.js",
+					"js/service.js",
+					"js/common.js",
+					"css/loading.css",
+					"js/jquery-2.1.0.js",
+					"img/loading.gif",
+					"js/loading.js",
+					"js/jhUpload.js",
+					"js/faces.json",
+					"img/Emotions/default/1.gif",
+					"js/jweixin-1.2.0.js",
+					"js/city.data.js",
+					"html/settingDetail.html",
+					"html/setPhonemail.html",
+					"js/homepage.js",
+					"js/wxHelper.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/search.html": {
+				"resources": [
+					"img/post-news-img.jpg",
+					"img/avatar-mini.png",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"img/avatar.jpg",
+					"fonts/mui-icons-extra.ttf",
+					"fonts/fontawesome-webfont.eot",
+					"fonts/fontawesome-webfont.woff",
+					"fonts/fontawesome-webfont.ttf",
+					"fonts/fontawesome-webfont.svg",
+					"js/common.js",
+					"js/service.js",
+					"js/jquery-2.1.0.js",
+					"js/search.js",
+					"img/border-bg.jpg",
+					"js/attachment.js"
+				],
+				"refer": [
+					"html/question-label-list.html",
+					"html/newsDetail.html",
+					"html/question-solved.html",
+					"html/postDetail.html"
+				],
+				"priority": 0
+			},
+			"html/user_login.html": {
+				"resources": [
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"js/service.js",
+					"js/app.js",
+					"js/thirdLogin.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"img/login-weixin.png",
+					"img/login-qq.png",
+					"fonts/fontawesome-webfont.ttf",
+					"fonts/mui-icons-extra.ttf",
+					"js/faces.json",
+					"img/Emotions/default/1.gif",
+					"fonts/fontawesome-webfont.woff",
+					"js/crypto-js.js",
+					"js/user.js"
+				],
+				"refer": [
+					"html/forgot_password.html",
+					"html/third_login.html",
+					"html/main.html",
+					"index.html"
+				],
+				"priority": 0
+			},
+			"html/register_account.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"js/wxHelper.js",
+					"js/user.js",
+					"js/crypto-js.js"
+				],
+				"refer": [
+					"html/user_agreement.html"
+				],
+				"priority": 0
+			},
+			"html/forgot_password.html": {
+				"resources": [
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"js/wxHelper.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/third_login.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"img/160-1.jpg",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2"
+				],
+				"refer": [
+					"html/relation_oldAccount.html",
+					"html/relation_newAccount.html"
+				],
+				"priority": 0
+			},
+			"html/user_agreement.html": {
+				"resources": [
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/relation_oldAccount.html": {
+				"resources": [
+					"js/app.js",
+					"js/service.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/relation_newAccount.html": {
+				"resources": [
+					"js/service.js",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf"
+				],
+				"refer": [
+					"html/main.html"
+				],
+				"priority": 0
+			},
+			"html/main.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"html/home.html",
+					"fonts/fontawesome-webfont.woff2",
+					"css/jinhu.css",
+					"fonts/fontawesome-webfont.ttf",
+					"html/mine.html",
+					"js/common.js",
+					"fonts/fontawesome-webfont.woff",
+					"html/news.html",
+					"js/service.js",
+					"js/main.js",
+					"fonts/mui.ttf",
+					"js/jweixin-1.0.0.js",
+					"js/wxHelper.js",
+					"js/jquery-2.1.0.js",
+					"js/openApp.js",
+					"js/crypto-js.js"
+				],
+				"refer": [
+					"html/post.html",
+					"html/login.html",
+					"html/ask.html",
+					"html/document.html"
+				],
+				"priority": 0
+			},
+			"html/postList.html": {
+				"resources": [
+					"img/post-news-img.jpg",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/index.js",
+					"img/avatar-mini.png",
+					"css/font-awesome.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"fonts/fontawesome-webfont.ttf",
+					"fonts/mui.ttf",
+					"fonts/mui-icons-extra.ttf",
+					"js/mui.lazyload.js",
+					"js/mui.lazyload.img.js",
+					"js/faces.json",
+					"img/Emotions/default/1.gif",
+					"js/wxHelper.js",
+					"fonts/fontawesome-webfont.woff",
+					"img/avatar.jpg",
+					"html/recommendpostList.html",
+					"js/post.js"
+				],
+				"refer": [
+					"html/postDetail.html",
+					"html/test.html",
+					"html/enterPost.html",
+					"html/threadDetail.html",
+					"html/eventThreadDetail.html"
+				],
+				"priority": 0
+			},
+			"html/recommendpostList.html": {
+				"resources": [
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/mui-icons-extra.ttf",
+					"fonts/fontawesome-webfont.woff2",
+					"img/avatar-mini.png",
+					"js/faces.json",
+					"img/Emotions/default/1.gif",
+					"js/mui.lazyload.js",
+					"js/mui.lazyload.img.js",
+					"js/wxHelper.js",
+					"html/postList.html",
+					"js/post.js",
+					"img/avatar.jpg"
+				],
+				"refer": [
+					"html/postDetail.html",
+					"html/enterPost.html",
+					"html/threadDetail.html",
+					"html/eventThreadDetail.html"
+				],
+				"priority": 0
+			},
+			"html/test.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/test.js",
+					"css/font-awesome.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/commentsDetail_main.html": {
+				"resources": [
+					"html/commentsDetail_sub.html",
+					"css/mui.min.css",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.zoom.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"js/mui.previewimage.js",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"js/comment.js",
+					"js/share.js",
+					"img/weixin-icon.png",
+					"fonts/fontawesome-webfont.woff2",
+					"img/pyy-icon.png",
+					"img/weibo-icon.png",
+					"img/qq-icon.png",
+					"js/cms.js",
+					"img/qq-icon@2x.png",
+					"img/pyy-icon@2x.png",
+					"img/weibo-icon@2x.png",
+					"img/weixin-icon@2x.png",
+					"fonts/mui-icons-extra.ttf"
+				],
+				"refer": [
+					"html/user_login.html"
+				],
+				"priority": 0
+			},
+			"html/commentsDetail_sub.html": {
+				"resources": [
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"js/comment.js",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"js/share.js",
+					"img/Emotions/default/4.gif",
+					"img/Emotions/default/49.gif",
+					"img/Emotions/default/3.gif",
+					"img/Emotions/default/100.gif",
+					"img/Emotions/default/67.gif",
+					"img/Emotions/default/21.gif",
+					"img/Emotions/default/27.gif",
+					"img/Emotions/default/20.gif",
+					"img/Emotions/default/23.gif",
+					"img/Emotions/default/8.gif"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/creatThread.html": {
+				"resources": [
+					"img/Emotions/default/46.gif",
+					"img/Emotions/default/32.gif",
+					"img/Emotions/default/61.gif",
+					"img/Emotions/default/84.gif",
+					"img/Emotions/default/31.gif",
+					"img/Emotions/default/39.gif",
+					"img/Emotions/default/78.gif",
+					"img/Emotions/default/71.gif",
+					"img/Emotions/default/5.gif",
+					"js/faces.json",
+					"js/app.js",
+					"img/Emotions/default/49.gif",
+					"img/Emotions/default/21.gif",
+					"img/Emotions/default/36.gif",
+					"img/Emotions/default/54.gif",
+					"img/Emotions/default/12.gif",
+					"img/Emotions/default/45.gif",
+					"img/Emotions/default/79.gif",
+					"img/Emotions/default/9.gif",
+					"img/Emotions/default/83.gif",
+					"img/Emotions/default/20.gif",
+					"img/Emotions/default/73.gif",
+					"img/Emotions/default/23.gif",
+					"img/Emotions/default/34.gif",
+					"img/Emotions/default/65.gif",
+					"img/Emotions/default/66.gif",
+					"img/Emotions/default/94.gif",
+					"img/Emotions/default/4.gif",
+					"img/Emotions/default/11.gif",
+					"img/Emotions/default/68.gif",
+					"img/Emotions/default/55.gif",
+					"img/Emotions/default/47.gif",
+					"img/Emotions/default/60.gif",
+					"img/Emotions/default/17.gif",
+					"img/Emotions/default/19.gif",
+					"img/Emotions/default/14.gif",
+					"img/Emotions/default/48.gif",
+					"img/Emotions/default/16.gif",
+					"img/Emotions/default/51.gif",
+					"img/Emotions/default/64.gif",
+					"img/Emotions/default/56.gif",
+					"img/Emotions/default/7.gif",
+					"img/Emotions/default/42.gif",
+					"img/Emotions/default/62.gif",
+					"img/Emotions/default/33.gif",
+					"img/Emotions/default/15.gif",
+					"img/Emotions/default/58.gif",
+					"img/Emotions/default/50.gif",
+					"img/Emotions/default/86.gif",
+					"img/Emotions/default/74.gif",
+					"img/Emotions/default/67.gif",
+					"img/Emotions/default/82.gif",
+					"img/Emotions/default/1.gif",
+					"img/Emotions/default/2.gif",
+					"img/Emotions/default/85.gif",
+					"img/Emotions/default/96.gif",
+					"img/Emotions/default/59.gif",
+					"img/Emotions/default/88.gif",
+					"img/Emotions/default/57.gif",
+					"img/Emotions/default/24.gif",
+					"img/Emotions/default/99.gif",
+					"img/Emotions/default/63.gif",
+					"img/Emotions/default/92.gif",
+					"img/Emotions/default/95.gif",
+					"img/Emotions/default/81.gif",
+					"img/Emotions/default/6.gif",
+					"img/Emotions/default/18.gif",
+					"img/Emotions/default/70.gif",
+					"img/Emotions/default/75.gif",
+					"img/Emotions/default/40.gif",
+					"img/Emotions/default/28.gif",
+					"img/Emotions/default/90.gif",
+					"img/Emotions/default/10.gif",
+					"img/Emotions/default/89.gif",
+					"img/Emotions/default/3.gif",
+					"img/Emotions/default/22.gif",
+					"img/Emotions/default/30.gif",
+					"img/Emotions/default/44.gif",
+					"img/Emotions/default/77.gif",
+					"img/Emotions/default/97.gif",
+					"img/Emotions/default/69.gif",
+					"img/Emotions/default/76.gif",
+					"img/Emotions/default/25.gif",
+					"img/Emotions/default/98.gif",
+					"img/Emotions/default/43.gif",
+					"img/Emotions/default/41.gif",
+					"img/Emotions/default/72.gif",
+					"img/Emotions/default/29.gif",
+					"img/Emotions/default/93.gif",
+					"img/Emotions/default/26.gif",
+					"img/Emotions/default/35.gif",
+					"img/Emotions/default/13.gif",
+					"img/Emotions/default/80.gif",
+					"img/Emotions/default/8.gif",
+					"img/Emotions/default/91.gif",
+					"img/Emotions/default/38.gif",
+					"img/Emotions/default/52.gif",
+					"img/Emotions/default/27.gif",
+					"img/Emotions/default/87.gif",
+					"img/Emotions/default/53.gif",
+					"img/Emotions/default/37.gif",
+					"js/service.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"img/close.png",
+					"fonts/mui.ttf",
+					"css/jinhu.css",
+					"fonts/fontawesome-webfont.woff2",
+					"css/icons-extra.css",
+					"css/font-awesome.min.css",
+					"js/mui.zoom.js",
+					"js/mui.previewimage.js",
+					"js/loading.js",
+					"js/zyFile.js",
+					"img/loading.gif",
+					"js/demo.js",
+					"css/zyUpload.css",
+					"img/add_img.png",
+					"js/zyUpload.js",
+					"css/loading.css",
+					"js/jhUpload.js",
+					"js/jquery-2.1.0.js",
+					"fonts/fontawesome-webfont.woff",
+					"js/mui.picker.js",
+					"css/mui.picker.css",
+					"js/mui.poppicker.js",
+					"css/mui.poppicker.css",
+					"js/jweixin-1.2.0.js",
+					"js/wxHelper.js",
+					"js/zyUploadFile.js",
+					"js/creatUpload.js"
+				],
+				"refer": [
+					"html/user_login.html"
+				],
+				"priority": 0
+			},
+			"html/uploadTest.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/common.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/userThreads_main.html": {
+				"resources": [
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"html/userThreads_sub.html",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"fonts/mui-icons-extra.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/userThreads_sub.html": {
+				"resources": [
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"img/avatar-mini.png",
+					"css/font-awesome.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"fonts/mui-icons-extra.ttf",
+					"js/wxHelper.js",
+					"img/avatar.jpg"
+				],
+				"refer": [
+					"html/postDetail.html",
+					"html/threadDetail.html"
+				],
+				"priority": 0
+			},
+			"html/setting.html": {
+				"resources": [
+					"js/app.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/setting.css",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/userComments.html": {
+				"resources": [
+					"js/common.js",
+					"js/service.js",
+					"js/userComments.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"html/receivedComments.html",
+					"fonts/mui-icons-extra.ttf",
+					"fonts/fontawesome-webfont.woff2",
+					"js/mui.pullToRefresh.js",
+					"js/wxHelper.js",
+					"img/Emotions/default/6.gif",
+					"js/mui.pullToRefresh.material.js",
+					"img/border-bg.jpg",
+					"img/avatar.jpg",
+					"img/Emotions/default/1.gif"
+				],
+				"refer": [
+					"html/sendComments.html",
+					"html/textVote.html",
+					"html/imageVote.html",
+					"html/eventThreadDetail.html"
+				],
+				"priority": 0
+			},
+			"html/userCollections.html": {
+				"resources": [
+					"js/service.js",
+					"js/userCollections.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"html/favoriteNews.html",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"fonts/mui-icons-extra.ttf"
+				],
+				"refer": [
+					"html/favoriteThreads.html"
+				],
+				"priority": 0
+			},
+			"html/receivedComments.html": {
+				"resources": [
+					"img/avatar-mini.png",
+					"css/mui.min.css",
+					"css/font-awesome.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"img/Emotions/default/6.gif",
+					"fonts/mui-icons-extra.ttf",
+					"fonts/fontawesome-webfont.woff2"
+				],
+				"refer": [
+					"html/postDetail.html",
+					"html/newsDetail.html",
+					"html/videoDetail.html",
+					"html/imgsDetail.html"
+				],
+				"priority": 0
+			},
+			"html/sendComments.html": {
+				"resources": [
+					"fonts/fontawesome-webfont.woff2",
+					"img/Emotions/default/20.gif",
+					"css/mui.min.css",
+					"img/Emotions/default/21.gif",
+					"img/Emotions/default/23.gif",
+					"css/font-awesome.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"img/Emotions/default/12.gif",
+					"img/Emotions/default/8.gif",
+					"fonts/mui-icons-extra.ttf",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js"
+				],
+				"refer": [
+					"html/videoDetail.html",
+					"html/imgsDetail.html",
+					"html/postDetail.html"
+				],
+				"priority": 0
+			},
+			"html/favoriteThreads.html": {
+				"resources": [
+					"img/avatar-mini.png",
+					"css/mui.min.css",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"fonts/fontawesome-webfont.woff2",
+					"fonts/mui-icons-extra.ttf"
+				],
+				"refer": [
+					"html/postDetail.html"
+				],
+				"priority": 0
+			},
+			"html/sysetting.html": {
+				"resources": [
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/font-awesome.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"css/setting.css",
+					"fonts/mui.ttf",
+					"fonts/fontawesome-webfont.woff2",
+					"fonts/mui-icons-extra.ttf",
+					"js/service.js",
+					"fonts/fontawesome-webfont.woff",
+					"js/wxHelper.js",
+					"js/homepage.js"
+				],
+				"refer": [
+					"html/personalData.html",
+					"html/aboutJinhu.html",
+					"html/update_password.html",
+					"html/userNotice_main.html",
+					"html/user_login.html",
+					"html/login.html"
+				],
+				"priority": 0
+			},
+			"html/settingDetail.html": {
+				"resources": [
+					"js/service.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"js/wxHelper.js"
+				],
+				"refer": [
+					"html/user_login.html"
+				],
+				"priority": 0
+			},
+			"html/userNotice_main.html": {
+				"resources": [
+					"html/userNotice_sub.html",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/mui-icons-extra.ttf",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"fonts/fontawesome-webfont.woff2",
+					"js/faces.json",
+					"js/homepage.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/userNotice_sub.html": {
+				"resources": [
+					"img/avatar-mini.png",
+					"css/mui.min.css",
+					"js/faces.json",
+					"css/font-awesome.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"js/wxHelper.js"
+				],
+				"refer": [
+					"html/postDetail.html",
+					"html/question-solved.html",
+					"html/imgsDetail.html",
+					"html/user_login.html"
+				],
+				"priority": 0
+			},
+			"html/userFollows_sub.html": {
+				"resources": [
+					"css/mui.min.css",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"css/font-awesome.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"img/avatar.jpg",
+					"fonts/fontawesome-webfont.woff2",
+					"js/jquery-2.1.0.js",
+					"fonts/mui-icons-extra.ttf"
+				],
+				"refer": [
+					"html/userHomepage.html"
+				],
+				"priority": 0
+			},
+			"html/userFollows_main.html": {
+				"resources": [
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"html/userFollows_sub.html",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"fonts/mui-icons-extra.ttf",
+					"js/homepage.js",
+					"js/clipboard.min.js",
+					"js/wxHelper.js",
+					"js/jweixin-1.2.0.js",
+					"img/avatar.jpg"
+				],
+				"refer": [
+					"html/usersFollows_sub.html",
+					"html/userHomepage.html"
+				],
+				"priority": 0
+			},
+			"html/favoriteNews.html": {
+				"resources": [
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"fonts/fontawesome-webfont.woff"
+				],
+				"refer": [
+					"html/videoDetail.html",
+					"html/newsDetail.html"
+				],
+				"priority": 0
+			},
+			"html/userHomepage.html": {
+				"resources": [
+					"js/service.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/jquery-2.1.0.js",
+					"img/star3.png",
+					"img/avatar-mini.png",
+					"img/yuantiao.jpg",
+					"img/star2.png",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"img/avatar.jpg",
+					"fonts/mui-icons-extra.ttf",
+					"img/minebanner.png",
+					"js/crypto-js.js",
+					"fonts/fontawesome-webfont.woff",
+					"js/homepage.js",
+					"img/star1.png"
+				],
+				"refer": [
+					"html/postDetail.html",
+					"html/userNews_main.html",
+					"html/userFollows_main.html",
+					"html/usersFollows_main.html",
+					"html/userThreads_main.html",
+					"html/imgsDetail.html",
+					"html/newsDetail.html",
+					"html/otherEvent.html",
+					"html/otherDocuments.html",
+					"html/otherComments.html",
+					"html/medalShop.html",
+					"html/otherQuestions.html"
+				],
+				"priority": 0
+			},
+			"html/videoDetail.html": {
+				"resources": [
+					"js/comment.js",
+					"js/service.js",
+					"css/bvd.css",
+					"img/weixin-icon.png",
+					"fonts/mui.ttf",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"img/pyy-icon.png",
+					"fonts/mui-icons-extra.ttf",
+					"js/common.js",
+					"js/mui.min.js",
+					"js/bvd.js",
+					"css/mui.min.css",
+					"css/font-awesome.min.css",
+					"js/share.js",
+					"img/weibo-icon.png",
+					"img/qq-icon.png",
+					"js/jquery-2.1.0.js",
+					"fonts/fontawesome-webfont.woff",
+					"img/qq-icon@2x.png",
+					"img/weixin-icon@2x.png",
+					"img/pyy-icon@2x.png",
+					"img/weibo-icon@2x.png",
+					"js/wxHelper.js",
+					"js/openApp.js",
+					"fonts/fontawesome-webfont.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/imgsDetail.html": {
+				"resources": [
+					"js/comment.js",
+					"js/service.js",
+					"css/bvd.css",
+					"img/weixin-icon.png",
+					"fonts/mui.ttf",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"img/pyy-icon.png",
+					"fonts/mui-icons-extra.ttf",
+					"js/common.js",
+					"js/mui.min.js",
+					"js/bvd.js",
+					"css/mui.min.css",
+					"css/font-awesome.min.css",
+					"js/share.js",
+					"img/weibo-icon.png",
+					"img/qq-icon.png",
+					"js/mui.zoom.js",
+					"js/mui.previewimage.js",
+					"img/qq-icon@2x.png",
+					"img/weixin-icon@2x.png",
+					"img/pyy-icon@2x.png",
+					"img/weibo-icon@2x.png",
+					"js/jweixin-1.2.0.js",
+					"js/wxHelper.js",
+					"js/openApp.js",
+					"js/cms.js"
+				],
+				"refer": [
+					"html/commentsDetail_main.html"
+				],
+				"priority": 0
+			},
+			"html/newsBytag_main.html": {
+				"resources": [
+					"html/newsBytag_sub.html",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"fonts/fontawesome-webfont.woff2"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/userNews_sub.html": {
+				"resources": [
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"js/wxHelper.js"
+				],
+				"refer": [
+					"html/videoDetail.html",
+					"html/newsDetail.html",
+					"html/imgsDetail.html"
+				],
+				"priority": 0
+			},
+			"html/userNews_main.html": {
+				"resources": [
+					"js/common.js",
+					"js/service.js",
+					"html/userNews_sub.html",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"fonts/mui-icons-extra.ttf",
+					"fonts/fontawesome-webfont.woff"
+				],
+				"refer": [
+					"html/creatNew.html"
+				],
+				"priority": 0
+			},
+			"html/creatNew.html": {
+				"resources": [
+					"img/Emotions/default/46.gif",
+					"img/Emotions/default/84.gif",
+					"img/Emotions/default/32.gif",
+					"img/Emotions/default/61.gif",
+					"img/Emotions/default/31.gif",
+					"img/Emotions/default/39.gif",
+					"img/Emotions/default/78.gif",
+					"js/mui.previewimage.js",
+					"img/Emotions/default/71.gif",
+					"img/Emotions/default/5.gif",
+					"js/loading.js",
+					"js/faces.json",
+					"js/app.js",
+					"js/zyFile.js",
+					"img/Emotions/default/49.gif",
+					"img/Emotions/default/21.gif",
+					"img/Emotions/default/36.gif",
+					"img/Emotions/default/54.gif",
+					"img/Emotions/default/12.gif",
+					"img/Emotions/default/45.gif",
+					"img/Emotions/default/79.gif",
+					"img/Emotions/default/9.gif",
+					"img/Emotions/default/83.gif",
+					"img/Emotions/default/20.gif",
+					"img/Emotions/default/73.gif",
+					"img/Emotions/default/23.gif",
+					"img/Emotions/default/34.gif",
+					"img/Emotions/default/65.gif",
+					"img/Emotions/default/66.gif",
+					"img/Emotions/default/94.gif",
+					"img/Emotions/default/4.gif",
+					"img/Emotions/default/11.gif",
+					"img/Emotions/default/68.gif",
+					"img/Emotions/default/55.gif",
+					"img/Emotions/default/47.gif",
+					"img/Emotions/default/60.gif",
+					"img/Emotions/default/17.gif",
+					"img/Emotions/default/19.gif",
+					"img/Emotions/default/14.gif",
+					"img/Emotions/default/48.gif",
+					"img/Emotions/default/16.gif",
+					"img/Emotions/default/51.gif",
+					"img/Emotions/default/64.gif",
+					"img/Emotions/default/56.gif",
+					"img/Emotions/default/7.gif",
+					"img/Emotions/default/42.gif",
+					"img/Emotions/default/62.gif",
+					"img/Emotions/default/33.gif",
+					"img/Emotions/default/15.gif",
+					"img/Emotions/default/58.gif",
+					"img/Emotions/default/86.gif",
+					"img/Emotions/default/50.gif",
+					"img/Emotions/default/74.gif",
+					"img/Emotions/default/67.gif",
+					"img/Emotions/default/82.gif",
+					"img/Emotions/default/1.gif",
+					"img/Emotions/default/85.gif",
+					"img/Emotions/default/2.gif",
+					"js/jquery-2.1.0.js",
+					"img/loading.gif",
+					"img/Emotions/default/96.gif",
+					"img/Emotions/default/88.gif",
+					"img/Emotions/default/59.gif",
+					"img/Emotions/default/57.gif",
+					"img/Emotions/default/24.gif",
+					"js/mui.zoom.js",
+					"img/Emotions/default/99.gif",
+					"img/Emotions/default/92.gif",
+					"img/Emotions/default/63.gif",
+					"img/Emotions/default/95.gif",
+					"img/Emotions/default/81.gif",
+					"img/Emotions/default/6.gif",
+					"img/Emotions/default/18.gif",
+					"img/Emotions/default/70.gif",
+					"img/Emotions/default/75.gif",
+					"img/Emotions/default/40.gif",
+					"img/Emotions/default/90.gif",
+					"img/Emotions/default/28.gif",
+					"img/Emotions/default/10.gif",
+					"img/Emotions/default/89.gif",
+					"img/Emotions/default/3.gif",
+					"js/demo.js",
+					"css/zyUpload.css",
+					"img/Emotions/default/22.gif",
+					"img/Emotions/default/30.gif",
+					"img/Emotions/default/44.gif",
+					"img/Emotions/default/77.gif",
+					"img/add_img.png",
+					"img/Emotions/default/97.gif",
+					"js/zyUpload.js",
+					"img/Emotions/default/69.gif",
+					"img/Emotions/default/76.gif",
+					"img/Emotions/default/25.gif",
+					"img/Emotions/default/98.gif",
+					"img/Emotions/default/43.gif",
+					"img/Emotions/default/41.gif",
+					"img/Emotions/default/72.gif",
+					"img/Emotions/default/29.gif",
+					"img/Emotions/default/93.gif",
+					"img/Emotions/default/26.gif",
+					"img/Emotions/default/35.gif",
+					"img/Emotions/default/13.gif",
+					"img/Emotions/default/80.gif",
+					"img/Emotions/default/8.gif",
+					"img/Emotions/default/91.gif",
+					"img/Emotions/default/38.gif",
+					"img/Emotions/default/52.gif",
+					"img/Emotions/default/27.gif",
+					"css/loading.css",
+					"img/Emotions/default/87.gif",
+					"img/Emotions/default/53.gif",
+					"img/Emotions/default/37.gif",
+					"css/mui.min.css",
+					"js/common.js",
+					"js/service.js",
+					"fonts/mui.ttf",
+					"css/jinhu.css",
+					"js/mui.min.js",
+					"fonts/fontawesome-webfont.woff2",
+					"css/icons-extra.css",
+					"css/font-awesome.min.css",
+					"img/160-1.jpg",
+					"img/close.png",
+					"js/mui.poppicker.js",
+					"js/mui.picker.js",
+					"css/mui.poppicker.css",
+					"css/mui.picker.css",
+					"js/jhUpload.js",
+					"fonts/fontawesome-webfont.woff",
+					"js/jweixin-1.2.0.js",
+					"js/wxHelper.js",
+					"js/zyUploadFile.js",
+					"js/crypto-js.js",
+					"js/creatUpload.js",
+					"img/image.png",
+					"img/addimg-img.jpg"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/setPhonemail.html": {
+				"resources": [
+					"js/app.js",
+					"js/service.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/update_password.html": {
+				"resources": [
+					"js/service.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"js/wxHelper.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/usersFollows_main.html": {
+				"resources": [
+					"css/mui.min.css",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"html/usersFollows_sub.html",
+					"css/font-awesome.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/usersFollows_sub.html": {
+				"resources": [
+					"js/jquery-2.1.0.js",
+					"css/mui.min.css",
+					"css/font-awesome.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js"
+				],
+				"refer": [
+					"html/userHomepage.html"
+				],
+				"priority": 0
+			},
+			"html/newsBytag_sub.html": {
+				"resources": [
+					"css/mui.min.css",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js"
+				],
+				"refer": [
+					"html/newsDetail.html"
+				],
+				"priority": 0
+			},
+			"html/ask.html": {
+				"resources": [
+					"css/question-list.css",
+					"js/mui.pullToRefresh.js",
+					"js/mui.pullToRefresh.material.js",
+					"css/mui.min.css",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"css/icons-extra.css",
+					"img/border-bg.jpg",
+					"js/wxHelper.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/jinhu.css",
+					"fonts/fontawesome-webfont.ttf",
+					"js/ask.js",
+					"fonts/mui-icons-extra.ttf",
+					"fonts/fontawesome-webfont.woff2"
+				],
+				"refer": [
+					"html/question-solved.html",
+					"html/search.html",
+					"html/question-label-list.html",
+					"html/user_login.html",
+					"html/creatQuestion.html"
+				],
+				"priority": 0
+			},
+			"html/question-solved.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"js/service.js",
+					"img/weixin-icon.png",
+					"js/mui.pullToRefresh.material.js",
+					"js/jquery-2.1.0.js",
+					"css/question.css",
+					"img/pyy-icon.png",
+					"js/mui.zoom.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/share.js",
+					"js/mui.previewimage.js",
+					"js/question-comment.js",
+					"img/weibo-icon.png",
+					"img/qq-icon.png",
+					"img/solved.png",
+					"img/notsolved.png",
+					"img/more-icon.png",
+					"img/avatar-mini.png",
+					"js/jweixin-1.2.0.js",
+					"js/openApp.js",
+					"js/wxHelper.js",
+					"fonts/mui-icons-extra.ttf",
+					"img/no-solved@2x.png",
+					"img/solved@2x.png",
+					"img/qq-icon@2x.png",
+					"img/pyy-icon@2x.png",
+					"img/weibo-icon@2x.png",
+					"img/weixin-icon@2x.png",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.ttf",
+					"fonts/mui.ttf",
+					"img/border-bg.jpg",
+					"css/font-awesome.min.css",
+					"js/attachment.js",
+					"fonts/fontawesome-webfont.woff2",
+					"img/avatar.jpg"
+				],
+				"refer": [
+					"html/question-comments.html",
+					"html/question-label-list.html",
+					"html/userHomepage.html",
+					"html/editQuestion.html"
+				],
+				"priority": 0
+			},
+			"html/question-label-list.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"js/mui.pullToRefresh.material.js",
+					"css/mui.min.css",
+					"css/question-list.css",
+					"js/wxHelper.js",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js"
+				],
+				"refer": [
+					"html/question-solved.html"
+				],
+				"priority": 0
+			},
+			"html/creatQuestion.html": {
+				"resources": [
+					"img/Emotions/default/46.gif",
+					"img/Emotions/default/84.gif",
+					"img/Emotions/default/32.gif",
+					"img/Emotions/default/61.gif",
+					"img/Emotions/default/31.gif",
+					"img/Emotions/default/78.gif",
+					"img/Emotions/default/39.gif",
+					"js/mui.poppicker.js",
+					"js/mui.previewimage.js",
+					"img/Emotions/default/71.gif",
+					"img/Emotions/default/5.gif",
+					"js/loading.js",
+					"js/jhUpload.js",
+					"js/faces.json",
+					"js/zyFile.js",
+					"img/Emotions/default/49.gif",
+					"img/Emotions/default/21.gif",
+					"img/Emotions/default/36.gif",
+					"img/Emotions/default/54.gif",
+					"img/Emotions/default/12.gif",
+					"img/Emotions/default/45.gif",
+					"img/Emotions/default/79.gif",
+					"img/Emotions/default/83.gif",
+					"img/Emotions/default/9.gif",
+					"img/Emotions/default/20.gif",
+					"img/Emotions/default/73.gif",
+					"img/Emotions/default/23.gif",
+					"img/Emotions/default/34.gif",
+					"js/mui.min.js",
+					"img/Emotions/default/65.gif",
+					"img/Emotions/default/66.gif",
+					"img/Emotions/default/94.gif",
+					"img/Emotions/default/4.gif",
+					"img/Emotions/default/11.gif",
+					"img/Emotions/default/68.gif",
+					"img/Emotions/default/55.gif",
+					"img/Emotions/default/47.gif",
+					"img/Emotions/default/60.gif",
+					"img/Emotions/default/17.gif",
+					"css/question.css",
+					"img/Emotions/default/19.gif",
+					"img/Emotions/default/14.gif",
+					"img/Emotions/default/48.gif",
+					"img/Emotions/default/16.gif",
+					"img/Emotions/default/51.gif",
+					"img/Emotions/default/64.gif",
+					"img/Emotions/default/56.gif",
+					"css/mui.min.css",
+					"img/Emotions/default/7.gif",
+					"img/Emotions/default/42.gif",
+					"img/Emotions/default/62.gif",
+					"img/Emotions/default/33.gif",
+					"img/Emotions/default/15.gif",
+					"img/Emotions/default/58.gif",
+					"img/Emotions/default/86.gif",
+					"img/Emotions/default/50.gif",
+					"img/Emotions/default/74.gif",
+					"img/Emotions/default/82.gif",
+					"img/Emotions/default/67.gif",
+					"img/Emotions/default/1.gif",
+					"img/Emotions/default/85.gif",
+					"img/Emotions/default/2.gif",
+					"js/jquery-2.1.0.js",
+					"img/loading.gif",
+					"img/Emotions/default/96.gif",
+					"img/Emotions/default/88.gif",
+					"img/Emotions/default/59.gif",
+					"img/Emotions/default/57.gif",
+					"img/Emotions/default/24.gif",
+					"js/mui.zoom.js",
+					"img/close.png",
+					"img/Emotions/default/99.gif",
+					"img/Emotions/default/92.gif",
+					"img/Emotions/default/63.gif",
+					"js/mui.picker.js",
+					"img/Emotions/default/95.gif",
+					"img/Emotions/default/81.gif",
+					"img/Emotions/default/6.gif",
+					"img/Emotions/default/18.gif",
+					"img/Emotions/default/70.gif",
+					"img/Emotions/default/75.gif",
+					"img/Emotions/default/40.gif",
+					"img/Emotions/default/90.gif",
+					"img/Emotions/default/28.gif",
+					"img/Emotions/default/10.gif",
+					"img/Emotions/default/89.gif",
+					"img/Emotions/default/3.gif",
+					"js/jweixin-1.2.0.js",
+					"js/demo.js",
+					"css/zyUpload.css",
+					"img/Emotions/default/22.gif",
+					"img/Emotions/default/30.gif",
+					"img/Emotions/default/44.gif",
+					"img/Emotions/default/77.gif",
+					"img/add_img.png",
+					"img/Emotions/default/97.gif",
+					"css/mui.poppicker.css",
+					"img/Emotions/default/76.gif",
+					"js/zyUpload.js",
+					"img/Emotions/default/69.gif",
+					"img/Emotions/default/25.gif",
+					"img/Emotions/default/98.gif",
+					"img/Emotions/default/43.gif",
+					"img/Emotions/default/41.gif",
+					"img/Emotions/default/72.gif",
+					"img/Emotions/default/29.gif",
+					"img/Emotions/default/93.gif",
+					"img/Emotions/default/26.gif",
+					"img/Emotions/default/13.gif",
+					"img/Emotions/default/35.gif",
+					"css/mui.picker.css",
+					"img/Emotions/default/80.gif",
+					"img/Emotions/default/8.gif",
+					"img/Emotions/default/91.gif",
+					"img/Emotions/default/38.gif",
+					"img/Emotions/default/52.gif",
+					"img/Emotions/default/27.gif",
+					"css/loading.css",
+					"img/Emotions/default/87.gif",
+					"img/Emotions/default/53.gif",
+					"img/Emotions/default/37.gif",
+					"js/common.js",
+					"js/app.js",
+					"js/service.js",
+					"js/wxHelper.js",
+					"js/zyUploadFile.js",
+					"img/checked.png",
+					"js/creatUpload.js",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"css/font-awesome.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/userQuestions.html": {
+				"resources": [
+					"css/mui.min.css",
+					"css/question-list.css",
+					"js/homepage.js",
+					"js/mui.pullToRefresh.js",
+					"js/service.js",
+					"js/mui.pullToRefresh.material.js",
+					"fonts/mui.ttf",
+					"img/border-bg.jpg",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"js/common.js",
+					"js/wxHelper.js",
+					"js/mui.min.js",
+					"css/font-awesome.min.css",
+					"fonts/fontawesome-webfont.woff2",
+					"fonts/mui-icons-extra.ttf"
+				],
+				"refer": [
+					"html/user_login.html",
+					"html/question-solved.html"
+				],
+				"priority": 0
+			},
+			"html/myNews.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/mui.pullToRefresh.js",
+					"js/wxHelper.js",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.pullToRefresh.material.js",
+					"js/homepage.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"img/border-bg.jpg",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"fonts/mui-icons-extra.ttf"
+				],
+				"refer": [
+					"html/creatNew.html",
+					"html/newsDetail.html"
+				],
+				"priority": 0
+			},
+			"html/myThreads.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"js/wxHelper.js",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"js/mui.pullToRefresh.material.js",
+					"css/mui.min.css",
+					"js/homepage.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"img/border-bg.jpg",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/question-comments.html": {
+				"resources": [
+					"js/wxHelper.js",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.zoom.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/mui.previewimage.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/downloadtest.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/document.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"js/mui.pullToRefresh.material.js",
+					"js/mui.lazyload.js",
+					"css/icons-extra.css",
+					"js/mui.lazyload.img.js",
+					"fonts/mui.ttf",
+					"fonts/mui-icons-extra.ttf",
+					"js/document.js",
+					"js/mui.lazyload.img.js",
+					"js/document.js",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"fonts/fontawesome-webfont.woff",
+					"fonts/mui-icons-extra.ttf",
+					"fonts/fontawesome-webfont.woff2",
+					"js/attachment.js"
+				],
+				"refer": [
+					"html/documentDetail.html",
+					"html/document-list.html",
+					"html/docImgsDetail.html",
+					"html/docVideoDetail.html"
+				],
+				"priority": 0
+			},
+			"html/qiandao.html": {
+				"resources": [
+					"js/mui.picker.js",
+					"css/zyUpload.css",
+					"js/zyFile.js",
+					"js/service.js",
+					"fonts/mui.ttf",
+					"css/jinhu.css",
+					"js/jquery-2.1.0.js",
+					"js/crypto-js.js",
+					"css/icons-extra.css",
+					"js/zyUploadFile.js",
+					"js/wxHelper.js",
+					"js/common.js",
+					"js/mui.zoom.js",
+					"js/mui.min.js",
+					"js/mui.poppicker.js",
+					"css/mui.min.css",
+					"css/font-awesome.min.css",
+					"js/mui.previewimage.js",
+					"fonts/fontawesome-webfont.woff",
+					"js/zyUpload.js",
+					"js/jhUpload.js",
+					"js/loading.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/userdocument.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"js/service.js",
+					"js/mui.pullToRefresh.material.js",
+					"fonts/mui.ttf",
+					"img/border-bg.jpg",
+					"css/question-list.css",
+					"css/jinhu.css",
+					"js/crypto-js.js",
+					"css/icons-extra.css",
+					"js/common.js",
+					"js/wxHelper.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/font-awesome.min.css",
+					"fonts/fontawesome-webfont.woff",
+					"fonts/fontawesome-webfont.ttf",
+					"js/attachment.js",
+					"fonts/fontawesome-webfont.woff2"
+				],
+				"refer": [
+					"html/documentDetail.html",
+					"html/user_login.html",
+					"html/creatDoc.html",
+					"html/docImgsDetail.html"
+				],
+				"priority": 0
+			},
+			"html/documentDetail.html": {
+				"resources": [
+					"img/pyy-icon.png",
+					"fonts/mui-icons-extra.ttf",
+					"js/mui.zoom.js",
+					"img/avatar-mini.png",
+					"img/weixin-icon.png",
+					"js/mui.previewimage.js",
+					"img/weibo-icon.png",
+					"img/qq-icon.png",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"fonts/fontawesome-webfont.woff",
+					"css/icons-extra.css",
+					"js/comment.js",
+					"img/qq-icon@2x.png",
+					"img/pyy-icon@2x.png",
+					"img/weibo-icon@2x.png",
+					"img/weixin-icon@2x.png",
+					"js/share.js",
+					"img/Emotions/default/2.gif",
+					"js/jquery.raty.min.js",
+					"img/star-on-big.png",
+					"img/star-off-big.png",
+					"img/Emotions/default/4.gif",
+					"img/Emotions/default/17.gif",
+					"img/pf-off.png",
+					"img/pf-on.png",
+					"js/service.js",
+					"js/openApp.js",
+					"js/jquery-2.1.0.js",
+					"fonts/fontawesome-webfont.ttf",
+					"js/common.js",
+					"js/wxHelper.js",
+					"js/document.js",
+					"js/jweixin-1.2.0.js",
+					"fonts/fontawesome-webfont.woff2",
+					"img/avatar.jpg",
+					"js/attachment.js"
+				],
+				"refer": [
+					"html/document-label-list.html",
+					"html/commentsDetail_main.html",
+					"html/user_login.html",
+					"html/editDoc.html"
+				],
+				"priority": 0
+			},
+			"html/document-label-list.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"js/wxHelper.js",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.pullToRefresh.material.js",
+					"css/question-list.css",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"fonts/fontawesome-webfont.woff",
+					"css/icons-extra.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/document-list.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"js/service.js",
+					"js/mui.pullToRefresh.material.js",
+					"fonts/mui.ttf",
+					"img/border-bg.jpg",
+					"css/jinhu.css",
+					"js/mui.lazyload.js",
+					"css/icons-extra.css",
+					"js/mui.lazyload.img.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/font-awesome.min.css",
+					"fonts/fontawesome-webfont.woff",
+					"js/attachment.js",
+					"fonts/fontawesome-webfont.woff2"
+				],
+				"refer": [
+					"html/documentDetail.html",
+					"html/document-list.html",
+					"html/docVideoDetail.html"
+				],
+				"priority": 0
+			},
+			"html/vote.html": {
+				"resources": [
+					"img/slider-1.jpg",
+					"js/vote.js",
+					"img/border-bg.jpg",
+					"fonts/mui-icons-extra.ttf",
+					"img/over-sign.png",
+					"js/mui.pullToRefresh.js",
+					"js/mui.pullToRefresh.material.js",
+					"fonts/fontawesome-webfont.woff2",
+					"css/mui.min.css",
+					"js/service.js",
+					"fonts/mui.ttf",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"js/common.js",
+					"js/wxHelper.js",
+					"js/mui.min.js",
+					"css/font-awesome.min.css",
+					"img/img-vote.jpg"
+				],
+				"refer": [
+					"html/textVote.html"
+				],
+				"priority": 0
+			},
+			"html/event.html": {
+				"resources": [
+					"img/slider-1.jpg",
+					"img/border-bg.jpg",
+					"img/over-sign.png",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"fonts/mui-icons-extra.ttf",
+					"js/mui.pullToRefresh.js",
+					"js/mui.pullToRefresh.material.js",
+					"css/font-awesome.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"fonts/fontawesome-webfont.woff2"
+				],
+				"refer": [
+					"html/eventDetail.html",
+					"html/creatEvent.html"
+				],
+				"priority": 0
+			},
+			"html/eventDetail.html": {
+				"resources": [
+					"js/comment.js",
+					"js/mui.zoom.js",
+					"img/avatar-mini.png",
+					"img/qq-icon@2x.png",
+					"img/weixin-icon@2x.png",
+					"img/map-img.jpg",
+					"js/share.js",
+					"css/mui.min.css",
+					"js/mui.previewimage.js",
+					"img/pyy-icon@2x.png",
+					"img/weibo-icon@2x.png",
+					"js/jweixin-1.2.0.js",
+					"js/wxHelper.js",
+					"js/common.js",
+					"js/service.js",
+					"js/openApp.js",
+					"js/mui.min.js",
+					"js/cms.js",
+					"js/jquery-2.1.0.js",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"fonts/mui-icons-extra.ttf",
+					"fonts/mui.ttf",
+					"img/border-bg.jpg",
+					"img/slider-1.jpg",
+					"css/font-awesome.min.css",
+					"img/avatar.jpg",
+					"js/coordtransform.js",
+					"img/map-img.png",
+					"js/attachment.js",
+					"img/Emotions/default/28.gif",
+					"img/Emotions/default/13.gif"
+				],
+				"refer": [
+					"html/userHomepage.html",
+					"html/commentsDetail_main.html",
+					"html/eventSignUp.html",
+					"html/ManageEventMembers.html",
+					"html/eventMap.html",
+					"html/eventAddressMap.html",
+					"html/user_login.html",
+					"html/creatEvent.html"
+				],
+				"priority": 0
+			},
+			"html/eventSignUp.html": {
+				"resources": [
+					"js/wxHelper.js",
+					"js/service.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/jquery-2.1.0.js",
+					"js/jweixin-1.2.0.js",
+					"js/loading.js",
+					"css/font-awesome.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/mui.ttf",
+					"fonts/fontawesome-webfont.woff2",
+					"fonts/mui-icons-extra.ttf"
+				],
+				"refer": [
+					"html/user_login.html"
+				],
+				"priority": 0
+			},
+			"html/ManageEventMembers.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"js/mui.pullToRefresh.material.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"img/border-bg.jpg",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/mapTest.html": {
+				"resources": [
+					"js/service.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"js/coordtransform.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/eventMap.html": {
+				"resources": [
+					"js/service.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/coordtransform.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/eventAddressMap.html": {
+				"resources": [
+					"js/service.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/coordtransform.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"img/currlocation.png",
+					"img/定位.png",
+					"img/dw1.png",
+					"img/dw.png",
+					"img/dh.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/creatEvent.html": {
+				"resources": [
+					"img/slider-1.jpg",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"js/jquery-2.1.0.js",
+					"js/service.js",
+					"img/loading.gif",
+					"js/wxHelper.js",
+					"js/mui.zoom.js",
+					"js/common.js",
+					"css/loading.css",
+					"js/mui.previewimage.js",
+					"js/jweixin-1.2.0.js",
+					"js/loading.js",
+					"js/jhUpload.js",
+					"js/mui.picker.js",
+					"js/mui.picker.min.js",
+					"js/mui.poppicker.js",
+					"js/city.data.js",
+					"css/mui.picker.min.css",
+					"html/selectPos.html",
+					"img/currlocation.png",
+					"js/coordtransform.js",
+					"css/zyUpload.css",
+					"js/zyFile.js",
+					"js/zyUploadFile.js",
+					"img/add_img.png",
+					"js/zyUpload.js",
+					"img/close.png",
+					"img/addimg-img.jpg",
+					"js/creatUpload.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/alert.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/selectPos.html": {
+				"resources": [
+					"css/mui.min.css",
+					"js/mui.min.js",
+					"img/currlocation.png",
+					"js/coordtransform.js",
+					"js/common.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/apply.html": {
+				"resources": [
+					"fonts/mui-icons-extra.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"fonts/fontawesome-webfont.woff"
+				],
+				"refer": [
+					"html/event.html",
+					"html/document.html",
+					"html/vote.html",
+					"html/ask.html"
+				],
+				"priority": 0
+			},
+			"html/otherEvent.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"js/mui.pullToRefresh.material.js",
+					"css/mui.min.css",
+					"js/crypto-js.js",
+					"js/wxHelper.js",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/docImgsDetail.html": {
+				"resources": [
+					"js/comment.js",
+					"js/service.js",
+					"img/qq-icon@2x.png",
+					"js/openApp.js",
+					"css/bvd.css",
+					"fonts/mui.ttf",
+					"js/jquery-2.1.0.js",
+					"css/jinhu.css",
+					"img/pyy-icon@2x.png",
+					"img/weibo-icon@2x.png",
+					"js/jquery.raty.min.js",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"img/pf-off.png",
+					"fonts/mui-icons-extra.ttf",
+					"js/wxHelper.js",
+					"js/mui.zoom.js",
+					"js/common.js",
+					"img/weixin-icon@2x.png",
+					"js/mui.min.js",
+					"js/bvd.js",
+					"css/mui.min.css",
+					"css/font-awesome.min.css",
+					"js/share.js",
+					"js/mui.previewimage.js",
+					"js/document.js",
+					"js/jweixin-1.2.0.js",
+					"img/pf-on.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/docVideoDetail.html": {
+				"resources": [
+					"js/comment.js",
+					"js/service.js",
+					"img/qq-icon@2x.png",
+					"js/openApp.js",
+					"css/bvd.css",
+					"fonts/mui.ttf",
+					"js/jquery-2.1.0.js",
+					"css/jinhu.css",
+					"img/pyy-icon@2x.png",
+					"img/weibo-icon@2x.png",
+					"js/jquery.raty.min.js",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"img/pf-off.png",
+					"fonts/mui-icons-extra.ttf",
+					"js/wxHelper.js",
+					"js/mui.zoom.js",
+					"js/common.js",
+					"img/weixin-icon@2x.png",
+					"js/mui.min.js",
+					"js/bvd.js",
+					"css/mui.min.css",
+					"css/font-awesome.min.css",
+					"js/share.js",
+					"js/mui.previewimage.js",
+					"js/document.js",
+					"js/jweixin-1.2.0.js",
+					"fonts/fontawesome-webfont.ttf",
+					"img/qq-icon.png",
+					"img/weixin-icon.png",
+					"img/pyy-icon.png",
+					"img/weibo-icon.png",
+					"img/pf-on.png"
+				],
+				"refer": [
+					"html/user_login.html"
+				],
+				"priority": 0
+			},
+			"html/threadDetail.html": {
+				"resources": [
+					"js/comment.js",
+					"js/service.js",
+					"img/qq-icon@2x.png",
+					"js/openApp.js",
+					"fonts/mui.ttf",
+					"css/jinhu.css",
+					"img/pyy-icon@2x.png",
+					"img/weibo-icon@2x.png",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"img/Emotions/default/14.gif",
+					"fonts/mui-icons-extra.ttf",
+					"js/mui.zoom.js",
+					"js/common.js",
+					"js/wxHelper.js",
+					"img/weixin-icon@2x.png",
+					"js/mui.min.js",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"js/share.js",
+					"js/mui.previewimage.js",
+					"js/jweixin-1.2.0.js",
+					"js/post.js",
+					"img/avatar.jpg",
+					"js/attachment.js",
+					"js/jquery-2.1.0.js",
+					"js/progressBar.js",
+					"img/122@2x.png",
+					"img/122@3x.png"
+				],
+				"refer": [
+					"html/editThread.html",
+					"html/user_login.html"
+				],
+				"priority": 0
+			},
+			"html/eventThreadDetail.html": {
+				"resources": [
+					"js/comment.js",
+					"img/qq-icon@2x.png",
+					"css/jinhu.css",
+					"js/jquery-2.1.0.js",
+					"img/weibo-icon@2x.png",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"fonts/mui-icons-extra.ttf",
+					"js/common.js",
+					"js/mui.zoom.js",
+					"js/mui.min.js",
+					"js/cms.js",
+					"js/share.js",
+					"js/mui.previewimage.js",
+					"img/map-img.png",
+					"js/service.js",
+					"js/openApp.js",
+					"fonts/mui.ttf",
+					"img/border-bg.jpg",
+					"img/pyy-icon@2x.png",
+					"js/wxHelper.js",
+					"img/slider-1.jpg",
+					"img/weixin-icon@2x.png",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"js/jweixin-1.2.0.js",
+					"img/avatar.jpg",
+					"img/122@3x.png"
+				],
+				"refer": [
+					"html/eventAddressMap.html",
+					"html/userHomepage.html",
+					"html/creatEvent.html"
+				],
+				"priority": 0
+			},
+			"html/pointTask.html": {
+				"resources": [
+					"js/homepage.js",
+					"js/mui.pullToRefresh.js",
+					"js/mui.min.js",
+					"js/mui.pullToRefresh.material.js",
+					"css/mui.min.css",
+					"img/border-bg.jpg",
+					"js/common.js",
+					"js/service.js",
+					"fonts/mui.ttf",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"js/wxHelper.js",
+					"css/font-awesome.min.css",
+					"js/comment.js",
+					"img/qq-icon@2x.png",
+					"img/pyy-icon@2x.png",
+					"img/weibo-icon@2x.png",
+					"img/weixin-icon@2x.png",
+					"js/share.js",
+					"css/layer.css",
+					"js/layer.js",
+					"img/task-add.jpg",
+					"img/task-wsgrzl.jpg",
+					"img/task-rgsh.png",
+					"img/task-zwfx.png",
+					"img/task-qdkr.jpg",
+					"img/task-app.jpg",
+					"js/mui.js",
+					"img/weixin-icon.png",
+					"js/clipboard.min.js",
+					"img/qq-icon.png",
+					"js/jquery-2.1.0.js",
+					"js/progressBar.js"
+				],
+				"refer": [
+					"html/signIn.html",
+					"html/userFollows_main.html",
+					"html/personalData.html"
+				],
+				"priority": 0
+			},
+			"html/signIn.html": {
+				"resources": [
+					"js/mui.picker.js",
+					"css/zyUpload.css",
+					"js/zyFile.js",
+					"js/service.js",
+					"js/jquery-2.1.0.js",
+					"js/crypto-js.js",
+					"js/signIn.js",
+					"js/zyUploadFile.js",
+					"js/wxHelper.js",
+					"js/mui.zoom.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"js/mui.poppicker.js",
+					"css/mui.min.css",
+					"js/mui.previewimage.js",
+					"js/zyUpload.js",
+					"js/jhUpload.js",
+					"js/loading.js",
+					"fonts/mui.ttf",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"css/font-awesome.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/myPoint.html": {
+				"resources": [
+					"js/service.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/jquery-2.1.0.js",
+					"img/star3.png",
+					"img/minebanner.png",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"js/mui.pullToRefresh.js",
+					"js/mui.picker.js",
+					"js/openApp.js",
+					"js/mui.pullToRefresh.material.js",
+					"js/mui.lazyload.js",
+					"js/mui.lazyload.img.js",
+					"js/wxHelper.js",
+					"js/mui.zoom.js",
+					"js/mui.poppicker.js",
+					"js/share.js",
+					"js/mui.previewimage.js"
+				],
+				"refer": [
+					"html/myRank.html",
+					"html/pointRule.html",
+					"html/pointTask.html"
+				],
+				"priority": 0
+			},
+			"html/myRank.html": {
+				"resources": [
+					"img/star1.png",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"img/star2.png",
+					"img/star3.png",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/pointRule.html": {
+				"resources": [
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/userPoint.html": {
+				"resources": [
+					"js/service.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/jquery-2.1.0.js",
+					"img/jifen-icon.jpg",
+					"img/jifen-bg.jpg",
+					"img/star3.png",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"fonts/mui-icons-extra.ttf",
+					"img/star1.png"
+				],
+				"refer": [
+					"html/pointTask.html",
+					"html/pointRule.html",
+					"html/PointMall.html",
+					"html/myRank.html"
+				],
+				"priority": 0
+			},
+			"html/PointMall.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"js/wxHelper.js",
+					"js/mui.pullToRefresh.material.js",
+					"js/mui.lazyload.js",
+					"js/mui.lazyload.img.js",
+					"js/service.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"js/jquery-2.1.0.js",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2"
+				],
+				"refer": [
+					"html/pointDetail.html",
+					"html/myPoint.html"
+				],
+				"priority": 0
+			},
+			"html/pointDetail.html": {
+				"resources": [
+					"js/mui.picker.js",
+					"img/qq-icon@2x.png",
+					"js/openApp.js",
+					"img/border-bg.jpg",
+					"img/pyy-icon@2x.png",
+					"img/weibo-icon@2x.png",
+					"css/mui.picker.css",
+					"js/mui.zoom.js",
+					"img/weixin-icon@2x.png",
+					"js/mui.poppicker.js",
+					"css/mui.min.css",
+					"js/share.js",
+					"js/mui.previewimage.js",
+					"css/mui.poppicker.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"js/mui.lazyload.img.js",
+					"fonts/mui-icons-extra.ttf",
+					"js/common.js",
+					"js/mui.min.js",
+					"js/mui.pullToRefresh.js",
+					"js/service.js",
+					"js/mui.pullToRefresh.material.js",
+					"fonts/mui.ttf",
+					"js/mui.lazyload.js",
+					"js/wxHelper.js",
+					"css/font-awesome.min.css",
+					"js/comment.js",
+					"js/jweixin-1.2.0.js",
+					"img/Emotions/default/3.gif"
+				],
+				"refer": [
+					"html/commentsDetail_main.html"
+				],
+				"priority": 0
+			},
+			"html/medalShop.html": {
+				"resources": [
+					"js/wxHelper.js",
+					"js/service.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"img/medal-sign.png",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"js/jquery-2.1.0.js",
+					"css/jinhu.css",
+					"css/icons-extra.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/myEvent.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"js/service.js",
+					"js/mui.pullToRefresh.material.js",
+					"fonts/mui.ttf",
+					"img/border-bg.jpg",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"js/homepage.js",
+					"js/common.js",
+					"js/wxHelper.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/font-awesome.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/editThread.html": {
+				"resources": [
+					"img/Emotions/default/46.gif",
+					"js/zyUploadFile.js",
+					"img/Emotions/default/84.gif",
+					"img/Emotions/default/32.gif",
+					"img/Emotions/default/61.gif",
+					"img/Emotions/default/31.gif",
+					"img/Emotions/default/78.gif",
+					"img/Emotions/default/39.gif",
+					"js/mui.poppicker.js",
+					"img/Emotions/default/71.gif",
+					"img/Emotions/default/5.gif",
+					"js/loading.js",
+					"js/jhUpload.js",
+					"js/faces.json",
+					"js/zyFile.js",
+					"img/Emotions/default/49.gif",
+					"img/Emotions/default/21.gif",
+					"img/Emotions/default/36.gif",
+					"img/Emotions/default/54.gif",
+					"img/Emotions/default/12.gif",
+					"img/Emotions/default/45.gif",
+					"img/Emotions/default/79.gif",
+					"img/Emotions/default/83.gif",
+					"img/Emotions/default/9.gif",
+					"img/Emotions/default/20.gif",
+					"img/Emotions/default/73.gif",
+					"img/Emotions/default/23.gif",
+					"css/jinhu.css",
+					"img/Emotions/default/34.gif",
+					"img/Emotions/default/65.gif",
+					"img/Emotions/default/66.gif",
+					"img/Emotions/default/94.gif",
+					"img/Emotions/default/4.gif",
+					"img/Emotions/default/11.gif",
+					"img/Emotions/default/68.gif",
+					"img/Emotions/default/55.gif",
+					"img/Emotions/default/47.gif",
+					"img/Emotions/default/60.gif",
+					"img/Emotions/default/17.gif",
+					"img/Emotions/default/19.gif",
+					"img/Emotions/default/14.gif",
+					"img/Emotions/default/48.gif",
+					"img/Emotions/default/16.gif",
+					"img/Emotions/default/51.gif",
+					"img/Emotions/default/64.gif",
+					"img/Emotions/default/56.gif",
+					"css/mui.min.css",
+					"img/Emotions/default/7.gif",
+					"img/Emotions/default/42.gif",
+					"img/Emotions/default/62.gif",
+					"img/Emotions/default/33.gif",
+					"img/Emotions/default/15.gif",
+					"img/Emotions/default/58.gif",
+					"img/Emotions/default/86.gif",
+					"img/Emotions/default/50.gif",
+					"img/Emotions/default/74.gif",
+					"img/Emotions/default/82.gif",
+					"img/Emotions/default/67.gif",
+					"img/Emotions/default/1.gif",
+					"img/Emotions/default/85.gif",
+					"img/Emotions/default/2.gif",
+					"js/jquery-2.1.0.js",
+					"img/loading.gif",
+					"img/Emotions/default/96.gif",
+					"img/Emotions/default/88.gif",
+					"img/Emotions/default/59.gif",
+					"img/Emotions/default/57.gif",
+					"img/Emotions/default/24.gif",
+					"img/close.png",
+					"img/Emotions/default/99.gif",
+					"img/Emotions/default/92.gif",
+					"img/Emotions/default/63.gif",
+					"js/mui.picker.js",
+					"img/Emotions/default/95.gif",
+					"img/Emotions/default/81.gif",
+					"img/Emotions/default/6.gif",
+					"img/Emotions/default/18.gif",
+					"img/Emotions/default/70.gif",
+					"img/Emotions/default/75.gif",
+					"img/Emotions/default/40.gif",
+					"img/Emotions/default/90.gif",
+					"img/Emotions/default/28.gif",
+					"img/Emotions/default/10.gif",
+					"img/Emotions/default/89.gif",
+					"img/Emotions/default/3.gif",
+					"css/zyUpload.css",
+					"js/edit.js",
+					"img/Emotions/default/22.gif",
+					"img/Emotions/default/30.gif",
+					"img/Emotions/default/44.gif",
+					"img/Emotions/default/77.gif",
+					"css/icons-extra.css",
+					"img/add_img.png",
+					"img/Emotions/default/97.gif",
+					"css/mui.poppicker.css",
+					"js/zyUpload.js",
+					"img/Emotions/default/69.gif",
+					"img/Emotions/default/76.gif",
+					"img/Emotions/default/25.gif",
+					"img/Emotions/default/98.gif",
+					"img/Emotions/default/43.gif",
+					"img/Emotions/default/41.gif",
+					"img/Emotions/default/72.gif",
+					"img/Emotions/default/29.gif",
+					"img/Emotions/default/93.gif",
+					"img/Emotions/default/26.gif",
+					"img/Emotions/default/13.gif",
+					"img/Emotions/default/35.gif",
+					"css/mui.picker.css",
+					"img/Emotions/default/80.gif",
+					"img/Emotions/default/8.gif",
+					"img/Emotions/default/91.gif",
+					"img/Emotions/default/38.gif",
+					"img/Emotions/default/52.gif",
+					"img/Emotions/default/27.gif",
+					"css/loading.css",
+					"css/font-awesome.min.css",
+					"img/Emotions/default/87.gif",
+					"img/Emotions/default/53.gif",
+					"img/Emotions/default/37.gif",
+					"js/creatUpload.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/creatVoteThread.html": {
+				"resources": [
+					"css/zyUpload.css",
+					"js/mui.picker.min.js",
+					"js/jquery-2.1.0.js",
+					"css/jinhu.css",
+					"img/loading.gif",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"js/zyUploadFile.js",
+					"img/add_img.png",
+					"js/mui.zoom.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"img/close.png",
+					"js/mui.poppicker.js",
+					"js/mui.previewimage.js",
+					"css/mui.poppicker.css",
+					"css/mui.picker.min.css",
+					"js/zyUpload.js",
+					"js/jhUpload.js",
+					"js/loading.js",
+					"js/zyFile.js",
+					"js/mui.picker.js",
+					"js/service.js",
+					"fonts/mui.ttf",
+					"css/mui.picker.css",
+					"js/creatUpload.js",
+					"js/mui.picker.all.js",
+					"js/wxHelper.js",
+					"css/loading.css",
+					"css/mui.picker.all.css",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"js/jweixin-1.2.0.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/textVote.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"js/service.js",
+					"img/qq-icon@2x.png",
+					"js/openApp.js",
+					"js/mui.pullToRefresh.material.js",
+					"js/attachment.js",
+					"img/pyy-icon@2x.png",
+					"img/weibo-icon@2x.png",
+					"js/comment.js",
+					"js/mui.zoom.js",
+					"js/common.js",
+					"js/wxHelper.js",
+					"img/weixin-icon@2x.png",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/share.js",
+					"js/mui.previewimage.js",
+					"fonts/mui.ttf",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"fonts/mui-icons-extra.ttf",
+					"css/font-awesome.min.css",
+					"img/avatar.jpg",
+					"img/Emotions/default/2.gif",
+					"js/jquery-2.1.0.js",
+					"js/progressBar.js",
+					"img/Emotions/default/32.gif",
+					"js/jweixin-1.2.0.js",
+					"img/Emotions/default/37.gif",
+					"img/Emotions/default/6.gif"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/imageVote.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"js/service.js",
+					"img/qq-icon@2x.png",
+					"js/openApp.js",
+					"js/mui.pullToRefresh.material.js",
+					"fonts/mui.ttf",
+					"js/attachment.js",
+					"css/jinhu.css",
+					"img/pyy-icon@2x.png",
+					"img/weibo-icon@2x.png",
+					"js/comment.js",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"fonts/mui-icons-extra.ttf",
+					"js/wxHelper.js",
+					"js/common.js",
+					"js/mui.zoom.js",
+					"img/weixin-icon@2x.png",
+					"img/slider-1.jpg",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/font-awesome.min.css",
+					"js/share.js",
+					"js/mui.previewimage.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/creatDoc.html": {
+				"resources": [
+					"js/mui.picker.js",
+					"css/zyUpload.css",
+					"js/zyFile.js",
+					"js/service.js",
+					"js/attachment.js",
+					"js/jquery-2.1.0.js",
+					"img/loading.gif",
+					"css/mui.picker.css",
+					"js/zyUploadFile.js",
+					"img/checked.png",
+					"js/wxHelper.js",
+					"js/mui.zoom.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"js/mui.poppicker.js",
+					"css/loading.css",
+					"js/mui.previewimage.js",
+					"js/jweixin-1.2.0.js",
+					"css/mui.poppicker.css",
+					"js/zyUpload.js",
+					"js/jhUpload.js",
+					"js/loading.js",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"fonts/fontawesome-webfont.woff"
+				],
+				"refer": [
+					"html/selectFile_main.html"
+				],
+				"priority": 0
+			},
+			"html/selectFile_main.html": {
+				"resources": [
+					"css/circles.css",
+					"js/njs-io.js",
+					"img/wjj.png",
+					"img/file.png",
+					"js/common.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css"
+				],
+				"refer": [
+					"html/selectFile_sub.html"
+				],
+				"priority": 0
+			},
+			"html/selectFile_sub.html": {
+				"resources": [
+					"js/common.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/njs-io.js",
+					"img/wjj.png",
+					"img/file.png"
+				],
+				"refer": [
+					"html/creatDoc.html"
+				],
+				"priority": 0
+			},
+			"html/pointMall.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"img/checked.png",
+					"js/wxHelper.js",
+					"js/service.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"js/mui.pullToRefresh.material.js",
+					"css/mui.min.css",
+					"js/jquery-2.1.0.js",
+					"js/mui.lazyload.js",
+					"js/mui.lazyload.img.js",
+					"fonts/mui.ttf",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"fonts/fontawesome-webfont.woff2",
+					"css/font-awesome.min.css"
+				],
+				"refer": [
+					"html/pointDetail.html"
+				],
+				"priority": 0
+			},
+			"html/otherDocuments.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"js/service.js",
+					"js/mui.pullToRefresh.material.js",
+					"fonts/mui.ttf",
+					"css/question-list.css",
+					"css/jinhu.css",
+					"js/crypto-js.js",
+					"js/attachment.js",
+					"css/icons-extra.css",
+					"js/wxHelper.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/font-awesome.min.css",
+					"fonts/fontawesome-webfont.woff2"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/otherComments.html": {
+				"resources": [
+					"js/mui.pullToRefresh.js",
+					"js/wxHelper.js",
+					"js/common.js",
+					"js/service.js",
+					"js/mui.min.js",
+					"js/mui.pullToRefresh.material.js",
+					"fonts/mui.ttf",
+					"css/font-awesome.min.css",
+					"css/mui.min.css",
+					"css/jinhu.css",
+					"css/icons-extra.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/editQuestion.html": {
+				"resources": [
+					"css/zyUpload.css",
+					"js/zyFile.js",
+					"js/mui.picker.js",
+					"js/jquery-2.1.0.js",
+					"img/loading.gif",
+					"css/question.css",
+					"css/mui.picker.css",
+					"js/creatUpload.js",
+					"js/zyUploadFile.js",
+					"img/add_img.png",
+					"img/checked.png",
+					"js/mui.min.js",
+					"img/close.png",
+					"js/mui.poppicker.js",
+					"css/loading.css",
+					"css/mui.min.css",
+					"css/mui.poppicker.css",
+					"js/zyUpload.js",
+					"js/jhUpload.js",
+					"js/loading.js",
+					"css/jinhu.css",
+					"css/icons-extra.css",
+					"css/font-awesome.min.css",
+					"fonts/fontawesome-webfont.woff2",
+					"js/mui.zoom.js",
+					"js/common.js",
+					"js/mui.previewimage.js",
+					"js/service.js",
+					"fonts/mui.ttf",
+					"js/wxHelper.js",
+					"js/jweixin-1.2.0.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/editDoc.html": {
+				"resources": [
+					"js/mui.picker.js",
+					"css/zyUpload.css",
+					"js/zyFile.js",
+					"css/jinhu.css",
+					"img/loading.gif",
+					"css/mui.picker.css",
+					"css/icons-extra.css",
+					"js/zyUploadFile.js",
+					"img/checked.png",
+					"js/mui.poppicker.js",
+					"css/loading.css",
+					"img/close.png",
+					"css/mui.min.css",
+					"css/font-awesome.min.css",
+					"css/mui.poppicker.css",
+					"js/zyUpload.js",
+					"js/jhUpload.js",
+					"js/loading.js",
+					"js/attachment.js",
+					"js/jquery-2.1.0.js",
+					"fonts/fontawesome-webfont.woff2",
+					"js/mui.zoom.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"js/mui.previewimage.js",
+					"js/service.js",
+					"fonts/mui.ttf",
+					"js/wxHelper.js",
+					"js/jweixin-1.2.0.js"
+				],
+				"refer": [
+					"html/selectFile_main.html"
+				],
+				"priority": 0
+			},
+			"html/editNew.html": {
+				"resources": [
+					"js/mui.picker.js",
+					"css/zyUpload.css",
+					"js/zyFile.js",
+					"css/jinhu.css",
+					"img/loading.gif",
+					"css/mui.picker.css",
+					"css/icons-extra.css",
+					"js/creatUpload.js",
+					"js/zyUploadFile.js",
+					"img/add_img.png",
+					"img/image.png",
+					"js/mui.poppicker.js",
+					"css/loading.css",
+					"img/close.png",
+					"css/mui.min.css",
+					"css/font-awesome.min.css",
+					"css/mui.poppicker.css",
+					"js/zyUpload.js",
+					"js/jhUpload.js",
+					"js/loading.js",
+					"js/jquery-2.1.0.js",
+					"fonts/fontawesome-webfont.woff2",
+					"js/mui.zoom.js",
+					"js/common.js",
+					"js/mui.min.js",
+					"js/mui.previewimage.js",
+					"js/service.js",
+					"fonts/mui.ttf",
+					"js/wxHelper.js",
+					"js/jweixin-1.2.0.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"html/otherQuestions.html": {
+				"resources": [
+					"css/mui.min.css",
+					"img/border-bg.jpg",
+					"css/question-list.css"
+				],
+				"refer": [],
+				"priority": 0
+			}
+		},
+		"idle": {
+			"resources": [
+				"js/mui.imageViewer.js",
+				"css/feedback.css",
+				"css/jinhu.css.map",
+				"img/welcome.png",
+				"js/mui.dtpicker.js",
+				"js/ad.js",
+				"fonts/FontAwesome.otf",
+				"html/myComment.html",
+				"scss/jinhu.scss",
+				"js/mui.listpicker.js",
+				"html/tiebaDetail-search.html",
+				"css/mui.imageviewer.css",
+				"js/mui.indexedlist.js",
+				"js/beecloud.js",
+				"css/mui.listpicker.css",
+				"css/mui.css",
+				"css/mui.indexedlist.css",
+				"img/favicon.ico",
+				"js/city.data-3.js",
+				"js/95516.js",
+				"css/mui.dtpicker.css",
+				"js/update.js",
+				"js/mui.locker.js",
+				"js/arttmpl.js"
+			]
+		}
+	},
+	"unpackage": []
+}

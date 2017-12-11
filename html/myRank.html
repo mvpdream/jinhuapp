@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css">
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css">
+		<link rel="stylesheet" href="../css/jinhu.css">
+	</head>
+	<style>
+		table {
+			margin-top: 10px;
+		}
+		th {
+			padding: 8px;
+			font-weight: normal;
+			color: #999;
+			border: 1px solid #e4e4e4;
+		}
+		
+		td {
+			display: table-cell !important;
+			vertical-align: inherit !important;
+			padding: 8px !important;
+			text-align: center;
+			border: 1px solid #e4e4e4;
+		}
+
+	</style>
+
+	<body style="background-color: #efeff4">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-btn mui-btn-blue mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span>晋级规则</a>
+		</header>
+		<div class="mui-content mui-content-padded" style="background-color: #efeff4">
+			<table id="table" border="1" cellpadding="10" style="width: 100%;border:1px solid #e4e4e4;background-color: #FFFFFF;">
+				<tr style="border:1px solid #E2C822">
+					<th>等级</th>
+					<th><span id="tradeCategoryName"></span></th>
+					<th>所需<span id="experienceCategoryName"></span></th>
+				</tr>
+			</table>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+		<script>		
+			var creatRuleElement = function(data,userRank) {
+				var fragment = document.getElementById('table');
+				var cfragment = fragment.firstElementChild;
+				for(var i = 0; i < data.length; i++) {
+					var tr;
+					tr = document.createElement('tr');
+					tr.innerHTML = '<td>'+data[i].Rank+'</td><td>'+data[i].RankImg+'</td><td>'+data[i].PointLower+'</td>';
+					fragment.appendChild(tr);
+					if(data[i].Rank==userRank){
+						tr.style.cssText="background-color:#FFF9D7;border:1px solid #E2C822"
+					}
+				}
+			};
+			getRankRules();
+			function getRankRules() {
+				showLoading('', '', '#FFFFFF', '50px');
+				getDatawithToken('User/GetRankRules', {}, function(data) {
+					hideLoading();
+					hideErr();
+					if(data.Type == 1) {
+						if(data.Data && typeof(data.Data) == 'object') {
+							var data = data.Data;
+							tradeCategoryName.innerHTML=data.TradeCategoryName;
+							experienceCategoryName.innerHTML=data.ExperienceCategoryName;
+							creatRuleElement(data.RankRules,data.UserRank)
+						} else {
+							showErr(data.Data, '', '#FFFFFF', '50px')
+							mui.toast(data.Data);
+						}
+					} else {
+						//逻辑错误
+						showErr(data.Data, '', '#FFFFFF', '50px')
+						mui.toast(data.Data);
+						return;
+					}
+				}, function(err) {
+					setErr()
+				})
+			}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,295 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/jinhu.css" />
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+	</head>
+	<script>
+		function defaultAvator(A){
+			A.src='../img/avatar.jpg'
+		}
+	</script>
+	<style>
+		.mui-bar-nav~.mui-content .mui-pull-top-pocket {
+			top: 85px !important;
+		}
+		.mui-pull-bottom-tips {
+			text-align: center;
+			background-color: #efeff4;
+			font-size: 15px;
+			line-height: 40px;
+			color: #777;
+		}
+		.mui-scroll{
+			min-height: 100%;
+		}
+	</style>
+
+	<body style="background-color: #fff;">
+		<!--下拉刷新容器-->
+		<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<ul class="mui-table-view" id="recommendpostList">
+					<!--<div class="mui-pull-bottom-tips">
+						<div class="mui-pull-bottom-wrapper">
+							<span class="mui-pull-loading">暂时没有精华贴子</span>
+						</div>
+					</div>-->
+				</ul>
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/mui.lazyload.js"></script>
+		<script src="../js/mui.lazyload.img.js"></script>
+		<script src="../js/wxHelper.js"></script>
+	</body>
+	<script type="text/javascript">
+		(function($) {
+			$(document).imageLazyload({
+				placeholder: '../images/5-121204193R5-50.gif'
+			});
+		})(mui);
+
+		window.onload = function() {
+			if(mui.os.wechat) {
+				var currUrl = location.href.split('#')[0];
+				weChatLogin(currUrl)
+			}
+		}
+		var _this = this;
+		var creatimgFragment = function(data) {
+			var bigContainers = "";
+			for(var i = 0; i < data.length; i++) {
+				var itemContainer = "";
+				itemContainer += ("<div class='mui-col-xs-4'><img style='width:100px;height:100px' src='" + getImgUrl(data[i].Url) + "' title='" + data[i].FileName + "' alt='" + data[i].FileName + "' /></div>");
+				bigContainers += itemContainer;
+			}
+			return bigContainers;
+
+		}
+		var createFragment = function(data) {
+			var fragment = document.createDocumentFragment();
+			var li;
+			var child;
+			var userAvatar = '';
+			for(var i = 0; i < data.Data.length; i++) {
+				var dis = 'none';
+				if(data.Data[i].Attachments && data.Data[i].Attachments.length > 0) {
+					dis = 'block';
+					child = creatimgFragment(data.Data[i].Attachments)
+				} else {
+					dis = 'none';
+				}
+				userAvatar = data.Data[i].Avatar == "" ? "../img/avatar.jpg" : getImgUrl(data.Data[i].Avatar);
+				li = document.createElement('li');
+				li.className = 'mui-table-view-cell jh-news-list';
+				li.id = data.Data[i].ThreadId;
+				li.title = data.Data[i].ThreadType;
+				li.value = data.Data[i].AssociateId;
+				li.innerHTML = '<h5 class="listTitle">' + data.Data[i].Subject + '</h5><div style="display:' + dis + '" class="mui-row">' + child + '</div>' +
+					'<ul class="mui-list-inline text-muted jh-itemBottm-left">' +
+					'											<li><img class="creator_img" style="height:1.5rem" src=' + userAvatar + ' onerror="defaultAvator(this);"></li>' +
+					'											<li>' + data.Data[i].Author.substring(0,6) + '</li>' +
+					'											<li>' + data.Data[i].DateCreated + '发布</li>' +
+					'										</ul>' +
+					'<div class="jh-itemBottm-right text-muted">' +
+					'											<li class="mui-pull-right" style="float:left"><i class="fa fa-eye" aria-hidden="true">&nbsp;' + data.Data[i].HitTimes + '</i></li>' +
+					'											<li class="mui-pull-right" style="float:right"><i class="fa fa-comment" aria-hidden="true">&nbsp;' + data.Data[i].CommentCount + '</i></li>' +
+					'</div>';
+				fragment.appendChild(li);
+			}
+			return fragment;
+		};
+
+		var page = 1;
+
+		function loadData(type, isSpecial) {
+			var table = document.body.querySelector('.mui-table-view');
+			switch(type) {
+				case 0:
+					{
+						page = 1;
+					}
+					break;
+				case 1:
+					{
+						page = 1;
+					}
+					break;
+				case 2:
+					{
+						page++;
+					}
+					break;
+				default:
+					break;
+			}
+			params = {
+				isSpecial: isSpecial,
+				pageIndex: page,
+			}
+			var _this = this;
+			if(type == 0) {
+				showLoading('', '', '#FFFFFF');
+				document.getElementById("sloading").style.margin = '55% auto'
+			}
+			getData('Post/GetThreads', params, function(data) {
+				hideLoading();
+				hideErr();
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						hideErrForList('', 'refreshContainer');
+						if(data.Data.length <= 5) {
+							mui('#refreshContainer').pullRefresh().disablePullupToRefresh();
+						}
+						switch(type) {
+							case 0:
+								{
+									table.innerHTML = "";
+									table.appendChild(createFragment(data));
+								}
+								break;
+							case 1:
+								{
+									table.innerHTML = "";
+									table.appendChild(createFragment(data));
+									mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+								}
+								break;
+							case 2:
+								{
+									table.appendChild(createFragment(data));
+
+								}
+								break;
+							default:
+								break;
+						}
+					} else {
+						if(data.Data!='暂时没有更多贴子'){
+							mui.toast(data.Data);
+						}
+						if(type != 2) {
+							var errForList = showErrForList(data.Data, '', '', 'refreshContainer');
+							if(errForList) {
+								document.getElementById("refreshContainer").appendChild(showErrForList(data.Data, '', '', 'refreshContainer'))
+							}
+						}
+						mui('#refreshContainer').pullRefresh().disablePullupToRefresh();
+						mui('#refreshContainer').pullRefresh().endPulldownToRefresh(true);
+					}
+
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					var errForList = showErrForList(data.Data, '', '', 'refreshContainer');
+					if(errForList) {
+						document.getElementById("refreshContainer").appendChild(showErrForList(data.Data, '', '', 'refreshContainer'))
+					}
+					mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+					return;
+				}
+			}, function(err) {
+				setErr('','0px')
+			})
+
+		}
+		if(mui.os.plus) {
+			window.addEventListener('show', function(event) {
+				loadData(0, true)
+			})
+		} else {
+			loadData(0, true)
+		}
+		
+		mui(".mui-table-view").on('tap', '.mui-table-view-cell', function(e) {
+			var threadId = this.getAttribute("id");
+			var ThreadType = this.getAttribute("title");
+			var AssociateId = this.getAttribute("value");
+			var baseUrl = ThreadType=='1'?'eventThreadDetail.html':'threadDetail.html';
+			var url = baseUrl + '?threadId=' + threadId +'&'+'ThreadType='+ThreadType+'&'+'AssociateId='+AssociateId;
+			var curl = shareUrl + baseUrl + '?threadId=' + threadId+'&'+'ThreadType='+ThreadType+'&'+'AssociateId='+AssociateId;
+			setlsData('currUrl', curl);
+			mui.openWindow({
+				url: url,
+				id: baseUrl,
+				show: {
+					autoShow: false
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					threadId: threadId,
+					ThreadType:ThreadType,
+					AssociateId:AssociateId,
+					currId: 'recommendpostList.html'
+				}
+			})
+
+		})
+
+
+		mui.init({
+			pullRefresh: {
+				container: "#refreshContainer", //下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+				down: {
+					height: 100, //可选,默认50.触发下拉刷新拖动距离,
+					auto: false, //可选,默认false.自动下拉刷新一次
+					contentdown: "下拉可以刷新", //可选，在下拉可刷新状态时，下拉刷新控件上显示的标题内容
+					contentover: "释放立即刷新", //可选，在释放可刷新状态时，下拉刷新控件上显示的标题内容
+					contentrefresh: "正在刷新数据...", //可选，正在刷新状态时，下拉刷新控件上显示的标题内容
+					callback: downFresh //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+				},
+				up: {
+					height: 50, //可选.默认50.触发上拉加载拖动距离
+					auto: false, //可选,默认false.自动上拉加载一次
+					contentrefresh: "正在加载数据...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+					contentnomore: '没有更多数据了', //可选，请求完毕若没有更多数据时显示的提醒内容；
+					callback: upFresh //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+				}
+			}
+		});
+
+		function downFresh() {
+			setTimeout(function() {
+				loadData(1, true)
+				mui('#refreshContainer').pullRefresh().endPulldownToRefresh(); //refresh completed
+			}, 1500);
+
+		}
+
+		function upFresh() {
+			setTimeout(function() {
+				loadData(2, true)
+				mui('#refreshContainer').pullRefresh().endPullupToRefresh();
+			}, 1500);
+
+		}
+	
+	</script>
+
+</html>

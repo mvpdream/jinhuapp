@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/jinhu.css">
+	</head>
+	<style>
+		.mui-table-view-cell:after {
+			left: 0;
+		}
+		.mui-table-view-cell.mui-active{
+			background-color: rgba(239, 239, 239, 0.25);
+		}
+	</style>
+
+	<body style="background-color: #fff;">
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span>我的关注
+			</button>
+		</header>
+		<div class="mui-content">
+			<div class="jh-gray-bar"></div>
+			<div class="mui-content">
+				<ul class="mui-table-view" style="margin-top: 0;">
+					<li class="mui-table-view-cell">
+						<div class="mui-row jh-follow-user">
+							<div class="mui-col-xs-3">
+								<img class="jh-follow-userimg" src="../img/avatar.jpg">
+							</div>
+							<div class="mui-col-xs-9">
+								<h4 style="word-break:break-all;">ddd</h4>
+								<p class="text-muted">sss</p>
+							</div>
+						</div>
+						<button type="button" class="mui-btn mui-btn-mini">
+							关  注
+						</button>
+					</li>
+					<li class="mui-table-view-cell">
+						<div class="mui-row jh-follow-user">
+							<div class="mui-col-xs-3">
+								<img class="jh-follow-userimg" src="../img/avatar.jpg">
+							</div>
+							<div class="mui-col-xs-9">
+								<h4 style="word-break:break-all;">ddd</h4>
+								<p class="text-muted">sss</p>
+							</div>
+						</div>
+						<button type="button" class="mui-btn mui-btn-primary">
+							取消关注
+						</button>
+					</li>
+				</ul>
+			</div>
+			<script src="../js/mui.min.js"></script>
+			<script src="../js/service.js"></script>
+			<script src="../js/common.js"></script>
+			<script src="../js/homepage.js"></script>
+	</body>
+	<script>
+		userFollows.init();
+	</script>
+
+</html>

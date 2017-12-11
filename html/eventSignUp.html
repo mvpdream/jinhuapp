@@ -1,0 +1,237 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>活动-报名</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/jinhu.css" />
+		<script src="../js/jquery-2.1.0.js"></script>
+
+	</head>
+	<style>
+		.jh-publish-vote .mui-table-view-cell label {
+			width: 15%;
+			color:#666666
+		}
+		
+		.jh-publish-vote .mui-table-view-cell input.mui-input-clear {
+			width: 85% !important;
+		}
+		
+		.mui-icon-clear {
+			top: auto !important;
+		}
+		
+		.mui-table-view-cell.mui-active {
+			background-color: #FFFFFF;
+		}
+	</style>
+
+	<body style="background-color:#fff;">
+		<div id="BgDiv1"></div>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+            <span class="mui-icon mui-icon-left-nav"></span>活动报名
+        </button>
+		</header>
+		<div class="mui-content jh-publish-vote">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-input-row">
+					<label>姓名</label>
+					<input id='userName' type="text" class="mui-input-clear mui-input" placeholder="姓名">
+				</li>
+				<li class="mui-table-view-cell mui-input-row">
+					<label>手机</label>
+					<input id='accountMobile' type="text" class="mui-input-clear mui-input" placeholder="手机号码">
+				</li>
+				<li class="mui-table-view-cell mui-input-row">
+					<label>邮箱</label>
+					<input id='accountEmail' type="text" class="mui-input-clear mui-input" placeholder="电子邮箱">
+				</li>
+				<li class="mui-table-view-cell mui-input-row">
+					<label>人数</label>
+					<input id='attendCount' type="number" value="1" onKeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" class="mui-input-clear mui-input" placeholder="活动人数">
+				</li>
+			</ul>
+			<div class="jh-gray-bar"></div>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell">
+					<label>留言</label>
+					<textarea id='description' placeholder="留言" rows="6" style="width:85%;padding-top: 2.5px;"></textarea>
+				</li>
+			</ul>
+			<div class="mui-text-center tn-mt-10" style="margin-top: 10px;">
+				<button type="button" id="signUp" class="mui-btn mui-btn-primary">确定</button>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/service.js"></script>
+		<script type="text/javascript" src="../js/loading.js"></script>
+		<script src="../js/wxHelper.js"></script>
+		<script src="../js/jweixin-1.2.0.js"></script>
+	</body>
+	<script>
+		mui.init();
+		var eventId=0;
+		var remainingEnrolment=0;
+		var memberId=0;
+		var membercount=0;
+		window.onload = function() {
+			//获取url中的targetId参数
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					eventId = self.eventId;
+					remainingEnrolment=self.remainingEnrolment;
+					membercount=self.membercount;
+					memberId=self.memberId;
+					getDetail(memberId)
+					//关闭等待框
+					plus.nativeUI.closeWaiting();
+					//显示当前页面
+					mui.currentWebview.show();
+				});
+			} else {
+				eventId = getUrlParam('eventId');
+				membercount=getUrlParam('membercount');
+				if(membercount==null){
+					remainingEnrolment=getUrlParam('remainingEnrolment');
+				}
+				memberId=getUrlParam('memberId');
+				getDetail(memberId)
+			}
+		}
+		var signUp = document.getElementById("signUp");
+				
+		function getDetail(id) {
+			showLoading('', '', '#FFFFFF', '50px');
+			getDatawithToken('Event/EditMember', {
+				memberId: id
+			}, function(data) {
+				hideLoading();
+				hideErr();
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						var data = data.Data;
+						userName.value = data.UserName;
+						accountMobile.value = data.AccountMobile;
+						accountEmail.value = data.AccountEmail;
+						attendCount.value = data.AttendCount;
+						if(data.AttendCount==0){
+							attendCount.value = 1;
+						}
+						description.value = data.Description;
+						if(membercount!=null){
+							remainingEnrolment=Number(membercount)-data.AttendCount;
+						}
+						
+					}
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					eventOpt.style.display = 'none';
+					showErr(data.Data, '', '#FFFFFF', '50px')
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr()
+			})
+		}
+		signUp.addEventListener('tap', function() {
+			var _this = this;			
+			var name = TrimAll(userName.value);
+			var phone = TrimAll(accountMobile.value);
+			var countnum = TrimAll(attendCount.value);
+			if(name == "") {
+				mui.toast("姓名不能为空")
+				return
+			}
+			if(phone == "") {
+				mui.toast("手机号码不能为空")
+				return
+			}
+			if(countnum == "") {
+				mui.toast("请添加活动人数")
+				return
+			}
+			if(countnum<=0){
+				mui.toast("报名人数至于为1人")
+				return
+			}
+			if(isNaN(countnum)||!(/^\d+$/.test(countnum))){
+				mui.toast("只允许输入整数")
+				return
+			}
+			if(parseInt(countnum)>parseInt(remainingEnrolment)){
+				mui.toast("报名人数超过上限")
+				return
+			}
+			if(!phonereg.test(phone)) {
+				mui.toast("手机号格式错误")
+				return
+			}
+			if(accountEmail.value!=''){
+				if(!emailreg.test(accountEmail.value)) {
+					mui.toast("邮箱格式错误")
+					return
+				}
+			}
+			var params = {
+				Id:memberId,
+				EventId: eventId,
+				UserName: userName.value,
+				AccountEmail: accountEmail.value,
+				AccountMobile: accountMobile.value,
+				AttendCount: attendCount.value,
+				Description:description.value,
+			};
+			var waitings = showWaiting();
+			postDatawithToken('Event/EditMember', params, function(data) {
+				closeWaiting(waitings);
+				mui('#signUp').button('reset');
+				if(data.Type == 1) {
+					mui.toast(data.Data);
+					if(mui.os.plus) {
+						var wobj = plus.webview.getWebviewById("eventDetail.html");
+						if(memberId!=0){
+							wobj = plus.webview.getWebviewById("ManageEventMembers.html");
+						}
+						wobj.reload(true);
+						setTimeout(function() {
+							mui.back();
+						}, 1000)
+					} else {
+						window.history.go(-1); //返回上一页
+					}
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(data) {
+				mui('#signUp').button('reset');
+				closeWaiting(waitings);
+			});
+
+		})
+	</script>
+
+</html>

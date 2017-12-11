@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--通用样式-->
+    <link rel="stylesheet" href="../css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../css/jinhu.css" />
+
+</head>
+<style>
+	.popover-item {
+	    padding: 13px 15px;
+	    border-radius: 0;
+	    color: #333333;
+	}
+	#pullrefresh{
+		top: 94px;
+	}
+	.mui-bar-nav~.mui-content .mui-pull-top-pocket{
+		top: 0px !important;
+	}
+</style>
+<body style="background-color: #fff;">
+    <header class="mui-bar mui-bar-nav">
+        <button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+            <span class="mui-icon mui-icon-left-nav"></span>我兑换的礼品
+        </button>
+    </header>
+    <div class="mui-content">
+        <div class="mui-row jh-my-gift">
+            <div class="mui-col-xs-6 mui-text-center">
+                <ul class="mui-list-inline">
+                    <li id="Trade"></li>
+                    <li id="UserPoints" class="tn-theme-color"></li>
+                    <li><i class="fa fa-database tn-yellow-color"></i></li>
+                </ul>
+            </div>
+            <div class="mui-col-xs-6 mui-text-center" id="PointTask">
+                <a href="#">去赚积分</a>
+            </div>
+        </div>
+        <div class="jh-gray-bar"></div>
+    <div id="pullrefresh" class="mui-content mui-scroll-wrapper">			
+		<div class="mui-scroll ">
+        <ul class="mui-table-view jh-gift-card" id="finel">           
+            
+        </ul>
+        </div>
+    </div>
+    </div>
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/mui.zoom.js"></script>
+    <script src="../js/mui.previewimage.js"></script>
+	<script src="../js/mui.pullToRefresh.js"></script>
+	<script src="../js/mui.pullToRefresh.material.js"></script>
+	<script src="../js/service.js"></script>
+	<script src="../js/share.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/wxHelper.js"></script>
+	<script src="../js/openApp.js"></script>
+	<script src="../js/mui.picker.js"></script>
+	<script src="../js/mui.poppicker.js"></script>
+	<script src="../js/mui.lazyload.js"></script>
+	<script src="../js/mui.lazyload.img.js"></script>
+</body>
+<script>
+function login (){
+	if(mui.os.wechat){
+		var currUrl = location.href.split('#')[0];
+		getCode(currUrl)
+	}else{
+		mui.openWindow({
+			url: 'user_login.html',
+			id: 'user_login.html',
+			waiting: {
+				options: {
+					loading: {
+						height: '35px'
+					}
+				}
+			},
+			extras: {
+				pageId: 'user_login.html'
+			}
+		})	
+	}			
+}
+	mui.init({
+		gestureConfig: {
+			tap: true, //默认为true
+			longtap: true, //默认为false
+		}
+	})
+	var Trade = document.getElementById("Trade");
+	var UserPoints = document.getElementById('UserPoints');
+	var PointTask = document.getElementById('PointTask');
+	var finel = document.getElementById('finel');
+	var pageindex = 1;
+	mui.init({
+		pullRefresh: {
+			container: '#pullrefresh',
+			down: {
+				callback: pulldownRefreshCom
+			},
+			up: {
+				contentrefresh: '正在加载...',
+				callback: pullupRefreshCom
+			}
+		}
+	});                                                                                                                            
+	function pulldownRefreshCom() {                                                                                                      
+		setTimeout(function() { 
+			getMyProducts(false);                                                                                        
+			mui('#pullrefresh').pullRefresh().endPulldownToRefresh();                                            
+		}, 1500);                                                                                                                     
+	}                                                                                                                                 
+	var count = 0;                                                                                                                                                                                                                                                  
+	function pullupRefreshCom() {                                                                                                        
+		setTimeout(function() { 			
+			getMyProducts(true);
+			mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2));                                                                                                                             
+		}, 1500);                                                                                                                     
+	}
+	mui("#finel").on('tap', '.mui-table-view-cell', function(e) {
+		var orderId = this.title;
+		var baseUrl = 'orderDetail.html?orderId=' + orderId;
+		mui.openWindow({
+			url: baseUrl,
+			id: 'orderDetail.html',
+			show: {
+				autoShow: true
+			},
+			waiting: {
+				options: {
+					loading: {
+						height: '35px'
+					}
+				}
+			},
+			extras: {
+				orderId: orderId
+			}
+		})
+	})
+	PointTask.addEventListener('tap', function() {
+		var baseUrl = 'pointTask.html';
+		var url = mui.os.plus ? baseUrl : baseUrl ;
+		var curl = shareUrl+ baseUrl+ baseUrl;
+		setlsData('currUrl', curl);
+		mui.openWindow({
+			url: url,
+			id: 'pointTask.html',
+			show: {
+				autoShow: true
+			},				
+			waiting: {
+				options: {
+					loading: {
+						height: '35px'
+					}
+				}
+			}
+		})
+	})
+	function creatCancelPop() {
+		var div = document.createElement('div');
+		div.id = 'cancelPopover';
+		div.style.display = "none"
+		div.className = 'box mui-popover mui-popover-action mui-popover-bottom';
+		div.innerHTML = ' <ul class="mui-table-view popover-all" style="margin:0px;border-radius:0">' +
+			'<li class="mui-table-view-cell popover-item" id="cancelExchange"><a href="#">取消兑换</a></li>' +
+			'<li style="height:10px;background-color: rgba(0,0,0,.2);"></li>' +
+			'<li class="mui-table-view-cell popover-item"id="cancelExchangeOperate"><a href="#">取消</a></li>' +
+			'</ul>';
+		bigContainer.appendChild(div);
+	}
+	creatCancelPop();
+	var orderId;
+	var cancelExchange = document.getElementById("cancelExchange");
+	cancelExchange.addEventListener("tap", function(e) {
+		cancelExchangeFun(orderId);
+		mui('#cancelPopover').popover('toggle');
+		mui('#pullrefresh').scroll().scrollTo(0, 0);
+	})
+	var cancelExchangeOperate = document.getElementById("cancelExchangeOperate")
+	cancelExchangeOperate.addEventListener("tap", function(e) {
+		mui('#cancelPopover').popover('hide');
+	})
+	mui("#finel").on('longtap', '#cancelExchangelongtap', function(e) {
+		mui('#cancelPopover').popover('toggle');
+		orderId = this.title;
+	})
+	function cancelExchangeFun(orderId){		
+		postDatawithToken('PointMall/CancelMyOrder?orderId='+orderId,{}, function(data) {
+			if(data.Type == 1) {
+				mui.toast(data.Data)
+				getMyProducts(false)
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(err) {})
+	}
+	function creatDeletePop() {
+		var div = document.createElement('div');
+		div.id = 'deletePopover';
+		div.style.display = "none"
+		div.className = 'box mui-popover mui-popover-action mui-popover-bottom';
+		div.innerHTML = ' <ul class="mui-table-view popover-all" style="margin:0px;border-radius:0">' +
+			'<li class="mui-table-view-cell popover-item" id="deleteExchange"><a href="#">删除</a></li>' +
+			'<li style="height:10px;background-color: rgba(0,0,0,.2);"></li>' +
+			'<li class="mui-table-view-cell popover-item"id="deleteExchangeOperate"><a href="#">取消</a></li>' +
+			'</ul>';
+		bigContainer.appendChild(div);
+	}
+	creatDeletePop();
+	var orderId;
+	var deleteExchange = document.getElementById("deleteExchange");
+	deleteExchange.addEventListener("tap", function(e) {
+		deleteExchangeFun(orderId);
+		mui('#deletePopover').popover('toggle');
+		mui('#pullrefresh').scroll().scrollTo(0, 0);
+	})
+	var deleteExchangeOperate = document.getElementById("deleteExchangeOperate")
+	deleteExchangeOperate.addEventListener("tap", function(e) {
+		mui('#deletePopover').popover('hide');
+	})
+	mui("#finel").on('longtap', '#deletelongtap', function(e) {
+		mui('#deletePopover').popover('toggle');
+		orderId = this.title;
+	})
+	function deleteExchangeFun(orderId){		
+		postDatawithToken('PointMall/DeleteMyOrder?orderId='+orderId,{}, function(data) {
+			if(data.Type == 1) {
+				mui.toast(data.Data)
+				getMyProducts(false)
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(err) {})
+	}
+    var creatElement = function(data){  
+    	console.log(data)
+    	for(var i = 0;i<data.length;i++){
+    		var statusType = data[i].Status;
+    		switch(statusType) {
+				case 5:
+					var status = '<img class="sign" src="../img/cancel-sign.png" srcset="../img/cancel-sign@2x.png 2x">';
+					var operateId = 'deletelongtap';
+				break;
+				case 10:
+					var status = '<img class="sign" src="../img/wait-sign.png" srcset="../img/wait-sign@2x.png 2x">';
+					var operateId = 'cancelExchangelongtap';
+				break;
+				case 20:
+					var status = '<img class="sign" src="../img/confirm-sign.png" srcset="../img/confirm-sign@2x.png 2x">';
+					var operateId = '';
+				break;
+				case 40:
+					var status = '<img class="sign" src="../img/finish-sign.png" srcset="../img/finish-sign@2x.png 2x">';
+					var operateId = '';
+				break;
+				default:
+				break;
+			}
+    		var li = document.createElement('li');
+    		li.className = 'mui-table-view-cell mui-media';
+    		li.id = operateId;
+    		li.title = data[i].OrderId;   		
+    		li.innerHTML =  status+
+    						'<a href="javascript:;">'+
+    							'<img class="mui-media-object mui-pull-left" src="'+ getImgUrl(data[i].ImageAttachment) +'"/>'+
+    							'<div class="mui-media-body">'+
+    								'<h5>'+ data[i].ProductName +'</h5>'+
+    								'<div class="mui-row">'+
+    									'<div class="mui-col-xs-6">'+
+    										'<ul class="mui-list-inline">'+
+    											'<li class="text-muted">兑换价：<span  class="tn-theme-color">'+ data[i].TotalPrice +'</span></li>'+
+    											'<li><i class="fa fa-database tn-yellow-color"></i></li>'+
+    										'</ul>'+
+    									'</div>'+
+    									'<div class="mui-col-xs-6">'+
+    										'<span class="text-muted">兑换数量：</span>'+ data[i].Number +''+
+    									'</div>'+   									
+    								'</div>'+
+    								'<p class="text-muted">兑换时间：'+ data[i].DateCreated +'</p>'+
+    							'</div>'+
+    						'</a>';
+    		finel.appendChild(li);
+    	}
+    }
+	getUserPoint();
+	function getUserPoint(){
+		getDatawithToken('PointMall/CurrentUserPoints',{}, function(data) {				
+			if(data.Type == 1) {
+				var data = data.Data;
+				userPoints = data.UserPoints;
+				Trade.innerText = '可用'+ data.Trade;
+				UserPoints.innerText = data.UserPoints;
+				getMyProducts(false);
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(err) {
+			//hideLoading();
+		})
+	}
+	function getMyProducts(more){		
+		if(more) {
+			pageindex++;
+		} else {
+			finel.innerHTML = '';
+			pageindex = 1;
+		}
+		var params = {
+			pageSize:10,
+			pageIndex:pageindex
+		};		
+		getDatawithToken('PointMall/GetMyOrders',params, function(data) {				
+			if(data.Type == 1) {
+				if(data.Data.length > 0 && typeof(data.Data) == 'object'){
+					creatElement(data.Data);
+				}else{
+					mui.toast(data.Data)
+				}				
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(err) {
+			//hideLoading();
+		})
+	}
+</script>
+</html>

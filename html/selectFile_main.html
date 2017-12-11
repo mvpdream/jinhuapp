@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/circles.css" />
+		<style type="text/css">
+			.loading {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				width: 200px;
+				height: 200px;
+				margin-top: -100px;
+				margin-left: -100px;
+				z-index: 9999;
+			}
+			
+			.loading .card {
+				display: table-cell;
+				text-align: center;
+				vertical-align: middle;
+				width: 200px;
+				height: 200px;
+			}
+			
+			.mui-backdrop {
+				background-color: transparent;
+			}
+			
+			.mui-bar-nav~.mui-content {
+				padding-top: 50px;
+			}
+			
+			.mui-bar-tab~.mui-content {
+				padding-bottom: 60px;
+			}
+			
+			.mui-bar-nav~.mui-content .mui-slider.mui-fullscreen {
+				top: 50px;
+			}
+			
+			.mui-bar {
+				background-color: #fff;
+				-webkit-box-shadow: none;
+				box-shadow: none;
+				height: 50px;
+			}
+			
+			.mui-bar .mui-btn-link {
+				line-height: 50px;
+			}
+			
+			.mui-bar .mui-title {
+				line-height: 50px;
+			}
+			
+			.mui-bar .mui-icon {
+				padding-top: 13px;
+				padding-bottom: 13px;
+			}
+			
+			.mui-bar-transparent {
+				background-color: rgba(247, 247, 247, 0);
+			}
+			
+			.mui-bar-nav {
+				-webkit-box-shadow: none;
+				box-shadow: none;
+				border-bottom: 1px solid #e4e4e4;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+		<span class="mui-icon mui-icon-left-nav"></span>选择文件</button>
+		</header>
+		<!--<header class="mui-bar mui-bar-nav">    
+	    <h1 class="mui-title">文件系统</h1>
+	    <a id="add" class="mui-icon mui-icon-plus mui-pull-right"></a>
+	</header>-->
+		<div class="mui-content">
+			<ul id="list" class="mui-table-view mui-table-view-chevron"></ul>
+		</div>
+
+		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/njs-io.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init({
+				gestureConfig: {
+					longtap: false //默认为false
+				}
+			});
+
+//			var mask;
+//			mui.ready(function() {
+//				mask = mui.createMask(); //callback为用户点击蒙版时自动执行的回调；
+//				mask.show(); //显示遮罩
+//			})
+			var isEdit=getUrlParam('isedit');
+			var sdRoot = null;
+			document.addEventListener("plusready", function() {
+				init();
+			}, false);
+
+			// 渲染列表
+			function init() {
+				var waiting = showWaiting('正在读取文件');
+				// 获得sd卡根目录
+				sdRoot = getSDRoot();
+				// 遍历sd卡根目录下的所有文件和文件夹
+				var files = plus.android.invoke(sdRoot, "listFiles");
+				var len = files.length;
+
+				var list = document.getElementById("list");
+				var fragmentFolder = document.createDocumentFragment();
+				var fragmentFile = document.createDocumentFragment();
+				var li;
+				for(var i = 0; i < len; i++) {
+					var file = files[i];
+					// 过滤隐藏文件
+					if(!plus.android.invoke(file, "isHidden")) {
+						var name = plus.android.invoke(file, "getName");
+						li = document.createElement('li');
+						li.className = 'mui-table-view-cell mui-media';
+						li.setAttribute('name', name);
+						// 判断是文件还是文件夹
+						if(plus.android.invoke(file, "isDirectory")) {
+							// 设置标志为文件夹，供后面使用
+							li.setAttribute('data-type', 'Folder');
+							// 读取文件夹下子文件夹及子文件数目
+							var obj = readSonFilenum(file);
+							li.innerHTML = '<a class="mui-navigate-right">' +
+								'<img class="mui-media-object mui-pull-left" src="../img/wjj.png">' +
+								'<div class="mui-media-body">' + name +
+								'<p class="mui-ellipsis">文件夹数量：' + obj.subFolderNum + ' 文件数量：' + obj.subFileNum + '</p></div></a>';
+							fragmentFolder.appendChild(li);
+						} else {
+							li.setAttribute('data-type', 'File');
+							// 读文件大小
+							var fileSizeString = readFileSize(file);
+							li.innerHTML = '<a class="mui-navigate-right">' +
+								'<img class="mui-media-object mui-pull-left" src="../img/file.png">' +
+								'<div class="mui-media-body mui-ellipsis">' + name +
+								'<p class="mui-ellipsis">' + fileSizeString + '</p></div></a>';
+							fragmentFile.appendChild(li);
+						}
+					};
+				}
+				list.appendChild(fragmentFolder);
+				list.appendChild(fragmentFile);
+				// 关闭遮罩
+				//mask.close();
+				closeWaiting(waiting)
+				//document.querySelector('.loading').style.display = 'none';
+			}
+
+			// 点击打开文件
+			mui('.mui-table-view').on('tap', 'li', function() {
+				var name = this.getAttribute('name');
+				var fileType = this.getAttribute('data-type');
+				var filepath = sdRoot + '/' + name;
+				if(fileType === 'Folder') {
+					// 打开目录详细页面
+					mui.openWindow({
+						url: 'selectFile_sub.html?isedit='+isEdit,
+						id: 'selectFile_sub',
+						createNew: true,
+						extras: {
+							name: name,
+							filepath: filepath
+						}
+					})
+				} else {
+					// 打开文件
+					plus.io.resolveLocalFileSystemURL(filepath, function(entry) {
+						var s = entry.toLocalURL();
+						if(isEdit=='true'){
+							var pageDoc=plus.webview.getWebviewById('editDoc.html');
+						}else{
+							var pageDoc=plus.webview.getWebviewById('creatDoc.html');
+						}
+						mui.fire(pageDoc,'getFile',{
+						   fileUrl:s
+						});
+						var selectFile_main=plus.webview.getWebviewById('selectFile_main');
+						selectFile_main.close();
+						if(isEdit=='true'){
+							plus.webview.show('editDoc.html')
+						}else{
+							plus.webview.show('creatDoc.html')
+						}
+						
+					}, function(e) {
+						console.log("读取文件错误：" + e.message);
+					});
+					//plus.runtime.openFile(filepath);
+				}
+			})
+
+			// 创建文件夹
+			//		document.querySelector('#add').addEventListener('tap',function (e) {
+			//			e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
+			//			var btnArray = ['取消', '确定'];
+			//			mui.prompt('请输入要创建的文件夹名:', '文件夹名', '创建文件夹', btnArray, function(e) {
+			//				if (e.index == 1) {
+			//					creatFolder(sdRoot+"/"+e.value);
+			//				} else {
+			//					plus.nativeUI.toast('你点了取消按钮');
+			//				}
+			//			})
+			//		})
+
+			// 长按删除文件
+			//		mui('.mui-table-view').on('longtap','li',function(){
+			//			var name = this.getAttribute('name');
+			//		  	var btnArray = ['取消', '确定'];
+			//			mui.confirm('你确定要删除这个文件夹？', '删除文件夹', btnArray, function(e) {
+			//				if (e.index == 1) {
+			//					deleteFile(sdRoot+"/"+name);
+			//				} else {
+			//					plus.nativeUI.toast('你点了取消按钮');
+			//				}
+			//			})
+			//		})
+		</script>
+	</body>
+
+</html>

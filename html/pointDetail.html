@@ -1,0 +1,722 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--通用样式-->
+    <link rel="stylesheet" href="../css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../css/jinhu.css" />
+    <link href="../css/mui.picker.css" rel="stylesheet" />
+	<link href="../css/mui.poppicker.css" rel="stylesheet" />
+</head>
+<style>
+	#Body{
+		padding-top: 8px;
+    	padding-left: 10px;
+    	padding-right: 10px;
+	}
+	#slider{
+		padding-bottom: 100px;
+	}
+	#shares{
+		float: right;
+		margin-right: 10px;
+	}
+	#item0mobile{
+		border-bottom: none !important;
+	}
+	.mui-content-padded{
+		margin-bottom: 0 !important;
+	}
+	.sliderImg img{
+		height: 282px !important;
+	}
+	.comment_body{
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+	/*.comment_content{
+		border-bottom: 0px !important;
+	}*/
+	.mui-slider .mui-segmented-control.mui-segmented-control-inverted~.mui-slider-group .mui-slider-item{
+		border-bottom: none !important;
+	}
+	#CreateOrder{
+		position: fixed;
+		top: 25%;
+		min-height: 400px;
+		margin-left: 20px;
+		background-color: #f7f7f7;		
+	}
+	#CreateNotOrder{
+		position: fixed;
+		top: 34%;
+		min-height: 230px;
+		margin-left: 20px;
+		background-color: #f7f7f7;		
+	}
+	.mui-input{
+		height: 32px;
+	}
+	.number{
+		padding-left: 12px;
+		padding-right: 12px;
+	}
+	#switchColumnQue{
+		border: 1px solid rgba(0,0,0,.2);
+		background-color: #fff;
+		width: 50px;
+	}
+	.mui-poppicker{
+		z-index: 1000;
+	}
+	.mui-checkbox input[type=checkbox]:before, .mui-radio input[type=radio]:before{
+		font-size: 16px;
+	}
+	.mui-checkbox input[type=checkbox]:checked:before, .mui-radio input[type=radio]:checked:before{
+		color: #bf0a10;
+	}
+	#save{
+		margin-left: 20px;
+	    width: 50%;
+	    padding-left: 0px;
+	    margin-top: -3px;
+	}
+	#cancel{
+		background-color: #999;
+		border: 1px solid #999;
+	}	
+	.jh-bar-comment .jh-comment-edit{
+		width: 71%;
+	}
+	.jh-bar-comment .jh-comment-right{
+		width: 23%;
+	}
+</style>
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <button class="mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+            <span class="mui-icon mui-icon-left-nav"></span>礼品详情
+        </button>
+    </header>
+
+    <div class="mui-content">
+        <div class="mui-slider" id="imgSliderContainer">
+            <div class="mui-slider-group mui-slider-loop" id="imgSlider">			   
+			
+            </div>
+			<div class="mui-slider-indicator" id="indicator">
+			    
+			</div>
+        </div>
+        <div class="mui-content-padded jh-gift-detail">           
+            
+            <div class="mui-row">
+                <div class="mui-col-xs-9">
+                    <h4 class="tn-font-16" id="pointName"></h4>
+                </div>
+                <div class="mui-col-xs-3 mui-text-right" id="status">
+                    
+                </div>
+            </div>
+            <ul class="mui-list-inline">
+                <li class="text-muted">兑换价：<span class="tn-theme-color" id="Price"></span></li>
+                <li><i class="fa fa-database tn-yellow-color"></i></li>
+                <li class="text-muted" id="ExchangedCount"　style="display: none;"></li>
+                <li class="mui-pull-right text-muted" id="HitTimes"></li>
+            </ul>
+            <ul class="mui-list-unstyled">
+                <li>温馨提示：</li>
+                <li>1、所有兑换的礼品均需经过管理员确认后才会生效；</li>
+                <li>2、所有兑换的实物礼品均为免费配送，请认真填写收货地址和电话；</li>
+                <li>3、礼品一经兑换均不可退换货（质量问题除外）。</li>
+            </ul>
+        </div>               
+    </div>
+	<div class="jh-gray-bar" id="split"></div>
+    <div id="slider" class="mui-slider" style="background-color: #fff;">
+			<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted jh-scroll-wrapper">					
+				<div class="mui-scroll" id="SectionType" style="padding-right: 40px;">
+					<a class="mui-control-item mui-active" href="#itemmobile" id="0">
+						礼品介绍
+					</a>
+					<a class="mui-control-item" href="#item0mobile" id="1">
+						所有讨论
+					</a>					
+				</div>				
+			</div>
+			<div class="mui-slider-group" id="sliderGroup">
+				<div id="itemmobile" class="mui-slider-item mui-control-content mui-active">
+					<ul class="mui-table-view" id="Body">
+								
+					</ul>						
+				</div>
+				<div id="item0mobile" class="mui-slider-item mui-control-content">					
+							<ul class="mui-table-view">
+								<div class="mui-content" id="commentArea">                
+                                
+					            </div>
+					            <div class="comment_more" id="morecomment" style="display: none;">
+					            	<a href="#" class="comment_more_text">点击查看更多评论</a>
+					            </div>
+							</ul>						
+				</div>									
+			</div>
+		</div>
+		<div class="mui-bar mui-bar-tab jh-bar-comment">
+                <a>
+                    <div class="jh-comment-edit" id="textComment">
+                        <i class="fa fa-pencil mui-icon mui-icon-bars mui-pull-right" aria-hidden="true"></i>
+                    </div>
+                </a>
+                <div class="jh-comment-right">
+                    <a id="morecom">
+                        <span class="mui-icon mui-icon-chat comment_menu" id="commentsTap"><span id="supportNum" class="jh-bar-comment-num"></span></span>
+                    </a>
+                    <a id="shares">
+                        <span class="mui-icon mui-icon-extra mui-icon-extra-share comment_menu float-right"></span>
+                    </a>
+                </div>
+           </div>
+    
+ 
+    
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/mui.zoom.js"></script>
+    <script src="../js/mui.previewimage.js"></script>
+	<script src="../js/mui.pullToRefresh.js"></script>
+	<script src="../js/mui.pullToRefresh.material.js"></script>
+	<script src="../js/service.js"></script>
+	<script src="../js/share.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/wxHelper.js"></script>
+	<script src="../js/jweixin-1.2.0.js"></script>
+	<script src="../js/openApp.js"></script>
+	<script src="https://static.mlinks.cc/scripts/dist/mlink.min.js"></script>
+	<script src="../js/mui.picker.js"></script>
+	<script src="../js/mui.poppicker.js"></script>
+	<script src="../js/mui.lazyload.js"></script>
+	<script src="../js/comment.js"></script>
+	<script src="../js/mui.lazyload.img.js"></script>	
+</body>
+<script>	
+	if(!mui.os.plus) {
+			creatBanner();
+		}
+		//showLoading('', '', '#FFFFFF', '50px');
+
+		if(!mui.os.wechat) {
+			mui.previewImage();
+		}
+		if(mui.os.wechat) {
+			initWx();
+			wx.ready(function() {
+				wx.checkJsApi({ 
+					jsApiList: ['previewImage','openLocation'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+					success: function(res) {
+						// 以键值对的形式返回，可用的api值true，不可用为false
+						// 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+					}
+				});
+			});
+			wx.error(function(res) {
+
+			});
+		}
+	var pointName = document.getElementById('pointName');
+	var Price = document.getElementById('Price');
+	var ExchangedCount = document.getElementById('ExchangedCount');
+	var HitTimes = document.getElementById('HitTimes');
+	var imgSlider = document.getElementById('imgSlider');
+	var indicator = document.getElementById('indicator');
+	var Body = document.getElementById('Body');
+	var supportNum = document.getElementById('supportNum');
+	var commentsTap = document.getElementById('commentsTap');
+	var status = document.getElementById('status');
+	var split = document.getElementById("split");
+	var picker = new mui.PopPicker();
+	var pickerData = [];
+	var productId;
+	var ii = 0;
+	var type = 0;
+	if(mui.os.ios){
+		split.innerText = '兑换项和活动均与设备生产商Apple Inc.无关';
+		split.style.paddingTop = "5px";
+		split.style.height = "30px";
+		split.style.textAlign = 'center';
+		split.style.color = "#999";
+	}
+	window.onload = function() {
+		if(mui.os.plus) {
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				productId = self.productId;	
+				getPointDetail(productId);
+			});			
+		}else{
+			document.getElementById('shares').style.display="none";
+			document.getElementsByClassName('jh-comment-right')[0].style.width = "13%";
+			document.getElementsByClassName('jh-comment-edit')[0].style.width = "80%";
+			productId = getUrlParam('productId');
+			getPointDetail(productId);
+		}
+		if(!mui.os.plus) {
+				initOpenApp('pointDetail', productId)
+			}
+		if(mui.os.wechat){
+			document.getElementById('shares').style.display="none";
+			document.getElementsByClassName('jh-comment-right')[0].style.width = "13%";
+			document.getElementsByClassName('jh-comment-edit')[0].style.width = "80%";
+			var currUrl = location.href.split('#')[0];
+			weChatLogin(currUrl)
+		}
+	}
+	var creatProductImages = function(data){
+		for(var j = 0;j<data.length;j++){
+    		var div = document.createElement('div');
+    		div.className = j == 0 ? 'mui-indicator mui-active' :　'mui-indicator';
+    		indicator.appendChild(div);
+    	}
+		var dataStart = [];
+		var dataEnd = [];
+		dataStart.push(data[data.length-1]);
+		dataEnd.push(data[0]);
+		data = dataStart.concat(data);
+		data = data.concat(dataEnd);   	
+		for(var i = 0;i<data.length;i++){
+			var div = document.createElement('div');
+			div.className = "mui-slider-item";
+			if(i == 0 || i == data.length - 1){
+				div.className = "mui-slider-item mui-slider-item-duplicate";
+			}else{
+				div.className = "mui-slider-item";
+			}			
+			div.innerHTML = '<a href="#">'+
+							'<img class="sliderImg" src="'+ getImgUrl(data[i].Url) +'" />'+
+							'</a>';
+			imgSlider.appendChild(div);
+		}		
+	}
+//	var creatProductImages = function(data){
+//		for(var j = 0;j<data.length;j++){
+//  		var div = document.createElement('div');   		
+//  		div.className = j == 0 ? 'mui-indicator mui-active' :　'mui-indicator';
+//  		indicator.appendChild(div);
+//  	}  	
+//		for(var i = 0;i<data.length;i++){
+//			var div = document.createElement('div');
+//			div.className = "mui-slider-item";						
+//			div.innerHTML = '<a href="#">'+
+//							'<img class="sliderImg" src="'+ data[i].Url +'" />'+
+//							'</a>';
+//			imgSlider.appendChild(div);
+//		}		
+//	}
+	var CreateOrderElement = function(data){
+		pickerData = [];
+		var length = data.MaxExchangeNumber > 10 ? '10' : data.MaxExchangeNumber;
+		for(var i = 0;i<length;i++){
+			pickerData.push({value:i+1,text:i+1});
+		}
+		picker.setData(pickerData);
+        var div = document.createElement('div');
+        div.id = 'CreateOrder';
+        div.className = 'jh-medal-popover box mui-popover';
+        div.innerHTML = '<div class="mui-scroll-wrapper">'+
+						'<div class="mui-scroll">'+
+						'<ul class="mui-table-view" style="margin-left:10px;margin-right:10px">'+
+						'<h4>'+ data.Name +'&nbsp&nbsp兑换</h4>'+
+						'<span>兑换数量</span>'+
+						'<span id="switchColumnQue" style="float: right;">'+
+						'<span id="number" class="number">1</span>'+
+						'<i class="fa fa-angle-down angledown" aria-hidden="true"></i></span>'+
+						'<input id="UserName" type="text" style="font-size: 16px;margin-top:12px;" class="mui-input mui-input-clear" placeholder="收货人姓名">'+
+						'<input id="Mobile" type="text" style="font-size: 16px;" class="mui-input mui-input-clear"placeholder="手机号码">'+
+						'<input id="Address" type="text" style="font-size: 16px;" class="mui-input mui-input-clear"placeholder="快递地址">'+
+						'<input id="Description" type="text" style="font-size: 16px;" class="mui-input mui-input-clear"placeholder="备注">'+
+						'<div class="mui-input-row mui-checkbox mui-left">'+
+						'<label id="save">保存收货信息</label>'+
+						'<input name="checkbox" id="IsDefaultAddress" type="checkbox" style="top:0px;left:0px;">'+						
+						'</div>'+
+						'<div style="text-align:center;margin-top:12px;">'+
+						'<button id="confirm" type="button" class="mui-btn mui-btn-primary" style="margin-right:24px;border-radius:5px;">提交订单</button>'+
+						'<button id="cancel" type="button" class="mui-btn mui-btn-primary" style="border-radius:5px;">取消</button>'+
+						'</div>'+
+						'</ul>'+
+				'</div></div>';
+        bigContainer.appendChild(div);
+        setPopHeight('CreateOrder');
+	}
+	var CreateNotOrderElement = function(data){
+		var div = document.createElement('div');
+        div.id = 'CreateNotOrder';
+        div.className = 'jh-medal-popover box mui-popover';
+        div.innerHTML = '<h4>'+ data.Name +'&nbsp&nbsp兑换</h4>'+
+        				'<p>兑换礼品，需要支付<span style="color:#bf0a10;font-size:20px;">'+ data.ProductPrice  +'</span>个金币</p>'+
+        				'<p>您当前持有'+ data.UserPoints +'个'+ data.Trade +'</p>'+
+        				'<span>您可以选择：</span>'+
+        				'<a href="javascript:;" style="margin-right:12px;" id="PointTask">去赚积分</a>';
+		bigContainer.appendChild(div);
+	}
+	mui(".mui-content").on('tap', '.mui-btn-primary', function(e) {
+		e.stopPropagation();		
+		getCreateOrder();
+	})
+	function setPopHeight(idname) {
+		var height = document.documentElement.clientHeight || document.body.clientHeight;
+		var popHeight = parseInt(window.getComputedStyle(document.getElementById(idname), null).minHeight);
+		document.getElementById(idname).style.top = (height - popHeight)/2 + 'px';
+	}
+	var UserName;
+	var Mobile;
+	var Address;
+	var Description;
+	var IsDefaultAddress;
+	function getCreateOrder(){
+		var params = {
+			productId : productId
+		}
+		getDatawithToken('PointMall/CreateOrder',params, function(data) {	
+			hideLoading();
+			console.log(data)
+			if(data.Type == 1) {
+				var data = data.Data;
+				console.log(data)
+				if(data.UserPoints < data.ProductPrice){
+					CreateNotOrderElement(data);
+					mui('#CreateNotOrder').popover('toggle');
+					setPopHeight('CreateNotOrder');
+					var PointTask = document.getElementById('PointTask');
+					PointTask.innerText = '去赚'+data.Trade;
+					PointTask.addEventListener('tap', function() {
+						var baseUrl = 'pointTask.html';
+						var url = mui.os.plus ? baseUrl : baseUrl ;
+						var curl = shareUrl+ baseUrl+ baseUrl;
+						setlsData('currUrl', curl);
+						mui.openWindow({
+							url: url,
+							id: 'pointTask.html',
+							show: {
+								autoShow: true
+							},				
+							waiting: {
+								options: {
+									loading: {
+										height: '35px'
+									}
+								}
+							}
+						})
+					})
+				}else{					
+					CreateOrderElement(data);
+					mui('.mui-scroll-wrapper').scroll({
+						deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+					});
+					mui('#CreateOrder').popover('toggle');
+//					mui("#CreateOrder").on('tap', '#IsDefaultAddress', function(e) {		
+//						if(this.checked == 'true'){
+//							this.checked = 'false';
+//							IsDefaultAddress = false;
+//						}else{
+//							this.checked = 'true';
+//							IsDefaultAddress = true;
+//						}
+//					})
+//					var switchColumnQue = document.getElementById('switchColumnQue');
+//					switchColumnQue.addEventListener('tap', function() {
+//						picker.show(function(selectItems) {
+//							number.innerText = selectItems[0].text;
+//						})
+//					})
+					if(data.ProductType == false){
+						document.getElementById('Description').style.marginTop = '12px';
+						document.getElementById('CreateOrder').style.top = '38%';
+						document.getElementById('CreateOrder').style.minHeight = '244px';
+						document.getElementById('UserName').style.display = 'none';
+						document.getElementById('Mobile').style.display = 'none';
+						document.getElementById('Address').style.display = 'none';
+						document.getElementById('IsDefaultAddress').style.display = 'none';
+						document.getElementById('save').style.display = 'none';
+						UserName = '';
+						Mobile = '';
+						Address = '';
+						UserName = '';
+						Mobile = '';
+						Address = '';						
+						IsDefaultAddress = false;
+					}else{
+//						UserName = document.getElementById('UserName').value;
+//						Mobile = document.getElementById('Mobile').value;
+//						Address = document.getElementById('Address').value;
+//						IsDefaultAddress = document.getElementById('IsDefaultAddress').checked == 'checked' ? 'true' : 'false';
+					}
+					var switchColumnQue = document.getElementById('switchColumnQue');
+					switchColumnQue.addEventListener('tap', function() {
+						picker.show(function(selectItems) {
+							number.innerText = selectItems[0].text;
+						})
+					})
+					if(data.IsDefaultAddress == true){
+						document.getElementById('IsDefaultAddress').checked = 'checked';
+						document.getElementById('UserName').value = data.UserName;
+						document.getElementById('Mobile').value = data.Mobile;
+						document.getElementById('Address').value = data.Address;
+						document.getElementById('Description').value = data.Description.length >　0 ? 'data.Description' : '';						
+						UserName = document.getElementById('UserName').value;
+						Mobile = document.getElementById('Mobile').value;
+						Address = document.getElementById('Address').value;
+						//IsDefaultAddress = document.getElementById('IsDefaultAddress').checked == 'checked' ? 'true' : 'false';
+					}
+					Description = document.getElementById('Description').value;
+					var confirm = document.getElementById('confirm');
+					confirm.addEventListener('tap', function() {
+						var params = {
+							ProductId: productId,
+							ProductType: data.ProductType,
+							Number: document.getElementById('number').innerText,
+							UserName: document.getElementById('UserName').value,
+							Mobile: document.getElementById('Mobile').value,
+							Address: document.getElementById('Address').value,
+							Description: document.getElementById('Description').value,
+							IsDefaultAddress: document.getElementById('IsDefaultAddress').checked
+						}
+						if(data.ProductType == true){
+							if(params.UserName == ''){
+								mui.toast("请输入收货人姓名");
+								return;
+							}
+							if(params.Mobile == ''){
+								mui.toast("请输入收货人联系方式");
+								return;
+							}
+							if(params.Address == ''){
+								mui.toast("请输入地址");
+								return;
+							}
+							CreateOrder(params,'CreateOrder');
+						}else{
+							CreateOrder(params,'CreateOrder');
+						}
+						//CreateOrder(params,'CreateOrder');
+					})
+					var cancel = document.getElementById('cancel');
+					cancel.addEventListener('tap', function() {
+						mui('#CreateOrder').popover('toggle');
+					})
+				}
+				
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(err) {
+			//hideLoading();
+		})
+	}
+	function CreateOrder(params,id){
+		postDatawithToken('PointMall/CreateOrder',params, function(data) {	
+			hideLoading();
+			if(data.Type == 1) {
+				var data = data.Data;
+				if(id == 'CreateOrder'){
+					mui('#CreateOrder').popover('toggle');
+				}else{
+					mui('#CreateNotOrder').popover('toggle');
+				}
+				mui.toast("成功生成订单");
+				if(mui.os.plus) {
+					var wobj = plus.webview.getWebviewById("pointDetail.html");
+					wobj.reload(true);
+					setTimeout(function() { mui.back(); }, 1000)
+				} else {
+					setTimeout(function() { mui.back(); }, 1000)
+				}
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(err) {
+			//hideLoading();
+		})
+	}
+	mui("#item0mobile").on('tap', '.creator_img_comment', function(e) {
+		var userid = this.getAttribute('id');
+		var baseUrl = 'userHomepage.html';
+		var url = mui.os.plus ? baseUrl : baseUrl + '?userId=' + userid;
+		var curl = shareUrl+ baseUrl+ baseUrl + '?userId=' + userid;
+		setlsData('currUrl', curl);
+		mui.openWindow({
+			url: url,
+			id: 'userHomepage.html',
+			show: {
+				autoShow: true
+			},
+			createNew:true,
+			waiting: {
+				options: {
+					loading: {
+						height: '35px'
+					}
+				}
+			},
+			extras: {
+				userId: userid
+			}
+		})
+	})
+    //以下是分享
+    	creatSharePop();
+	mui(".pop_view_share").on('tap', '.pop_view_item', function(e) {
+		if(mui.os.plus) {		
+			mui('#popView_share2').popover('toggle');
+			var popView_share2 = document.getElementById("popView_share2");
+			popView_share2.className = "box mui-popover mui-popover-action mui-popover-bottom ";
+			shareHref(this.getAttribute('id'));
+		}
+	})
+
+function creatSharePop() {
+	var div = document.createElement('div');
+	div.id = 'popView_share2';
+	div.className = 'box mui-popover mui-popover-action mui-popover-bottom ';
+	div.innerHTML = '<div class="pop_view_share">' +
+		'				<div class="pop_view_item" id=1>' +
+		'					<img src="../img/weixin-icon.png" srcset="../img/weixin-icon@2x.png 2x" />' +
+		'					<div>微信好友</div>' +
+		'				</div>' +
+		'				<div class="pop_view_item" id=0>' +
+		'					<img src="../img/pyy-icon.png" srcset="../img/pyy-icon@2x.png 2x" />' +
+		'					<div>微信朋友圈</div>' +
+		'				</div>' +
+		'				<div class="pop_view_item" id=3>' +
+		'					<img src="../img/qq-icon.png" srcset="../img/qq-icon@2x.png 2x" />' +
+		'					<div>QQ空间</div>' +
+		'				</div>' +
+		'				<div class="pop_view_item" id=2>' +
+		'					<img src="../img/weibo-icon.png" srcset="../img/weibo-icon@2x.png 2x" />' +
+		'					<div>微博</div>' +
+		'				</div>' +
+		'			</div>';
+	bigContainer.appendChild(div);
+}
+document.getElementById("shares") && document.getElementById("shares").addEventListener('tap', function() {
+	if(mui.os.plus){
+		mui('#popView_share2').popover('toggle');
+		creatSharePop();
+	} else {
+		mui('#popView_share1').popover('toggle');
+	}
+})
+	mui("#text_container").on('tap', '.creator_img_comment', function(e) {
+			var userid = this.getAttribute('id');
+			var baseUrl = 'userHomepage.html';
+			var url = baseUrl + '?userId=' + userid; 			
+			mui.openWindow({ 
+				url: url,
+				id: 'userHomepage.html',
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					userId: userid
+				}
+			})
+	})
+    //以上是评论
+    document.getElementById('textComment').addEventListener('tap', function(event) {
+    	document.getElementById('popView_comment').getElementsByTagName('textarea')[0].placeholder = "输入评论";
+		mui('#popView_comment').popover('toggle');
+		document.getElementById('sendCom').title = 'first';
+	})
+	function getPointDetail(productId){
+		var params = {
+			productId : productId
+		}
+		getData('PointMall/ProductDetail',params, function(data) {	
+			hideLoading();
+			if(data.Type == 1) {
+				var data = data.Data;
+				pointName.innerText = data.Name;
+				Price.innerText = data.Price;
+				HitTimes.innerText = data.HitTimes + '人预览';
+				ExchangedCount.style.display = data.ExchangedCount == 0 ? 'none' : 'inline-block';
+				ExchangedCount.innerText = data.ExchangedCount == 0 ? '' : '已成功兑换'+ data.ExchangedCount +'个';
+				Body.innerHTML = getBodyImgUrl(data.Body);				
+				supportNum.innerText = data.CommentCount;
+				setShareInfo(getlsData('currUrl'), data.Name, data.Name);//分享
+				creatProductImages(data.ProductImages);
+				var gallery = mui('#imgSliderContainer');
+			    gallery.slider({
+			  	    interval:0//自动轮播周期，若为0则不自动播放，默认为0；
+			    });
+				var statusType = data.Status;
+				switch(statusType) {
+					case 20:
+						if(data.Quantity == 0){
+							document.getElementById('status').innerHTML = '<button type="button" class="mui-btn jh-btn-gray" disabled="disabled">缺货</button>';
+						}else{
+							document.getElementById('status').innerHTML = '<button type="button" class="mui-btn mui-btn-primary">立即兑换</button>';
+						}	
+					break;
+					case 30:
+						document.getElementById('status').innerHTML = '<button type="button" class="mui-btn jh-btn-gray"disabled="disabled">已结束</button>';						
+					break;
+					default:
+						break;
+				}
+				setIdandType(data.ProductId, 'PointMall',data.CommentCount )
+				if(data.Comments.length == 0){
+					commentArea.innerHTML = '<div class="loadingItem" id="noCom" style="padding-top: 20px;padding-bottom: 20px;color: #CCCCCC;">'+
+					'<i class="fa fa-info-circle fa-2x" style="vertical-align:middle;"></i>'+
+					'<span id="loadmsgtext" style="vertical-align:middle;padding-left: 5px;"> 暂无评论</span>'+
+					'</div>';
+			
+				}
+			    if(data.Comments.length>0){
+					//creatCommentsElement(data.Comments);
+					commentArea.appendChild(createComFragment(data.Comments))
+				}
+			    setLastBoard();
+				if(data.Comments.length == 5){
+					document.getElementById('morecomment').style.display='block';						
+				}
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(err) {
+			//hideLoading();
+		})
+	}
+</script>
+</html>

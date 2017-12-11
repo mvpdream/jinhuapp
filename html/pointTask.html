@@ -1,0 +1,1010 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/jinhu.css" />
+
+	</head>
+	<style>
+		.barline{
+			background-color: #e4e4e4 !important;
+		}
+		.mui-pull-top-tips {
+			position: absolute;
+			top: -20px;
+			left: 50%;
+			margin-left: -25px;
+			width: 40px;
+			height: 40px;
+			border-radius: 100%;
+			z-index: 1;
+		}
+		
+		.mui-bar~.mui-pull-top-tips {
+			top: 24px;
+		}
+		
+		.mui-pull-top-wrapper {
+			width: 42px;
+			height: 42px;
+			display: block;
+			text-align: center;
+			background-color: #efeff4;
+			border: 1px solid #ddd;
+			border-radius: 25px;
+			background-clip: padding-box;
+			box-shadow: 0 4px 10px #bbb;
+			overflow: hidden;
+		}
+		
+		.mui-pull-top-tips.mui-transitioning {
+			-webkit-transition-duration: 200ms;
+			transition-duration: 200ms;
+		}
+		
+		.mui-pull-top-tips .mui-pull-loading {
+			margin: 0;
+		}
+		
+		.mui-pull-top-wrapper .mui-icon,
+		.mui-pull-top-wrapper .mui-spinner {
+			margin-top: 7px;
+		}
+		
+		.mui-pull-top-wrapper .mui-icon.mui-reverse {}
+		
+		.mui-pull-bottom-tips {
+			text-align: center;
+			background-color: #efeff4;
+			font-size: 15px;
+			line-height: 40px;
+			color: #777;
+		}
+		
+		.mui-pull-top-canvas {
+			overflow: hidden;
+			background-color: #fafafa;
+			border-radius: 40px;
+			box-shadow: 0 4px 10px #bbb;
+			width: 40px;
+			height: 40px;
+			margin: 0 auto;
+		}
+		
+		.mui-pull-top-canvas canvas {
+			width: 40px;
+		}
+		
+		.mui-slider-indicator.mui-segmented-control {
+			background-color: #efeff4;
+		}
+		
+		.taskDetailPop {
+			position: fixed;
+			text-align: center;
+			width: 80%;
+			margin-left: 10%;
+			margin-right: 10%;
+			top: 25%;
+			min-height: 350px;
+			padding: 15px;
+			background-color: #FFFFFF;
+			word-break: break-all;
+			word-wrap: break-word;
+		}
+		
+		.submitPop {
+			position: fixed;
+			text-align: center;
+			width: 80%;
+			margin-left: 10%;
+			margin-right: 10%;
+			top: 25%;
+			min-height: 400px;
+			padding: 15px;
+			background-color: #FFFFFF;
+		}
+		
+		.taskDetailPop p {
+			word-break: break-all;
+			word-wrap: break-word;
+		}
+		
+		.mui-progressbar span {
+			background-color: #bf0a10
+		}
+		
+		.sharePop {
+			position: fixed;
+			text-align: center;
+			width: 60%;
+			margin-left: 20%;
+			margin-right: 20%;
+			top: 30%;
+			min-height: 250px;
+			padding: 15px;
+			background-color: #FFFFFF;
+			word-break: break-all;
+			word-wrap: break-word;
+		}
+		
+		.sharePop div {
+			padding-top: 10px;
+		}
+		.inviteinvitePop {
+			position: fixed;
+			text-align: center;
+			width: 80%;
+			margin-left: 10%;
+			margin-right: 10%;
+			top: 30%;
+			min-height: 250px;
+			padding: 15px;
+			background-color: #FFFFFF;
+			word-break: break-all;
+			word-wrap: break-word;
+		}
+		
+		.inviteinvitePop div {
+			padding-top: 10px;
+		}
+		.barbox{
+			height: 0 !important;
+		}
+		.barline{
+			height: 8px!important;
+		}
+		.charts{
+			height: 8px!important;
+		}
+	</style>
+
+	<body style="background-color: #FFFFFF;">
+		<div class="bdsharebuttonbox" style="display: none;">
+			<a id="qq" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+			<a id="weixin" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+		</div>
+		<div id="sharePop" class="jh-wenku-popup mui-popover sharePop">
+			<div style="font-size: 16px;color: #999999;" id="shareText"></div>
+			<div>
+				<div style="width: 50%;float: left;" id="weixinEl">
+					<img src="../img/weixin-icon.png" srcset="../img/weixin-icon@2x.png 2x">
+					<div>微信</div>
+				</div>
+				<div style="width: 50%;float: right;" id="qqEl">
+					<img src="../img/qq-icon.png" srcset="../img/qq-icon@2x.png 2x">
+					<div>QQ空间</div>
+				</div>
+			</div>
+		</div>
+		<div id="inviteinvitePop" class="jh-wenku-popup mui-popover inviteinvitePop">
+			<div style="font-size: 18px;color: #999999;" id="inviteinviteText">http://demo.jinhusns.com/accountinviteinvite=8924de66dd8bf3af</div>
+			<div style="font-size: 16px;">通过QQ、电子邮件发送链接给你的朋友，注册成功后他们会自动成为你的粉丝。</div>
+			<button id="copyAndClose" class="btn mui-btn mui-btn-primary" style="margin-top: 20px;" data-clipboard-action="copy" data-clipboard-target="div">复制链接并关闭</button>
+		</div>
+
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span><span id="navtil">积分任务</span>
+			</button>
+		</header>
+
+		<div id="taskDetailPop" class="jh-wenku-popup mui-popover taskDetailPop">
+			<div class="mui-scroll-wrapper" style="text-align: left;padding: 15px;" id="popRefreshContainer">
+				<div class="mui-scroll" style="width: 90%">
+					<h4 class="tn-font-16" id="taskName"></h4>
+					<form action="" onsubmit="return false;">
+						<div class="form-group">
+							<label>任务说明：</label>
+							<p id="taskDescription"></p>
+						</div>
+						<div class="form-group">
+							<label>任务奖励：</label>
+							<p><span id="experiences" style="display: none;"></span><span id="golds" style="display: none;"></span></p>
+						</div>
+						<div class="form-group">
+							<label>申请条件：<span id="condition"></span></label>
+						</div>
+						<div class="form-group">
+							<ul class="mui-list-inline" id="taskprogress" style="display: none;">
+								<li>任务进度：</li>
+								<span style="width: 70%;float: right;height: 21px;">
+									<!--<span id="progress" class="mui-progressbar mui-progressbar-in mui-pull-right" style="display: none;height: 8px;">-->
+									<div  id="progress" style="display: none;"></div>
+									<span></span>
+								</span>
+							</ul>
+						</div>
+						<!--<div class="alert alert-warning" role="alert">
+                    <i class="fa fa-check-circle fa-2x tn-mr-15 tn-vertical-middle"></i>已放弃任务
+                </div>-->
+						<div class="form-group mui-text-center" id="btnGroup" style="margin-top: 55px;">
+							<button class="mui-btn mui-btn-primary" id="confirmOperation"></button>
+							<button type="button" class="mui-btn mui-btn-grey" id="cancelOperation"></button>
+						</div>
+						<div class="alert alert-success" role="alert" style="display: none;margin-top: 55px;" id="finishGroup">
+							<i class="fa fa-check-circle fa-2x tn-mr-15 tn-vertical-middle"></i> 已完成任务
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+
+		<div id="submitPop" data-disable-auto-close="true" class="jh-wenku-popup mui-popover submitPop">
+			<i id="closePop" class="fa fa-times-circle" aria-hidden="true" style="font-size: 25px;position: absolute;top:-10px;right: -10px;color: #666666;"></i>
+			<div class="mui-scroll-wrapper" style="text-align: left;padding: 15px;" id="refreshContainer">
+				<div class="mui-scroll" style="width: 90%">
+					<p style="font-size: 16px;" id="taskName"></p>
+					<p id="resultContent">
+
+					</p>
+					<span id="feedback" style="display: none;">
+						<p>反馈意见：</p>
+						<p id="feedbackText"></p>
+					</span>
+
+					<div style="width: 100%;text-align: center;margin-top: 30px;">
+						<span style="padding-top: 20px;">
+		                    <button class="mui-btn mui-btn-primary" id="confirmTask"></button>
+		                    <button type="button" class="mui-btn mui-btn-grey" id="cancelTask"></button>
+	                	</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="mui-content" id="contentArea" style="display: block">
+			<div id="slider" class="mui-slider mui-fullscreen">
+				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted jh-scroll-wrapper">
+					<div class="mui-scroll" id="SectionType" style="width: 100%;">
+						<a class="mui-control-item mui-active" href="#itemmobile" id="0" style="width: 50%;border-right: 1px solid #e4e4e4;">
+							任务列表
+						</a>
+						<a class="mui-control-item" href="#item0mobile" id="1" style="width: 50%;margin-left: -3.5px;">
+							已完成任务
+						</a>
+
+					</div>
+				</div>
+				<div class="mui-slider-group" id="sliderGroup" style="top: 40px;">
+					<div id="itemmobile" class="mui-slider-item mui-control-content mui-active">
+						<div class="mui-scroll-wrapper" id="refreshContainer">
+							<div class="mui-scroll">
+								<div class="jh-gray-bar"></div>
+								<ul class="mui-table-view jh-task-card">
+
+									<div class="mui-loading">
+										<div class="mui-spinner">
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item0mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper" id="refreshContainer1">
+							<div class="mui-scroll">
+								<div class="jh-gray-bar"></div>
+								<ul class="mui-table-view jh-task-card">
+									<div class="mui-loading">
+										<div class="mui-spinner">
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<script src="../js/mui.js"></script>
+			<script src="../js/mui.pullToRefresh.js"></script>
+			<script src="../js/mui.pullToRefresh.material.js"></script>
+			<script src="../js/service.js"></script>
+			<script src="../js/common.js"></script>
+			<script src="../js/wxHelper.js"></script>
+			<script src="../js/share.js"></script>
+			<script src="../js/clipboard.min.js"></script>
+			<script src="../js/jquery-2.1.0.js"></script>
+			<script src="../js/progressBar.js"></script>
+	</body>
+	<script type="text/javascript">
+		mui.init({
+			gestureConfig: {
+				tap: true //默认为true
+			}
+		})
+		if(mui.os.wechat) {
+			initWx();
+			wx.ready(function() {
+				wx.checkJsApi({
+					jsApiList: ['previewImage', 'onMenuShareAppMessage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+					success: function(res) {
+						//alert(JSON.stringify(res))
+						// 以键值对的形式返回，可用的api值true，不可用为false
+					}
+				});
+			});
+			wx.error(function(res) {
+				//alert(JSON.stringify(res))
+			});
+		}
+		function setPopHeight(idname){
+			var height = document.documentElement.clientHeight || document.body.clientHeight;
+			var popHeight=parseInt(window.getComputedStyle(document.getElementById(idname), null).minHeight);
+			document.getElementById(idname).style.top=(height-popHeight)/2+'px';
+		}
+		setPopHeight('taskDetailPop');
+		setPopHeight('sharePop');
+		setPopHeight('inviteinvitePop');
+		setPopHeight('submitPop');
+		
+		var confirmOperation = document.getElementById("confirmOperation");
+		var cancelOperation = document.getElementById("cancelOperation");
+		var selectTaskId = 0;
+		var selectTaskType = 0;
+		var selel = document.getElementsByClassName("mui-control-item mui-active");
+		mui('.mui-slider').slider();
+		var deceleration = mui.os.ios ? 0.003 : 0.0009;
+		mui('.mui-scroll-wrapper.mui-slider-indicator.mui-segmented-control').scroll({
+			scrollY: false,
+			scrollX: true,
+			indicators: false,
+			deceleration: deceleration,
+			snap: '.mui-control-item'
+		});
+		var tabIndex = 0;
+		document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+			tabIndex = event.detail.slideNumber;
+			var progressArray = document.getElementsByClassName('div');	
+			for(var i = 0;i<progressArray.length;i++){
+				progressArray[i].innerHTML = '';
+			}
+			if(tabIndex == 0) {
+				GetPointTasks("", false)
+			} else {
+				GetPointTasks("completed", false)
+			}
+		});
+		var pageindex = 1;
+		(function($) {
+			//阻尼系数
+			var deceleration = mui.os.ios ? 0.003 : 0.0009;
+			$('.mui-scroll-wrapper').scroll({
+				bounce: false,
+				indicators: true, //是否显示滚动条
+				deceleration: deceleration
+			});
+			$.ready(function() {
+				//循环初始化所有下拉刷新，上拉加载。
+				$.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+					$(pullRefreshEl).pullToRefresh({
+						down: {
+							callback: function() {
+								var self = this;
+								//document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'none';
+								if(selel[0].id == '0') {
+									GetPointTasks("")
+								}
+								if(selel[0].id == '1') {
+									GetPointTasks("completed")
+								}
+								setTimeout(function() {
+									self.endPullDownToRefresh();
+								}, 1000);
+							}
+						},
+						up: {
+
+						}
+					});
+				});
+			});
+		})(mui);
+
+		mui("#slider").on('tap', '.mui-table-view-cell', function(e) {
+			var index = this.getAttribute('id');
+			var task = pointTask[index];
+			document.getElementById("taskName").innerHTML = task.TaskName;
+			document.getElementById("taskDescription").innerHTML = task.Description;
+			document.getElementById("experiences").innerHTML = task.AwardPoints + task.AwardPointName;
+			document.getElementById("golds").innerHTML = task.AwardGolds + task.AwardGoldName;
+			var conditionText = '不限';
+			if(task.Condition != 0) {
+				conditionText = '用户等级>=' + task.Condition + '级';
+			}
+			document.getElementById("condition").innerHTML = conditionText;
+			if(task.Progress != 0&&(task.TaskStatus!=0&&task.TaskStatus!=5)) {
+				document.getElementById("taskprogress").style.display = '';
+				document.getElementById("progress").style.display = '';
+				document.getElementById('progress').innerHTML = '';
+				document.getElementById('progress').className = 'div';
+				document.getElementById('progress').title = task.Progress;
+				progressBar('cycle');
+				//mui("#progress").progressbar().setProgress(task.Progress);
+			} else {
+				document.getElementById("taskprogress").style.display = 'none';
+				document.getElementById("progress").style.display = 'none';
+			}
+			document.getElementById("experiences").style.display=task.AwardPoints!=0 ? '' : 'none';
+			if(task.AwardGolds!=0){
+				document.getElementById("experiences").innerHTML+='+'
+			}
+			document.getElementById("golds").style.display=task.AwardGolds!=0 ? '' : 'none';
+			changeBtn(task.TaskStatus, task.ResultContent)
+			selectTaskId = task.TaskId;
+			selectTaskType = task.TaskUrlType;
+			if(task.TaskStatus == 3) {
+				document.getElementById("btnGroup").style.display = 'none';
+				document.getElementById("finishGroup").style.display = '';
+			} else {
+				document.getElementById("btnGroup").style.display = '';
+				document.getElementById("finishGroup").style.display = 'none';
+			}
+			if(selectTaskType == 0) {
+				if(task.TasksSettings != '' && task.ResultContent == '' && task.Feedback == '') {
+					creatItemForPop(JSON.parse(task.TasksSettings))
+					document.getElementById("confirmTask").innerHTML = '提交任务'
+					document.getElementById("cancelTask").style.display = 'none'
+				} else {
+					creatItemForPopFb(JSON.parse(task.TasksSettings), JSON.parse(task.ResultContent), task.Feedback)
+					document.getElementById("confirmTask").innerHTML = '再次提交'
+					document.getElementById("cancelTask").style.display = ''
+					document.getElementById("cancelTask").innerHTML = '取消'
+				}
+			}
+			if(selectTaskType==5){
+				var shareData=JSON.parse(task.TasksSettings);
+				changeSharePop(shareData.LinkUrl, shareData.ShareWeiXin, shareData.ShareQQ)
+			}
+			mui('#popRefreshContainer').scroll().scrollTo(0,0,100)
+			mui('#taskDetailPop').popover('toggle');
+		})
+		document.getElementById("confirmTask").addEventListener('tap', function() {
+			var popContainer = document.getElementById("resultContent");
+			var inputs = popContainer.querySelectorAll('input');
+			var inputArr = [];
+			for(var i = 0; i < inputs.length; i++) {
+				var inputText = TrimAll(inputs[i].value);
+				if(inputText == '') {
+					mui.toast('第' + (i + 1) + '项不能为空');
+					return
+				} else {
+					inputArr.push(inputText)
+				}
+			}
+			taskHandle(selectTaskId, 'submit', inputArr)
+		})
+		document.getElementById("closePop").addEventListener('tap', function() {
+			mui('#submitPop').popover('hide');
+			mui('#taskDetailPop').popover('show');
+		})
+
+		var creatTaskElement = function(data, id) {
+			var fragment = document.getElementById(id);
+			var cfragment = fragment.firstElementChild;
+			var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+			var newFragment = document.createDocumentFragment();
+			if(fragment.querySelector('.mui-loading')){
+				finel.removeChild(finel.childNodes[1]);
+			}
+			var progress=[];
+			for(var i = 0; i < data.length; i++) {
+				var li;
+				var proDisplay = (data[i].TaskUrlType != 0 && data[i].TaskStatus == 1) ? '' : 'none';
+				var progressName = (data[i].TaskUrlType != 0 && data[i].TaskStatus == 1) ? 'div' : '';
+				var taskStatus = '';
+				if(data[i].TaskStatus == 2&&data[i].ResultContent != ''){
+					taskStatus='待审核'
+				}else if(data[i].TaskStatus == 2&&data[i].ResultContent == ''){
+					taskStatus='提交任务'
+				}else if(data[i].TaskStatus == 4){
+					taskStatus='未通过'
+				}else{
+					taskStatus=''
+				}
+				var goldDisplay=data[i].AwardGolds!=0 ? '' : 'none';
+				var pointDisplay=data[i].AwardPoints!=0 ? '' : 'none';
+				var imgUrl = getImgUrl(data[i].IamgeUrl);
+				switch(data[i].TaskUrlType) {
+					case 0:
+						imgUrl = '../img/task-rgsh.png';
+						break;
+					case 1:
+						imgUrl = '../img/task-wsgrzl.jpg'
+						break;
+					case 2:
+						imgUrl = '../img/task-app.jpg'
+						break;
+					case 3:
+						imgUrl = '../img/task-qdkr.jpg'
+						break;
+					case 4:
+						imgUrl = '../img/task-add.jpg'
+						break;
+					case 5:
+						imgUrl = '../img/task-zwfx.png'
+						break;
+					default:
+						imgUrl = getImgUrl(data[i].IamgeUrl);
+						break;
+				}
+				li = document.createElement('li');
+				li.className = 'mui-table-view-cell mui-media';
+				li.style.width = '100%';
+				li.id = i;
+				li.innerHTML = '<img class="mui-media-object mui-pull-left" style="width:60px;height:60px" src=' + imgUrl + ' />' +
+					'<div class="mui-media-body">' +
+					'<ul class="mui-list-inline">' +
+					'<li style="width:55%"><h4 class="mui-ellipsis">' + data[i].TaskName + '</h4></li>' +
+					'<li style="width:40%;float:right;font-size:10px;text-align:right" class="mui-pull-right jh-reward"><span style="display:' + pointDisplay + '">' + data[i].AwardPoints + '' + data[i].AwardPointName + '</span>'+ 
+					' <span style="display:' + goldDisplay + '">' + data[i].AwardGolds + '' + data[i].AwardGoldName + '</span></li>' +
+					'</ul>' +
+					'<p class="text-muted mui-ellipsis"><span style="width:100%" class="mui-ellipsis">' + data[i].Description + '</span></p>' +
+					'<span class="mui-pull-right tn-theme-color" style="font-size:10px">' + taskStatus + '</span>'+
+					//'<span id="progress' + i + '" class="mui-progressbar mui-progressbar-in mui-pull-right " style="display:' + proDisplay + ';height: 6px;margin-top:10px"><span></span></span></p>' +
+					'<div id="progress' + i + '" class="'+ progressName +'" title="'+ data[i].Progress +'" style="display:' + proDisplay + '" ><span></span></div></p>'+
+					'</div>' +
+					'</a>';
+				newFragment.appendChild(li);
+				//progress.push(data[i].Progress)
+//				if(data[i].Progress != 0) {
+//					mui("#progress" + i).progressbar().setProgress(data[i].Progress);
+//				}
+	}
+			finel.innerHTML=nodeToString(newFragment);
+			//setProgress(progress)
+			
+		};
+		function setProgress(progress){
+			for (var i=0;i<progress.length;i++) {
+				mui("#progress" + i).progressbar({progress:progress[i]}).show();
+				//mui("#progress" + i).progressbar().setProgress(progress[i]);
+			}
+		}
+		var creatItemForPop = function(data) {
+			var fragment = document.getElementById('resultContent');
+			document.getElementById("feedback").style.display = 'none';
+			fragment.innerHTML = '';
+			for(var i = 0; i < data.length; i++) {
+				fragment.innerHTML += '<p>' + data[i].SettingName + '</p><input placeholder="" type="text" data-input-clear="1">'
+			}
+		}
+		var creatItemForPopFb = function(data, value, feedback) {
+			var fragment = document.getElementById('resultContent');
+			fragment.innerHTML = '';
+			for(var i = 0; i < data.length; i++) {
+				fragment.innerHTML += '<p>' + data[i].SettingName + '</p><input placeholder="" type="text" data-input-clear="1">'
+			}
+			var inputs = fragment.querySelectorAll('input');
+			for(var i = 0; i < inputs.length; i++) {
+				inputs[i].value = value[i].SettingName
+			}
+			if(feedback != '') {
+				document.getElementById("feedback").style.display = '';
+				document.getElementById("feedbackText").innerHTML = feedback
+			}
+		}
+
+		var changeBtn = function(taskStatus, resultContent) {
+			if(taskStatus == 1) {
+				changeBtnStyle('doTask', '去做任务', '', confirmOperation, '#bf0a10')
+				changeBtnStyle('giveUpTask', '放弃任务', '', cancelOperation, '#999999')
+			} else if(taskStatus == 2 || taskStatus == 4) {
+				if(resultContent == '' || taskStatus == 4) {
+					changeBtnStyle('submitTask', '提交任务', '', confirmOperation, '#bf0a10')
+				} else {
+					changeBtnStyle('waitingAuditTask', '等待审核', '', confirmOperation, '#E4E4E4')
+				}
+				changeBtnStyle('giveUpTask', '放弃任务', '', cancelOperation,'#999999')
+			} else {
+				cancelOperation.style.display = 'none';
+				changeBtnStyle('receiveTask', '领取任务', '', confirmOperation, '#bf0a10')
+			}
+		}
+
+		function changeBtnStyle(id, innerHtml, display, elm, color) {
+			elm.id = id;
+			elm.innerHTML = innerHtml;
+			elm.style.display = display;
+			elm.style.backgroundColor = color;
+			elm.style.backgroundColor = color;
+			elm.style.borderColor = color;
+		}
+		confirmOperation.addEventListener('tap', function() {
+			var type = this.getAttribute('id');
+			if(type == 'receiveTask') {
+				taskHandle(selectTaskId, 'receive', null)
+			}
+			if(type == 'submitTask') {
+				mui('#submitPop').popover('show');
+			}
+			if(type == 'doTask') {
+				mui('#taskDetailPop').popover('hide');
+				switch(selectTaskType) {
+					case 0: //人工审核
+						break;
+					case 1: //完善个人资料
+						userProfile();
+						break;
+					case 2: //使用App登录
+						var islog = getlsData('isLogin');
+						if(islog == 'true') {
+							if(mui.os.plus) {
+								taskHandle(selectTaskId, 'submit', null)
+							} else {
+								alert('请使用手机app登录')
+							}
+						} else {
+							login();
+						}
+						break;
+					case 3: //连续签到
+						userSign()
+						break;
+					case 4: //邀请朋友
+						//userFollows()
+						mui('#inviteinvitePop').popover('toggle');
+						break;
+					case 5: //站外分享
+						mui('#sharePop').popover('toggle');
+						//shareHref(this.getAttribute('id'));
+						break;
+				}
+			}
+		})
+		var user;
+		getDatawithToken('User/GetCurrentUser', {}, function(data) {
+				if(data.Type == 1) {
+					user=data.Data;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(data) {
+				setErr('','0px')
+			});
+		function userFollows() {
+			getDatawithToken('User/GetCurrentUser', {}, function(data) {
+				if(data.Type == 1) {
+					userid = data.Data.UserId;
+					var baseUrl = 'userFollows_main.html';
+					var url = mui.os.plus ? baseUrl : baseUrl + '?userId=' + userid + '&username=me&type=userfollower&inviteinvite=true';
+					mui.openWindow({
+						url: url,
+						id: 'userFollows_main.html',
+						show: {
+							autoShow: true
+						},
+						waiting: {
+							options: {
+								loading: {
+									height: '35px'
+								}
+							}
+						},
+						extras: {
+							userId: userid,
+							username: 'me',
+							type: 'userfollower',
+							inviteinvite: true
+						}
+					})
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(data) {
+				setErr('','0px')
+			});
+		}
+
+		function userSign() {
+			var islog = getlsData('isLogin');
+			if(islog == 'true') {
+				var baseUrl = 'signIn.html';
+				var url = mui.os.plus ? baseUrl : baseUrl;
+				mui.openWindow({
+					url: url,
+					id: 'signIn.html',
+					show: {
+						autoShow: true
+					},
+					waiting: {
+						options: {
+							loading: {
+								height: '35px'
+							}
+						}
+					}
+				})
+			} else {
+				mui.toast('请登录后再进行操作');
+				login();
+			}
+
+		}
+
+		function userProfile() {
+			var baseUrl = 'personalData.html';
+			var url = mui.os.plus ? baseUrl : baseUrl;
+			mui.openWindow({
+				url: url,
+				id: 'personalData.html',
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				}
+			})
+		}
+
+		cancelOperation.addEventListener('tap', function() {
+			var type = this.getAttribute('id');
+			if(type == 'giveUpTask') {
+				taskHandle(selectTaskId, 'abandoned', null)
+			}
+		})
+
+		var page = 1;
+		var idName = "";
+		var bool;
+		var pointTask = [];
+		GetPointTasks("", false);
+
+		function GetPointTasks(type, isRefresh) {
+			if(!isRefresh) {
+				//showLoading('', '', '#FFFFFF', '90px', '1');
+			}
+			idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+			var fragment = document.getElementById(idName);
+			var cfragment = fragment.firstElementChild;
+			var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+			//finel.innerHTML = '';
+			var params = {
+				type: type
+			};
+			getDatawithToken('User/GetPointTasks?t=' + Math.random(), params, function(data) {
+				hideLoading()
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						hideErrForList('', idName);
+						if(data.Data.length == 0) {
+							var errForList = showErrForList('暂无任务', '', '', idName);
+							if(errForList) {
+								fragment.appendChild(showErrForList('暂无任务', '', '', idName))
+							}
+						}
+						pointTask = data.Data;
+						creatTaskElement(data.Data, idName);
+						progressBar();
+					} else {
+						if(!isRefresh) {
+							var errForList = showErrForList('暂无任务', '', '', idName);
+							if(errForList) {
+								fragment.appendChild(showErrForList('暂无任务', '', '', idName))
+							}
+						}
+						mui.toast(data.Data);
+					}
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					var errForList = showErrForList(data.Data, '', '', idName);
+					if(errForList) {
+						fragment.appendChild(showErrForList(data.Data, '', '', idName))
+					}
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr('','90px')
+			})
+		}
+
+		function taskHandle(taskId, method, content) {
+			var params = {
+				taskId: taskId,
+				method: method,
+				content: content
+			};
+			postDatawithToken('User/TaskHandle', params, function(data) {
+				if(data.Type == 1) {
+					mui.toast(data.Data);
+					mui('#submitPop').popover('hide');
+					mui('#taskDetailPop').popover('hide');
+					idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+					if(idName == "itemmobile") {
+						GetPointTasks("", true)
+					} else {
+						GetPointTasks("completed", true)
+					}
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr('','',false)
+			})
+		}
+		function shareCallBack(taskId,userId) {
+			postDatawithToken('User/ShareCallBack?taskId='+taskId+'&userId='+userId, {}, function(data) {
+				mui('#sharePop').popover('toggle');
+				idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+				if(idName == "itemmobile") {
+					GetPointTasks("", true)
+				} else {
+					GetPointTasks("completed", true)
+				}
+			}, function(err) {
+				setErr('','',false)
+			})
+		}
+		
+		function changeSharePop(shareUrl, hasWeiXin, hasQQ) {
+			if(!mui.os.plus && !mui.os.wechat) {
+				window._bd_share_config = {
+					common: {
+						bdText: '站外分享',
+						bdDesc: shareUrl,
+						bdUrl: shareUrl,
+						onAfterClick:function(qq){
+							shareCallBack(selectTaskId,user.UserId)
+						}
+					},
+					share: [{
+						//分享按钮的尺寸
+						"bdSize": 16,
+					}]
+				}
+				with(document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion=' + ~(-new Date() / 36e5)];
+			}
+			setShareInfo(shareUrl, shareUrl, shareUrl);
+			document.getElementById("shareText").innerHTML = shareUrl;
+			var weixinEl = document.getElementById("weixinEl");
+			var qqEl = document.getElementById("qqEl");
+			weixinEl.style.display = hasWeiXin ? '' : 'none';
+			weixinEl.style.width = (hasWeiXin && !hasQQ) ? '100%' : '50%';
+			qqEl.style.display = hasQQ ? '' : 'none';
+			qqEl.style.width = (qqEl && !hasWeiXin) ? '100%' : '50%';
+			if(hasWeiXin) {
+				weixinEl.addEventListener('tap', function() {
+					if(mui.os.plus) {
+						shareHref(1, function(e) {
+							if(e == 1) {
+								shareCallBack(selectTaskId,user.UserId)
+							}
+						});
+					} else if(mui.os.wechat) {
+						initWxShare(shareUrl, shareUrl)
+					} else {
+						document.getElementById("weixin").click()
+					}
+
+				})
+			}
+			if(hasQQ) {
+				qqEl.addEventListener('tap', function() {
+					if(mui.os.plus) {
+						shareHref(3, function(e) {
+							if(e == 1) {
+								shareCallBack(selectTaskId,user.UserId)
+							}
+						});
+					} else if(mui.os.wechat) {
+						initWxShare(shareUrl, shareUrl)
+					} else {
+						document.getElementById("qq").click()
+					}
+				})
+			}
+		}
+
+		function initWxShare(title, link) {
+			//监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+			wx.onMenuShareAppMessage({
+				title: title, // 分享标题
+				desc: title, // 分享描述
+				link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+				imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg', // 分享图标
+				success: function() {
+					// 用户确认分享后执行的回调函数
+					mui.toast('分享成功')
+					shareCallBack(selectTaskId,user.UserId)
+				},
+				cancel: function() {
+					// 用户取消分享后执行的回调函数
+				}
+			});
+			//  监听“分享到QQ空间”按钮点击、自定义分享内容及分享结果接口
+			wx.onMenuShareQZone({
+				title: title, // 分享标题
+				desc: title, // 分享描述
+				link: link, // 分享链接
+				imgUrl: 'http://img3.douban.com/view/movie_poster_cover/spst/public/p2166127561.jpg', // 分享图标
+				success: function() {
+					// 用户确认分享后执行的回调函数
+					mui.toast('分享成功')
+					shareCallBack(selectTaskId,user.UserId)
+				},
+				cancel: function() {
+					// 用户取消分享后执行的回调函数
+				}
+			});
+		}
+
+		function changeTab(index) {
+			var gallery = mui('#sliderSegmentedControl');
+			var gallerys = mui('#slider');
+			gallery.scroll().gotoPage(index);
+			gallerys.slider().gotoItem(index);
+			switch(index) {
+				case 0:
+					GetPointTasks("", false)
+					mui('#refreshContainer').scroll().scrollTo(0, 0);
+					break;
+				case 1:
+					GetPointTasks("completed", false)
+					mui('#refreshContainer1').scroll().scrollTo(0, 0);
+					break;
+				default:
+
+					break;
+			}
+		}
+		
+		document.getElementById("inviteinviteText").innerHTML=getlsData('inviteFriendUrl');
+		var copyAndCloseBtn = document.getElementById("copyAndClose");
+		copyAndCloseBtn.setAttribute("data-clipboard-text", getlsData('inviteFriendUrl'));
+		if(mui.os.plus&&mui.os.ios){
+			copyAndCloseBtn.addEventListener('tap',function(e){
+				var UIPasteboard  = plus.ios.importClass("UIPasteboard");
+				var generalPasteboard = UIPasteboard.generalPasteboard();
+				// 设置/获取文本内容:
+				generalPasteboard.setValueforPasteboardType(getlsData('inviteFriendUrl'), "public.utf8-plain-text");
+				var value = generalPasteboard.valueForPasteboardType("public.utf8-plain-text");
+				mui('#inviteinvitePop').popover('toggle');
+				mui.toast('复制成功')
+			})
+			
+		}else{
+			copyAndCloseBtn.setAttribute("data-clipboard-text", getlsData('inviteFriendUrl'));
+			var clipboard = new Clipboard('.btn');
+			clipboard.on('success', function(e) {
+				mui('#inviteinvitePop').popover('toggle');
+				mui.toast('复制成功')
+			});
+			clipboard.on('error', function(e) {
+				console.log(JSON.stringify(e));
+				mui.toast('复制失败，请重试')
+			});
+		}
+	</script>
+
+</html>

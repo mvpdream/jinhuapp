@@ -1,0 +1,438 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/jinhu.css">
+		<link rel="stylesheet" href="../css/bvd.css">
+
+	</head>
+	<style>
+		#popView_share1 a span {
+			margin: 15px
+		}
+		
+		.jh-bar-comment .jh-comment-right a {
+			color: #fff;
+		}
+		.jh-bar-comment .jh-comment-edit{
+			border-bottom:1px solid #4e4e4e;
+		}
+		.jh-bar-comment .jh-comment-edit i{
+			color: #E4E4E4;
+		}
+		
+		.jh-bar-comment {
+			border-top: 1px solid #333333;
+			background-color: rgba(0, 0, 0, 0.7);
+		}
+		
+		.mui-bar-nav {
+			border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+			background-color: rgba(0, 0, 0, 0.6);
+		}
+		
+		.mui-icon-left-nav {
+			color: #fff;
+		}
+		.mui-slider-item img{
+			width: 100%;
+		}
+		.jh-detail-content .mui-content-padded{
+			background-color: #000000;
+		}
+		#reportContainer{
+			position: fixed;
+			margin-left: 5%;
+			min-height: 375px;
+			background-color: #ffffff;
+		}
+		#reportContainer button{
+			width: 50%;
+		    height: 40px;
+		    line-height: 24px;
+		    border-right: 1px solid #eff2f9;
+		    border-top: none;
+		    border-bottom: none;
+		    text-align: center;
+		    margin-right: 0px;
+		}
+		#reportContainer p {
+			margin-bottom: 0px;
+		    height: 40px;
+		    line-height: 40px;
+		    width: 100%;
+		    border-top: 1px solid #eff2f9;
+		}
+		#reportContainer ul{
+			background-color: #fff;
+			margin: 5px 5px;
+			padding: 3px;
+		}
+	</style>
+
+	<body style="background-color: #000;">
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-btn mui-btn-blue mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span><span id="NewsName"></span>
+			</a>
+			<a id="newsOpt"  class="mui-icon mui-icon-bars mui-pull-right" style="color: #fff;"></a>
+		</header>
+
+		<div id="popover" class="mui-popover" style="position:fixed;width: 130px;height: auto;background-color: #FFFFFF;right: 5px;top: 50px;">
+			<ul class="mui-list-unstyled jh-dropdown-list" style="margin-top:0px;border: none;padding-bottom: 0px;">			
+				<li id="DeleteNews" style="padding-top: 3px;height: 30px;line-height: 30px;">
+					<a><i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp删除</a>
+				</li>
+				<li id="report" style="height：30px;line-height: 30px;padding-top: 3px;">
+					<a><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp举报</a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="mui-content jh-detail-content" style="background-color: #000;">
+				<div class="mui-slider" id="slider">
+				  <div class="mui-slider-group" id="sliderGroups">
+
+				  </div>
+				</div>
+				
+				
+
+				<div class="mui-bar mui-bar-tab jh-bar-comment"  id="commentBar">
+
+				</div>
+				<div id="reportContainer" class="jh-medal-popover box mui-popover" style="background-color: #fff;display: none;padding: 0px !important;">
+			<ul class="mui-table-view jh-word-vote" id="itemContainer">
+				<span style="margin-left: 15px;">举报原因</span><span style="color: red;">*</span>
+				<form class="mui-input-group" style="background-color: #fff;margin-bottom: 0px;">
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">恶意灌水</span>
+						<input name="style" type="radio" class="mui-pull-left" id="1"/>
+					</div>
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">淫秽色情</span>
+						<input name="style" type="radio" class="mui-pull-left" id="2"/>
+					</div>
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">内容侵权</span>
+						<input name="style" type="radio" class="mui-pull-left" id="3"/>
+					</div>
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">广告诈骗</span>
+						<input name="style" type="radio" class="mui-pull-left" id="4"/>
+					</div>
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">其他</span>
+						<input name="style" type="radio" class="mui-pull-left" id="99"/>
+					</div>
+				</form>
+			</ul>
+	    	<ul class="mui-table-view">
+				<li style="padding-bottom: 0px; font-size: 16px;padding: 6px 10px;">
+					<textarea id="reason" rows="2" placeholder="请输入举报原因"></textarea>
+				</li>
+			</ul>
+			<p>
+				<button class="Fbutton" style="border-radius: 0px 0px 0px 5px;color: #999;" id="cancelReport">取消</button>
+				<button class="Fbutton" id="submitReport" style="color: #bf0a10;border-right: none;border-left:none;float: right;border-radius: 0px 0px 5px 0px;">确定</button>
+			</p>
+	    </div>
+			
+			<script src="../js/mui.min.js"></script>
+			<script src="../js/mui.zoom.js"></script>
+			<script src="../js/mui.previewimage.js"></script>
+			<script src="../js/service.js"></script>
+			<script src="../js/common.js"></script>
+			<script src="../js/comment.js"></script>
+			<script src="../js/share.js"></script>
+			<script src="../js/bvd.js"></script>
+			<script src="../js/wxHelper.js"></script>
+			<script src="../js/jweixin-1.2.0.js"></script>
+			<script src="../js/openApp.js"></script>
+			<script src="https://static.mlinks.cc/scripts/dist/mlink.min.js"></script>
+	</body>
+	<script>
+		var newsOpt = document.getElementById('newsOpt');
+		if(!mui.os.plus) {
+			creatBanner();
+		}
+		var height = document.documentElement.clientHeight || document.body.clientHeight;
+		document.querySelector('.jh-detail-content').style.minHeight = height + 'px';
+		mui.init();
+		var attachments = [];
+		if(!mui.os.wechat) {
+			mui.previewImage();
+		}
+		if(mui.os.wechat) {
+			initWx();
+			wx.ready(function() {
+				wx.checkJsApi({
+					jsApiList: ['previewImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+					success: function(res) {
+						// 以键值对的形式返回，可用的api值true，不可用为false
+						// 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+					}
+				});
+			});
+			wx.error(function(res) {
+
+			});
+		}
+		if(mui.os.wechat) {
+			mui("#slider").on('tap', 'img', function(e) {
+				var imgUrl = e.detail.target.currentSrc;
+				var imgs = [];
+				for(var i = 0; i < attachments.length; i++) {
+					imgs.push(attachments[i].DirectlyUrl)
+				}
+				wx.previewImage({
+					current: imgUrl,
+					urls: imgs
+				});
+			})
+		}
+
+		window._bd_share_config = {
+			"common": {
+				"bdSnsKey": {},
+				"bdText": "",
+				"bdMini": "2",
+				"bdMiniList": false,
+				"bdPic": "",
+				"bdStyle": "0",
+				"bdSize": "32"
+			},
+			"share": {},
+			"image": {
+				"viewList": ["qzone", "tsina", "weixin"],
+				"viewText": "分享到：",
+				"viewSize": "32"
+			},
+			"selectShare": {
+				"bdContainerClass": null,
+				"bdSelectMiniList": ["qzone", "tsina", "weixin"]
+			}
+		};
+		newsOpt.addEventListener('tap', function() {
+			mui('#popover').popover('toggle');			
+		})
+		function setPopHeight(idname) { 
+			var height = document.documentElement.clientHeight || document.body.clientHeight;
+			var popHeight = parseInt(window.getComputedStyle(document.getElementById(idname), null).minHeight);
+			document.getElementById(idname).style.top = (height - popHeight)/2 + 'px';
+		}
+		document.getElementById('report').addEventListener('tap',function(){
+			var islog = getlsData('isLogin');
+			if(islog == 'true'){
+				mui('#reportContainer').popover('toggle');
+				setPopHeight('reportContainer');
+			}else{
+				login();
+			}
+		})	
+		document.getElementById('cancelReport').addEventListener('tap',function(){
+			mui('#reportContainer').popover('toggle');
+		})
+		document.getElementById('submitReport').addEventListener('tap',function(){
+			var checked = false;
+			for(var i = 0;i<document.getElementById('itemContainer').getElementsByTagName('input').length;i++){
+				if(document.getElementById('itemContainer').getElementsByTagName('input')[i].checked == true){
+					checked = true;
+					var id = document.getElementById('itemContainer').getElementsByTagName('input')[i].id;
+				}
+			}
+			if(checked == false){
+				mui.toast("请选择举报原因");
+				return;
+			}
+			var Description = TrimAll(document.getElementById('reason').value);
+			EditReport(id,Description);
+			mui('#reportContainer').popover('toggle');
+		})
+		function EditReport(id,Description){
+			var params = {
+				TenantTypeId:100011,
+				Reason:id,
+				Title:title,
+				Description:Description,
+				ReportObjectId:contentItemId
+			}
+			postDatawithToken('User/EditReport',params, function(data) {
+				if(data.Type == 1) {
+					mui.toast(data.Data);					
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误					
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(data) {
+				hideLoading()
+			});
+		}
+		mui("#popover").on('tap', '#DeleteNews', function(e) {
+		var btnArray = ['是', '否'];
+				mui.confirm('是否删除该资讯？', '', btnArray, function(e) {
+					if(e.index == 0) {
+						postDatawithToken('CMS/DeleteContentItem?contentItemId=' + contentItemId, {}, function(data) {						
+						if(data.Type == 1) {
+							if(mui.os.plus) {
+								mui('#popover').popover('hide');
+								mui.toast(data.Data);
+								var index=tabIndex.toString();
+								var wobj = plus.webview.getWebviewById(backType);
+								wobj.evalJS("getsectionType('"+index+"')")
+								setTimeout(function() { mui.back(); }, 500)							    
+						} else {
+							mui.toast(data.Data);
+							setTimeout(function() { mui.back(); }, 500)							
+						}
+						} else if(data.Type == 0) {
+							//登录失败
+							mui.toast("请登录后再进行操作");
+							login();
+							return;
+						} else {
+							//逻辑错误
+							mui.toast(data.Data);
+							return;
+						}
+						}, function(err) {
+							//hideLoading();
+						})											
+					}else{
+						mui('#popover').popover('hide');
+					}
+				});
+	})
+		with(document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
+		var sliderGroups = document.getElementById("sliderGroups");
+		var createImgItem = function(data) {
+			var fragment = document.createDocumentFragment();
+			var div;
+			for(var i = 0; i < data.Attachments.length; i++) {
+				var discription = data.Attachments[i].Discription == null ? "" : data.Attachments[i].Discription;
+				div = document.createElement('div');
+				div.className = 'mui-slider-item';
+				div.innerHTML = '<div style="text-align:center;max-width: 100%;"><img src=' + getImgUrl(data.Attachments[i].DirectlyUrl) + '  data-preview-src="" data-preview-group="1" /></div>' +
+					'<h4 class="jh-detail-title mui-content-padded" id="newsTitle" style="color: #CBCBCB;">' + data.Subject + '</h4>' +
+					'<div class="detail_content mui-content-padded" id="v_detail" style="color: #CBCBCB;">' + discription + '</div>';
+				fragment.appendChild(div);
+			}
+			return fragment;
+		};
+
+		
+		var isAttitude = false;
+		var supportnum = 0;
+		var title;
+		function getDetail(id) {
+			showLoading('', '', '#000000', '50px');
+			getDatawithToken('CMS/CMSNewImgDetail', {
+				contentItemId: id
+			}, function(data) {
+				hideLoading();
+				hideErr();
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						var data = data.Data;
+						console.log(data)
+						if(data.CanDelete == true){
+							document.getElementById('DeleteNews').style.display = 'block';
+						}else{
+							document.getElementById('DeleteNews').style.display = 'none';
+						}
+						title = data.Subject;
+						setIdandType(contentItemId, 'ContentItem', data.CommentCount)
+						sliderGroups.appendChild(createImgItem(data))
+						setShareInfo(getlsData('currUrl'), data.Subject, data.Subject);
+						com.isFavorited = data.IsFavorited;
+						favorThread(data.IsFavorite);
+						document.getElementById("commentBar").style.display = (data.IsComment) ? 'none' : 'table';
+						mui("#slider").slider({
+							interval: 0
+						});
+						attachments = data.Attachments;
+					} else {
+						showErr(data.Data, '', '#000000', '50px');
+						mui.toast(data.Data);
+					}
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					showErr(data.Data, '', '#000000', '50px');
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr()
+			})
+		}
+
+		var contentItemId;
+		var currId = "";
+		var backType;
+		var tabIndex=0;
+		//B页面onload从服务器获取列表数据；
+		window.onload = function() {
+			//获取url中的targetId参数
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					//关闭等待框
+					var self = plus.webview.currentWebview();
+					contentItemId = self.ContentItemId;
+					backType = self.type;
+					tabIndex=self.tabIndex;
+					getDetail(contentItemId)
+					plus.nativeUI.closeWaiting();
+					//显示当前页面
+					mui.currentWebview.show();
+				});
+			} else {
+				contentItemId = getUrlParam('ContentItemId');
+				backType = getUrlParam('type');
+				getDetail(contentItemId)
+			}
+			if(!mui.os.plus) {
+				initOpenApp('imgsDetail', contentItemId)
+			}
+			if(mui.os.wechat) {
+				var currUrl = location.href.split('#')[0];
+				weChatLogin(currUrl)
+			}
+
+		}
+		var old_back = mui.back; 
+		mui.back=function(){
+			if(!mui.os.plus){
+				if(history.length==1){
+					history.replaceState(null, "", "../index.html");
+					window.location.reload()
+				}else{
+					history.back(-1)
+				}
+			}else{
+				old_back();
+			}
+		}
+	
+	</script>
+
+</html>

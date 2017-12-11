@@ -1,0 +1,178 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--通用样式-->
+    <link rel="stylesheet" href="../css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../css/jinhu.css" />
+
+</head>
+<style>
+	#voteName{
+		display: inline-block;
+		font-size: 18px;
+	}
+	#refreshContainer{
+		top: 60px;
+	}
+	.mui-bar-nav~.mui-content .mui-pull-top-pocket {
+	    top: 4px;
+	}
+</style>
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <button  class="mui-action-back mui-btn mui-btn-blue mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+            <span  class="mui-icon mui-icon-left-nav"><p id="voteName"></p></span>
+        </button>
+
+    </header>
+    <div class="mui-content">
+
+        <div class="jh-gray-bar"></div>
+        <div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+		  <div class="mui-scroll">
+		    <!--数据列表-->
+		    <ul class="mui-table-view mui-table-view-chevron jh-vote-personal" id="container">
+		      
+		    </ul>
+		  </div>
+		</div>
+        
+        	<!--
+        		<ul class="mui-table-view jh-vote-personal" id="refreshContainer">
+            	 <li class="mui-table-view-cell mui-media">
+                <img class="mui-media-object mui-pull-left" src="../img/avatar.jpg">
+                <div class="mui-media-body">
+                    投票人姓名
+                    <span class="mui-pull-right">投票时间</span>
+                </div>
+            </li>
+            <li class="mui-table-view-cell mui-media">
+                <img class="mui-media-object mui-pull-left" src="../img/avatar.jpg">
+                <div class="mui-media-body">
+                    投票人姓名
+                    <span class="mui-pull-right">投票时间</span>
+                </div>
+            </li>
+            </ul>
+            -->
+           
+        
+    </div>
+    <script src="../js/mui.min.js"></script>
+	<script src="../js/mui.pullToRefresh.js"></script>
+	<script src="../js/mui.pullToRefresh.material.js"></script>
+	<script src="../js/service.js"></script>
+	<script src="../js/share.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/wxHelper.js"></script>
+</body>
+<script type="text/javascript">
+	var voteName = document.getElementById('voteName');
+	var voteItemId;
+	var voteItemSubject;
+	var page = 1;
+	var container = document.getElementById('container');
+	window.onload = function() {
+		if(mui.os.plus) {
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				voteItemId = self.voteItemId;
+				voteItemSubject = self.voteItemSubject;
+				voteName.innerText = voteItemSubject;
+				GetVoteMan(voteItemId,false);
+			});			
+		}else{
+			voteItemId = getUrlParam('voteItemId');	
+			voteItemSubject = getUrlParam('voteItemSubject');
+			voteName.innerText = voteItemSubject;
+			GetVoteMan(voteItemId,false);
+		}
+		if(mui.os.wechat){
+			var currUrl = location.href.split('#')[0];
+			weChatLogin(currUrl)
+		}
+	}
+	mui.init({
+		pullRefresh: {
+			container: '#refreshContainer',
+			down: {				
+				callback: pulldownRefresh
+			},
+			up: {
+				contentrefresh: '正在加载...',
+				callback: pullupRefresh
+			}
+		}
+	});                                                                                                                            
+	function pulldownRefresh() { 
+		setTimeout(function() { 
+			GetVoteMan(voteItemId,false);                                                                                         
+			mui('#refreshContainer').pullRefresh().endPulldownToRefresh();                                            
+		}, 1500);                                                                                                                     
+	}                                                                                                                                 
+	var count = 0;                                                                                                                                                                                                                                                  
+	function pullupRefresh() {                                                                                                        
+		setTimeout(function() { 
+			GetVoteMan(voteItemId,true);
+			mui('#refreshContainer').pullRefresh().endPullupToRefresh((++count > 2));                                                                                                                             
+		}, 1500);                                                                                                                     
+	}
+	var creatVoteManElement = function(data){				
+		for(var i = 0;i<data.length;i++){
+			var userName = data[i].UserName.length > 15 ? data[i].UserName.substring(0,12)+'...'  : data[i].UserName;
+			var Avatar = data[i].Avatar == '' ? '../img/avatar.jpg' : getImgUrl(data[i].Avatar);
+			var li = document.createElement('li');
+			li.className = 'mui-table-view-cell mui-media';
+			li.innerHTML = '<img class="mui-media-object mui-pull-left" src="'+ Avatar +'">'+
+							'<div class="mui-media-body">'+userName+
+							'<span class="mui-pull-right">'+ data[i].DateCreated +'</span>'+
+							'</div>';
+			container.appendChild(li);							
+		}
+	};	
+	function GetVoteMan(voteItemId,more) {
+		if(more) {
+			page++;
+		} else {
+			container.innerHTML = '';
+			page = 1;
+		}
+		var params = {
+			voteItemId:voteItemId,
+			pageSize : 10,
+			pageIndex : page
+		};
+		showLoading();
+		getDatawithToken('Vote/VoteItemUsers', params, function(data) {
+			hideLoading()
+			hideErr()
+			var bottomTip = document.querySelectorAll('.mui-pull-bottom-tips');
+			if(data.Type == 1) {
+				
+				if(data.Data && typeof(data.Data) == 'object') {	
+					var data = data.Data;
+					creatVoteManElement(data);
+				} else {
+						//mui.toast("暂无更多问题");
+				}
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				//login();
+				return;
+			} else {
+				//逻辑错误				
+				return;
+			}
+		}, function(err) {
+			setErr('','0px')
+		})
+	}
+</script>
+</html>

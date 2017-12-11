@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/jinhu.css"/>
+	</head>
+	<style>
+		.mui-scroll{
+			min-height: 100%;
+		}
+	</style>
+
+	<body style="background-color: #FFF;">
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper" style="margin-bottom: 50px;">
+
+			<div class="mui-scroll ">
+				<!--数据列表-->
+				<div id="commentArea" class="mui-content-padded">
+
+				</div>
+			</div>
+
+		</div>
+		<div class="mui-bar mui-bar-tab jh-bar-comment">
+
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/commont.js"></script>
+		<script src="../js/share.js"></script>
+		<script src="../js/cms.js"></script>
+		<script>
+			commentsDetail_sub.init();
+		</script>
+	</body>
+
+</html>

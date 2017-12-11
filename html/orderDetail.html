@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--通用样式-->
+    <link rel="stylesheet" href="../css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../css/jinhu.css" />
+
+</head>
+<style>
+	.margin{
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+	.shower{
+		background-color: #e4e4e4;
+		border-radius: 5px;
+		margin-bottom: 10px;
+		padding: 10px;
+	}
+	.padding{
+		padding: 10px 0 10px 0px;
+	}
+	.list{
+		margin: 15px;
+	}
+</style>
+	<body style="background-color: #fff;">
+    <header class="mui-bar mui-bar-nav">
+        <button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+            <span class="mui-icon mui-icon-left-nav"></span>积分兑换详情
+        </button>
+    </header>   
+    <div class="mui-content">
+        <div class="jh-gray-bar"></div>
+        <div class="margin">
+        	<p style="margin-top: 15px;">
+        		<span>订单状态:</span>
+        		<span id="Status"></span>
+        	</p> 
+        	<div class="shower" id="TrackInfo">
+        		<span class="padding">兑换订单被兑换人取消</span>
+        	</div>
+        </div>
+        <div class="jh-gray-bar"></div>
+        <ul class="mui-table-view jh-gift-card">
+	        <li class="mui-table-view-cell mui-media">
+	                <a href="javascript:;">
+	                    <img id="ImageAttachment" class="mui-media-object mui-pull-left"/>
+	                    <div class="mui-media-body">
+	                        <h5 id="ProductName"></h5>
+	                        <div class="mui-row">
+	                            <div class="mui-col-xs-6">
+	                                <ul class="mui-list-inline">
+	                                    <li class="text-muted">兑换价：<span  class="tn-theme-color" id="TotalPrice">1868</span></li>
+	                                    <li><i class="fa fa-database tn-yellow-color"></i></li>
+	                                </ul>
+	                            </div>
+	                            <div class="mui-col-xs-6" id="Number">
+	                                <span class="text-muted">兑换数量：</span>
+	                            </div>
+	                        </div>
+	                        <p class="text-muted" id="DateCreated"></p>
+	                    </div>
+	                </a>
+	            </li>
+	    </ul>
+	    <div class="list">
+	    	<p>
+	    		<span>收货人：</span>
+	    		<span id="UserName"></span>
+	    		<span style="float: right;" id="Mobile"></span>
+	    	</p>
+	    	<p>
+	    		<span>收货地址：</span>
+	    		<span id="Address"></span>
+	    	</p>
+	    	<p>
+	    		<span>备注：</span>
+	    		<span id="Description"></span>
+	    	</p>
+	    </div>
+    </div>
+    <script src="../js/mui.min.js"></script>
+    <script src="../js/mui.zoom.js"></script>
+    <script src="../js/mui.previewimage.js"></script>
+	<script src="../js/mui.pullToRefresh.js"></script>
+	<script src="../js/mui.pullToRefresh.material.js"></script>
+	<script src="../js/service.js"></script>
+	<script src="../js/share.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/wxHelper.js"></script>
+	<script src="../js/openApp.js"></script>
+	<script src="../js/mui.picker.js"></script>
+	<script src="../js/mui.poppicker.js"></script>
+	<script src="../js/mui.lazyload.js"></script>
+	<script src="../js/mui.lazyload.img.js"></script>
+</body>
+<script>
+	var Status = document.getElementById('Status');
+	var ImageAttachment = document.getElementById('ImageAttachment');
+	var ProductName = document.getElementById('ProductName');
+	var Number = document.getElementById('Number');
+	var TotalPrice = document.getElementById('TotalPrice');
+	var DateCreated = document.getElementById('DateCreated');
+	var UserName = document.getElementById('UserName');
+	var Mobile = document.getElementById('Mobile');
+	var Address = document.getElementById('Address');
+	var Description = document.getElementById('Description');
+	var TrackInfo = document.getElementById("TrackInfo");
+	window.onload = function() {
+		if(mui.os.plus) {
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				orderId = self.orderId;
+				getOrderDetail(orderId);
+				plus.nativeUI.closeWaiting();
+				mui.currentWebview.show();
+			});
+		}else{
+			orderId = getUrlParam('orderId');
+			getOrderDetail(orderId);
+		}
+	}
+	function getOrderDetail(orderId){
+		getDatawithToken('PointMall/OrderDetail?orderId='+orderId,{}, function(data) {	
+			console.log(data)
+			if(data.Type == 1) {
+				var data = data.Data;
+				if(data.ProductType == false){
+					UserName.parentElement.style.display = 'none';
+					Mobile.style.display = 'none';
+					Address.parentElement.style.display = 'none';
+				}
+				ImageAttachment.src = getImgUrl(data.ImageAttachment);
+				ProductName.innerText = data.ProductName;
+				Number.innerText = '兑换数量：'+data.Number;
+				TotalPrice.innerText = data.TotalPrice;
+				DateCreated.innerText = '兑换时间：'+data.DateCreated;
+				UserName.innerText = data.UserName.length > 0 ? data.UserName : '无';
+				UserName.style.color = data.UserName.length > 0 ? '' : '#999';
+				Mobile.innerText = data.Mobile;
+				Address.innerText = data.Address.length > 0 ? data.Address : '无' ;
+				Address.style.color = data.Address.length > 0 ? '' : '#999' ;
+				Description.innerText = data.Description != null ? data.Description : '无';
+				Description.style.color = data.Description != null ? '' : '#999';
+				TrackInfo.style.display = data.TrackInfo.length > 0 ? 'block' : 'none';
+				TrackInfo.getElementsByTagName('span')[0].innerHTML = data.TrackInfo;
+				var statusType = data.Status;
+				switch(statusType) {
+					case 5:
+						Status.innerText = '已取消';
+					break;
+					case 10:
+						Status.innerText = '待确认';
+					break;
+					case 20:
+						Status.innerText = '已确认';
+					break;
+					case 40:
+						Status.innerText = '已完成';
+					break;
+					default:
+					break;
+				}
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(err) {
+			//hideLoading();
+		})
+	}
+</script>
+</html>

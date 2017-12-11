@@ -1,0 +1,1794 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<!--通用样式-->
+<link rel="stylesheet" href="../css/mui.min.css" >
+<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css"/>
+<link rel="stylesheet"  href="../css/jinhu.css" >
+<link rel="stylesheet" href="../css/question.css"/>
+</head>
+<style>
+	.jh-scroll-wrapper.mui-slider-indicator.mui-segmented-control .mui-scroll .mui-control-item {
+	    padding: 2px 10px;
+	    font-size: 14px;
+	    color: #999;
+	}
+	#solved{
+		position: relative;
+	}
+	#solvedImg{
+		position: absolute;
+		top: -5px;
+		right: 0px;
+	}
+	.detail_content p img {
+	    max-width: 100% !important;
+	    width: 100%;
+	    height: auto !important;
+	}
+	.detail_content h1{
+		word-wrap: break-word;
+		word-break:break-all;
+		width: 100% !important;
+	}
+	.noAnswer{
+	    color: #999999;
+	    font-size: 14px;
+	    text-align: center;
+	    margin-top: 8px;
+	}
+	.noAnswerAgree{
+		color: #999999;
+	    font-size: 14px;
+	    text-align: center;
+	    margin-top: 16px;
+	}
+	#itemmobile{
+		border-bottom: none;
+	}
+	#item1mobile{
+		border-bottom: none;
+	}
+	.mui-table-view-cell{
+			padding: 0 0;
+	}
+	.mui-control-content.mui-active {
+	    display: block;
+	}
+	.jh-solved a {
+	    color: #D4CCCC;
+	}
+	#hot-label .label{
+		margin-bottom: 0px;
+	}
+	#list{
+		margin-top: 0px;
+		margin-bottom: 0px;
+	}
+	.jh-hot-label {
+		margin-top: 10px;
+		padding-bottom: 0px;
+		margin-bottom: 0px;
+	    display: flex;
+	    display: -webkit-flex;
+	    -webkit-flex-wrap: nowrap;
+	    flex-wrap: nowrap;
+	}
+	#disapprovedcount{
+		color: #bf0a10;
+	    font-size: 12px;
+	    padding-top: 12px;
+	    padding-right: 16px;
+	}
+	.special{
+		white-space: inherit;
+    	height: auto !important;
+    	text-align: inherit;
+	}
+	.jh-title{
+		padding-left: 0px;
+		max-width: 87%;
+	}
+	.mui-pull-bottom-tips {
+		text-align: center;
+		background-color: #efeff4;
+		font-size: 15px;
+		line-height: 40px;
+		color: #777;
+	}
+	#answercount{
+		float: right;
+		margin-right: 7px;
+		font-size: 14px;
+	}
+	#EditQuestion{
+		padding-top: 7px;
+		margin-bottom: 0px;
+	}
+	.jh-scroll-wrapper.mui-slider-indicator.mui-segmented-control .mui-scroll .mui-control-item.mui-active {
+	    color: #bf0a10;
+	}
+	.tn-file-list .mui-row{
+	    margin-left: -5px;
+	    margin-right: -5px;
+	    margin-bottom: 10px;
+	}
+	.jh-dropdown-list i{
+		font-size: 22px;
+		width: 22px;
+	}
+	.authorIdTap{
+		overflow: hidden;
+	    text-overflow: ellipsis;
+	    width: 17%;
+	    white-space: nowrap;
+	}
+	#author{
+		overflow: hidden;
+	    text-overflow: ellipsis;
+	    width: 32%;
+	    white-space: nowrap;
+	}
+	#reportContainer{
+			position: fixed;
+			margin-left: 5%;
+			min-height: 375px;
+			background-color: #ffffff;
+		}
+		#reportContainer button{
+			width: 50%;
+		    height: 40px;
+		    line-height: 24px;
+		    border-right: 1px solid #eff2f9;
+		    border-top: none;
+		    border-bottom: none;
+		    text-align: center;
+		    margin-right: 0px;
+		}
+		#reportContainer p {
+			margin-bottom: 0px;
+		    height: 40px;
+		    line-height: 40px;
+		    width: 100%;
+		    border-top: 1px solid #eff2f9;
+		}
+		#reportContainer ul{
+			background-color: #fff;
+			margin: 5px 5px;
+			padding: 3px;
+		}
+		#reportContainer .mui-table-view{
+			width: 98%;
+		}
+		#reportContainer .mui-input-row:nth-of-type(2):after{
+			border-bottom: none;
+		}
+		#reportContainer .mui-input-group .mui-input-row:after{
+			border-bottom: none;
+		}
+</style>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+	   			<span class="mui-icon mui-icon-left-nav"></span></button>
+	   			<a id="questionOpt"  class="mui-icon mui-icon-bars mui-pull-right"style="color: #333;padding-right: 12px;"></a>
+		</header>
+		<div class="jh-best-answer ">
+            <div class="comment_body">
+			    <div class="comment_img">
+			    	<img class="creator_img_comment " style="height: 32px;"  src="../img/avatar.jpg"/>
+			    </div>
+			<div class="comment_content">
+			    <div class="comment_top">
+			    	<h5 class="comment_top_left"></h5>
+					    <h5 class="comment_top_right-solved comment_top_right"></h5>					      					      
+				</div>
+				<p></p>
+			   </div>							    			    
+			</div>				   	                
+	        <div class="jh-agree">
+	            <div class="jh-agree-color" style="border:1px solid #BF0A10;"><i class="fa fa-thumbs-up jh-agree-color"></i></div>
+	            <div></div>
+	        </div>
+	        <ul class="mui-list-inline text-muted" >
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>						
+		    </ul>		                	                
+        </div>
+		<div id="popoverQuestion" class="mui-popover" style="display:none;width: 130px;height: auto;background-color: #FFFFFF;right: 0px;top: 50px;">
+			<ul class="mui-list-unstyled jh-dropdown-list jh-ess-list " style="margin-top:0px">
+				<li id="EssentialOperation">
+				</li>
+				<li id="EditQuestion" style="display: none;">
+					<a><i class="fa fa-edit" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;编辑</a>
+				</li>
+				<li id="DeleteQuestion" style="padding-top: 11px;">					
+				</li>
+				<li id="report" style="height：30px;line-height: 30px;padding-top: 3px;">
+					<a><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;举报</a>
+				</li>
+			</ul>
+		</div>		
+		<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll" id='scroll'>
+		<div class="mui-content jh-detail-content"style="padding-bottom: 0;">
+			<div class="mui-content-padded">	
+				<div  id="solved">
+					<h4 class="jh-detail-title"id="newsTitle"></h4>
+					<img id="solvedImg" />
+				</div>					
+				<div class="detail_content"id="question_detail">
+					<p></p>										
+				</div>				
+				<div class="tn-file-list"id="attachments"style="display: none;">                  
+                </div>
+                <div class="jh-hot-label"id="hot-label">
+                	<i class="fa fa-tags text-muted" aria-hidden="true"></i>
+                	<div class="jh-title"></div>
+                </div>   
+                <ul class="mui-list-inline text-muted" id="list" >				    
+				    <li></li>
+					<li></li>
+					<li></li>
+					<li></li> 
+	            </ul>
+	            <ul id="answered" class="jh-dropdown-list jh-label jh-label-solved "style="list-style: none;">
+					<li id="editAnswer" style="width: 39%;line-height: 35px;text-align: center""><a id="editQuestion" style="margin-left: -27px;vertical-align:middle"><i class="fa fa-edit" aria-hidden="true"></i>&nbsp;&nbsp</a>
+					<li id="shares" style="width: 32%;line-height: 35px;text-align: center"><a href="#" style="vertical-align:middle"><i class="mui-icon mui-icon-extra mui-icon-extra-share" aria-hidden="true"></i>&nbsp;&nbsp</a>
+					<li id="can" class="can" style="width: 32%;line-height: 35px;text-align: center"><a href="#" style="vertical-align:middle" id="favorQuestionsText" ><i id="favorQuestions" class="mui-icon mui-icon-extra mui-icon-extra-heart" aria-hidden="true"></i>&nbsp;&nbsp</a>
+				</ul>
+				<!--<div class="mui-row" style="height: 50px;list-style: none;border-top:1px solid #E3E3E3;margin-bottom: 0;">
+			        <div class="mui-col-sm-4 mui-col-xs-4" style='border-right:1px solid #E3E3E3;margin:5px 0 5px 0;'>
+			            <li style="line-height: 40px;text-align: center">
+			               <i class="fa fa-edit" aria-hidden="true" style="vertical-align:middle;font-size: 24px" ></i>
+	                 		<span>已有最佳回答</span>
+			            </li>
+			        </div>
+			        <div class="mui-col-sm-4 mui-col-xs-4" style='border-right:1px solid #E3E3E3;margin:5px 0 5px 0;'>
+			            <li style="line-height: 40px;text-align: center">
+			                <i class="mui-icon mui-icon-extra mui-icon-extra-share" aria-hidden="true" style="vertical-align:middle"></i>
+			            	<span>分享</span>
+			            </li>
+			        </div>
+			        <div class="mui-col-sm-4 mui-col-xs-4" style="margin:5px 0 5px 0;">
+			            <li style="line-height: 40px;text-align: center;">
+			                <i id="favorQuestions" class="mui-icon mui-icon-extra mui-icon-extra-heart" style="vertical-align:middle" aria-hidden="true"></i>
+			            	<span>收藏</span>
+			            </li>
+			        </div>
+    			</div>-->
+																
+				<div class="jh-best-answer "id="bestAnswer">
+					<div class="jh-gray-bar"></div>
+               </div>	               
+                	<div class="mui-content" id="types" style="display: block">
+					<div class="jh-gray-bar"></div>
+					<div id="slider" class="mui-slider" style="display: none;">
+						<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted jh-scroll-wrapper ">
+							<div class="mui-scroll" id="SectionType" style="padding-right: 40px;">
+								<a class="mui-control-item mui-active" href="#itemmobile" id="0"style="margin-left: -1px;">
+									按时间排序
+								</a>
+								<li style="display: inline-block;padding-top: 9px;margin-left: -5px;color: #E3E3E3;position: absolute;">|</li>
+								<a class="mui-control-item" href="#item1mobile" id="1">
+									按投票排序
+								</a>								
+							</div>
+							<!--
+                            	<a class="mui-pull-right" id="disapprovedcount"></a>
+                            -->
+							<a class="mui-pull-right" id="answercount" style="color:#999;float:right;padding-top:10px;"></a>							
+						</div>
+						<div class="mui-slider-group" id="sliderGroup">
+							<div id="itemmobile" class="mui-slider-item mui-control-content mui-active">								       
+								<ul class="mui-table-view"><!-- 整体容器-->												
+								</ul>										
+							</div>
+							<div id="item1mobile" class="mui-slider-item mui-control-content">								
+								<ul class="mui-table-view"><!-- 整体容器-->										
+									<div class="mui-loading"><div class="mui-spinner"></div></div>
+								</ul>
+							<div class="noAnswerAgree" id="noAnswerAgree" style="display: none;">暂无任何回答</div>	
+							</div>
+							<div class="noAnswer" id="noAnswer" style="display: none;">暂无任何回答</div>
+						</div>
+					</div>
+				</div>			
+			</div>
+		</div>           
+        </div>
+    </div>
+    <div id="reportContainer" class="jh-medal-popover box mui-popover" style="background-color: #fff;display: none;padding: 0px !important;">
+			<ul class="mui-table-view jh-word-vote" id="itemContainer">
+				<span style="margin-left: 15px;">举报原因</span><span style="color: red;">*</span>
+				<form class="mui-input-group" style="background-color: #fff;margin-bottom: 0px;">
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">恶意灌水</span>
+						<input name="style" type="radio" class="mui-pull-left" id="1"/>
+					</div>
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">淫秽色情</span>
+						<input name="style" type="radio" class="mui-pull-left" id="2"/>
+					</div>
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">内容侵权</span>
+						<input name="style" type="radio" class="mui-pull-left" id="3"/>
+					</div>
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">广告诈骗</span>
+						<input name="style" type="radio" class="mui-pull-left" id="4"/>
+					</div>
+					<div class="mui-input-row mui-radio">
+						<span style="margin-left: 25px;">其他</span>
+						<input name="style" type="radio" class="mui-pull-left" id="99"/>
+					</div>
+				</form>
+			</ul>
+	    	<ul class="mui-table-view">
+				<li style="padding-bottom: 0px; font-size: 16px;padding: 6px 10px;">
+					<textarea id="reason" rows="2" placeholder="请输入举报原因"></textarea>
+				</li>
+			</ul>
+			<p>
+				<button class="Fbutton" style="border-radius: 0px 0px 0px 5px;color: #999;" id="cancelReport">取消</button>
+				<button class="Fbutton" id="submitReport" style="color: #bf0a10;border-right: none;border-left:none;float: right;border-radius: 0px 0px 5px 0px;">确定</button>
+			</p>
+	    </div>
+        <script src="../js/jquery-2.1.0.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.zoom.js"></script>
+		<script src="../js/mui.previewimage.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/share.js"></script>
+		<script src="../js/mui.pullToRefresh.js"></script>
+		<script src="../js/mui.pullToRefresh.material.js"></script>
+		<script src="../js/wxHelper.js"></script>
+		<script src="../js/jweixin-1.2.0.js"></script>
+		<script src="../js/openApp.js"></script>
+		<script src="https://static.mlinks.cc/scripts/dist/mlink.min.js"></script>
+		<script src="../js/attachment.js"></script>
+	</body>
+ 	<script>
+		if(!mui.os.plus){
+			creatBanner();
+		}
+		creatSharePop();
+ 		window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"32"},"share":{},"image":{"viewList":["qzone","tsina","weixin"],"viewText":"分享到：","viewSize":"32"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+    	var question_detail=document.getElementById("question_detail");
+    	var newsTitle = document.getElementById("newsTitle");
+		var attachments=document.getElementById("attachments");
+		var list = document.getElementById("list");
+		var bestAnswer = document.getElementById("bestAnswer");
+		var sirting = document.getElementById("sirting");
+		var contents = document.getElementById("contents");
+		var slider = document.getElementById("slider");
+		var sliderSegmentedControl = document.getElementById("sliderSegmentedControl");
+		var SectionType = document.getElementById("SectionType");
+		var selel = document.getElementsByClassName("mui-control-item mui-active");
+		var commentAttach = document.getElementById("commentAttach");
+		var favorQuestions = document.getElementById("favorQuestions")		
+		var questionOpt=document.getElementById("questionOpt");
+		var EssentialOperation = document.getElementById("EssentialOperation");
+		var DeleteQuestion=document.getElementById("DeleteQuestion");
+		var solved = document.getElementById("solved");
+		var answered = document.getElementById("answered");
+		var disapprovedcount = document.getElementById("disapprovedcount");
+		var noAnswer = document.getElementById("noAnswer");
+		var noAnswerAgree = document.getElementById("noAnswerAgree");
+		var solvedImg = document.getElementById("solvedImg");
+		//var shares = document.getElementById('shares');
+		var can = document.getElementById("can");
+		var editAnswer = document.getElementById("editAnswer");
+		var approvedCount;
+		var commonCount;
+		var IsEssential;
+		var IsSupport;
+		var IsSupportBest;
+		var creatSupport;
+		var userid;
+		var isFavorited=false;
+		var islog = getlsData('isLogin');
+    	//questionOpt.style.display=(islog == 'true')?'block':'none';
+    	if(!mui.os.plus){
+    		document.getElementById('shares').style.display = 'none';
+    		can.style.width = "50%";
+    		editAnswer.style.width = "50%";
+    	}
+		if(!mui.os.wechat){
+			mui.previewImage();
+		}
+		if(mui.os.wechat){
+			initWx();
+			wx.ready(function(){
+			 	wx.checkJsApi({
+				    jsApiList: ['previewImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+				    success: function(res) {
+				        // 以键值对的形式返回，可用的api值true，不可用为false
+				        // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+				    }
+				});
+			});
+			wx.error(function(res){
+			    
+			});
+		}
+		function setPopHeight(idname) { 
+			var height = document.documentElement.clientHeight || document.body.clientHeight;
+			var popHeight = parseInt(window.getComputedStyle(document.getElementById(idname), null).minHeight);
+			document.getElementById(idname).style.top = (height - popHeight)/2 + 'px';
+		}
+		document.getElementById('report').addEventListener('tap',function(){
+			var islog = getlsData('isLogin');
+			if(islog == 'true'){
+				mui('#reportContainer').popover('toggle');
+				setPopHeight('reportContainer');
+			}else{
+				login();
+			}
+		})	
+		document.getElementById('cancelReport').addEventListener('tap',function(){
+			mui('#reportContainer').popover('toggle');
+		})
+		document.getElementById('submitReport').addEventListener('tap',function(){
+			var checked = false;
+			for(var i = 0;i<document.getElementById('itemContainer').getElementsByTagName('input').length;i++){
+				if(document.getElementById('itemContainer').getElementsByTagName('input')[i].checked == true){
+					checked = true;
+					var id = document.getElementById('itemContainer').getElementsByTagName('input')[i].id;
+				}
+			}
+			if(checked == false){
+				mui.toast("请选择举报原因");
+				return;
+			}
+			var Description = TrimAll(document.getElementById('reason').value);
+			EditReport(id,Description);
+			mui('#reportContainer').popover('toggle');
+		})
+		var subject;
+		function EditReport(id,Description){
+			var params = {
+				TenantTypeId:101301,
+				Reason:id,
+				Title:subject,
+				Description:Description,
+				ReportObjectId:questionId
+			}
+			postDatawithToken('User/EditReport',params, function(data) {
+				if(data.Type == 1) {
+					mui.toast(data.Data);					
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误					
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(data) {
+				hideLoading()
+			});
+		}
+		//分享
+	creatSharePop();
+	mui(".pop_view_share").on('tap', '.pop_view_item', function(e) {
+		if(mui.os.plus) {		
+			mui('#popView_share2').popover('toggle');
+			var popView_share2 = document.getElementById("popView_share2");
+			popView_share2.className = "box mui-popover mui-popover-action mui-popover-bottom ";
+			shareHref(this.getAttribute('id'));
+		}
+	})
+
+function creatSharePop() {
+	var div = document.createElement('div');
+	div.id = 'popView_share2';
+	div.className = 'box mui-popover mui-popover-action mui-popover-bottom ';
+	div.innerHTML = '<div class="pop_view_share">' +
+		'				<div class="pop_view_item" id=1>' +
+		'					<img src="../img/weixin-icon.png" srcset="../img/weixin-icon@2x.png 2x" />' +
+		'					<div>微信好友</div>' +
+		'				</div>' +
+		'				<div class="pop_view_item" id=0>' +
+		'					<img src="../img/pyy-icon.png" srcset="../img/pyy-icon@2x.png 2x" />' +
+		'					<div>微信朋友圈</div>' +
+		'				</div>' +
+		'				<div class="pop_view_item" id=3>' +
+		'					<img src="../img/qq-icon.png" srcset="../img/qq-icon@2x.png 2x" />' +
+		'					<div>QQ空间</div>' +
+		'				</div>' +
+		'				<div class="pop_view_item" id=2>' +
+		'					<img src="../img/weibo-icon.png" srcset="../img/weibo-icon@2x.png 2x" />' +
+		'					<div>微博</div>' +
+		'				</div>' +
+		'			</div>';
+	bigContainer.appendChild(div);
+}
+		document.getElementById("shares") && document.getElementById("shares").addEventListener('tap', function() {
+			if(mui.os.plus){
+				mui('#popView_share2').popover('toggle');
+				creatSharePop();
+			} else {
+				mui('#popView_share1').popover('toggle');
+			}
+		})
+		//收藏问题
+		favorQuestionsText && favorQuestionsText.addEventListener('tap', function() {
+			var islog = getlsData('isLogin');
+			if(islog == 'true') {
+				QuestionFavoriteOperation(questionId)
+			} else {
+				mui.toast('请登录后再进行操作');
+				login();
+			}	
+		})
+		function QuestionFavoriteOperation(id) {
+			var path = 'Ask/FavoriteQuestion?questionId=';
+			postDatawithToken(path + id, {}, function(data) {
+				if(data.Type == 1) {
+					favorQuestion(!isFavorited);
+					isFavorited = !isFavorited;
+					mui.toast(data.Data);
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+			})
+		}	
+		//改变收藏状态
+		function favorQuestion(status) {
+			if(!status) {
+				favorQuestionsText.innerHTML ='<i id="favorQuestions" class="mui-icon mui-icon-extra mui-icon-extra-heart" aria-hidden="true"></i>&nbsp;&nbsp收藏';
+			} else {
+				favorQuestionsText.innerHTML ='<i id="favorQuestions" class="mui-icon mui-icon-extra mui-icon-extra-heart-filled" aria-hidden="true"></i>&nbsp;&nbsp已收藏';
+			}
+		}
+		var wximgEl = document.createElement("div");		
+		mui('.mui-slider').slider();
+		var deceleration = mui.os.ios ? 0.003 : 0.0009;
+		if(mui.os.wechat){
+			mui("#question_detail").on('tap', 'img', function(e) {
+				var imgUrl=e.detail.target.currentSrc;
+				var imgs=[];
+				var imgels=wximgEl.querySelectorAll('img');
+				for (var i=0;i<imgels.length;i++) {
+					imgs.push(imgels[i].src)
+				}
+				wx.previewImage({
+			      current:imgUrl,
+			      urls: imgs
+			    });
+			}),
+			mui("#slider").on('tap', '#comment_content', function(e) {
+				var imgUrl=this.getElementsByTagName('img')[0].src;
+				var imgs=[];
+				var imgels=wximgEl.querySelectorAll('img');
+				for (var i=0;i<imgels.length;i++) {
+					imgs.push(imgels[i].src)
+				}
+				wx.previewImage({
+			      current:imgUrl,
+			      urls: imgs
+			    });
+			})
+		}
+       	mui.init({
+			beforeback: function() {
+				if(mui.os.plus) {
+					if(beforetype != null){
+						switch(beforetype){
+							case "user":
+								var list = plus.webview.getWebviewById('userQuestions.html');
+								var self = plus.webview.currentWebview();
+					    		item = self.questionId;
+								list.evalJS("changeTab("+tabIndex+ ","+ item + ")")
+							break;
+							case "ask":
+								var list = plus.webview.getWebviewById('ask.html');
+								var self = plus.webview.currentWebview();
+					    		item = self.questionId;
+								list.evalJS("changeTabByAsk("+tabIndex+ ","+ item + ")")
+							break;
+							case "questionlist":
+								var list =plus.webview.getWebviewById('question-label-list.html');
+								var self = plus.webview.currentWebview();
+					    		item = self.questionId;
+								list.evalJS("changeTabByList("+tabIndex+ ","+ item + ")")
+							break;
+							default :
+							break;
+						}
+							
+					}else{
+						return true;
+					}					
+				} else {					
+					return true;
+				}
+			}
+		});		
+		var beforetype ;
+		var tabIndex=0;
+		//B页面onload从服务器获取列表数据；
+		window.onload = function() {  
+			//获取url中的targetId参数
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					questionId = self.questionId;
+					beforetype = self.type;
+					tabIndex=self.tabIndex;
+					var muibottom = document.getElementsByClassName("mui-pull-bottom-tips");
+					if(muibottom){
+						muibottom[0].style.display = "none";
+					}
+					getDetail(questionId)
+					approved(questionId)
+					//关闭等待框
+					plus.nativeUI.closeWaiting();
+					//显示当前页面
+					mui.currentWebview.show();
+				});
+			} else {
+				questionId = getUrlParam('questionId');	
+				var muibottom = document.getElementsByClassName("mui-pull-bottom-tips");
+				if(muibottom){
+					muibottom[0].style.display = "none";
+				}
+				getDetail(questionId);
+				approved(questionId)				
+			}	
+			if(!mui.os.plus){
+				initOpenApp('question-solved',questionId)
+			}
+			if(mui.os.wechat){
+				var currUrl = location.href.split('#')[0];
+				weChatLogin(currUrl)
+			}
+		}		
+		document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+			if(event.detail.slideNumber != 0){	
+				approved(questionId)
+				GetQuestion(questionId,false,1);
+			}else{				
+				var table = document.getElementsByClassName("mui-table-view");
+				table[0].innerHTML = "";
+				approved(questionId)
+				getComment(questionId,false);
+			}
+		})
+		mui('#refreshContainer').scroll();
+		function upFresh(){
+			setTimeout(function() {
+				mui('#refreshContainer').pullRefresh().endPullupToRefresh();
+			}, 1500);
+		}	
+		mui('.mui-slider').slider();
+		var deceleration = mui.os.ios ? 0.003 : 0.0009;
+		mui('.mui-scroll-wrapper.mui-slider-indicator.mui-segmented-control').scroll({
+			scrollY: false,
+			scrollX: true,
+			indicators: false,
+			deceleration: deceleration,
+			snap: '.mui-control-item'
+		});
+		//获取用户权限
+		function Manager(){
+			postDatawithToken('Ask/ApiIsAskManager', {},function(data) {
+				if(data.Type == 1) {
+					if(data.Data == false){
+						document.getElementById('EssentialOperation').style.display	= 'none';
+					}else{
+						document.getElementById('EssentialOperation').style.display = "block";
+					}
+				} else if(data.Type == 0) {		
+					//questionOpt.style.display = "none";
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					questionOpt.style.display = "none";
+					document.getElementById("question-textarea").blur();
+					return;
+				}
+			}, function(err) {
+
+			})
+		}
+		questionOpt.addEventListener('tap',function(){
+			mui('#popoverQuestion').popover('toggle');			
+		})				
+		/**
+		 * 构建回答弹出窗
+		 */
+		function creatQuestionPop() {
+			var div = document.createElement('div');
+			div.id = 'popView_Question';
+			div.className = 'box mui-popover mui-popover-action mui-popover-bottom';
+			div.innerHTML = '<div class="pop_view">' +
+				'	<textarea rows="5" autofocus="autofocus" name="textarea" placeholder="输入回答" id="question-textarea" autofocus="autofocus"></textarea>' +
+				'	<div class="mui-text-center" style="margin-top:-10px;">' +
+				'		<button id="cancelQues" class="mui-btn" style="margin-right: 20px;">取消</button>' +
+				'		<button id="sendQues" class="mui-btn mui-btn-primary" style="margin-left: 20px;">发送</button>' +
+				'	</div>' +
+				'</div>';
+			bigContainer.appendChild(div);
+		}
+        creatQuestionPop();
+        function submitQuestion(id) {
+        	var commentText = document.getElementById("question-textarea");
+			var comBody = TrimAll(commentText.value);
+			if(comBody.length == 0) {
+				mui.toast('回答内容不能为空！');
+				return;
+			}
+			var params = {
+				QuestionId: id,
+				Body: comBody
+			}
+			CreateQuestion(params)
+		}
+        function CreateQuestion(params) {
+			postDatawithToken('Ask/CreateAnswer', params, function(data) {
+				document.getElementById("question-textarea").value='';
+				if(data.Type == 1) {
+					//ii++;											
+					//switch(type) {
+						//case 0:
+						var idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+						var fragment = document.getElementById(idName);
+						var cfragment = fragment.firstElementChild;
+						if(cfragment.parentElement.id == "item1mobile"){
+							cfragment.innerHTML ="";
+							approved(questionId)
+							GetQuestion(data.Data.QuestionId,false,1);
+						}else{
+							cfragment.innerHTML ="";
+							approved(questionId)
+							getComment(data.Data.QuestionId,false);
+						}						
+							//break;
+						//default:
+							//break;
+					//}
+					document.getElementById("question-textarea").blur();
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					document.getElementById("question-textarea").blur();
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					document.getElementById("question-textarea").blur();
+					return;
+				}
+			}, function(err) {
+			})
+		}
+        var editQuestion = document.getElementById("editQuestion");		
+		editQuestion && editQuestion.addEventListener('tap', function() {
+			var islog = getlsData('isLogin');
+			var canAnswer = TrimAll(editQuestion.innerText);
+			if(canAnswer =="已有最佳回答"){
+				mui.toast("已有最佳回答");
+			}else{
+				if(islog == 'true'&& canAnswer =="回答" ) {
+				mui('#popView_Question').popover('toggle');
+			} else {
+				var info = islog == 'true' ? "您已经回答过该问题" : "请登录后再进行操作";
+				mui.toast(info);
+				if(info == "请登录后再进行操作" ){
+					login();
+				}
+			}
+			}			
+		})
+        var cancelQues = document.getElementById("cancelQues");
+		cancelQues && cancelQues.addEventListener('tap', function() {
+			mui('#popView_Question').popover('toggle');
+		})
+		var sendQues = document.getElementById("sendQues");
+		sendQues && sendQues.addEventListener('tap', function() {	
+			var islog = getlsData('isLogin');
+			if(islog == 'true'){
+				slider.style.display = "block";
+				var answercount = document.getElementById("answercount");
+				var count = allCount + 1;
+				answercount.innerText = count+"条回答";
+				allCount = allCount+1;	
+				submitQuestion(questionId);			
+				mui('#popView_Question').popover('toggle');
+				editQuestion.innerHTML = '<i class="fa fa-edit" aria-hidden="true"></i>&nbsp;&nbsp已回答';
+				mui.toast("回答成功")						
+				var answered = document.getElementById("answered");
+				answered.className = "mui-list-unstyled jh-dropdown-list jh-label jh-label-solved ";
+			}else{
+				mui.toast("请登录后再进行操作");
+			    login();
+			}			
+		})
+		//加精
+		function essentialOperation(id,IsEssential) {
+			//showLoading();
+			var isEssential = !IsEssential;
+			var path = 'Ask/SetEssential?questionId=' + id + '&' +'isEssential='+isEssential;			
+			postDatawithToken(path, {}, function(data) {
+				//hideLoading();
+				if(data.Type == 1) {
+					mui.toast(data.Data);
+					if(mui.os.plus) {
+						mui('#popoverQuestion').popover('hide');
+					if(beforetype == 'ask'){
+						var list = plus.webview.getWebviewById('ask.html');
+						list.evalJS("changeTabByAsk("+tabIndex+")")
+					}else{
+						var list =plus.webview.getWebviewById('question-label-list.html');
+						list.evalJS("changeTabByList("+tabIndex+")")
+					}					
+					setTimeout(function() { mui.back(); }, 500)
+					} else {
+						mui.back();
+					}
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				//hideLoading();
+			})
+		}
+	mui("#popoverQuestion").on('tap', '#EditQuestion', function(e) {
+		mui('#popoverQuestion').popover('hide');
+		EditQuestion(questionId);
+	})
+		function EditQuestion(questionId){
+			var baseUrl = 'editQuestion.html';
+			var url = mui.os.plus ? baseUrl : baseUrl + '?questionId=' + questionId;
+			mui.openWindow({
+				url: url,
+				id: 'editQuestion.html',
+				show: {
+					autoShow: true
+				},
+				createNew:true,
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					questionId:questionId
+				}
+			})
+		}
+		function deleteQuestion(id) {
+			//showLoading();						
+			var path = 'Ask/DeleteQuestion?questionId=' + id;			
+			postDatawithToken('Ask/DeleteQuestion?questionId=' + id, {}, function(data) {
+				//hideLoading();				
+				if(data.Type == 1) {
+					mui.toast(data.Data);
+					if(mui.os.plus) {
+						mui('#popoverQuestion').popover('hide');
+					if(beforetype == 'ask'){
+						var list = plus.webview.getWebviewById('ask.html');
+						list.evalJS("changeTabByAsk("+tabIndex+")")
+					}else{
+						var list =plus.webview.getWebviewById('question-label-list.html');
+						list.evalJS("changeTabByList("+tabIndex+")")
+					}					
+						setTimeout(function() { mui.back(); }, 500)
+					} else {
+						mui.back();
+					}
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				//hideLoading();
+			})
+		}
+		//点赞操作
+		var creatSupport = function (SupportCount,data,IsSupport,id){
+			if(typeof data =='string'){				
+				VoteUsers = data + "等";
+			}else{
+				var VoteUsers = creatVoteUsers(data);
+				VoteUsersAgree = creatVoteUsers(data);
+			}
+			VoteUsers = VoteUsers.length > 0 ? VoteUsers : "0人";
+			if(IsSupport == true){
+				var support = '<div id='+IsSupport+' class="jh-agree-color"style="border: 1px solid #BF0A10;"><i id="agree" class="fa fa-thumbs-up jh-agree-color"></i></div>';
+			}else{
+				var support ='<div id='+IsSupport+'><i id="agree" class="fa fa-thumbs-up"></i></div>';
+			}
+			SupportCount = SupportCount >3 ? SupportCount : "";
+			var ren = SupportCount >3 ? "人" : "";
+			var id = id.toString();
+			var ids = id+'s';
+			var addagree = document.getElementById(ids);
+			var div ;
+			div = document.createElement('div');
+			div.className = "jh-agree";
+			div.id = id;
+			div.innerHTML = support+
+				            '<div>'+ VoteUsers + SupportCount +ren+ "赞同该回答 " +'</div>';
+				            addagree.appendChild(div);				            						
+		};
+		//按点赞数排序的情况下的点赞操作
+		var creatSupportSort = function (SupportCount,data,IsSupport,id){
+			if(typeof data =='string'){				
+				VoteUsers = data + "等";
+			}else{
+				var VoteUsers = creatVoteUsers(data);
+				VoteUsersAgree = creatVoteUsers(data);
+			}
+			VoteUsers = VoteUsers.length > 0 ? VoteUsers : "0人";
+			if(IsSupport == true){
+				var support = '<div id='+IsSupport+' class="jh-agree-color"style="border: 1px solid #BF0A10;"><i id="agree" class="fa fa-thumbs-up jh-agree-color"></i></div>';
+			}else{
+				var support ='<div id='+IsSupport+'><i id="agree" class="fa fa-thumbs-up"></i></div>';
+			}	
+			SupportCount = SupportCount >3 ? SupportCount : "";
+			var ren = SupportCount >3 ? "人" : "";
+			var id = id.toString();
+			var ids = id+'s';
+			var idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+			var allEls=document.getElementById(idName).getElementsByTagName('div');
+			var newArr=[];
+			var div ;
+			div = document.createElement('div');
+			div.className = "jh-agree";
+			div.id = id;
+			div.innerHTML = support+
+				            '<div>'+ VoteUsers + SupportCount +ren+ "赞同该回答 " +'</div>';
+			for (var i=0;i<allEls.length;i++) {
+				if(allEls[i].getAttribute('id')!=null){
+					if(ids==allEls[i].getAttribute('id')){
+						newArr.push(allEls[i])
+					}
+				}
+			}
+			newArr[0].innerHTML = "";//重新渲染点赞列
+			newArr[0].appendChild(div);				            						
+		};
+		//最佳回答里的点赞操作
+		var creatSupportBest = function (SupportCount,data,IsSupportBest,id){
+			if(typeof data =='string'){
+				VoteUsersBest = data + "等";
+			}else{
+				var VoteUsersBest = creatVoteUsers(data);
+			}
+			VoteUsersBest = VoteUsersBest.length > 0 ? VoteUsersBest : "0人";
+			if(IsSupportBest == true){
+				var support = '<div class="jh-agree-color"style="border: 1px solid #BF0A10;"><i id="agreeBest" class="fa fa-thumbs-up jh-agree-color"></i></div>';
+			}else{
+				var support ='<div><i id="agreeBest" class="fa fa-thumbs-up"></i></div>';
+			}	
+			SupportCount = SupportCount >3 ? SupportCount : "";
+			var ren = SupportCount >3 ? "人" : "";
+			var addagreeBest = document.getElementById("addagreeBest");
+			var div ;
+			div = document.createElement('div');
+			div.className = "jh-agree";
+			div.id = id;
+			div.innerHTML = support+
+							'<div>'+ VoteUsersBest + SupportCount +ren+ "赞同该回答 " +'</div>';
+				            addagreeBest.appendChild(div);				            						
+		};
+		var SupportCountAgree;
+		var VoteUsersAgree;
+		var createCommentItem = function(data, id) {//回答列表			
+			var fragment = document.getElementById(id);
+			var cfragment = fragment.firstElementChild;						
+			var li;	
+			var CommentAttach;
+			var CanSetBest;
+			var CanDelete;
+			var islog = getlsData('isLogin');
+			for(var i = 0; i < data.length; i++) {
+				SupportCountAgree = data[i].SupportCount;
+				var VoteUsers = data[i].VoteUsers;
+				IsSupport = data[i].IsSupport;	
+				if(data[i].Attachments&&data[i].Attachments.length != 0 ){
+					CommentAttach = creatAttachment(data[i].Attachments,'com');
+				}else{
+					CommentAttach = ''
+				}
+				if(data[i].IsSupport == true){
+					var support = '<div class="jh-agree-color"style="border: 1px solid #BF0A10;"id='+ data[i].Id +'><i id="agree" class="fa fa-thumbs-up jh-agree-color"></i></div>';
+				}else{
+					var support ='<div><i id="agree" class="fa fa-thumbs-up"></i></div>';
+				}
+				if(data[i].Avatar.length > 0){
+					var Avatar = '<img class="creator_img_comment " style="height: 32px;" id='+data[i].UserId+' src='+ getImgUrl(data[i].Avatar) +'>';
+				}else{
+					var Avatar = '<img class="creator_img_comment " style="height: 32px;" id='+data[i].UserId+' src="../img/avatar.jpg" />';
+				}
+				if(islog == 'true' && data[i].CanSetBest == true){
+					CanSetBest = '<h5 class="comment_top_right fav"  id='+ data[i].Id +'>'+"设为最佳回答"+'</h5>';
+				}else{
+					CanSetBest = "";
+				}
+				if(islog == 'true' && data[i].CanDeleteOrEdit == true){
+					CanDelete = '<h5 class="comment_top_right deleteAnswer"  id='+ data[i].Id +'>'+"删除"+'</h5>';
+				}else{
+					CanDelete = "";
+				}
+				var VoteUsers = creatVoteUsers(data[i].VoteUsers);
+				VoteUsers = VoteUsers.length>0 ? VoteUsers + "等" : '';
+				li = document.createElement('li');
+				li.id = "queCommentList";
+				var id = data[i].Id;
+				var ids = id.toString();
+				var finalid = ids+'s';
+				li.className = 'jh-news-list ';	
+				li.innerHTML = '<div class="comment_body">'+
+				                '<div class="comment_img">'+
+				                Avatar+
+				                '<h5 class="comment_top_left" id="author">'+data[i].Author+'</h5>'+
+				                CanDelete+
+				                CanSetBest+
+				                '</div>'+
+				                '<div class="comment_content" id="comment_content">'+
+				                '<p class="imageTap">'+getBodyImgUrl(data[i].Body)+'</p>'+'</div>'+
+				                '</div>'+
+				                CommentAttach +
+				                '<div id='+ finalid +'></div>'+		
+				                '<ul class="mui-list-inline text-muted" >'+
+				                '<li>'+data[i].DateCreated+'</li>'+
+				                '<li></li>'+
+				                '<li></li>'+
+				                '<li class="commentslist" style="margin-right:-8px;" id='+ data[i].Id +'>'+data[i].CommentCount+"条评论"+'</li>'+
+				                '</ul>'			
+				cfragment.appendChild(li);
+			}
+		};
+		//设为最佳回答
+		mui(".mui-table-view").on('tap', '.fav', function(e) {
+    		var answerId = e.target.id;
+			var islog = getlsData('isLogin');
+			if(islog == 'true') {
+				postDatawithToken('Ask/SetBestAnswer?answerId=' + answerId, {}, function(data) {
+				//hideLoading();				
+				var list = document.getElementsByClassName("mui-table-view");
+				if(data.Type == 1) {
+					if(mui.os.plus) {
+						mui('#popover').popover('hide');
+						var list =plus.webview.getWebviewById('question-solved.html');
+						list.reload(true);
+						mui.toast(data.Data);
+					} else {
+						mui.back();
+						mui.toast(data.Data);
+					}
+					mui.toast("设为最佳回答成功");
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				//hideLoading();
+			})
+			}else{
+				mui.toast('请登录后再进行操作');
+				login();
+			}		
+		})
+		//删除回答
+		mui("#slider").on('tap', '.deleteAnswer', function(e) {
+    		var answerId = e.target.id;
+			var islog = getlsData('isLogin');
+			if(islog == 'true') {
+				mui('#popover').popover('toggle');
+				var btnArray = ['取消', '确定'];
+				mui.confirm('确认删除？', '回答', btnArray, function(e) {
+					if(e.index == 1) {
+						postDatawithToken('Ask/DeleteAnswer?answerId=' + answerId, {}, function(data) {
+						//hideLoading();						
+						if(data.Type == 1) {
+							if(mui.os.plus) {
+							mui('#popover').popover('hide');
+							var list =plus.webview.getWebviewById('question-solved.html');
+						    list.reload(true);
+						    mui.toast(data.Data);
+						} else {
+							mui.back();
+							mui.toast(data.Data);
+						}
+							mui.toast(data.Data);
+						} else if(data.Type == 0) {
+							//登录失败
+							mui.toast("请登录后再进行操作");
+							login();
+							return;
+						} else {
+							//逻辑错误
+							mui.toast(data.Data);
+							return;
+						}
+						}, function(err) {
+							//hideLoading();
+						})											
+					}else{
+						mui('#popover').popover('hide');
+					}
+				});
+				
+			}else{
+				mui.toast('请登录后再进行操作');
+				login();
+			}		
+		})
+		mui(".mui-table-view").on('tap', '#agree', function(e) {//点赞
+    		var answerId = e.target.parentElement.parentElement.id;  		
+    		var isSupport=e.target.parentElement.getAttribute('id');
+				postDatawithToken('Ask/AttitudeAnswer?answerId=' + answerId, {}, function(data) {
+				//hideLoading();				
+				if(data.Type == 1) {										
+					if(e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.id == "item1mobile"){						
+						creatSupportSort(data.Data.SupportCount,data.Data.VoteUsers,data.Data.IsSupport,answerId);
+						GetQuestion(questionId,false,1)
+					}else{
+						document.getElementById(e.target.parentElement.parentElement.parentElement.id).innerHTML = "";
+						creatSupport(data.Data.SupportCount,data.Data.VoteUsers,data.Data.IsSupport,answerId);
+					}
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				//hideLoading();
+			})		
+		})
+		//最佳回答的点赞操作
+		mui(".jh-best-answer ").on('tap', '#agreeBest', function(e) {
+    		var answerId = e.target.parentElement.parentElement.id;//IsSupport
+			var islog = getlsData('isLogin');
+			if(islog == 'true') {
+				postDatawithToken('Ask/AttitudeAnswer?answerId=' + answerId, {}, function(data) {
+				//hideLoading();				
+				var VoteUsersBest;
+				if(data.Type == 1) {
+					document.getElementById(e.target.parentElement.parentElement.parentElement.id).innerHTML = "";
+					creatSupportBest(data.Data.SupportCount,data.Data.VoteUsers,data.Data.IsSupport,answerId);
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				//hideLoading();
+			})
+			}else{
+				mui.toast('请登录后再进行操作');
+				login();
+			}		
+		})		
+		mui("#attachments").on('tap', 'a', function(e) {
+			if(mui.os.plus){
+				startDownloadTask(this.getAttribute('id'))
+			}else{
+				download(this.getAttribute('id'),this.getAttribute('title'),location.href.split('#')[0])
+			}
+		})
+		mui("#bestAnswer").on('tap', '.commentupload', function(e) {
+			if(mui.os.plus){
+				startDownloadTask(this.firstChild.getAttribute('id'))
+			}else{
+				download(this.firstChild.getAttribute('id'),this.firstChild.getAttribute('title'),location.href.split('#')[0])
+			}
+		})
+		mui("#sliderGroup").on('tap', '.commentupload', function(e) {
+			if(mui.os.plus){
+				startDownloadTask(this.firstChild.getAttribute('id'))
+			}else{
+				download(this.firstChild.getAttribute('id'),this.firstChild.getAttribute('title'),location.href.split('#')[0])
+			}
+		})
+		var creatVoteUsers = function(data){
+        	var username=[];       	
+        	var VoteUserslength = data != null  ?  data.length  :  0;
+        	var length = VoteUserslength>3 ? 3 : VoteUserslength;
+        	for(var i = 0;i<length;i++){
+        		username.push(data[i].UserName);
+        	}       	
+        	username.join('、');
+        	if(VoteUserslength>3){
+        		username.push("等");
+        	}else{        		
+        	}
+        	return username
+        };
+		var creatBest = function(data,commentcount){						
+			var VoteUsers = creatVoteUsers(data.VoteUsers);	
+			VoteUsers = VoteUsers.length>0 ? VoteUsers + "等" : '';
+			var CommentCount = data.CommentCount > 0  ? commentcount : '';
+			if(data.Attachments.length != 0 ){
+				CommentAttach = creatAttachment(data.Attachments,'com');				
+			}else{
+				CommentAttach = ''
+			}
+			if(data.Avatar.length > 0){
+				var Avatar = '<img class="creator_img_comment " style="height: 32px;" id='+data.UserId+' src='+ getImgUrl(data.Avatar) +'>';
+			}else{
+				var Avatar = '<img class="creator_img_comment " style="height: 32px;" id='+data.UserId+' src="../img/avatar.jpg"/>';
+			}
+			var bestAnswer = document.getElementById("bestAnswer");// "李凯凯、李凯凯、李凯凯、李凯凯等68人赞同该回答" 
+			bestAnswer.style.display = 'block';	
+			bestAnswer.innerHTML = '<div class="jh-gray-bar"></div>'+
+									'<div class="comment_body">'+
+			                       '<div class="comment_img">'+
+			                       Avatar+
+			                       '<h5 class="comment_top_left" id="author">'+ data.Author+'</h5>'+
+			                       '<h5 class="comment_top_right-solved comment_top_right"style="margin-right:7px;">最佳回答</h5>'+	
+			                       '</div>'+
+			                       '<div class="comment_content">'+			    		           			    		           
+					               '<p>'+data.Body+'</p>'+'</div>'+				                   
+			    	               '</div>'+CommentAttach+	
+			    	               '<div id="addagreeBest"></div>'+	                               
+	                               '<ul class="mui-list-inline text-muted" >'+
+					               '<li>'+data.DateCreated+'</li>'+
+					               '<li></li>'+
+					               '<li></li>'+
+					               commentcount+				
+		                           '</ul>'			                           
+                                   return bestAnswer;
+			
+		};	
+		var allCount;			
+		mui(".jh-detail-content").on('tap', '.creator_img_comment', function(e) {
+			var userid = this.getAttribute('id');
+			var baseUrl = 'userHomepage.html';
+			var url = baseUrl + '?userId=' + userid;
+			mui.openWindow({
+				url: url,
+				id: 'userHomepage.html',
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					userId: userid
+				}
+			})
+		})
+		mui(".jh-detail-content").on('tap', '.authorIdTap', function(e) {
+			var userid = this.getAttribute('id');
+			var baseUrl = 'userHomepage.html';
+			var url = baseUrl + '?userId=' + userid;
+			mui.openWindow({
+				url: url,
+				id: 'userHomepage.html',
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					userId: userid
+				}
+			})
+		})		
+		function getDetail(id) {
+			showLoading('','','#FFFFFF','50px');
+			var islog = getlsData('isLogin');			
+			getDatawithToken('Ask/GetQuestionDetail', { questionId: id }, function(data) {	
+				console.log(data)
+				hideLoading();
+				hideErr()
+				//questionOpt.style.display = data.Data.isManage == true ? 'block' : 'none';
+				document.getElementById('EditQuestion').style.display = data.Data.IsAllowMobileEdit == true && data.Data.isManage == true ? 'block' : 'none';
+				document.getElementById('DeleteQuestion').style.display = data.Data.isManage == true ? 'block':'none';
+				setShareInfo(getlsData('currUrl'), data.Data.Subject, data.Data.Subject, 'http://upload.cankaoxiaoxi.com/2017/0524/1495629970905.jpg?q=75');
+				subject = data.Data.Subject;
+				Manager();
+				var creatHotLabel = function(data){
+				  	var fragment = document.createDocumentFragment();
+				  	var Array = [];
+					var b =[];						
+					for(var j = 0; j < data.length; j++) {
+						Array.push({TagName:data[j].TagName,length:data[j].TagName.length});
+						function compare(property){
+						    return function(a,b){
+						        var value1 = a[property];
+						        var value2 = b[property];
+						        return value1 - value2;
+						    }
+					}
+					}
+					b = Array.sort(compare('length'))
+					var lengthL = b.length ;
+					var c = b.slice(0,lengthL);				  					  	
+					var a;
+				    for(var i =0;i<c.length;i++){
+					    a = document.createElement('a');
+				        a.innerHTML ='<span class="label label-default special" id=' + c[i].TagName +  '>'+c[i].TagName+'</span>';
+				    	fragment.appendChild(a);
+					}
+					return fragment;
+			    };								
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						var data = data.Data;
+						var bestCount = data.BestAnswer != null ? 1 : 0;
+						commonCount = data.AnswerCount;//所有回答包括最佳回答数目
+						allCount = commonCount- bestCount;//未添加之前获取的普通回答数目
+						//allCount = commonCount;
+						if(allCount == 0){
+							slider.style.display = 'none';
+						}else{
+							slider.style.display = 'block';							
+						}						
+						var answercount = document.getElementById("answercount");
+						newsTitle.innerHTML = data.Subject;
+						question_detail.innerHTML='';
+						question_detail.innerHTML=getBodyImgUrl(data.Body);
+						wximgEl.innerHTML=data.Body;
+						if(data.Attachments&&data.Attachments.length>0){
+							attachments.style.display='block';
+							attachments.appendChild(creatAttachment(data.Attachments));
+						}else{
+							attachments.style.display='none';
+						}
+						if(data.Tags&&data.Tags.length>0){
+							var title = document.getElementsByClassName("jh-title")[0];
+							title.style.display='block';
+							title.appendChild(creatHotLabel(data.Tags));
+						}else{
+							document.getElementById('hot-label').style.display = 'none'; 
+						}							     
+						var createList = function(data){
+					    	var list = document.getElementById("list");
+					    	var Author = data.IsAnonymous != true ?　data.Author　:　"匿名用户";
+					    	var authorIdTap = data.IsAnonymous != true ?　"authorIdTap"　:　"";
+					    	var authorId =data.IsAnonymous != true ?　data.UserId　:　"";
+					    	var Reward = data.Reward == 0 ? '' : '<li class="jh-orange"><i class="fa fa-database"></i><span style="margin-left:5px">'+ data.Reward +'</span></li>';
+					    	var Count = '<li class="questionComment" id=' + data.Id +  '>'+ data.CommentCount +"条评论"+'</li>'
+					    	var HitTimes = data.HitTimes != 0 ?  '<li style="padding-right:0px;">'+ data.HitTimes +"次浏览"+'</li>'  : '';
+					    	list.innerHTML = Reward+
+					    	               	'<li class=' + authorIdTap + ' id=' + authorId + '>'+ Author +'</li>'+
+					    	               	'<li>'+ data.DateCreated+"发布"+'</li>'+
+					    	               	HitTimes+
+					    	               	Count;	    	
+					    	return list;
+				    	};
+						createList(data);
+						var islog = getlsData('isLogin');
+						solvedImg.src = data.IsResolved ==true ? "../img/solved.png" : "../img/notsolved.png";
+						solvedImg.srcset =data.IsResolved ==true ? "../img/solved@2x.png 2x" : "../img/no-solved@2x.png 2x";
+						//solved.className = data.IsResolved ==true ? "jh-question-solved" :"jh-question-not-solved";					
+						answered.className = data.IsAnswered == true ? "mui-list-unstyled jh-dropdown-list jh-label jh-label-solved " : "mui-list-unstyled jh-dropdown-list jh-label ";						
+						if(data.BestAnswer != null){
+							editQuestion.innerHTML ='<i class="fa fa-edit" aria-hidden="true"></i>&nbsp;&nbsp已有最佳回答'
+						}else{
+							if(data.IsAnswered == true){								
+								editQuestion.innerHTML ='<i class="fa fa-edit" aria-hidden="true"></i>&nbsp;&nbsp已回答'
+							}else{
+								editQuestion.innerHTML ='<i class="fa fa-edit" aria-hidden="true"></i>&nbsp;&nbsp回答'
+							}
+						}												
+						//var shares = document.getElementById("shares");
+						var favorQuestionsText = document.getElementById("favorQuestionsText");						
+						document.getElementById('shares').innerHTML = '<a href="#"><i class="mui-icon mui-icon-extra mui-icon-extra-share" aria-hidden="true"></i>&nbsp;&nbsp'+"分享"+'</a>'
+						if(data.BestAnswer != null){
+							editQuestion.style.color = "#D4CCCC";
+							bestAnswer.style.display = 'block';	
+							var commentcount = '<li class="comments" id='+ data.BestAnswer.AnswerId +'>'+ data.BestAnswer.CommentCount +"条评论"+'</li>	';
+							creatBest(data.BestAnswer,commentcount);
+							var id = data.BestAnswer.AnswerId;							
+							creatSupportBest(data.BestAnswer.SupportCount,data.BestAnswer.VoteUsers,data.BestAnswer.IsSupport,id);						
+						}else{
+							bestAnswer.style.display = 'none';
+						}
+						if(data.IsEssential) {
+							EssentialOperation.innerHTML = '<a><i class="fa fa-star-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp取消加精</a>'
+							DeleteQuestion.innerHTML = '<a><i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;删除</a>'
+						} else {
+							EssentialOperation.innerHTML = '<a><i class="fa fa-star" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp加精</a>'
+							DeleteQuestion.innerHTML = '<a><i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;删除</a>'
+						}
+						isFavorited=data.IsFavorite;
+						favorQuestionsText.innerHTML = isFavorited == false ? '<i id="favorQuestions" class="mui-icon mui-icon-extra mui-icon-extra-heart" aria-hidden="true"></i>&nbsp;&nbsp收藏' : '<i id="favorQuestions" class="mui-icon mui-icon-extra mui-icon-extra-heart-filled" aria-hidden="true"></i>&nbsp;&nbsp已收藏';
+						//setShareInfo(getlsData('currUrl'),data.Subject,data.Subject);
+						IsEssential = data.IsEssential;						
+					} else {
+						questionOpt.style.display='none';
+						showErr(data.Data,'','#FFFFFF','50px')
+						mui.toast(data.Data);
+					}					
+					getComment(questionId,false);
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					questionOpt.style.display='none';
+					showErr(data.Data,'','#FFFFFF','50px')
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr('','50px')
+			})			
+		}
+		function approved(id){
+			getDatawithToken('Ask/GetAnswersByQuestionId', {questionId: id}, function(data) {
+				approvedCount = data.Data.length;//问题下获取到的回答数目
+			}, function(err) {
+			})
+		}
+		function getComment(id,more) {	//回答列表			
+			var fragment = document.getElementById('itemmobile');
+			var cfragment = fragment.firstElementChild;	
+			if(more){
+				page++;
+			} else {
+				cfragment.innerHTML = '';
+				page = 1;
+			}
+			var params = {
+				questionId: id,
+				pageSize: 10,
+				pageIndex: page,
+			};			
+			getDatawithToken('Ask/GetAnswersByQuestionId', params, function(data) {				
+				if(data.Type == 1) {
+					var data = data.Data;
+					if(allCount >approvedCount ){
+						var count = allCount - approvedCount;
+					}else{
+						var count = approvedCount - allCount ;
+					}
+					//disapprovedcount.innerText = count == 0 ? "" : "审核中" + "(" + count  +  ")";
+					if(data.length != 0 && typeof(data) == 'object'){
+						var idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);						
+						answercount.innerText = allCount+"条回答";
+						noAnswer.style.display = "none";
+						createCommentItem(data, idName);
+						for(var i = 0;i<data.length;i++){
+							SupportCountAgree = data[i].SupportCount;
+							var VoteUsers = data[i].VoteUsers;
+							var id = data[i].Id;							
+							creatSupport(data[i].SupportCount,VoteUsers,data[i].IsSupport,id);
+						}						
+					}else{
+						if(data == "暂无更多问题"){
+							
+						}else{
+							answercount.innerText = allCount+"条回答";
+							noAnswerAgree.style.display = "none";
+							noAnswer.style.display = "block";
+						}						
+					}					
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				//hideLoading();
+			})			
+		}
+		var page = 1;
+		var idName = "";
+		function GetQuestion(id, more, sortBy) {
+			getDatawithToken('Ask/GetAnswersByQuestionId', {questionId: id}, function(data) {
+				approvedCount = data.Data.length;
+			}, function(err) {
+			})
+			var fragment = document.getElementById('item1mobile');
+			var cfragment = fragment.firstElementChild;			
+			if(more){
+				page++;
+			} else {
+				cfragment.innerHTML = '';
+				page = 1;
+			}
+			var params = {
+				questionId: id,
+				sortBy : sortBy,
+				pageSize: 10,
+				pageIndex: page,
+			};			
+			getDatawithToken('Ask/GetAnswersByQuestionId', params, function(data) {
+				if(data.Type == 1) {	
+					var data = data.Data;
+					//approvedCount = data.length;
+//					if(allCount >approvedCount ){
+//						var count = allCount - approvedCount;
+//					}else{
+//						var count = approvedCount - allCount ;
+//					}	
+					//disapprovedcount.innerText = count == 0 ? "" : "审核中" + "(" + count  +  ")";
+					if(data.length != 0 && typeof(data) == 'object'){
+						var idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+						answercount.innerText = allCount+"条回答";
+						createCommentItem(data, idName);
+						for(var i = 0;i<data.length;i++){
+							SupportCountAgree = data[i].SupportCount;
+							var VoteUsers = data[i].VoteUsers;
+							IsSupport = data[i].IsSupport;
+							var id = data[i].Id;							
+							creatSupportSort(data[i].SupportCount,VoteUsers,data[i].IsSupport,id);
+						}					
+					}else{
+						if(data == "暂无更多问题"){
+							
+						}else{
+							answercount.innerText = allCount+"条回答";
+							noAnswer.style.display = "none";
+							noAnswerAgree.style.display = "block";
+						}
+						
+					}					
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				//hideLoading()
+			})
+		}	
+		mui(".jh-best-answer").on('tap','.comments',function(e){
+			var AnswerId = this.getAttribute('id');
+			var baseUrl = 'commentsDetail_main.html';
+			var tenantTypeId = 'Answer';
+			var url = mui.os.plus ? baseUrl : baseUrl + '?commentedObjectId=' + AnswerId + '&tenantTypeId='+tenantTypeId+ '&interfaceType='+'Ask';
+			var curl = shareUrl+baseUrl+ '?commentedObjectId=' + AnswerId + '&tenantTypeId='+tenantTypeId+ '&interfaceType='+'Ask';
+			setlsData('currUrl', curl);
+			mui.openWindow({
+				url: url,
+				id: 'commentsDetail_main.html',
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					interfaceType: 'Ask',
+					commentedObjectId: AnswerId,
+					currId: 'commentsDetail_main.html',
+					tenantTypeId:'Answer'
+				}
+			})
+		})
+		mui(".mui-table-view").on('tap','.commentslist',function(e){
+			var AnswerId = this.getAttribute('id');	
+			var tenantTypeId = 'Answer';
+			var baseUrl = 'commentsDetail_main.html';
+			var url = mui.os.plus ? baseUrl : baseUrl + '?commentedObjectId=' + AnswerId + '&tenantTypeId='+tenantTypeId+ '&interfaceType='+'Ask';
+			var curl = shareUrl+baseUrl+ '?commentedObjectId=' + AnswerId + '&tenantTypeId='+tenantTypeId+ '&interfaceType='+'Ask';
+			setlsData('currUrl', curl);
+			mui.openWindow({
+				url: url,
+				id: 'commentsDetail_main.html',
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					interfaceType: 'Ask',
+					commentedObjectId: AnswerId,
+					currId: 'commentsDetail_main.html',
+					tenantTypeId:'Answer'
+				}
+			})
+		})
+		mui(".text-muted").on('tap','.questionComment',function(e){
+			var QuestionId = this.getAttribute('id');
+			var tenantTypeId = 'Question';
+			var baseUrl = 'commentsDetail_main.html';
+			var url = mui.os.plus ? baseUrl : baseUrl + '?commentedObjectId=' + QuestionId+ '&tenantTypeId='+tenantTypeId+ '&interfaceType='+'Ask';
+			var curl = shareUrl+baseUrl+ '?commentedObjectId=' + QuestionId+ '&tenantTypeId='+tenantTypeId+ '&interfaceType='+'Ask';
+			setlsData('currUrl', curl);
+			mui.openWindow({
+				url: url,
+				id: 'commentsDetail_main.html',
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					interfaceType: 'Ask',
+					commentedObjectId: QuestionId,
+					currId: 'commentsDetail_main.html',
+					tenantTypeId:'Question'
+				}
+			})
+		})
+		mui("#hot-label").on('tap','.label-default',function(e){
+			var tagName = this.getAttribute('id');
+			var baseUrl = 'question-label-list.html';
+			var url = mui.os.plus ? baseUrl : baseUrl + '?tagName=' + tagName;
+			var curl = shareUrl+baseUrl+ '?tagName=' + tagName;
+			setlsData('currUrl', curl);
+			mui.openWindow({
+				url: url,
+				id: 'question-label-list.html',
+				show: {
+					autoShow: true
+				},
+				createNew:true,
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					tagName: tagName,
+					currId: 'question-solved.html'
+				}
+			})
+		})
+		var selel = document.getElementsByClassName("mui-control-item mui-active");
+		/**
+		 * tab切换
+		 */
+		(function($) {
+			//阻尼系数
+			var deceleration = mui.os.ios ? 0.003 : 0.0009;
+			$('.mui-scroll-wrapper').scroll({
+				bounce: false,
+				indicators: true, //是否显示滚动条
+				deceleration: deceleration
+			});
+			$.ready(function() {
+				//循环初始化所有下拉刷新，上拉加载。
+				var refresh = document.querySelectorAll('.mui-scroll-wrapper .mui-scroll');				
+				$.each(document.querySelectorAll('.mui-scroll-wrapper #scroll'), function(index, pullRefreshEl) {
+					$(pullRefreshEl).pullToRefresh({
+						down: {
+							callback: function() {												
+							}
+						},
+						up: {
+							callback: function() {									
+								var self = this;
+								if(selel[0].id == '0') {
+									getComment(questionId,true);
+								}
+								if(selel[0].id == '1') {									
+									GetQuestion(questionId,true,1);
+								}
+								setTimeout(function() {
+									self.endPullUpToRefresh();
+								}, 1000);
+							}
+						}
+					});
+				});
+			});
+		})(mui);
+		mui(".mui-list-unstyled").on('tap', 'li', function(e) {
+			if(mui.os.plus) {
+				mui('#popoverQuestion').popover('toggle');
+			}			
+			switch(this.getAttribute('id')) {
+				case "EssentialOperation":
+					//加精or取消加精
+					var islog = getlsData('isLogin');			
+					if(islog == 'true') {
+						essentialOperation(questionId,IsEssential)
+					} else {
+						mui.toast('请登录后再进行操作');
+						login();				
+					}					
+					break;
+				case "DeleteQuestion":
+					//删除
+					var islog = getlsData('isLogin');			
+					if(islog == 'true') {
+						mui('#popoverQuestion').popover('toggle');
+						var btnArray = ['取消', '确定'];
+						mui.confirm('确认删除？', '问题', btnArray, function(e) {
+							if(e.index == 1) {
+								deleteQuestion(questionId)
+							}
+						});
+					} else {
+						mui.toast('请登录后再进行操作');
+						login();				
+					}					
+					break;
+				default:
+					break;
+			}
+		})		
+    </script>
+</html>

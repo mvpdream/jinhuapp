@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/jinhu.css">
+	</head>
+	<style>
+
+	</style>
+
+	<body style="background-color: #FFF;">
+		<div id="inviteinvitePop" class="jh-wenku-popup mui-popover inviteinvitePop">
+			<div style="font-size: 18px;color: #999999;" id="inviteinviteText">http://demo.jinhusns.com/accountinviteinvite=8924de66dd8bf3af</div>
+			<div style="font-size: 16px;">通过QQ、电子邮件发送链接给你的朋友，注册成功后他们会自动成为你的粉丝。</div>
+			<button id="copyAndClose" class="btn mui-btn mui-btn-primary" style="margin-top: 20px;"  data-clipboard-action="copy" data-clipboard-target="div">复制链接并关闭</button>
+		</div>
+		<!--下拉刷新容器-->
+		<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<ul class="mui-table-view" style="margin-top: 0;">
+
+				</ul>
+			</div>
+		</div>
+
+		</div>
+		<script type="text/javascript" src="../js/jquery-2.1.0.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/wxHelper.js"></script>
+		<script src="../js/clipboard.min.js"></script>
+		<script>
+			function showPop(){
+				mui('#inviteinvitePop').popover('show');
+			}
+			var copyAndCloseBtn=document.getElementById("copyAndClose");
+			copyAndCloseBtn.setAttribute("data-clipboard-text", "newDiv");
+			
+			var clipboard = new Clipboard('.btn');
+		    clipboard.on('success', function(e) {
+		        mui('#inviteinvitePop').popover('hide');
+		        mui.toast('复制成功')
+		    });
+		
+		    clipboard.on('error', function(e) {
+		        mui.toast('复制失败，请重试')
+		    });
+		</script>
+	</body>
+
+</html>

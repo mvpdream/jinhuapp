@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>编辑投票贴</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--通用样式-->
+    <link rel="stylesheet" href="../css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../css/jinhu.css" />
+    <link rel="stylesheet" href="../css/loading.css" />
+	<link href="../css/mui.picker.css" rel="stylesheet" />
+	<link href="../css/mui.picker.all.css" rel="stylesheet" />
+	<link href="../css/mui.picker.min.css" rel="stylesheet" />
+	<link href="../css/mui.poppicker.css" rel="stylesheet" />
+	<!-- 引用控制层插件样式 -->
+	<link rel="stylesheet" href="../css/zyUpload.css" type="text/css">
+
+	<script src="../js/jquery-2.1.0.js"></script>
+	<!-- 引用核心层插件 -->
+	<script type="text/javascript" src="../js/zyFile.js"></script>
+	<!-- 引用控制层插件 -->
+	<script type="text/javascript" src="../js/zyUpload.js"></script>
+	<!-- 引用初始化JS -->
+	<script type="text/javascript" src="../js/zyUploadFile.js"></script>
+
+</head>
+<style>
+.mui-table-view-cell:last-child:after, .mui-table-view-cell:last-child:before {
+    height: 1px;
+}
+.jh-comment-right a{
+	padding-left: 10px;
+}
+.closeIcon {
+	font-size: 25px;
+}
+.creat-img {
+	width: 100px;
+	height: 150px
+}		
+.creat-img-close {
+	position: relative;
+	right: 15px;
+	top: -75px;
+	color: gray;			
+}
+.voteitem{
+	margin-left: 5px;
+}
+.Imgvoteitem{
+	margin-left: 5px;
+	width: 68% !important;
+}
+.fa-dot-circle-o{
+	color: #BF0A10;
+}
+.mui-btn-blue, .mui-btn-primary, input[type=submit] {
+    color: #fff;
+    border: 1px solid #bf0a10;
+    background-color: #bf0a10;
+}
+#upload-textarea{
+	border: none;
+	font-size: 16px;
+	color: #999;
+}
+.mui-input-row label{
+	color: #666666;
+}
+</style>
+<body>
+	<div id="BgDiv1"></div>
+    <header class="mui-bar mui-bar-nav">
+        <button class="mui-action-back mui-btn  mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+            <span class="mui-icon mui-icon-left-nav"></span>编辑投票贴
+        </button>
+        <button type="button" id="creatBtn" class="mui-btn mui-btn-primary mui-pull-right">保存</button>
+    </header>
+<div class="mui-scroll-wrapper" style="padding-top: 50px;padding-bottom: 100px;">
+    <div class="mui-scroll">
+    <div class="mui-content jh-publish-vote">     
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell mui-input-row">
+                <label>投票标题</label> 
+                <input type="text"  data-input-clear="1" id="title">
+            </li>       
+        </ul>
+        <div class="jh-gray-bar"></div>
+        <ul class="mui-table-view">
+        	<form id="uploadForm" style="display: none;">
+				<input id="file" style="display: none;" accept="image/*" type="file" name="file" />
+			</form>
+            <li class="mui-table-view-cell mui-input-row" id="startTime">
+                <label>开始时间</label>
+                <span></span>
+            </li> 
+            <li class="mui-table-view-cell mui-input-row" id="endTime">
+                <label>结束时间</label>
+                <span></span>
+            </li> 
+            <li class="mui-table-view-cell">
+                	<label style="color: #666666;">图片选项</label>
+                <div class="mui-switch mui-switch-red"id="mySwitch">
+                    <div class="mui-switch-handle"></div>
+                </div>               
+            </li>
+            <div id="voteItem">
+	            <li class="mui-table-view-cell">
+	                <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+	                <input type="text" class="mui-input-clear voteitem" placeholder="投票选项" >
+	                <span class="mui-pull-right mui-icon mui-icon-closeempty"></span>
+	            </li>
+	            <li class="mui-table-view-cell">
+	                <i class="fa fa-dot-circle-o" aria-hidden="true"></i>
+	                <input type="text" class="mui-input-clear voteitem" placeholder="投票选项">
+	                <span class="mui-pull-right mui-icon mui-icon-closeempty"></span>
+	            </li>
+            </div>
+            <div id="imgVoteItem">
+            	
+            </div>           
+            <li class="mui-table-view-cell mui-text-center" id="creatVoteItem">
+                <sapn class="tn-theme-color">新建投票选项</sapn>
+            </li>
+        </ul>
+        <div class="jh-gray-bar"></div>
+        <textarea placeholder="详情描述"rows="6" id="upload-textarea"></textarea> 
+            <div id="imgPop">
+				<div style="height: 200px;" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+					<div id="imgs" class="mui-scroll">
+
+					</div>
+				</div>
+			</div>
+        <div class="jh-gray-bar"></div>
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell" id="canSelectItem">
+                <span style="color: #666666;">可选项数</span>
+                <span id="canSelectItemText"></span>	
+                <span class="mui-pull-right mui-icon mui-icon-arrowdown"></span>
+            </li>
+            <li class="mui-table-view-cell" id="canSelectCategory">
+				<span style="color: #666666;">贴子分类</span>
+                <span id="canSelectCategoryText"></span>
+                <span class="mui-pull-right mui-icon mui-icon-arrowdown"></span>
+            </li>
+            <li class="mui-table-view-cell">
+                <span class="tn-text-color">允许用户查看投票结果</span>
+                <div class="mui-switch mui-switch-red"id="ViewResultsSetting">
+                    <div class="mui-switch-handle"></div>
+                </div>
+            </li>
+        </ul>
+        <div id="demo" class="demo" style="display: none;"></div>
+    </div></div></div>
+    <div  class="mui-bar mui-bar-tab jh-bar-comment" id="bottomBox" style="background-color:#F2F2F2;height: 60px;bottom: 0px;display: none;">
+			<div id="bottomBar" class="jh-comment-right" style="float: left;width: 100%;">
+				<a onclick="galleryImgsMaximum()"><i class="mui-icon fa fa-picture-o creat_menu" aria-hidden="true"></i></a>
+				<a id="getcamera" onclick="getImages()"><i class="mui-icon fa fa-camera angledown creat_menu" aria-hidden="true"></i></a>
+			</div>
+		</div>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/mui.zoom.js"></script>
+	<script src="../js/mui.picker.js"></script>
+	<script src="../js/mui.picker.all.js"></script>
+	<script src="../js/mui.picker.min.js"></script>
+	<script src="../js/mui.poppicker.js"></script>
+	<script src="../js/mui.previewimage.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/service.js"></script>	
+	<script type="text/javascript" src="../js/loading.js"></script>
+	<script src="../js/jhUpload.js"></script>
+	<script src="../js/wxHelper.js"></script>
+	<script src="../js/jweixin-1.2.0.js"></script>
+	<script src="../js/creatUpload.js"></script>
+</body>
+<script>
+	
+	var startTime = document.getElementById('startTime');
+	var endTime = document.getElementById('endTime');
+	var voteItem = document.getElementById('voteItem');
+	//var ImgvoteItem = document.getElementById('ImgvoteItem');
+	var imgVoteItem = document.getElementById('imgVoteItem');
+	var creatVoteItem = document.getElementById('creatVoteItem');
+	var canSelectItemText = document.getElementById('canSelectItemText');
+	var commenttextarea = document.getElementById('upload-textarea');
+	var picker = new mui.PopPicker();
+	var pickdata = [];
+	var pickerCategory = new mui.PopPicker();
+	var pickCategorydata = [];
+	var canSelectItem = document.getElementById('canSelectItem');
+	var canSelectCategory = document.getElementById('canSelectCategory');
+	var canSelectCategoryText = document.getElementById('canSelectCategoryText');
+	var ViewResultsSetting = document.getElementById('ViewResultsSetting');
+	var creatBtn = document.getElementById('creatBtn');
+	var file = document.getElementById('file');
+	var IsViewResultsSetting = false;
+	var startTimeValue;
+	var endTimeValue;
+	var hasThreadCategory;
+	var sectionId;
+	var IsImageVote = false;
+	var title;
+	var body;
+	var CanChooseQuantity;
+	var ItemNames = [];
+	var ItemImages = [];
+	ZYFILE.url = Http_Url + 'Vote/UploadFiles';
+	var imgFiles = [];
+	var wxIds = [];
+	creatloadingEL();//loaging
+	var dtpicker = new mui.DtPicker({
+	    type: "datetime",//设置日历初始视图模式 
+	    beginDate: new Date(1970, 01, 01),//设置开始日期 
+	    endDate: new Date(2100, 01, 01),//设置结束日期 
+	    labels: ['年', '月', '日', '时', '分'],//设置默认标签区域提示语 
+	}) 	 
+	var deceleration = mui.os.ios ? 0.003 : 0.0009;
+	mui('.mui-scroll-wrapper').scroll({
+		bounce: false,
+		indicators: true, //是否显示滚动条
+		deceleration: deceleration
+	});
+	if(mui.os.plus) {
+		mui.plusReady(function() {
+			var self = plus.webview.currentWebview();
+			threadId = self.threadId;
+			sectionId = self.sectionId;
+			currid = self.currId;
+			getThreadDetail(threadId);
+			//getThreadCategory(sectionId)
+			//关闭等待框
+			plus.nativeUI.closeWaiting();
+			//显示当前页面
+			mui.currentWebview.show();
+		});
+	} else {
+		threadId = getUrlParam('threadId');
+		sectionId = getUrlParam('sectionId');
+		getThreadDetail(threadId);
+		//getThreadCategory(sectionId)
+	}
+
+	$("#file").on('change', function(e) {
+		var oFile = document.getElementById('file').files[0]; //读取文件 
+		if(oFile) {
+			var reader = new FileReader();
+			reader.onload = function() {
+			appendFileVoteTouch('Vote/UploadVoteItemFiles', 0, reader.result, function(data) {
+					var itemAttachmentIds = data.AttachmentIds;
+					ItemImages.push(itemAttachmentIds);
+				}, oFile.name)
+			}
+		}
+		reader.readAsDataURL(oFile);
+		var URL = window.URL || window.webkitURL;
+		var imgURL = URL.createObjectURL(oFile);
+		creatImgVoteItem(imgURL);
+		//showLoading();				
+	})
+
+	mui(".mui-content").on('tap', '#startTime', function(e) {
+		document.getElementById("title").blur();
+		document.getElementById("upload-textarea").blur();
+		var value = this.getElementsByTagName('span')[0].innerText;
+		var _self;
+		var options = {
+				"value": value,
+				"beginYear": 1970,
+				"endYear": 2100
+		};
+		var id = this.getAttribute('id');
+		_self = new mui.DtPicker(options);
+		_self.show(function(rs) {
+			var  iTems =dtpicker.getSelected();
+			startTime.getElementsByTagName('span')[0].innerText = rs.text;
+		})
+	})
+	mui(".mui-content").on('tap', '#endTime', function(e) {
+		document.getElementById("title").blur();
+		document.getElementById("upload-textarea").blur();
+		var value = this.getElementsByTagName('span')[0].innerText;
+		var _self;
+		var options = {
+				"value": value,
+				"beginYear": 1970,
+				"endYear": 2100
+		};
+		var id = this.getAttribute('id');
+		_self = new mui.DtPicker(options);
+		_self.show(function(rs) {
+			var  iTems =dtpicker.getSelected();
+			endTime.getElementsByTagName('span')[0].innerText = rs.text;
+		})
+	})
+	mui(".mui-content").on('tap', '.mui-icon-closeempty', function(e) {
+		if(this.parentElement.parentElement.id == 'imgVoteItem'){
+			var index = $(this.parentElement).index();
+			ItemImages.splice(index,1);
+		}
+		this.parentElement.parentElement.removeChild(this.parentElement)
+	})
+	mui(".mui-content").on('tap', '#creatVoteItem', function(e) {
+		creatVoteItem();
+	})
+	mui(".mui-content").on('tap', '#creatImgVoteItem', function(e) {
+		galleryImgsMaximumVote();		
+	})
+	document.getElementById("mySwitch").addEventListener("toggle",function(event){
+        if(event.detail.isActive){
+            voteItem.style.display = 'none';
+            imgVoteItem.style.display = 'block';
+            document.getElementById('creatVoteItem').id = 'creatImgVoteItem';
+            IsImageVote　=　true;
+        }else{
+            voteItem.style.display = 'block';
+            imgVoteItem.style.display = 'none';
+            document.getElementById('creatImgVoteItem').id = 'creatVoteItem';
+            IsImageVote = false;
+        }
+    })
+	document.getElementById("ViewResultsSetting").addEventListener("toggle",function(event){
+        if(event.detail.isActive){
+            IsViewResultsSetting = true;
+        }else{
+            IsViewResultsSetting = false;
+        }
+    })
+	canSelectCategory.addEventListener('tap', function() {
+		pickerCategory.show(function(selectItems) {
+			canSelectCategoryText.id = selectItems[0].value;
+			canSelectCategoryText.innerText = selectItems[0].text;			
+		})					
+	})
+	canSelectItem.addEventListener('tap', function() {
+		pickdata = [];
+		if(mySwitch.className == 'mui-switch mui-switch-red mui-active'){
+			var canLength = imgVoteItem.getElementsByTagName('li').length;
+			if(canLength == 0){
+				mui.toast("您还未设置选项");
+			}else{
+				pickdata.push('单选');
+				if(canLength > 1){
+					for(var i = 1;i< canLength;i++){
+						pickdata.push("最多选"+ (i+1) +"项");
+					}				
+				}			
+				picker.setData(pickdata);
+				picker.show(function(selectItems) {
+					canSelectItemText.innerText = selectItems[0];
+				})
+			}
+		}else{
+			var canLength = voteItem.getElementsByTagName('li').length;
+			if(canLength == 0){
+				mui.toast("您还未设置选项");
+			}else{
+				pickdata.push('单选');
+				if(canLength > 1){
+					for(var i = 1;i< canLength;i++){
+						pickdata.push("最多选"+ (i+1) +"项");
+					}				
+				}			
+				picker.setData(pickdata);
+				picker.show(function(selectItems) {
+					canSelectItemText.innerText = selectItems[0];
+				})
+			}
+		}
+					
+	})
+	var creatVoteItem = function(){
+		var li = document.createElement('li');
+		li.className = 'mui-table-view-cell';
+		li.innerHTML = '<i class="fa fa-dot-circle-o" aria-hidden="true"></i>'+
+						'<input type="text" class="mui-input-clear voteitem" placeholder="投票选项">'+
+						'<span class="mui-pull-right mui-icon mui-icon-closeempty"></span>';
+		voteItem.appendChild(li);
+	};
+	var creatEditVoteItem = function(data){
+		for(var i = 0;i<data.length;i++){
+			var itemText = data[i].Name;
+			var li = document.createElement('li');
+			li.className = 'mui-table-view-cell';
+			li.innerHTML = '<i class="fa fa-dot-circle-o" aria-hidden="true"></i>'+
+						'<input type="text" class="mui-input-clear voteitem" placeholder="投票选项" value="'+itemText+'">'+
+						'<span class="mui-pull-right mui-icon mui-icon-closeempty"></span>';
+			voteItem.appendChild(li);
+		}		
+	};
+	var creatEditImgVoteItem = function(data,itemText){
+		var li = document.createElement('li');
+		li.className = 'mui-table-view-cell';
+		li.id="Img";		
+		li.innerHTML =  '<img src="'+ data.ImageAttachment.Url +'" style="height:74px;width:74px;" />'+
+						'<input type="text" class="mui-input-clear Imgvoteitem" placeholder="投票选项" value="'+itemText+'">'+
+						'<span class="mui-pull-right mui-icon mui-icon-closeempty" style="margin-top:24px"></span>';
+		imgVoteItem.appendChild(li);
+	};
+	var creatImgVoteItem = function(data){
+		var li = document.createElement('li');
+		li.className = 'mui-table-view-cell';
+		li.id="Img";		
+		li.innerHTML =  '<img src="'+ data +'" style="height:74px;width:74px;" />'+
+						'<input type="text" class="mui-input-clear Imgvoteitem" placeholder="投票选项">'+
+						'<span class="mui-pull-right mui-icon mui-icon-closeempty" style="margin-top:24px"></span>';
+		imgVoteItem.appendChild(li);
+	};
+	var oldAttachments = [];
+	var oldImageAttachments=[];
+	var oldImageAttachmentIds=[];
+	function getThreadDetail(id) {
+		var waiting = showWaiting();
+		getData('Vote/GetEditVoteDetail', {
+			threadId: id
+		}, function(data) {
+			closeWaiting(waiting);
+			if(data.Type == 1) {
+				document.getElementById('title').value = data.Data.Vote.Subject;
+				startTime.getElementsByTagName('span')[0].innerText = data.Data.Vote.StartTime;
+				endTime.getElementsByTagName('span')[0].innerText = data.Data.Vote.EndTime;
+				canSelectItemText.innerText= data.Data.Vote.CanChooseQuantity == 1 ? "单选" : "最多选"+data.Data.Vote.CanChooseQuantity+"项";
+				canSelectCategoryText.innerText = data.Data.Thread.CategoryName;
+				canSelectCategoryText.id = data.Data.Thread.CategoryId;
+				ViewResultsSetting.className =  data.Data.Vote.ViewResultsSetting == true ?　'mui-switch mui-switch-red mui-active' : 'mui-switch mui-switch-red';
+				IsViewResultsSetting = data.Data.Vote.ViewResultsSetting;
+				commenttextarea.value = data.Data.Vote.VoteDescription;
+				VoteId = data.Data.Vote.Id;
+				console.log(data.Data)
+				if(data.Data.Vote.ImageAttachments != null){
+					document.getElementById("imgPop").style.display = '';
+					oldImageAttachments=data.Data.Vote.ImageAttachments;
+					for (var i=0;i<oldImageAttachments.length;i++) {
+						oldImageAttachmentIds.push(oldImageAttachments[i].AttachmentId)
+					}
+					document.getElementById("imgs").appendChild(creatEditImg(data.Data.Vote.ImageAttachments))
+				}				
+				getThreadCategory(data.Data.Thread.SectionId);
+				if(data.Data.Vote.VoteType == 1){
+					mySwitch.className = 'mui-switch mui-switch-red mui-active';
+					voteItem.style.display = 'none';
+            		imgVoteItem.style.display = 'block';
+            		document.getElementById('creatVoteItem').id = 'creatImgVoteItem';
+            		IsImageVote = true;
+            		for(var i = 0;i<data.Data.Vote.VoteItem.length;i++){
+            			creatEditImgVoteItem(data.Data.Vote.VoteItem[i],data.Data.Vote.VoteItem[i].Name);
+            			ItemImages.push(data.Data.Vote.VoteItem[i].ImageAttachment.AttachmentId);
+            		}           		
+				}else{
+					voteItem.innerHTML = '';
+					var data = data.Data.Vote.VoteItem;
+					creatEditVoteItem(data);
+				}								
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(err) {
+			closeWaiting(waiting);
+		})
+	}
+	function getThreadCategory(id) {
+		var waiting = showWaiting();
+		getData('Post/GetThreadCategory', {
+			sectionId: id
+		}, function(data) {
+			closeWaiting(waiting);
+			if(data.Type == 1) {
+				if(data.Data && data.Data.length != 0) {
+					hasThreadCategory = true;
+					for(var i = 0; i < data.Data.length; i++) {
+						pickCategorydata.push({
+							value: data.Data[i].Id,
+							text: data.Data[i].Name
+						})
+					}
+					pickerCategory.setData(pickCategorydata);
+				} else {
+					hasThreadCategory = false;
+				}
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(err) {
+			closeWaiting(waiting);
+		})
+	}
+	creatBtn.addEventListener('tap', function() {
+		upload();
+	})
+	var oldAttach = [];
+	function upload() {
+		ItemNames = [];
+		if(mySwitch.className == 'mui-switch mui-switch-red mui-active'){//Imgvoteitem
+			if(document.getElementsByClassName('Imgvoteitem').length > 1){
+				for(var i = 0;i<document.getElementsByClassName('Imgvoteitem').length;i++){
+					if(document.getElementsByClassName('Imgvoteitem')[i].value == ''){
+						mui.toast("选项内容不能为空");
+						return
+					}else{
+						ItemNames.push(document.getElementsByClassName('Imgvoteitem')[i].value);
+					}			
+				}			
+			}else{
+				if(document.getElementsByClassName('Imgvoteitem').length = 1){
+					mui.toast("请设置最少两个选项");
+					return
+				}else{
+					mui.toast("请设置选项");
+					return
+				}
+			}
+		}else{
+			if(document.getElementsByClassName('voteitem').length > 1){
+				for(var i = 0;i<document.getElementsByClassName('voteitem').length;i++){
+					if(document.getElementsByClassName('voteitem')[i].value == ''){
+						mui.toast("选项内容不能为空");
+						return
+					}else{
+						ItemNames.push(document.getElementsByClassName('voteitem')[i].value);
+					}			
+				}			
+			}else{
+				if(document.getElementsByClassName('voteitem').length = 1){
+					mui.toast("请设置最少两个选项");
+					return
+				}else{
+					mui.toast("请设置选项");
+					return
+				}
+			}
+		}
+		if(hasThreadCategory && canSelectCategoryText.id == "canSelectCategoryText") {
+			mui.toast("请选择投票贴子分类")
+			return
+		}
+		title = TrimAll(document.getElementById("title").value);
+		body = TrimAll(commenttextarea.value);
+		if(title == "") {
+			mui.toast("投票贴标题不能为空")
+			return
+		}
+		if(canSelectItemText.innerText == ''){
+			mui.toast("可选项数不能为空")
+			return
+		}
+		if(canSelectItemText.innerText == '单选'){
+			CanChooseQuantity = 1;
+		}else{
+			CanChooseQuantity = canSelectItemText.innerText.replace(/[^0-9]/ig,"");
+		}		
+		startTimeValue = startTime.getElementsByTagName('span')[0].innerText;
+		endTimeValue = endTime.getElementsByTagName('span')[0].innerText;
+		if(startTimeValue == ''){
+			mui.toast("开始时间不能为空")
+			return
+		}
+		if(endTimeValue == ''){
+			mui.toast("结束时间不能为空")
+			return
+		}
+		if(new Date() >= new Date(startTimeValue)) {
+			mui.toast("开始时间不能早于当前时间")
+			return
+		}
+		var startTimeValue = Date.parse(new Date(startTimeValue));
+		startTimeValue = startTimeValue / 1000;
+		var endTimeValue = Date.parse(new Date(endTimeValue));
+		endTimeValue = endTimeValue / 1000;
+		if(endTimeValue - startTimeValue <= 0){
+			mui.toast("结束时间不能早于开始时间");
+			return
+		}		
+		//CreateVoteThread(title, body, '')
+		if(mui.os.plus) {
+			filesUploadforApp('/Vote/UploadFiles', function(e) {
+				if(e == '') {
+					e = oldImageAttachmentIds.join(";");
+					CreateVoteThread(title, body, e);
+				} else {
+					if(oldImageAttachmentIds.length > 0){
+						e = e +';' +oldImageAttachmentIds.join(";");
+					}else{
+						e = e;
+					}
+					CreateVoteThread(title, body, e);
+				}
+			})
+		} else if(mui.os.wechat) {
+			if(imgFiles.length == 0) {
+				e = '' + oldImageAttachmentIds.join(",");
+				CreateVoteThread(title, body, e);
+			} else {
+				var attachmentIds = [];
+				var i = 0;
+				syncUpload(wxIds, 'Vote/WeChatUploadFiles', function(e) {
+					i++;
+					attachmentIds.push(e)
+					if(wxIds.length == 0) {
+						e = attachmentIds.join(';')+oldImageAttachmentIds.join(";");
+						CreateVoteThread(title, body, e);
+					}
+				})
+			}
+		} else {
+			var lengthList = zyUpload.webFiles.length;
+			var touchArray = [];
+			for(var i = 0; i < document.getElementsByClassName('creat-img').length; i++) {
+				if(document.getElementsByClassName('creat-img')[i].id!='oldimg'){
+					touchArray.push(document.getElementsByClassName('creat-img')[i]);
+				}					
+			}
+			if(touchArray.length > 0){
+				appendFileTouch('/Vote/UploadFiles',0,touchArray,function(e){
+					if(oldImageAttachmentIds.length > 0){
+						e = e +';' +oldImageAttachmentIds.join(";");
+					}else{
+						e = e;
+					}
+					CreateVoteThread(title, body,e);
+				})
+			}else{
+				e =oldImageAttachmentIds.join(";");
+				CreateVoteThread(title, body,e);
+			}
+			/*if(ZYFILE.uploadFile.length == 0) {
+				//没有附件，直接提交
+				CreateThread(title, body, "");
+				return;
+			} else {
+				showLoading();
+				document.querySelector(".upload_btn").click();
+			}*/
+
+		}
+
+	}
+	var VoteId;
+	function CreateVoteThread(title, body, attachmentIds) {
+		var params = {
+			VoteId : VoteId,
+			SectionId: sectionId,
+			CategoryId: !hasThreadCategory ? 0 : canSelectCategoryText.id,
+			Subject: title,
+			IsImageVote:IsImageVote,
+			ImageAttachmentId : '',
+			VoteDescription :body,
+			CanChooseQuantity : CanChooseQuantity,
+			ViewResultsSetting:IsViewResultsSetting,
+			StartTime : startTime.getElementsByTagName('span')[0].innerText,
+			EndTime : endTime.getElementsByTagName('span')[0].innerText,
+			ItemNames : ItemNames,
+			ItemImages : ItemImages,//选项图片
+			AttachmentIds: attachmentIds
+		};
+		showLoading();
+		postDatawithToken('Vote/EditVote', params, function(data) {
+			hideLoading();
+			mui('#creatBtn').button('reset');
+			if(data.Type == 1) {
+				mui.toast(data.Data);
+				if(mui.os.plus) {
+					var wobj = plus.webview.getWebviewById("postDetail.html");
+					wobj.reload(true);
+					setTimeout(function() {
+						mui.back();
+					}, 1000)
+				} else {
+					window.history.go(-1); //返回上一页
+				}
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(data) {
+			mui('#creatBtn').button('reset');
+			//closeWaiting(waitings);
+		});
+	}
+
+</script>
+</html>

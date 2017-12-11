@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title></title>
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/jweixin-1.2.0.js"></script>
+		<script src="../js/wxHelper.js"></script>
+		<script src="../js/sha1.js"></script>
+		<script src="../js/common.js"></script>
+		
+	</head>
+
+	<body>
+		<div class="mui-content mui-content-padded">
+			<button type="button" class="mui-btn mui-btn-green" id='selectImg'>选择图片</button>
+			<button type="button" class="mui-btn mui-btn-blue" id='uploadImg'>上传图片</button>
+			<button type="button" class="mui-btn mui-btn-red" id='previewImg'>预览图片</button>
+			<button type="button" class="mui-btn mui-btn-red" id='downloadImg'>下载图片</button>
+			<button type="button" class="mui-btn mui-btn-grey" id="openmap">地图</button>
+			<img src="weixin://resourceid/719d034779b97e3f527f782d2ec47086" />
+		</div>
+		<script>
+			
+			initWx();
+			wx.ready(function() {
+				// config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+				wx.checkJsApi({
+					jsApiList: ['chooseImage', 'previewImage', 'uploadImage','downloadImage',''], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+					success: function(res) {
+						// 以键值对的形式返回，可用的api值true，不可用为false
+						// 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+						//alert(JSON.stringify(res));
+					}
+				});
+			});
+			wx.error(function(res) {
+				// config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+			});
+
+			var localIds;
+			var serverIds;
+			document.getElementById("selectImg").addEventListener('tap', function() {
+				wx.chooseImage({
+					count: 3, // 默认9
+					sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+					success: function(res) {
+						localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+					}
+				});
+			})
+			document.getElementById("uploadImg").addEventListener('tap', function() {
+				wx.uploadImage({
+					localId: localIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得
+					isShowProgressTips: 1, // 默认为1，显示进度提示
+					success: function(res) {
+						serverIds = res.serverId; // 返回图片的服务器端ID
+					}
+				});
+
+			})
+			document.getElementById("previewImg").addEventListener('tap', function() {
+				wx.previewImage({
+					current: 'weixin://resourceid/719d034779b97e3f527f782d2ec47086',
+					urls: ['weixin://resourceid/719d034779b97e3f527f782d2ec47086','weixin://resourceid/719d034779b97e3f527f782d2ec47086']
+				});
+			})
+			document.getElementById("downloadImg").addEventListener('tap', function() {
+				wx.downloadImage({
+					serverId: serverIds[0],
+					success: function(res) {
+						alert(JSON.stringify(res));
+					}
+				});
+			})
+			document.getElementById("openmap").addEventListener('tap',function(){
+				wx.openLocation({
+				    latitude: 36.1052149, // 纬度，浮点数，范围为90 ~ -90
+				    longitude: 120.38442818, // 经度，浮点数，范围为180 ~ -180。
+				    name: '哈哈哈哈', // 位置名
+				    address: '哈哈哈哈此详情', // 地址详情说明
+				    scale: 1, // 地图缩放级别,整形值,范围从1~28。默认为最大
+				});
+			})
+
+			//上传多张图片			 
+			//$('#filePicker').on('click', function () {
+			//wx.chooseImage({
+			//  success: function (res) {
+			//    var localIds = res.localIds;
+			//    syncUpload(localIds);
+			//  }
+			//});
+			//});
+			//var syncUpload = function(localIds){
+			//var localId = localIds.shift();
+			//wx.uploadImage({
+			//  localId: localId,
+			//  isShowProgressTips: 1,
+			//  success: function (res) {
+			//    var serverId = res.serverId; // 返回图片的服务器端ID
+			//    //其他对serverId做处理的代码
+			//    if(localIds.length > 0){
+			//      syncUpload(localIds);
+			//    }
+			//  }
+			//});
+			//};
+		</script>
+	</body>
+
+</html>

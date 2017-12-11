@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta content="telephone=no" name="format-detection" />
+		<meta content="email=no" name="format-detection" />
+		<!--通用样式-->
+		<link rel="stylesheet"  href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet"  href="../css/jinhu.css"/>
+		<link href="../css/mui.picker.css" rel="stylesheet" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<link href="../css/loading.css" rel="stylesheet" />
+	</head>
+	<script>
+		function defaultAvator(A){
+			A.src='../img/avatar.jpg'
+		}
+	</script>
+	<style>
+		#selgender a {
+			color: #000000;
+		}
+		
+		.mui-table-view-cell {
+			padding: 11px 15px;
+		}
+	</style>
+
+	<body style="background-color: #efeff4;">
+		<div id="BgDiv1"></div>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-btn mui-btn-blue mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span>个人资料</a>
+		</header>
+
+		<div class="mui-content jh-mine-data">
+			<div class="jh-gray-bar"></div>
+			<ul class="mui-table-view">
+				<form id="uploadForm" style="display: none;" enctype="multipart/form-data">
+					<input id="file" accept="image/*" type="file" name="file" />
+				</form>
+				<li class="mui-table-view-cell" id="userheadcell">
+					头像
+					<span class="mui-pull-right" id="head">
+						<img class="user_head" id="userhead" src="" onerror="defaultAvator(this);">
+					</span>
+				</li>
+				<li class="mui-table-view-cell" id="userNamecell">
+					昵称
+					<span class="mui-pull-right" id="userName">未填写</span>
+				</li>
+				<li class="mui-table-view-cell"id="accountMobilecell">
+					手机号 (可作为登录帐号)
+					<span class="mui-pull-right" id="accountMobile">未填写</span>
+				</li>
+				<li class="mui-table-view-cell"id="accountEmailcell">
+					邮箱 (可作为登录帐号)
+					<span class="mui-pull-right" id="accountEmail">未填写</span>
+				</li>
+			</ul>
+			<div class="jh-gray-bar"></div>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell" id="truenamecell">
+					真实姓名
+					<span class="mui-pull-right" id="truename">未填写</span>
+				</li>
+				<li class="mui-table-view-cell" id='gender_btn'>
+					性别
+					<span class="mui-pull-right" id="gender">未填写</span>
+				</li>
+				<li class="mui-table-view-cell" id='area_btn'>
+					所在地
+					<span class="mui-pull-right" id="areaName">未填写</span>
+				</li>
+			</ul>
+			<div class="jh-gray-bar"></div>
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell"id="introductioncell">
+					自我介绍
+					<span class="mui-pull-right mui-ellipsis-2" id="introduction">未填写</span>
+				</li>
+			</ul>
+		</div>
+		<div id="selgender" class="mui-popover mui-popover-bottom mui-popover-action ">
+			<!-- 可选择菜单 -->
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell" id="0" style="color: gray;">
+					设置性别
+				</li>
+				<li class="mui-table-view-cell" id="1">
+					<a>男</a>
+				</li>
+				<li class="mui-table-view-cell" id="2">
+					<a>女</a>
+				</li>
+			</ul>
+		</div>
+		<script src="../js/jquery-2.1.0.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script src="../js/city.data.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/loading.js"></script>
+		<script src="../js/jhUpload.js"></script>
+		<script src="../js/wxHelper.js"></script>
+		<script src="../js/jweixin-1.2.0.js"></script>
+	</body>
+	<script>
+		
+	mui.init({
+		beforeback: function() {
+			if(mui.os.plus) {
+				var wobj = plus.webview.getWebviewById('mine.html');
+				wobj.reload(true);
+				return true;
+			} else {
+				return true;
+			}
+		}
+	});
+	creatloadingEL();
+	if(mui.os.wechat) {
+		initWx();
+		wx.ready(function() {
+			wx.checkJsApi({
+				jsApiList: ['chooseImage', 'uploadImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+				success: function(res) {
+					// 以键值对的形式返回，可用的api值true，不可用为false
+					// 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+				}
+			});
+		});
+		wx.error(function(res) {
+
+		});
+	}
+
+	var userAvatar = document.getElementById("userhead");
+	$("#file").on('change', function() {
+		var iMaxFilesize = 2097152; //2M
+		var oFile = document.getElementById('file').files[0]; //读取文件 
+		if(oFile) {
+			var reader = new FileReader();
+			reader.onload = function() {
+				appendFileFeaturedTouch('User/UpdateAvatar', 0, reader.result, function() {
+					location.reload()
+				}, oFile.name)
+			}
+		}
+		reader.readAsDataURL(oFile);
+	})
+
+	if(window.plus) {
+		plusReady();
+	} else {
+		document.addEventListener('plusready', plusReady, false);
+	}
+
+	function plusReady() {
+
+	}
+	document.getElementById('userNamecell').addEventListener('tap', function(e) {
+
+		settingDetails('userName', document.getElementById("userName").innerHTML)
+	});
+	document.getElementById('accountMobilecell').addEventListener('tap', function(e) {
+		settingDetails('accountMobile', document.getElementById("accountMobile").innerHTML)
+	});
+	document.getElementById('accountEmailcell').addEventListener('tap', function(e) {
+		settingDetails('accountEmail', document.getElementById("accountEmail").innerHTML)
+	});
+	document.getElementById('introductioncell').addEventListener('tap', function(e) {
+		settingDetails('introduction', allintroduction)
+	});
+	document.getElementById('truenamecell').addEventListener('tap', function(e) {
+		settingDetails('truename', document.getElementById("truename").innerHTML)
+	});
+	//		mui(".mui-table-view-cell").on("tap", "#accountMobile", function(e) {
+	//			settingDetail('accountMobile', document.getElementById("accountMobile").innerHTML)
+	//		});
+	//		mui(".mui-table-view-cell").on("tap", "#accountEmail", function(e) {
+	//			settingDetail('accountEmail', document.getElementById("accountEmail").innerHTML)
+	//		});
+	//		mui(".mui-table-view-cell").on("tap", "#introduction", function(e) {
+	//			settingDetail('introduction', allintroduction)
+	//		});
+	//		mui(".mui-table-view-cell").on("tap", "#truename", function(e) {
+	//			settingDetail('truename', document.getElementById("truename").innerHTML)
+	//		});
+	//		mui(".mui-table-view-cell").on("tap", "#userName", function(e) {
+	//			settingDetail('userName', document.getElementById("userName").innerHTML)
+	//		});
+
+	function settingDetails(type, value) {
+		var baseUrl = 'settingDetail.html';
+		if(type == 'accountEmail' || type == 'accountMobile') {
+			baseUrl = 'setPhonemail.html'
+		}
+		var url = mui.os.plus ? baseUrl : baseUrl + '?type=' + type + '&value=' + value;
+		if(mui.os.wechat && mui.os.ios) {
+			if(document.getElementById("settingDetailif")) {
+				document.getElementById("settingDetailif").src = url;
+				document.getElementById("settingDetailif").style.display = 'inherit'
+			} else {
+				var iframe = document.createElement('iframe');
+				iframe.id = 'settingDetailif';
+				iframe.style.height = '100%';
+				iframe.style.width = '100%';
+				iframe.style.position = 'absolute';
+				iframe.style.zIndex = '999';
+				iframe.style.border = 'none';
+				iframe.style.top = '0';
+				iframe.src = url;
+				document.body.appendChild(iframe);
+			}
+		} else {
+			mui.openWindow({
+				url: url,
+				id: baseUrl,
+				show: {
+					autoShow: false
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					type: type,
+					value: value
+				}
+			})
+		}
+
+	}
+	//弹出菜单 
+	document.getElementById("userheadcell").addEventListener('tap', function(e) {
+		if(mui.os.plus) {
+			changeAvator()
+		} else if(mui.os.wechat) {
+			wx.chooseImage({
+				count: 1, // 默认9
+				sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+				sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+				success: function(res) {
+					var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+					userAvatar.src = localIds[0];
+					wx.uploadImage({
+						localId: localIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得
+						isShowProgressTips: 1, // 默认为1，显示进度提示
+						success: function(res) {
+							var serverId = res.serverId; // 返回图片的服务器端ID
+							postDatawithToken('User/WeChatUpdateAvatar?localId=' + serverId, {}, function(data) {
+								userAvatar.src = localIds[0];
+								mui.toast(data.Data)
+							}, function(data) {
+								alert(data)
+							});
+						}
+					});
+				}
+			});
+		} else {
+			$("#file").click();
+		}
+	})
+
+	function changeAvator() {
+		if(mui.os.plus) {
+			var a = [{
+				title: "拍照"
+			}, {
+				title: "从手机相册选择"
+			}];
+			plus.nativeUI.actionSheet({
+				title: "修改头像",
+				cancel: "取消",
+				buttons: a
+			}, function(b) {
+				switch(b.index) {
+					case 0:
+						break;
+					case 1:
+						getImage('/User/UpdateAvatar', function(e) {
+							userAvatar.src = e;
+						});
+						break;
+					case 2:
+						galleryImg('/User/UpdateAvatar', function(e) {
+							userAvatar.src = e;
+						});
+						break;
+					default:
+						break
+				}
+			})
+		}
+	}
+
+	window.onload = function() {
+		files = [];
+		//获取url中的targetId参数
+		if(mui.os.plus) {
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview()
+				//关闭等待框
+				plus.nativeUI.closeWaiting();
+				//显示当前页面
+				mui.currentWebview.show();
+			});
+		} else {
+
+		}
+		if(mui.os.wechat) {
+			var currUrl = location.href.split('#')[0];
+			weChatLogin(currUrl)
+		}
+
+	}
+	var userName = document.getElementById("userName");
+	var accountMobile = document.getElementById("accountMobile");
+	var accountEmail = document.getElementById("accountEmail");
+	var truename = document.getElementById("truename");
+	var gender = document.getElementById("gender");
+	var areaName = document.getElementById("areaName");
+	var introduction = document.getElementById("introduction");
+	var genders = "";
+	var areaCodes = "";
+	var allintroduction = "";
+	var citycodes = [];
+	for(var i = 0; i < 34; i++) {
+		citycodes.push(cityData[i].value)
+	}
+
+	function getUserProfile() {
+		showLoading();
+		getDatawithToken('User/GetUserProfile', {}, function(data) {
+			hideLoading()
+			if(data.Type == 1) {
+				var data = data.Data;
+				switch(data.Gender) {
+					case 1:
+						genders = "男";
+						break;
+					case 2:
+						genders = "女";
+						break;
+					default:
+						genders = "";
+						break;
+				}
+				userAvatar.src = (data.Avatar == '') ? '../img/avatar.jpg' : getImgUrl(data.Avatar + "?t=" + Math.random());
+				changeStatus(data.UserName, userName);
+				changeStatus(data.AccountMobile, accountMobile);
+				changeStatus(data.AccountEmail, accountEmail);
+				changeStatus(data.TrueName, truename);
+				changeStatus(genders, gender);
+				changeStatus(data.AreaName, areaName);
+				changeStatus(data.Introduction && data.Introduction.substring(0, 15), introduction);
+				allintroduction = data.Introduction && data.Introduction;
+				areaCodes = data.AreaCode;
+				var codes = areaCodes.split(';');
+				cityPicker.pickers[0].setSelectedValue(codes[0]);
+				setTimeout(function() {
+					cityPicker.pickers[1].setSelectedValue(codes[1]);
+				}, 100);
+				setTimeout(function() {
+					cityPicker.pickers[2].setSelectedValue(codes[2]);
+				}, 200);
+				
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				setlsData('isLogin', false);
+				login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(data) {
+			hideLoading()
+		});
+	}
+		var cityPicker = new mui.PopPicker({
+		layer: 3
+	});
+	cityPicker.setData(cityData);
+	getUserProfile();
+
+	function changeStatus(value, id) {
+		if(!isEmpty(value)) {
+			id.innerHTML = value;
+			id.classList && id.classList.add('mui-confirm')
+		} else {
+			id.innerHTML = '未填写';
+			id.classList && id.classList.remove('mui-confirm')
+		}
+	}
+	document.getElementById("gender_btn").addEventListener('tap', function() {
+		mui('#selgender').popover('toggle');
+	})
+
+
+	document.getElementById("area_btn").addEventListener('tap', function(event) {
+		cityPicker.show(function(items) {
+			var areaname = "";
+			for(var i = 0; i < items.length; i++) {
+				if(!isEmpty(items[i])) {
+					areaname += (items[i].text) + '-';
+				}
+			}
+			changeStatus(areaname.substring(0, areaname.length - 1), areaName)
+			postDatawithToken('User/UpdateAddress?areaCode=' + items[items.length - 1].value, {}, function(data) {
+				if(data.Type == 1) {
+					var data = data.Data;
+					mui.toast(data);
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(data) {
+
+			});
+
+		});
+	}, false);
+	for(var i = 0; i < document.querySelectorAll('.mui-poppicker-btn-ok').length; i++) {
+		document.querySelectorAll('.mui-poppicker-btn-ok')[i].style.backgroundColor = '#dd524d';
+		document.querySelectorAll('.mui-poppicker-btn-ok')[i].style.borderColor = '#dd524d'
+	}
+	mui("#selgender").on('tap', '.mui-table-view-cell', function(e) {
+		var text = e.target.innerText;
+		var id = e.target.parentElement.id;
+		if(id != "0") {
+			mui('#selgender').popover('toggle');
+		}
+		changeStatus(text, gender)
+		postDatawithToken('User/UpdateGender?type=' + id, {}, function(data) {
+			if(data.Type == 1) {
+				var data = data.Data;
+				mui.toast(data);
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(data) {
+
+		});
+
+	})
+	if(mui.os.wechat && mui.os.ios) {
+		pushHistory();
+
+		function pushHistory() {
+			window.addEventListener("popstate", function(e) {
+				var settingDetail = document.getElementById("settingDetailif");
+				if(settingDetail == null) {
+					window.history.go(-1);
+				} else {
+					if(document.getElementById("settingDetailif").style.display != 'none') {
+						document.getElementById("settingDetailif").style.display = 'none';
+					} else {
+						window.history.go(-1);
+					}
+				}
+			}, false);
+			var state = {
+				title: "",
+				url: "#"
+			};
+			if(window.history.state != state) {
+				window.history.pushState(state, "", "#");
+			}
+		};
+	}
+
+
+	</script>
+
+</html>

@@ -1,0 +1,118 @@
+.mui-content-padded {
+    margin: 0px 0px -3px 0px;
+    padding: 0px;
+}
+.content span{
+	
+}
+.jh-orange {
+	color: #FF9900;
+}
+.jh-orange span{
+	margin-left: 2px !important;
+}
+.question-list .mui-content-padded p{
+	font-size: 16px;
+	word-wrap: break-word;
+	word-break:break-all;
+	margin-bottom: 5px;   
+	   /* display: flex;
+    display: -webkit-flex;
+    -webkit-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    padding: 10px 10px 0px 10px;
+    * */
+}
+.fa-padding {
+    height: 20px;
+    padding-left: 14px;
+}
+.question-list .mui-content-padded span{
+    padding-left: 3px;
+    padding-right: 3px;
+ 	margin-left: 8px;
+	border-radius: 3px; 
+	font-size: 11px;
+}
+.jh-green-border {
+	border: 1px solid #008000;
+	color: #008000; 
+ }
+.jh-red-border {
+    color: #FF0000;
+    border: 1px solid #FF0000; 
+ }
+
+.text-muted{
+	padding-left: 14px;
+	font-size: 12px;
+	padding-top: 5px;
+}
+.text-muted li{
+	padding-left: 5px;
+	padding-right: 5px;
+}
+.text-muted li:nth-last-of-type(1){
+	float: right;
+}
+.text-muted li:nth-last-of-type(2){
+	float: right;
+	margin-right: 12px;
+}
+#tagH{
+	height: auto;
+	text-align: inherit;
+	max-width: 88%;
+	padding: 2px 4px 2px 4px;
+	line-height: 16px;
+	white-space: normal;
+}
+.question-list .mui-content-padded .label{
+	font-size: 12px;
+	height: 20px;
+	/*white-space: inherit;*/
+	word-wrap: break-word;
+}
+.jh-hot-label{
+	border-bottom: 1px solid #E4E4E4;
+	display: flex;
+	display: -webkit-flex; /* Safari */
+	-webkit-flex-wrap:nowrap;
+	flex-wrap: nowrap;
+	padding-top: 5px;
+}
+.jh-write-question{
+	border-radius: 50%;
+	z-index: 2;
+	position: fixed;
+	width: 60px;
+	height: 60px;
+	background-color: #BE040A;
+	right: 21px;
+	bottom: 30px;
+}
+.jh-write-question i{
+	font-size: 24px;
+    position: absolute;
+    right: 20px !important;
+    top: 18px !important;
+}
+.fa-tags{
+	font-size: 20px;
+	padding-top: 2px;
+}
+.mui-bar-nav .label-default {
+    margin-top: 10px;
+    color: #333333;
+    border: 1px solid #E3E3E3;
+    font-size: 14px;
+}
+.label-default{
+	color: #333333;
+	border: 1px solid #E3E3E3;
+	font-size: 14px;
+}
+.label-default .head-label{
+    color: #333;
+    font-size: 14px;
+}

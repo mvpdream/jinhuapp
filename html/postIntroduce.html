@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/jinhu.css"/>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+	   			<span class="mui-icon mui-icon-left-nav"></span>贴吧资料</button>
+		</header>
+
+		<div class="mui-content" style="background-color: #e4e4e4;">
+			<div class="mui-row jh-tieba-user">
+				<div class="mui-col-xs-3">
+					<img id="featuredImage" class="user_avator" src="../img/avatar.jpg">
+				</div>
+				<div class="mui-col-xs-9">
+					<h4 style="word-break:break-all" id="Name"></h4>
+					<p id="CategoryName" class="text-muted"></p>
+				</div>
+			</div>
+			<div class="mui-row jh-tieba-administer">
+				<div class="mui-col-xs-2">
+					<h4>贴吧<br>管理</h4>
+				</div>
+				<div class="mui-col-xs-10">
+					<div class="mui-row" id="Managers">
+
+					</div>
+				</div>
+			</div>
+			<div class="mui-row jh-tieba-info">
+				<div class="mui-col-xs-2">
+					<h4>简介</h4>
+				</div>
+				<div id="Description" class="mui-col-xs-10" style="word-break: break-all;">
+				</div>
+			</div>
+			<div class="mui-content-padded">
+				<button id="favoritedBtn" class="mui-btn mui-btn-block mui-btn-primary"></button>
+			</div>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/wxHelper.js"></script>
+	</body>
+	<script>
+		
+		var Name = document.getElementById("Name");
+		var CategoryName = document.getElementById("CategoryName");
+		var Description = document.getElementById("Description");
+		var favoritedBtn = document.getElementById("favoritedBtn");
+		var featuredImage = document.getElementById("featuredImage");
+
+
+		function creatFragment(data) {
+			var fragment = document.getElementById('Managers');
+			var div;
+			for(var i = 0; i < data.Data.Managers.length; i++) {
+				var userAvatar = data.Data.Managers[i].Avatar == "" ? "../img/avatar.jpg" : getImgUrl(data.Data.Managers[i].Avatar);
+				div = document.createElement('div');
+				div.className = 'mui-col-xs-3';
+				div.innerHTML = '<img id=' + data.Data.Managers[i].UserId + ' class="user_administer" src=' + userAvatar + '><p>' + data.Data.Managers[i].UserName + '</p>';
+				fragment.appendChild(div)
+			}
+		}
+
+		function getDetail(id) {
+			showLoading();
+			getDatawithToken('Post/SectionDetail', {
+				sectionId: id
+			}, function(data) {
+				hideLoading();
+				hideErr();
+				if(data.Type == 1) {
+					Name.innerText = data.Data.Name;
+					featuredImage.src = getImgUrl(data.Data.FeaturedImage);
+					CategoryName.innerText = data.Data.CategoryName;
+					Description.innerText = data.Data.Description;
+					var isFavorited = data.Data.IsFavorited;
+					favoritedBtn.innerText = isFavorited ? "取消关注" : "+  关注";
+					if(isFavorited){
+						favoritedBtn.style.backgroundColor='#999999';
+						favoritedBtn.style.borderColor='#999999';
+					}else{
+						favoritedBtn.style.backgroundColor='#bf0a10';
+						favoritedBtn.style.borderColor='#bf0a10';
+					}
+					creatFragment(data)
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					showErr(data.Data, '', '#FFFFFF', '50px');
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr()
+			})
+		}
+		var sectionId;
+		//B页面onload从服务器获取列表数据；
+		window.onload = function() {
+			//获取url中的targetId参数
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					sectionId = self.sectionId;
+					getDetail(sectionId)
+					//关闭等待框
+					plus.nativeUI.closeWaiting();
+					//显示当前页面
+					mui.currentWebview.show();
+				});
+			} else {
+				sectionId = getUrlParam('sectionId');
+				getDetail(sectionId)
+			}
+			if(mui.os.wechat) {
+				var currUrl = location.href.split('#')[0];
+				weChatLogin(currUrl)
+			}
+
+		}
+		mui("#Managers").on('tap', 'img', function(e) {
+			var userid = this.getAttribute("id");
+			var baseUrl = 'userHomepage.html';
+			var url = baseUrl + '?userId=' + userid;
+			mui.openWindow({
+				url: url,
+				id: 'userHomepage.html',
+				show: {
+					autoShow: false
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					userId: userid
+				}
+			})
+
+		})
+		favoritedBtn.addEventListener('tap', function() {
+			showLoading()
+			postDatawithToken('Post/BarFavoriteOperation?sectionId=' + sectionId, {}, function(data) {
+				hideLoading()
+				if(data.Type == 1) {
+					mui.toast(data.Data.Msg);
+					favoritedBtn.innerText = data.Data.Type == 1 ? "取消关注" : "+  关注";
+					if(data.Data.Type == 1){
+						favoritedBtn.style.backgroundColor='#999999';
+						favoritedBtn.style.borderColor='#999999';
+					}else{
+						favoritedBtn.style.backgroundColor='#bf0a10';
+						favoritedBtn.style.borderColor='#bf0a10';
+					}
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				hideLoading()
+			})
+		})
+	
+	</script>
+
+</html>

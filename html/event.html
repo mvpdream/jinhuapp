@@ -1,0 +1,732 @@
+﻿<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>活动</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/jinhu.css" />
+	</head>
+	<style>
+		.mui-slider .mui-slider-group .mui-slider-item img:first-child {
+			width: 100%;
+		}
+		
+		.mui-pull-top-tips {
+			position: absolute;
+			top: -20px;
+			left: 50%;
+			margin-left: -25px;
+			width: 40px;
+			height: 40px;
+			border-radius: 100%;
+			z-index: 1;
+		}
+		
+		.mui-bar~.mui-pull-top-tips {
+			top: 24px;
+		}
+		
+		.mui-pull-top-wrapper {
+			width: 42px;
+			height: 42px;
+			display: block;
+			text-align: center;
+			background-color: #efeff4;
+			border: 1px solid #ddd;
+			border-radius: 25px;
+			background-clip: padding-box;
+			box-shadow: 0 4px 10px #bbb;
+			overflow: hidden;
+		}
+		
+		.mui-pull-top-tips.mui-transitioning {
+			-webkit-transition-duration: 200ms;
+			transition-duration: 200ms;
+		}
+		
+		.mui-pull-top-tips .mui-pull-loading {
+			margin: 0;
+		}
+		
+		.mui-pull-top-wrapper .mui-icon,
+		.mui-pull-top-wrapper .mui-spinner {
+			margin-top: 7px;
+		}
+		
+		.mui-pull-bottom-tips {
+			text-align: center;
+			background-color: #efeff4;
+			font-size: 15px;
+			line-height: 40px;
+			color: #777;
+		}
+		
+		.mui-pull-top-canvas {
+			overflow: hidden;
+			background-color: #fafafa;
+			border-radius: 40px;
+			box-shadow: 0 4px 10px #bbb;
+			width: 40px;
+			height: 40px;
+			margin: 0 auto;
+		}
+		
+		.mui-pull-top-canvas canvas {
+			width: 40px;
+		}
+		
+		.mui-slider-indicator.mui-segmented-control {
+			background-color: #efeff4;
+		}
+		
+		.tabContiner {
+			position: absolute;
+			width: 100%;
+			top: 90px;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.6);
+			z-index: 999;
+		}
+		
+		.tabitemBox {
+			position: absolute;
+			width: 100%;
+			top: 90px;
+			background-color: #ffffff;
+			z-index: 999;
+			max-height: 300px;
+			overflow: auto;
+			border-top: 1px solid #e4e4e4;
+		}
+		
+		.tabitem {
+			padding: 10px;
+		}
+		
+		.tabitemActive {
+			color: red;
+		}
+		#creatEvent{
+			-moz-box-shadow:0px 0px 12px #666666; 
+			-webkit-box-shadow:0px 0px 12px #666666; 
+			box-shadow:0px 0px 12px #666666;
+		}
+	</style>
+
+	<body style="background-color: #FFFFFF;">
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span><span id="eventName">活动</span>
+			</button>
+			<!--
+            	<h1 class="mui-title">活动</h1>
+           -->			
+		</header>
+		<div id="tabContiner" class="tabContiner" style="display: none;">
+
+		</div>
+		<div id="itemCategories" class="tabitemBox" style="display: none;">
+			<div class="tabitem tabitemActive" id="c0" title="全部">
+				<span>全部</span>
+				<span id="selectIcon" style="float: right;"><span class="mui-icon mui-icon-arrowdown"></span></span>
+			</div>
+		</div>
+		<div id="itemAreas" class="tabitemBox" style="display: none;">
+			<div class="tabitem tabitemActive" id="a0" title="全部">
+				<span>全部</span>
+				<span id="selectIcon" style="float: right;"><span class="mui-icon mui-icon-arrowdown"></span></span>
+			</div>
+		</div>
+		<div id="itemDate" class="tabitemBox" style="display: none;">
+			<div class="tabitem tabitemActive" id="d0" title="全部">
+				<span>全部</span>
+				<span id="selectIcon" style="float: right;"><span class="mui-icon mui-icon-arrowdown"></span></span>
+			</div>
+		</div>
+		<div class="mui-content">
+			<div class="mui-row jh-activity-filter" style="width: 100%;margin-top: 0;">
+				<div class="mui-col-xs-4" id="tab_Categories">
+					<span id="CategorieText">分类</span><span class="mui-icon mui-icon-arrowdown"></span>
+				</div>
+				<div class="mui-col-xs-4" id="tab_Areas">
+					<span id="AreaText">地区</span><span class="mui-icon mui-icon-arrowdown"></span>
+				</div>
+				<div class="mui-col-xs-4" id="tab_Date">
+					<span id="DateText">日期</span><span class="mui-icon mui-icon-arrowdown"></span>
+				</div>
+			</div>
+			<div class="jh-gray-bar"></div>
+			<div id="slider" class="mui-slider mui-fullscreen" style="top: 100px;">
+				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted jh-scroll-wrapper">
+					<div class="mui-scroll" id="SectionType" style="padding-right: 40px;">
+						<a class="mui-control-item mui-active" href="#itemmobile" id="0">
+							最新
+						</a>
+						<a class="mui-control-item" href="#item0mobile" id="1">
+							热门
+						</a>
+						<a class="mui-control-item" href="#item1mobile" id="2">
+							推荐
+						</a>
+					</div>
+				</div>
+				<div class="mui-slider-group" id="sliderGroup">
+					<div id="itemmobile" class="mui-slider-item mui-control-content mui-active">
+						<div class="mui-scroll-wrapper" id="refreshContainer">
+							<div class="mui-scroll">
+								<ul class="mui-table-view jh-vote-list">
+									<div class="mui-loading">
+										<div class="mui-spinner">
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item0mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper" id="refreshContainer1">
+							<div class="mui-scroll">
+								<ul class="mui-table-view jh-vote-list">
+									<div class="mui-loading">
+										<div class="mui-spinner">
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item1mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper" id="refreshContainer2">
+							<div class="mui-scroll">
+								<ul class="mui-table-view jh-vote-list">
+									<div class="mui-loading">
+										<div class="mui-spinner">
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="jh-write-question" id="creatEvent" style="display: none;" >
+				<i style="right: 21px;top: 19px;" class="fa fa-plus mui-icon mui-icon-bars mui-pull-right" aria-hidden="true"></i>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/mui.pullToRefresh.js"></script>
+		<script src="../js/mui.pullToRefresh.material.js"></script>
+	</body>
+	<script>
+		var bodyheight = document.documentElement.clientHeight || document.body.clientHeight;
+		document.getElementById("tabContiner").style.height = (bodyheight - 90) + 'px';
+		var tab_Categories = document.getElementById("tab_Categories");
+		var tab_Areas = document.getElementById("tab_Areas");
+		var tab_Date = document.getElementById("tab_Date");
+		var itemCategories = document.getElementById("itemCategories");
+		var itemAreas = document.getElementById("itemAreas");
+		var itemDate = document.getElementById("itemDate");
+		var eventAreas = [];
+		var rootCategories = [];
+		var eventDates = [{
+			"dateId": "1",
+			"Name": "周末"
+		}, {
+			"dateId": "2",
+			"Name": "最近一月"
+		}, {
+			"dateId": "3",
+			"Name": "最近一周"
+		}];
+		var selCategories = 0;
+		var selArea = "";
+		var selDate = null;
+		var eventSort = 0;
+		var page = 1;
+		var islog = getlsData('isLogin');
+		if(islog == 'true') {
+			document.getElementById("creatEvent").style.display='';
+		} else {
+			document.getElementById("creatEvent").style.display='none';
+		}
+		
+
+		
+		window.onload = function() {
+			var bodyheight = document.documentElement.clientHeight || document.body.clientHeight;
+			document.getElementById("tabContiner").style.height = (bodyheight - 90) + 'px';
+			getEventCategories();
+			GetEvents(false, selDate, selCategories, selArea, 0)
+			if(mui.os.wechat) {
+				var currUrl = location.href.split('#')[0];
+				weChatLogin(currUrl)
+			}
+		}
+		tab_Categories.addEventListener('tap', function() {
+			var bodyheight = document.documentElement.clientHeight || document.body.clientHeight;
+			document.getElementById("tabContiner").style.height = (bodyheight - 90) + 'px';
+			itemCategories.style.display = 'inherit';
+			itemAreas.style.display = 'none';
+			itemDate.style.display = 'none';
+			document.getElementById("tabContiner").style.display = 'inherit';
+		})
+		tab_Areas.addEventListener('tap', function() {
+			var bodyheight = document.documentElement.clientHeight || document.body.clientHeight;
+			document.getElementById("tabContiner").style.height = (bodyheight - 90) + 'px';
+			itemCategories.style.display = 'none';
+			itemAreas.style.display = 'inherit';
+			itemDate.style.display = 'none';
+			document.getElementById("tabContiner").style.display = 'inherit';
+		})
+		tab_Date.addEventListener('tap', function() {
+			var bodyheight = document.documentElement.clientHeight || document.body.clientHeight;
+			document.getElementById("tabContiner").style.height = (bodyheight - 90) + 'px';
+			itemCategories.style.display = 'none';
+			itemAreas.style.display = 'none';
+			itemDate.style.display = 'inherit';
+			document.getElementById("tabContiner").style.display = 'inherit';
+		})
+		mui("#itemCategories").on('tap', '.tabitem', function(e) {
+			if(e.target.className=='tabitem tabitemActive'){return}
+			var Id = this.getAttribute('id');
+			var Title = this.getAttribute('title');
+			var currEl = document.getElementById(Id);
+			for(var i = 0; i < itemCategories.querySelectorAll('.tabitem').length; i++) {
+				itemCategories.querySelectorAll('.tabitem')[i].className = 'tabitem';
+				itemCategories.querySelectorAll('.tabitem')[i].querySelector('#selectIcon').style.display = 'none';
+			}
+			if(currEl.className == 'tabitem') {
+				currEl.className = 'tabitem tabitemActive';
+				currEl.querySelector('#selectIcon').style.display = 'inherit';
+				document.getElementById("CategorieText").innerHTML = Title;
+				if(Id == 'c0') {
+					Id = 0
+				}
+				selCategories = Id;
+				closeTab();
+				//刷新当前tab的数据
+				page = 1;
+				scrollTop();
+				GetEvents(false, selDate, selCategories, selArea, eventSort);
+				//重置其他tab也
+				resetTab()
+
+			} else {
+				currEl.className = 'tabitem';
+				currEl.querySelector('#selectIcon').style.display = 'none';
+			}
+		})
+
+		function resetTab() {
+			idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+			if(idName == 'itemmobile') {
+				var fragment = document.getElementById('item0mobile');
+				var cfragment = fragment.firstElementChild;
+				var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+				finel.innerHTML = '<div class="mui-loading"><div class="mui-spinner"></div></div>';
+				var fragment1 = document.getElementById('item1mobile');
+				var cfragment1 = fragment1.firstElementChild;
+				var finel1 = cfragment1.firstElementChild.querySelector('.mui-table-view');
+				finel1.innerHTML = '<div class="mui-loading"><div class="mui-spinner"></div></div>';
+			}
+			if(idName == 'item0mobile') {
+				var fragment = document.getElementById('itemmobile');
+				var cfragment = fragment.firstElementChild;
+				var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+				finel.innerHTML = '<div class="mui-loading"><div class="mui-spinner"></div></div>';
+				var fragment1 = document.getElementById('item1mobile');
+				var cfragment1 = fragment1.firstElementChild;
+				var finel1 = cfragment1.firstElementChild.querySelector('.mui-table-view');
+				finel1.innerHTML = '<div class="mui-loading"><div class="mui-spinner"></div></div>';
+			}
+			if(idName == 'item1mobile') {
+				var fragment = document.getElementById('itemmobile');
+				var cfragment = fragment.firstElementChild;
+				var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+				finel.innerHTML = '<div class="mui-loading"><div class="mui-spinner"></div></div>';
+				var fragment1 = document.getElementById('item0mobile');
+				var cfragment1 = fragment1.firstElementChild;
+				var finel1 = cfragment1.firstElementChild.querySelector('.mui-table-view');
+				finel1.innerHTML = '<div class="mui-loading"><div class="mui-spinner"></div></div>';
+			}
+
+		}
+		mui("#itemAreas").on('tap', '.tabitem', function(e) {
+			if(e.target.className=='tabitem tabitemActive'){return}
+			var Id = this.getAttribute('id');
+			var Title = this.getAttribute('title');
+			var currEl = document.getElementById(Id);
+			for(var i = 0; i < itemAreas.querySelectorAll('.tabitem').length; i++) {
+				itemAreas.querySelectorAll('.tabitem')[i].className = 'tabitem';
+				itemAreas.querySelectorAll('.tabitem')[i].querySelector('#selectIcon').style.display = 'none';
+			}
+			if(currEl.className == 'tabitem') {
+				currEl.className = 'tabitem tabitemActive';
+				currEl.querySelector('#selectIcon').style.display = 'inherit';
+				document.getElementById("AreaText").innerHTML = Title;
+				if(Id == 'a0') {
+					Id = ""
+				}
+				selArea = Id;
+				closeTab();
+				page = 1
+				scrollTop();
+				GetEvents(false, selDate, selCategories, selArea, eventSort);
+				resetTab()
+			} else {
+				currEl.className = 'tabitem';
+				currEl.querySelector('#selectIcon').style.display = 'none';
+			}
+		})
+		mui("#itemDate").on('tap', '.tabitem', function(e) {
+			if(e.target.className=='tabitem tabitemActive'){return}
+			var Id = this.getAttribute('id');
+			var Title = this.getAttribute('title');
+			var currEl = document.getElementById(Id);
+			for(var i = 0; i < itemDate.querySelectorAll('.tabitem').length; i++) {
+				itemDate.querySelectorAll('.tabitem')[i].className = 'tabitem';
+				itemDate.querySelectorAll('.tabitem')[i].querySelector('#selectIcon').style.display = 'none';
+			}
+			if(currEl.className == 'tabitem') {
+				currEl.className = 'tabitem tabitemActive';
+				currEl.querySelector('#selectIcon').style.display = 'inherit';
+				document.getElementById("DateText").innerHTML = Title;
+				if(Id == 'd0') {
+					Id = null
+				}
+				selDate = Id;
+				closeTab();
+				page = 1
+				scrollTop();
+				GetEvents(false, selDate, selCategories, selArea, eventSort);
+				resetTab()
+			} else {
+				currEl.className = 'tabitem';
+				currEl.querySelector('#selectIcon').style.display = 'none';
+			}
+		})
+		document.getElementById("tabContiner").addEventListener('tap', function() {
+			closeTab()
+		})
+		function scrollTop(){
+			idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+			switch (idName){
+				case 'itemmobile':
+					mui('#refreshContainer').scroll().scrollTo(0, 0, 100);
+					break;
+				case 'item0mobile':
+					mui('#refreshContainer1').scroll().scrollTo(0, 0, 100);
+					break;
+				case 'item1mobile':
+					mui('#refreshContainer2').scroll().scrollTo(0, 0, 100);
+					break;
+				default:
+					break;
+			}
+		}
+		function closeTab() {
+			if(itemCategories) itemCategories.style.display = 'none';
+			if(itemAreas) itemAreas.style.display = 'none';
+			if(itemDate) itemDate.style.display = 'none';
+			document.getElementById("tabContiner").style.display = 'none';
+		}
+		var createCategoriesitem = function(data) {
+			var fragment = document.createDocumentFragment();
+			var div;
+			for(var i = 0; i < data.length; i++) {
+				div = document.createElement('div');
+				div.className = 'tabitem';
+				div.title = data[i].CategoryName;
+				div.id = data[i].CategoryId;
+				div.innerHTML = '<span>' + data[i].CategoryName + '</span>' +
+					'<span id="selectIcon" style="float: right;display:none"><span class="mui-icon mui-icon-checkmarkempty"></span></span>';
+				fragment.appendChild(div);
+			}
+			return fragment;
+		};
+		var createAreasitem = function(data) {
+			var fragment = document.createDocumentFragment();
+			var div;
+			for(var i = 0; i < data.length; i++) {
+				div = document.createElement('div');
+				div.className = 'tabitem';
+				div.title = data[i].Name;
+				div.id = data[i].AreaCode;
+				div.innerHTML = '<span>' + data[i].Name + '</span>' +
+					'<span id="selectIcon" style="float: right;display:none"><span class="mui-icon mui-icon-checkmarkempty"></span></span>';
+				fragment.appendChild(div);
+			}
+			return fragment;
+		};
+		var createDateitem = function(data) {
+			var fragment = document.createDocumentFragment();
+			var div;
+			for(var i = 0; i < data.length; i++) {
+				div = document.createElement('div');
+				div.className = 'tabitem';
+				div.title = data[i].Name;
+				div.id = data[i].dateId;
+				div.innerHTML = '<span>' + data[i].Name + '</span>' +
+					'<span id="selectIcon" style="float: right;display:none"><span class="mui-icon mui-icon-checkmarkempty"></span></span>';
+				fragment.appendChild(div);
+			}
+			return fragment;
+		};
+
+		var selel = document.getElementsByClassName("mui-control-item mui-active");
+		mui('.mui-slider').slider();
+		mui('.mui-scroll-wrapper').scroll();
+		var deceleration = mui.os.ios ? 0.003 : 0.0009;
+		mui('.mui-scroll-wrapper.mui-slider-indicator.mui-segmented-control').scroll({
+			scrollY: false,
+			scrollX: true,
+			indicators: false,
+			deceleration: deceleration,
+			snap: '.mui-control-item'
+		});
+		var tabIndex = 0;
+		document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+			tabIndex = event.detail.slideNumber;
+			eventSort = tabIndex;
+			if(event.detail.slideNumber == 0) {
+				var item = document.getElementById("itemmobile");
+			} else {
+				var index = event.detail.slideNumber - 1;
+				var item = document.getElementById("item" + index + "mobile");
+			}
+			if(item.querySelector('.mui-loading')) {
+				GetEvents(false, selDate, selCategories, selArea, eventSort)
+			}
+		});
+		(function($) {
+			//阻尼系数
+			var deceleration = mui.os.ios ? 0.003 : 0.0009;
+			$('.mui-scroll-wrapper').scroll({
+				bounce: false,
+				indicators: true, //是否显示滚动条
+				deceleration: deceleration
+			});
+			$.ready(function() {
+				//循环初始化所有下拉刷新，上拉加载。
+				$.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+					$(pullRefreshEl).pullToRefresh({
+						down: {
+							callback: function() {
+								var self = this;
+								GetEvents(false, selDate, selCategories, selArea, eventSort)
+								setTimeout(function() {
+									self.endPullDownToRefresh();
+								}, 1000);
+							}
+						},
+						up: {
+							show: false,
+							callback: function() {
+								var self = this;
+								GetEvents(true, selDate, selCategories, selArea, eventSort)
+								setTimeout(function() {
+									self.endPullUpToRefresh();
+								}, 1000);
+							}
+						}
+					});
+				});
+			});
+		})(mui);
+
+		var creatEventElement = function(data, id) {
+			var fragment = document.getElementById(id);
+			var cfragment = fragment.firstElementChild;
+			var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+			for(var i = 0; i < data.length; i++) {
+				var imgDisplay = data[i].ImageAttachment == "" ? "none" : "block";
+				var addressDis = data[i].CompleteAddress == "" ? "none" : "block";
+				var state = data[i].IsEnded ? '<img class="sign" src="../img/over-sign.png">' : '';
+				var li;
+				li = document.createElement('li');
+				li.className = 'mui-table-view-cell jh-news-list';
+				li.id = data[i].Id;
+				li.title = data[i].VoteType;
+				var memberCountText=data[i].MemberCount;
+				if(memberCountText==0){
+					memberCountText ='无限制'
+				}
+				li.innerHTML = '<div class="divImg" style="display:' + imgDisplay + '";padding: 5px 0 5px 0"><img style="display:' + imgDisplay + '" src=' + getImgUrl(data[i].ImageAttachment) + '  ></div>' +
+					'<h5 class="listTitle">' + data[i].Subject + '</h5>' +
+					'<ul class="mui-list-inline text-muted">' +
+					'<li style="display: block">活动时间：<span>' + data[i].StartDate + '</span> 至 <span>' + data[i].EndDate + '</span></li>' +
+					'<li style="display:' + addressDis + '">活动地址：' + data[i].CompleteAddress + '</li>' +
+					'<li>已报名 <span class="tn-theme-color">' + data[i].AttendCount + '</span>/' + memberCountText + '</li>' +
+					'</ul>' +
+					'</li>';
+				finel.appendChild(li);
+			}
+		};
+
+		function getEventCategories() {
+			getDatawithToken('Event/GetEventCategories', {}, function(data) {
+				hideErr();
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						eventAreas = data.Data.EventAreas;
+						rootCategories = data.Data.RootCategories;
+						itemCategories.appendChild(createCategoriesitem(rootCategories))
+						itemAreas.appendChild(createAreasitem(eventAreas))
+						itemDate.appendChild(createDateitem(eventDates))
+						if(!data.Data.IsAllowEven){
+//							document.getElementById("creatEvent").style.backgroundColor='#d25d61';
+//							document.getElementById("creatEvent").removeEventListener('tap',function(){});
+							document.getElementById("creatEvent").style.display='none'
+						}else{
+							document.getElementById("creatEvent").style.display=''
+							document.getElementById("creatEvent").addEventListener('tap',function(){
+								var islog = getlsData('isLogin');
+								if(islog == 'true') {
+									mui.openWindow({
+										url: 'creatEvent.html',
+										id: 'creatEvent.html',
+										show: {
+											autoShow: true
+										},
+										waiting: {
+											options: {
+												loading: {
+													height: '35px'
+												}
+											}
+										}
+									})
+								}else{
+									login()
+								}
+								
+							})
+						}
+					} else {
+						showErr(data.Data, '', '#FFFFFF', '50px')
+						mui.toast(data.Data);
+					}
+
+				} else {
+					//逻辑错误
+					showErr(data.Data, '', '#FFFFFF', '50px')
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr()
+			})
+		}
+
+		function GetEvents(more, dateType, categoryId, areaCode, eventSort) {
+			if(!more) {
+				showLoading('', '', '#FFFFFF', '150px', '1');
+			}
+			idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+			var fragment = document.getElementById(idName);
+			var cfragment = fragment.firstElementChild;
+			var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+			if(more) {
+				page++;
+			} else {
+				finel.innerHTML = '';
+				page = 1;
+			}
+			var params = {
+				dateType: dateType,
+				eventSort: eventSort,
+				categoryId: categoryId,
+				areaCode: areaCode,
+				pageIndex: page
+			};
+			getData('Event/GetEvents', params, function(data) {
+				hideLoading()
+				hideErr()
+				var bottomTip = document.querySelectorAll('.mui-pull-bottom-tips');
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						hideErrForList('', idName);
+						if(data.Data.length <= 5) {
+							document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'none';
+							document.getElementById(idName).querySelector('.mui-pull-bottom-tips').firstElementChild.style.display = 'none';
+						} else {
+							document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'block';
+							document.getElementById(idName).querySelector('.mui-pull-bottom-tips').firstElementChild.style.display = 'block';
+						}
+						if(data.Data.length == 0) {
+							if(!more) {
+								var errForList = showErrForList('暂无活动', '', '', idName);
+								if(errForList) {
+									fragment.appendChild(showErrForList('暂无活动', '', '', idName))
+								}
+							}
+						}
+						creatEventElement(data.Data, idName);
+					} else {
+						if(!more) {
+							var errForList = showErrForList('暂无更多活动', '', '', idName);
+							if(errForList) {
+								fragment.appendChild(showErrForList('暂无更多活动', '', '', idName))
+							}
+						}
+					}
+				} else {
+					hideLoading();
+					//逻辑错误
+					var errForList = showErrForList(data.Data, '', '', idName);
+					if(errForList) {
+						fragment.appendChild(showErrForList(data.Data, '', '', idName))
+					}
+					return;
+				}
+			}, function(err) {
+				setErr()
+			})
+		}
+		mui(".mui-table-view").on('tap', '.mui-table-view-cell', function(e) {
+			var eventId = this.getAttribute('id');
+			var urlId = 'eventDetail.html';
+			var baseUrl = 'eventDetail.html?eventId=' + eventId;
+			var curl = shareUrl + baseUrl;
+			setlsData('currUrl', curl);
+			mui.openWindow({
+				url: baseUrl,
+				id: urlId,
+				show: {
+					autoShow: true
+				},
+				waiting: {
+					options: {
+						loading: {
+							height: '35px'
+						}
+					}
+				},
+				extras: {
+					eventId: eventId,
+					currId: 'event.html'
+				}
+			})
+
+		});
+		
+
+		mui.init({
+			gestureConfig: {
+				swipeBack: true //启用右滑关闭功能
+			}
+		});
+	</script>
+
+</html>

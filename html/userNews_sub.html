@@ -1,0 +1,319 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/jinhu.css">
+	</head>
+	
+	<style> 
+		
+	</style> 
+
+	<body style="background-color: #FFF;">
+		<!--下拉刷新容器-->
+		<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<ul class="mui-table-view">
+
+				</ul>
+			</div>
+		</div>
+
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/wxHelper.js"></script>
+		<script>
+			
+		var userId = 0;
+		//B页面onload从服务器获取列表数据；                                                                                                            
+		window.onload = function() {
+			//获取url中的targetId参数                                                                                                           
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					var self = plus.webview.getWebviewById('userNews_main.html');
+					userId = self.userId;
+					loadData(0, userId)
+					//关闭等待框                                                                                                               
+					plus.nativeUI.closeWaiting();
+					//显示当前页面                                                                                                              
+					mui.currentWebview.show();
+				});
+			} else {
+				userId = getUrlParam('userId');
+				loadData(0, userId)
+			}
+			if(mui.os.wechat) {
+				var currUrl = location.href.split('#')[0];
+				weChatLogin(currUrl)
+			}
+
+		}
+		var createFragment = function(data) {
+			var fragment = document.createDocumentFragment();
+			var li;
+			var userAvatar = "";
+			for(var i = 0; i < data.length; i++) {
+				var dis = 'none';
+				var imgUrl = '';
+				if(data[i].FeaturedImage.length > 0) {
+					dis = 'block'
+					imgUrl = getImgUrl(data[i].FeaturedImage);
+				} else {
+					if(data[i].ContentModel == 3) {
+						//组图
+						if(data[i].FirstImage) {
+							dis = 'block'
+							imgUrl = getImgUrl(data[i].FirstImage);
+						} else {
+							dis = 'none'
+						}
+					} else {
+						dis = 'none'
+					}
+
+				}
+				userAvatar = data[i].Avatar == "" ? "../img/avatar.jpg" : getImgUrl(data[i].Avatar);
+				li = document.createElement('li');
+				li.className = 'mui-table-view-cell jh-news-list';
+				li.id = data[i].ContentItemId;
+				li.title = data[i].ContentModel;
+				li.innerHTML = '<div class="divImg" style="display:' + dis + ';padding: 5px 0 5px 0"><img style="display:' + dis + '" src=' + imgUrl + '  ></div>' +
+					'										<h5 class="listTitle">' + data[i].Subject + '</h5>' +
+					'										<ul class="mui-list-inline text-muted jh-itemBottm-left">' +
+					'											<li><img class="creator_img" style="height:1.5rem" src=' + userAvatar + '></li>' +
+					'											<li>' + data[i].Author.substring(0, 6) + '</li>' +
+					'											<li>' + data[i].DatePublished + '</li>' +
+					'										</ul>' +
+					'	<div class="jh-itemBottm-right text-muted">' +
+					'											<li class="mui-pull-right" style="float:left"><i class="fa fa-thumbs-up" aria-hidden="true">&nbsp;' + data[i].Attitude + '</i></li>' +
+					'											<li class="mui-pull-right" style="float:right"><i class="fa fa-commenting" aria-hidden="true">&nbsp;' + data[i].CommentCount + '</i></li>' +
+					'</div>';
+				fragment.appendChild(li);
+			}
+			return fragment;
+		};
+		var page = 1;
+
+		function loadData(type, id) {
+			var table = document.body.querySelector('.mui-table-view');
+			switch(type) {
+				case 0:
+					{
+						page = 1;
+					}
+					break;
+				case 1:
+					{
+						page = 1;
+					}
+					break;
+				case 2:
+					{
+						page++;
+					}
+					break;
+				default:
+					break;
+			}
+			params = {
+				userId: id,
+				pageIndex: page,
+			}
+			//			if(type != 2) {
+			//				showLoading('', '', '#FFFFFF');
+			//			}
+			getDatawithToken('User/GetUserContentItems', params, function(data) {
+				hideLoading();
+				hideErr();
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						if(data.Data.length > 0) {
+							switch(type) {
+								case 0:
+									{
+										table.innerHTML = "";
+										table.appendChild(createFragment(data.Data));
+									}
+									break;
+								case 1:
+									{
+										table.innerHTML = "";
+										table.appendChild(createFragment(data.Data));
+									}
+									break;
+								case 2:
+									{
+										table.appendChild(createFragment(data.Data));
+									}
+									break;
+								default:
+									break;
+							}
+						}
+
+					} else {
+						table.querySelector('.mui-loading').style.display = 'none';
+						if(type != 2) {
+							showErr(data.Data, '', '#FFFFFF', '0');
+						}
+						mui.toast(data.Data);
+						mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+					}
+
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+					login();
+					return;
+				} else {
+					//逻辑错误
+					//mui.toast('暂无更多数据');
+					if(type != 2) {
+						showErr(data.Data, '', '#FFFFFF', '0');
+					}
+					mui.toast(data.Data);
+					mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+					return;
+				}
+			}, function(err) {
+				hideLoading()
+				mui('#refreshContainer').pullRefresh().endPulldownToRefresh();
+				setErr('', '0px')
+			})
+
+		}
+
+		mui.plusReady(function() {
+			mui(".mui-table-view").on('tap', '.mui-table-view-cell', function(e) {
+				var contentItemId = this.getAttribute('id');
+				var contentItemType = parseInt(this.getAttribute("title"));
+				var urlId = 'newsDetail.html';
+				var baseUrl = 'newsDetail.html?ContentItemId=' + contentItemId;
+				switch(contentItemType) {
+					case 1:
+						urlId = 'newsDetail.html';
+						baseUrl = 'newsDetail.html?ContentItemId=' + contentItemId;
+						break;
+					case 2:
+						urlId = 'videoDetail.html';
+						baseUrl = 'videoDetail.html?ContentItemId=' + contentItemId;
+						break;
+					case 3:
+						urlId = 'imgsDetail.html';
+						baseUrl = 'imgsDetail.html?ContentItemId=' + contentItemId;
+						break;
+					default:
+						urlId = 'newsDetail.html';
+						baseUrl = 'newsDetail.html?ContentItemId=' + contentItemId;
+						break;
+				}
+				var curl = shareUrl + baseUrl;
+				setlsData('currUrl', curl);
+				mui.openWindow({
+					url: baseUrl,
+					id: urlId,
+					show: {
+						autoShow: true
+					},
+					waiting: {
+						options: {
+							loading: {
+								height: '35px'
+							}
+						}
+					},
+					extras: {
+						ContentItemId: contentItemId
+					}
+				})
+
+			});
+		})
+		if(!mui.os.plus) {
+			mui(".mui-table-view").on('tap', '.mui-table-view-cell', function(e) {
+				var contentItemId = this.getAttribute('id');
+				var contentItemType = parseInt(this.getAttribute("title"));
+				var urlId = 'newsDetail.html';
+				var baseUrl = 'newsDetail.html?ContentItemId=' + contentItemId;
+				switch(contentItemType) {
+					case 1:
+						urlId = 'newsDetail.html';
+						baseUrl = 'newsDetail.html?ContentItemId=' + contentItemId;
+						break;
+					case 2:
+						urlId = 'videoDetail.html';
+						baseUrl = 'videoDetail.html?ContentItemId=' + contentItemId;
+						break;
+					case 3:
+						urlId = 'imgsDetail.html';
+						baseUrl = 'imgsDetail.html?ContentItemId=' + contentItemId;
+						break;
+					default:
+						urlId = 'newsDetail.html';
+						baseUrl = 'newsDetail.html?ContentItemId=' + contentItemId;
+						break;
+				}
+				var curl = shareUrl + baseUrl;
+				setlsData('currUrl', curl);
+				mui.openWindow({
+					url: baseUrl,
+					id: urlId
+				});
+			})
+		}
+
+		mui.init({
+			pullRefresh: {
+				container: "#refreshContainer", //下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+				down: {
+					height: 50, //可选,默认50.触发下拉刷新拖动距离,
+					auto: false, //可选,默认false.自动下拉刷新一次
+					contentdown: "下拉可以刷新", //可选，在下拉可刷新状态时，下拉刷新控件上显示的标题内容
+					contentover: "释放立即刷新", //可选，在释放可刷新状态时，下拉刷新控件上显示的标题内容
+					contentrefresh: "正在刷新数据...", //可选，正在刷新状态时，下拉刷新控件上显示的标题内容
+					callback: downFresh //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+				},
+				up: {
+					height: 50, //可选.默认50.触发上拉加载拖动距离
+					auto: false, //可选,默认false.自动上拉加载一次
+					contentrefresh: "正在加载数据...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+					contentnomore: '没有更多数据了', //可选，请求完毕若没有更多数据时显示的提醒内容；
+					callback: upFresh //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+				}
+			}
+		});
+
+		function downFresh() {
+			setTimeout(function() {
+				loadData(1, userId)
+				mui('#refreshContainer').pullRefresh().endPulldownToRefresh(); //refresh completed
+			}, 1500);
+
+		}
+
+		function upFresh() {
+			setTimeout(function() {
+				loadData(2, userId)
+				mui('#refreshContainer').pullRefresh().endPullupToRefresh();
+			}, 1500);
+
+		}
+	
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,998 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet"  href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />		
+		<link rel="stylesheet"  href="../css/jinhu.css">
+
+	</head>
+	<style>
+		.comment_body .comment_img {
+		    float: left;
+		    width: 9%;
+		    
+		}
+		.comment_body{
+			padding-left: 0.75rem;
+			border-bottom: 1px solid #e4e4e4;
+			padding-top: 0.5rem;
+			margin-top:0
+		}
+		.comment_body .comment_content .comment_top .comment_top_right {
+		    float: right;
+		    margin-right: 0.75rem;
+		}
+		.jh-comment-reply {
+		    margin-right: 0.75rem;
+		}
+		.comment_body .comment_content {
+		    float: right;
+		    width: 87%;
+		    margin-left: 0.75rem;
+		    border-bottom: 0px;
+		}
+		.status{
+			list-style: none;
+			display: inline-block;
+			width: 100%;
+			padding-left: 0px;
+		}
+		.status li{
+			display: inline-block;
+		}
+		.status li:first-child{
+			float: left;			
+		}
+		.status li:last-child{
+			float: right;
+			margin-right: 0.75rem;
+		}
+	.mui-pull-top-tips {
+			position: absolute;
+			top: -20px;
+			left: 50%;
+			margin-left: -25px;
+			width: 40px;
+			height: 40px;
+			border-radius: 100%;
+			z-index: 1;
+		}
+		
+		.mui-bar~.mui-pull-top-tips {
+			top: 24px;
+		}		
+		.mui-pull-top-wrapper {
+			width: 42px;
+			height: 42px;
+			display: block;
+			text-align: center;
+			background-color: #efeff4;
+			border: 1px solid #ddd;
+			border-radius: 25px;
+			background-clip: padding-box;
+			box-shadow: 0 4px 10px #bbb;
+			overflow: hidden;
+		}		
+		.mui-pull-top-tips.mui-transitioning {
+			-webkit-transition-duration: 200ms;
+			transition-duration: 200ms;
+		}		
+		.mui-pull-top-tips .mui-pull-loading {
+			margin: 0;
+		}		
+		.mui-pull-top-wrapper .mui-icon,
+		.mui-pull-top-wrapper .mui-spinner {
+			margin-top: 7px;
+		}		
+		.mui-pull-top-wrapper .mui-icon.mui-reverse {
+		}		
+		.mui-pull-bottom-tips {
+			text-align: center;
+			background-color: #efeff4;
+			font-size: 15px;
+			line-height: 40px;
+			color: #777;
+		}		
+		.mui-pull-top-canvas {
+			overflow: hidden;
+			background-color: #fafafa;
+			border-radius: 40px;
+			box-shadow: 0 4px 10px #bbb;
+			width: 40px;
+			height: 40px;
+			margin: 0 auto;
+		}		
+		.mui-pull-top-canvas canvas {
+			width: 40px;
+		}		
+		.mui-slider-indicator.mui-segmented-control {
+			background-color: #efeff4;
+		}		
+		.mui-scroll{
+			min-height: 100%;
+		}
+		.popover-item{
+			padding:13px 15px;border-radius:0;color:#333333
+		}
+	</style>
+	<body style="background-color: #FFFFFF;">
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span><span id="navtil"></span>
+			</button>
+		</header>
+		<div class="mui-content" id="contentArea" style="display: block">
+			<div id="slider" class="mui-slider mui-fullscreen">
+				<div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted jh-scroll-wrapper">
+					<div class="mui-scroll" id="SectionType" style="padding-right: 40px;">
+						<a class="mui-control-item mui-active" href="#itemmobile" id="0">
+							收到的评论
+						</a>
+						<a class="mui-control-item" href="#item0mobile" id="1">
+							发出的评论
+						</a>						
+						
+					</div>
+				</div>
+				<div class="mui-slider-group" id="sliderGroup"style="top: 40px;">
+					<div id="itemmobile" class="mui-slider-item mui-control-content mui-active">
+						<div class="mui-scroll-wrapper" id="refreshContainer">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									<div class="mui-loading">
+										<div class="mui-spinner">
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item0mobile" class="mui-slider-item mui-control-content">
+						<div class="mui-scroll-wrapper"id="refreshContainer1">
+							<div class="mui-scroll">
+								<ul class="mui-table-view">
+									<div class="mui-loading">
+										<div class="mui-spinner">
+										</div>
+									</div>
+								</ul>
+							</div>
+						</div>
+					</div>				
+				</div>
+			</div>
+			<script src="../js/mui.min.js"></script>
+			<script src="../js/mui.pullToRefresh.js"></script>
+			<script src="../js/mui.pullToRefresh.material.js"></script>
+			<script src="../js/service.js"></script>
+			<script src="../js/common.js"></script>
+			<script src="../js/wxHelper.js"></script>
+	</body>
+	<script type="text/javascript">
+		
+		var userId = 0;
+		var username = "";
+		window.onload = function() {
+			//获取url中的targetId参数                                                                                                           
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					userId = self.userId;
+					GetreceivedComments(false)
+					//receivedComments();
+					username = self.username;
+					username = (username == "me") ? "我" : username
+					document.getElementById("navtil").innerHTML = username + '的评论';
+					//关闭等待框                                                                                                               
+					plus.nativeUI.closeWaiting();
+					//显示当前页面                                                                                                              
+					mui.currentWebview.show();
+				});
+			} else {
+				userId = getUrlParam('userId');
+				GetreceivedComments(false)
+				//receivedComments();
+				username = getUrlParam('username');
+			}
+			username = (username == "me") ? "我" : username
+			document.getElementById("navtil").innerHTML = username + '的评论';
+		}
+		var ids = [];
+
+		mui.init({
+			gestureConfig: {
+				tap: true, //默认为true
+				longtap: true, //默认为false
+			}
+		})
+
+		function creatsendPop() {
+			var div = document.createElement('div');
+			div.id = 'mypopover';
+			div.style.display = "none"
+			div.className = 'box mui-popover mui-popover-action mui-popover-bottom';
+			div.innerHTML = ' <ul class="mui-table-view popover-all" style="margin:0px;border-radius:0">' +
+				'<li class="mui-table-view-cell popover-item" id="mydelete"><a href="#">删除</a></li>' +
+				'<li style="height:10px;background-color: rgba(0,0,0,.2);"></li>' +
+				'<li class="mui-table-view-cell popover-item"id="myqu"><a href="#">取消</a></li>' +
+				'</ul>';
+			bigContainer.appendChild(div);
+		}
+		creatsendPop();
+		var commentDelId;
+		var mydelete = document.getElementById("mydelete");
+		mydelete.addEventListener("tap", function(e) {
+			deleteComment(commentDelId)
+			mui('#mypopover').popover('toggle');
+			var content = document.getElementById("refreshContainer1").getElementsByTagName("ul")[0];
+			content.innerHTML = "";
+			GetsendComments(false);
+			mui('#refreshContainer1').scroll().scrollTo(0, 0);
+		})
+		var myqu = document.getElementById("myqu")
+		myqu.addEventListener("tap", function(e) {
+			mui('#mypopover').popover('hide');
+		})
+		mui("#item0mobile").on('longtap', '.sendlongtap', function(e) {
+			mui('#mypopover').popover('toggle');
+			commentDelId = this.getAttribute("id");
+		})
+
+		function deleteComment(id) {
+			var path = 'Comment/DeleteComment?commentId=' + id;
+			postDatawithToken('Comment/DeleteComment?commentId=' + id, {}, function(data) {
+				if(data.Type == 1) {
+					mui.toast("删除成功")
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {})
+		}
+		var selel = document.getElementsByClassName("mui-control-item mui-active");
+		mui('.mui-slider').slider();
+		var deceleration = mui.os.ios ? 0.003 : 0.0009;
+		mui('.mui-scroll-wrapper.mui-slider-indicator.mui-segmented-control').scroll({
+			scrollY: false,
+			scrollX: true,
+			indicators: false,
+			deceleration: deceleration,
+			snap: '.mui-control-item'
+		});
+		var tabIndex = 0;
+		document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+			tabIndex = event.detail.slideNumber;
+			if(event.detail.slideNumber != 0) {
+				var index = event.detail.slideNumber - 1;
+				var item = document.getElementById("item" + index + "mobile");
+				item.querySelector('.mui-pull-bottom-tips').style.display = 'none';
+				if(item.querySelector('.mui-loading')) {
+					if(index == 0) {
+						GetsendComments(false)
+					}
+				}
+			}
+		});
+		var pageindex = 1;
+		(function($) {
+			//阻尼系数
+			var deceleration = mui.os.ios ? 0.003 : 0.0009;
+			$('.mui-scroll-wrapper').scroll({
+				bounce: false,
+				indicators: true, //是否显示滚动条
+				deceleration: deceleration
+			});
+			$.ready(function() {
+				//循环初始化所有下拉刷新，上拉加载。
+				$.each(document.querySelectorAll('.mui-slider-group .mui-scroll'), function(index, pullRefreshEl) {
+					$(pullRefreshEl).pullToRefresh({
+						down: {
+							callback: function() {
+								var self = this;
+								document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'none';
+								if(selel[0].id == '0') {
+									if(mui.os.plus) {
+										mui.plusReady(function() {
+											var self = plus.webview.currentWebview();
+											userId = self.userId;
+											//关闭等待框                                                                                                               
+											plus.nativeUI.closeWaiting();
+											//显示当前页面                                                                                                              
+											mui.currentWebview.show();
+										});
+									} else {
+										userId = getUrlParam('userId');
+									}
+									GetreceivedComments(false);
+								}
+								if(selel[0].id == '1') {
+									GetsendComments(false)
+								}
+								setTimeout(function() {
+									self.endPullDownToRefresh();
+								}, 1000);
+							}
+						},
+						up: {
+							show: false,
+							callback: function() {
+								var self = this;
+								if(selel[0].id == '0') {
+									if(mui.os.plus) {
+										mui.plusReady(function() {
+											var self = plus.webview.currentWebview();
+											userId = self.userId;
+											//关闭等待框                                                                                                               
+											plus.nativeUI.closeWaiting();
+											//显示当前页面                                                                                                              
+											mui.currentWebview.show();
+										});
+									} else {
+										userId = getUrlParam('userId');
+									}
+									GetreceivedComments(true);
+								}
+								if(selel[0].id == '1') {
+									GetsendComments(true)
+								}
+								setTimeout(function() {
+									self.endPullUpToRefresh();
+								}, 1000);
+							}
+						}
+					});
+				});
+			});
+		})(mui);
+			mui("#slider").on('tap', '.commentContent', function(e) {
+					//此处首先要判断资讯/帖子，其次还要判断资讯（文章、组图、视频）
+					var itemId = this.getAttribute('id');
+					if(e.target.parentElement.id == '100002') {
+						//帖子
+						var threadId = itemId;
+						var ThreadType = this.getAttribute("title");
+						var AssociateId = this.getAttribute("value");
+						var baseUrl = ThreadType=='1'?'eventThreadDetail.html':'threadDetail.html';
+						var url = baseUrl + '?threadId=' + threadId +'&'+'ThreadType='+ThreadType+'&'+'AssociateId='+AssociateId;
+						var curl = shareUrl + baseUrl + '?threadId=' + threadId+'&'+'ThreadType='+ThreadType+'&'+'AssociateId='+AssociateId;
+						setlsData('currUrl', curl);
+						mui.openWindow({
+							url: url,
+							id: baseUrl,
+							show: {
+								autoShow: false
+							},
+							createNew:true,
+							waiting: {
+								options: {
+									loading: {
+										height: '35px'
+									}
+								}
+							},
+							extras: {
+								threadId: threadId,
+								ThreadType:ThreadType,
+								AssociateId:AssociateId,
+								currId: 'userComments.html'
+							}
+						})
+					} else if(e.target.parentElement.id == '101200'){
+							var documentId=itemId;
+							var mediaType = Number(this.getAttribute('title'));
+							var baseUrl = 'documentDetail.html';
+							switch (mediaType){
+								case 1:
+									baseUrl = 'docImgsDetail.html';
+									break;
+								case 2:
+									baseUrl = 'docVideoDetail.html';
+									break;
+								default:
+									baseUrl = 'documentDetail.html'
+									break;
+							}
+							var url = mui.os.plus ? baseUrl : baseUrl + '?documentId=' + documentId;
+							var curl = shareUrl+baseUrl+ '?documentId=' + documentId;
+							setlsData('currUrl', curl);
+								mui.openWindow({
+									url: url,
+									id: baseUrl,
+									show: {
+										autoShow: true
+									},
+									waiting: {
+										options: {
+											loading: {
+												height: '35px'
+											}
+										}
+									},
+									extras: {
+										documentId: documentId,
+										currId: 'userComments.html',
+										type:'document.html'
+									}
+								})
+					}else if(e.target.parentElement.id == '101301' || e.target.parentElement.id == '101302') {
+						var questionId = itemId;
+						var baseUrl = 'question-solved.html';
+						var url = mui.os.plus ? baseUrl : baseUrl + '?questionId=' + questionId;
+						var curl = shareUrl + baseUrl + '?questionId=' + questionId;
+						setlsData('currUrl', curl);
+						mui.openWindow({
+							url: url,
+							id: 'question-solved.html',
+							show: {
+								autoShow: true
+							},
+							waiting: {
+								options: {
+									loading: {
+										height: '35px'
+									}
+								}
+							},
+							extras: {
+								questionId: questionId,
+								tabIndex: 0,
+								type: 'ask',
+								currId: 'userComments.html'
+							}
+						})
+					} else if(e.target.parentElement.id == '101400'){
+							var eventId = itemId;
+							var urlId = 'eventDetail.html';
+							var baseUrl = 'eventDetail.html?eventId=' + eventId;
+							var curl = shareUrl + baseUrl;
+							setlsData('currUrl', curl);
+							mui.openWindow({
+								url: baseUrl,
+								id: urlId,
+								show: {
+									autoShow: true
+								},
+								waiting: {
+									options: {
+										loading: {
+											height: '35px'
+										}
+									}
+								},
+								extras: {
+									eventId: eventId,
+									currId: 'userComments.html'
+								}
+							})
+					}else if(e.target.parentElement.id == '101500'){
+							var voteId = itemId;
+							var voteType = parseInt(this.getAttribute("title"));
+							switch(voteType) {
+								case 0:
+									urlId = 'textVote.html';
+									baseUrl = 'textVote.html?voteId=' + voteId;
+								break;
+								case 1:
+									urlId = 'imageVote.html';
+									baseUrl = 'imageVote.html?voteId=' + voteId;
+								break;
+								default:
+									break;
+							}
+							var curl = shareUrl + baseUrl;
+							setlsData('currUrl', curl);
+								mui.openWindow({
+									url: baseUrl,
+									id: urlId,
+									show: {
+										autoShow: true
+									},
+									waiting: {
+										options: {
+											loading: {
+												height: '35px'
+											}
+										}
+									},
+									extras: {
+										voteId: voteId,
+										tabIndex: tabIndex
+									}
+								})
+					}else if(e.target.parentElement.id == '101600'){
+						var productId = itemId;
+						var baseUrl = 'pointDetail.html';
+						var url = mui.os.plus ? baseUrl : baseUrl + '?productId=' + productId;
+						var curl = shareUrl+ baseUrl+ baseUrl + '?productId=' + productId;
+						setlsData('currUrl', curl);
+						mui.openWindow({
+							url: url,
+							id: 'pointDetail.html',
+							show: {
+								autoShow: true
+							},				
+							waiting: {
+								options: {
+									loading: {
+										height: '35px'
+									}
+								}
+							},
+							extras: {
+								productId: productId
+							}
+						})
+					} else {
+						//文章
+						switch(this.getAttribute('title')) {
+							case 'Article':
+								urlId = 'newsDetail.html';
+								baseUrl = 'newsDetail.html?ContentItemId=' + itemId;
+								break;
+							case 'Video':
+								urlId = 'videoDetail.html';
+								baseUrl = 'videoDetail.html?ContentItemId=' + itemId;
+								break;
+							case 'Image':
+								urlId = 'imgsDetail.html';
+								baseUrl = 'imgsDetail.html?ContentItemId=' + itemId;
+								break;
+							case 'Contribution':
+								urlId = 'newsDetail.html';
+								baseUrl = 'newsDetail.html?ContentItemId=' + itemId;
+								break;
+							default:
+								break;
+						}
+						var curl = shareUrl + baseUrl;
+						setlsData('currUrl', curl);
+						mui.openWindow({
+							url: baseUrl,
+							id: urlId,
+							show: {
+								autoShow: true
+							},
+							waiting: {
+								options: {
+									loading: {
+										height: '35px'
+									}
+								}
+							},
+							extras: {
+								ContentItemId: itemId
+							}
+						})
+					}
+				})
+		var creatreceivedCommentsElement = function(data, id, more) {
+			var fragment = document.getElementById(id);
+			var cfragment = fragment.firstElementChild;
+			var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+			var fragment = document.createDocumentFragment();
+			var newFragment = document.createDocumentFragment();
+			var div;
+			for(var i = 0; i < data.length; i++) {
+				div = document.createElement('div');
+				div.className = 'comment_body receivedtap';
+				var child;
+				var dis = 'none';
+				if(data[i].ParentComment != null) {
+					var sdata = data[i].ParentComment;
+					dis = 'block';
+					child = '<p>回复' + sdata.UserName + '： ' + sdata.Body + '</p>'
+				} else {
+					dis = 'none';
+				}
+				var type = "";
+				if(data[i].CommentedObject != null) {
+					if(data[i].CommentedObject.TenantTypeId == '100002') {
+						//帖子
+						type = "贴子"
+					} else if(data[i].CommentedObject.TenantTypeId == '101200') {
+						//文库
+						type = "文库"
+					}else if(data[i].CommentedObject.TenantTypeId == '101301') {
+						type = "问题"
+					} else if(data[i].CommentedObject.TenantTypeId == '101302') {
+						type = "回答"
+					}else if(data[i].CommentedObject.TenantTypeId == '101400') {
+						type = "活动"
+					}else if(data[i].CommentedObject.TenantTypeId == '101500'){
+						type = "投票"
+					}else if(data[i].CommentedObject.TenantTypeId == '101600'){
+						type = "商品"
+					} else {
+						var newtype = data[i].CommentedObject.ModelKey;
+						switch(newtype) {
+							case 'Article':
+								type = "文章"
+								break;
+							case 'Video':
+								type = "视频"
+								break;
+							case 'Image':
+								type = "组图"
+								break;
+							case 'Contribution':
+								type = "文章"
+								break;
+							default:
+								break;
+						}
+
+					}
+				}
+				var id = 0;
+				var title = '';
+				var hasItem = 'none';
+				var newType = '';
+				var value='0';
+				if(data[i].CommentedObject != null) {
+					hasItem = 'none';
+					title = data[i].CommentedObject.Subject;
+					id = data[i].CommentedObject.ObjectId;
+					if(data[i].CommentedObject.TenantTypeId == '100011'||data[i].CommentedObject.TenantTypeId == '100012'||data[i].CommentedObject.TenantTypeId == '100013'||data[i].CommentedObject.TenantTypeId == '100014'||data[i].CommentedObject.TenantTypeId == '100015') {
+						newType = data[i].CommentedObject.ModelKey;
+					}else if(data[i].CommentedObject.TenantTypeId == '100002'){
+						newType = data[i].CommentedObject.ThreadType;
+						value=data[i].CommentedObject.AssociateId;
+					} else {
+						newType = data[i].CommentedObject.ObjectType;
+					}
+				} else {
+					hasItem = 'inline';
+				}
+				var shenglue = data[i].Body.length > 15 ? "..." : "";
+				var userAvatar = data[i].Avatar == "" ? "../img/avatar.jpg" : getImgUrl(data[i].Avatar);
+				div.innerHTML = '<div class="comment_img">' +
+					'		    		<img class="creator_img_comment " src=' + userAvatar + '>' +
+					'			    	</div>' +
+					'			    	<div class="comment_content">' +
+					'			    		<div class="comment_top">' +
+					'			    			<h5 class="comment_top_left">' + data[i].UserName.substring(0, 6) + '</h5>' +
+					'							<h5 class="comment_top_right">' + data[i].DateCreated + '</h5>' +
+					'				</div>' +
+					'               <div id="childCom' + i + '" class="jh-comment-reply" style="display:' + dis + '">' + child + '</div>' +
+					'				<p>' +
+					'					' + data[i].Body.substring(0, 20) + shenglue + '' +
+					'				</p>' +
+					'				<p id=' + (data[i].CommentedObject && data[i].CommentedObject.TenantTypeId != null && data[i].CommentedObject.TenantTypeId) + '>' +
+					'					评论我的' + type + '：' +
+					'                  <span style="color:#007aff;display:' + hasItem + '">该内容已被删除</span>' +
+					'					<a id=' + id + ' title=' + newType + ' value='+value+'  class="commentContent">' + title + '</a>' +
+					'				</p>' +
+					'			</div>';
+				if(more == true) {
+					finel.appendChild(div);
+				} else {
+					newFragment.appendChild(div);
+				}
+			}
+			if(more == false) {
+				finel.innerHTML = nodeToString(newFragment);
+			}
+		};
+		var creatsendCommentsElement = function(data, id, more) {
+			var fragment = document.getElementById(id);
+			var cfragment = fragment.firstElementChild;
+			var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+			var fragment = document.createDocumentFragment();
+			var newFragment = document.createDocumentFragment();
+			var div;
+			var disStatus = "inline-block";
+			for(var i = 0; i < data.length; i++) {
+				if(data[i].ApprovalStatus == 20 || data[i].ApprovalStatus == 30) { //"ApprovalStatus:审核状态：10=未通过，20=待审核，30=需再审核，40=通过"
+
+					ApprovalStatus = data[i].ApprovalStatus == 20 ? '<li style="color: #FF9900;float:left;">' + "待审核" + '</li>' : '<li style="color: #FF9900;float:left;">' + "需再审核" + '</li>'
+				}
+				if(data[i].ApprovalStatus == 10) {
+					ApprovalStatus = '<li style="color: #FF0000;float:left;">' + "审核未通过" + '</li>'
+				}
+				if(data[i].ApprovalStatus == 40) {
+					//ApprovalStatus = '<li style="color: #008000;float:left;">' + "审核通过" + '</li>'
+					var disStatus = 'none';
+					ApprovalStatus = ''
+				}
+				div = document.createElement('div');
+				div.className = 'comment_body sendtap sendlongtap';
+				div.id = data[i].Id;
+				var child;
+				var dis = 'none';
+				if(data[i].ParentComment != null) {
+					var sdata = data[i].ParentComment;
+					dis = 'block';
+					child = '<p>回复' + sdata.UserName + '： ' + sdata.Body + '</p>'
+				} else {
+					dis = 'none';
+				}
+				var type = "";
+				if(data[i].CommentedObject != null) {
+					if(data[i].CommentedObject.TenantTypeId == '100002') {
+						//帖子
+						switch(data[i].CommentedObject.ThreadType) {
+							case 1:
+								type = "活动贴"
+								break;
+							case 2:
+								type = "投票贴"
+								break;
+							default:
+								type = "贴子"
+								break;
+						}
+						
+						
+					} else if(data[i].CommentedObject.TenantTypeId == '101200') {
+						//文库
+						type = "文库"
+					}else if(data[i].CommentedObject.TenantTypeId == '101301') {
+						type = "问题"
+					} else if(data[i].CommentedObject.TenantTypeId == '101302') {
+						type = "回答"
+					}else if(data[i].CommentedObject.TenantTypeId == '101400') {
+						type = "活动"
+					}else if(data[i].CommentedObject.TenantTypeId == '101500'){
+						type = "投票"
+					}else if(data[i].CommentedObject.TenantTypeId == '101600'){
+						type = "商品"
+					} else {
+						var newtype = data[i].CommentedObject.ModelKey;
+						switch(newtype) {
+							case 'Article':
+								type = "文章"
+								break;
+							case 'Video':
+								type = "视频"
+								break;
+							case 'Image':
+								type = "组图"
+								break;
+							case 'Contribution':
+								type = "文章"
+								break;
+							default:
+								break;
+						}
+
+					}
+				}
+				var id = 0;
+				var title = '';
+				var hasItem = 'none';
+				var newType = '';
+				var value='0';
+				if(data[i].CommentedObject != null) {
+					hasItem = 'none';
+					title = data[i].CommentedObject.Subject;
+					id = data[i].CommentedObject.ObjectId;
+					if(data[i].CommentedObject.TenantTypeId == '100011'||data[i].CommentedObject.TenantTypeId == '100012'||data[i].CommentedObject.TenantTypeId == '100013'||data[i].CommentedObject.TenantTypeId == '100014'||data[i].CommentedObject.TenantTypeId == '100015') {
+						newType = data[i].CommentedObject.ModelKey;
+					}else if(data[i].CommentedObject.TenantTypeId == '100002'){
+						newType = data[i].CommentedObject.ThreadType;
+						value=data[i].CommentedObject.AssociateId;
+					} else {
+						newType = data[i].CommentedObject.ObjectType;
+					}
+				} else {
+					hasItem = 'inline';
+				}
+				var shenglue = data[i].Body.length > 15 ? "..." : "";
+				var shenglues = data[i].UserName.length > 10 ? '...' : '';
+				var userAvatar = data[i].Avatar == "" ? "../img/avatar.jpg" : getImgUrl(data[i].Avatar);
+				div.innerHTML = '<div class="comment_img">' +
+					'		    		<img class="creator_img_comment " src=' + userAvatar + '>' +
+					'			    	</div>' +
+					'			    	<div class="comment_content">' +
+					'			    		<div class="comment_top">' +
+					'			    			<h5 class="comment_top_left">' + data[i].UserName.substr(0,9) +shenglues +'（被我评论）</h5>' +
+					'               <h5 class="comment_top_right">' + data[i].DateCreated + '</h5>' +
+					'				</div>' +
+					'               <div id="childCom' + i + '" class="jh-comment-reply" style="display:' + dis + '">' + child + '</div>' +
+					'				<p>' +
+					'					' + data[i].Body.substring(0, 20) + shenglue + '' +
+					'				</p>' +
+					'				<p id=' + (data[i].CommentedObject && data[i].CommentedObject.TenantTypeId != null && data[i].CommentedObject.TenantTypeId) + '>' +
+					'					我评论的' + type + '：' +
+					'                  <span style="color:#007aff;display:' + hasItem + '">该内容已被删除</span>' +
+					'					<a id=' + id + ' title=' + newType + ' value='+value+' class="commentContent">' + title + '</a>' +
+					'				</p>' +
+					'<ul class="status" style="display:'+ disStatus +'">' +
+					ApprovalStatus +
+					
+					'</ul>' +
+					'			</div>';
+				if(more == true) {
+					finel.appendChild(div);
+				} else {
+					newFragment.appendChild(div);
+				}
+			}
+			if(more == false) {
+				finel.innerHTML = nodeToString(newFragment);
+			}
+		};
+		var page = 1;
+		var idName = "";
+		var bool;
+
+		function GetreceivedComments(more) {
+			if(!more) {
+				showLoading('', '', '#FFFFFF', '90px', '1');
+			}
+			idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+			var fragment = document.getElementById(idName);
+			var cfragment = fragment.firstElementChild;
+			var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+			if(finel.querySelector('.mui-loading')) {
+				finel.removeChild(finel.childNodes[1]);
+			}
+			if(more) {
+				page++;
+			} else {
+				//finel.innerHTML = '';
+				page = 1;
+			}
+			var params = {
+				isSend: false,
+				pageSize: 10,
+				pageIndex: page,
+			};
+			getDatawithToken('User/GetUserComments', params, function(data) {
+				hideLoading()
+				var bottomTip = document.querySelectorAll('.mui-pull-bottom-tips');
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						hideErrForList('', idName);
+						if(data.Data.length <= 10) {
+							document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'none';
+						} else {
+							document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'block';
+						}
+						creatreceivedCommentsElement(data.Data, idName, more);
+					} else {
+						document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'none';
+						if(!more) {
+							var errForList = showErrForList(data.Data, '', '', idName);
+							if(errForList) {
+								fragment.appendChild(showErrForList(data.Data, '', '', idName))
+							}
+						}
+						if(data.Data!='暂时没有更多评论'){
+							mui.toast(data.Data);
+						}
+						
+					}
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					var errForList = showErrForList(data.Data, '', '', idName);
+					if(errForList) {
+						fragment.appendChild(showErrForList(data.Data, '', '', idName))
+					}
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr('', '90px')
+			})
+		}
+
+		function GetsendComments(more) {
+			if(!more) {
+				showLoading('', '', '#FFFFFF', '90px', '1');
+			}
+			idName = selel[0].href.substring(selel[0].href.lastIndexOf("#") + 1, selel[0].href.length);
+			var fragment = document.getElementById(idName);
+			var cfragment = document.getElementById("refreshContainer1")
+			var finel = cfragment.firstElementChild.querySelector('.mui-table-view');
+			if(finel.querySelector('.mui-loading')) {
+				finel.removeChild(finel.childNodes[1]);
+			}
+			if(more) {
+				page++;
+			} else {
+				//finel.innerHTML = '';
+				page = 1;
+			}
+			var params = {
+				isSend: true,
+				pageSize: 10,
+				pageIndex: page,
+			};
+			getDatawithToken('User/GetUserComments', params, function(data) {
+				hideLoading()
+				var bottomTip = document.querySelectorAll('.mui-pull-bottom-tips');
+				if(data.Type == 1) {
+					if(data.Data && typeof(data.Data) == 'object') {
+						hideErrForList('', idName);
+						if(data.Data.length <= 10) {
+							document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'none';
+						} else {
+							document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'block';
+						}
+						creatsendCommentsElement(data.Data, idName, more);
+					} else {
+						document.getElementById(idName).querySelector('.mui-pull-bottom-tips').style.display = 'none';
+						if(!more) {
+							var errForList = showErrForList(data.Data, '', '', idName);
+							if(errForList) {
+								fragment.appendChild(showErrForList(data.Data, '', '', idName))
+							}
+						}
+						if(data.Data!='暂时没有更多评论'){
+							mui.toast(data.Data);
+						}
+						
+					}
+				} else if(data.Type == 0) {
+					//登录失败
+					mui.toast("请登录后再进行操作");
+					login();
+					return;
+				} else {
+					//逻辑错误
+					var errForList = showErrForList(data.Data, '', '', idName);
+					if(errForList) {
+						fragment.appendChild(showErrForList(data.Data, '', '', idName))
+					}
+					mui.toast(data.Data);
+					return;
+				}
+			}, function(err) {
+				setErr('', '90px')
+			})
+		}
+		function changeTab(index) {
+			var gallery = mui('#sliderSegmentedControl');
+			var gallerys = mui('#slider');
+			gallery.scroll().gotoPage(index);
+			gallerys.slider().gotoItem(index);
+			if(index == 1) {
+				GetfavNews(false, false)
+				mui('#refreshContainer1').scroll().scrollTo(0, 0);
+			}
+			if(index == 0) {
+				if(mui.os.plus) {
+					mui.plusReady(function() {
+						var self = plus.webview.currentWebview();
+						userId = self.userId;
+						//关闭等待框                                                                                                               
+						plus.nativeUI.closeWaiting();
+						//显示当前页面                                                                                                              
+						mui.currentWebview.show();
+					});
+				} else {
+					userId = getUrlParam('userId');
+				}
+				mynews(userId);
+				mui('#refreshContainer').scroll().scrollTo(0, 0);
+			}
+		}
+		mui.init({
+			gestureConfig: {
+				swipeBack: true //启用右滑关闭功能
+			}
+		});
+	
+	</script>
+
+</html>

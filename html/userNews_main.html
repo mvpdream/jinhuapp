@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/jinhu.css">
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav" style="border: none;">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span><span id="navtil"></span>
+			</button>
+			<span class="mui-pull-right" id="creatnew" style="display: none;">
+				<i class="fa fa-pencil-square-o" style="font-size: 23px;line-height: 50px;" aria-hidden="true"></i>
+			</span>
+			
+		</header>
+		<div class="mui-content"></div>
+		
+
+		
+	</body>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/common.js"></script>
+	<script>
+		
+		var userId = 0;
+		var username = "";
+		var creatnew = document.getElementById("creatnew");
+
+		window.onload = function() {
+			//获取url中的targetId参数                                                                                                           
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					var self = plus.webview.currentWebview();
+					userId = self.userId;
+					username = self.username;
+					username = (username == "me") ? "我" : username;
+					creatnew.style.display = (username == "我") ? 'block' : 'none';
+					document.getElementById("navtil").innerHTML = username + '的文章';
+					//关闭等待框                                                                                                               
+					plus.nativeUI.closeWaiting();
+					//显示当前页面                                                                                                              
+					mui.currentWebview.show();
+				});
+			} else {
+				userId = getUrlParam('userId');
+				username = getUrlParam('username');
+
+			}
+			username = (username == "me") ? "我" : username
+			creatnew.style.display = (username == "我") ? "block" : "none"
+			document.getElementById("navtil").innerHTML = username + '的文章';
+			var baseUrl = 'userNews_sub.html'
+			var url = mui.os.plus ? baseUrl : baseUrl + '?userId=' + userId;
+			mui.init({
+				subpages: [{
+					url: url,
+					id: 'userNews_sub.html',
+					styles: {
+						top: '51px',
+						bottom: '0px',
+					},
+					extras: {
+						userId: userId
+					}
+				}]
+
+			});
+			creatnew.addEventListener('tap', function() {
+				mui.openWindow({
+					url: 'creatNew.html',
+					id: 'creatNew.html',
+					show: {
+						autoShow: false
+					},
+					waiting: {
+						options: {
+							loading: {
+								height: '35px'
+							}
+						}
+					}
+				})
+			})
+
+		}
+
+	
+	</script>
+
+</html>

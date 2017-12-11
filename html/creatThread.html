@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<!--通用样式-->
+		<link rel="stylesheet" href="../css/mui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../css/jinhu.css"/>
+		<link rel="stylesheet" href="../css/loading.css" />
+		<link href="../css/mui.picker.css" rel="stylesheet" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+		<!-- 引用控制层插件样式 -->
+		<link rel="stylesheet" href="../css/zyUpload.css" type="text/css">
+		<script src="../js/jquery-2.1.0.js"></script>
+		<!-- 引用核心层插件 -->
+		<script type="text/javascript" src="../js/zyFile.js"></script>
+		<!-- 引用控制层插件 -->
+		<script type="text/javascript" src="../js/zyUpload.js"></script>
+		<!-- 引用初始化JS -->
+		<script type="text/javascript" src="../js/zyUploadFile.js"></script>
+	</head>
+	<style>
+		.spacing {
+			margin-top: 0.5rem;
+		}
+		
+		.mui-input-row span {
+			line-height: 40px;
+			font-size: 16px;
+		}
+		
+		.angledown {
+			font-size: 1.2rem;
+			color: #999999;
+		}
+		
+		.closeIcon {
+			font-size: 25px;
+		}
+		
+		.threadBody {
+			line-height: 20px;
+			font-size: 16px;
+			border: none;
+			height: 537;
+		}
+		
+		.jh-comment-right a {
+			padding-left: 10px;
+		}
+		
+		.creat_menu {
+			float: left;
+			line-height: 25px;
+			width: 15%;
+			text-align: center;
+			color: #999999
+		}
+		
+		.face {
+			width: 30px;
+			height: 30px;
+			padding: 8px;
+		}
+		
+		.creat-img {
+			width: 100px;
+			height: 150px
+		}
+		
+		.creat-img-close {
+			position: relative;
+			right: 15px;
+			top: -75px;
+			color: gray;
+			
+		}
+		.mui-input-row .mui-input-clear~.mui-icon-clear,
+		.mui-input-row .mui-input-password~.mui-icon-eye,
+		.mui-input-row .mui-input-speech~.mui-icon-speech {
+			top: 0;
+		}
+		
+		html,
+		body {
+			height: 100%;
+			margin: 0px;
+			padding: 0px;
+			overflow: hidden;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+		}
+		
+		.mui-table-view-cell {
+			padding: 11px 15px;
+		}
+		#postCategory{
+			border-bottom:1px solid #c8c7cc;
+			padding-bottom: 0.5rem;
+		}
+		.cmsSubject{
+			width: 28% !important;
+		    font-size: 16px;
+		    color: #a9a9a9;
+		}
+		#title{
+			width: 66%;
+		}
+		#Category{
+			float: right;
+			margin-right: 1rem;
+		}
+		#cmssubject span{
+			top: -5px;
+		}
+	</style>
+
+	<body style=" background-color: #fff;">
+		<div id="BgDiv1"></div>
+		<header class="mui-bar mui-bar-nav">
+			<button class="mui-action-back mui-btn mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+				<span class="mui-icon mui-icon-left-nav"></span>发表贴子</button>
+			<span class="mui-pull-right">
+					<span id="Progress" style="line-height:50px"></span>
+			<button id="creat_Btn" onclick="upload()" data-loading-text="提交中" type="button" style="background-color: #bf0a10;" class="mui-btn mui-btn-red">发布</button>
+			</span>
+
+		</header>
+		<div class="mui-scroll-wrapper" style="padding-top: 50px;padding-bottom: 100px;">
+    <div class="mui-scroll">
+       		<div class="mui-content" id="detail" style="background-color: #fff;">
+   			<ul class="mui-table-view" style="margin-top: 0;">
+				<li class="mui-table-view-cell mui-input-row" style="height: auto;padding: 15px;">
+					<label style="font-size: 16px;width: 25%;padding: 0;line-height: 24px;color: #666666;">贴子标题</label>
+					<input class="mui-input mui-input-clear" placeholder="贴子标题" id="title" style="width:75%;font-size: 16px;height: 24px;line-height:24px;padding: 0;" type="text" data-input-clear="1">
+				</li>
+			</ul>
+			
+			<textarea rows="10" class="threadBody" id="upload-textarea" placeholder="请输入内容"></textarea>
+			<div id="imgPop" >
+				<div style="height: 200px;" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+				    <div id="imgs" class="mui-scroll">
+				    	
+				    </div>
+				</div>
+			</div>
+			<div class="jh-gray-bar"></div>
+			<div class="mui-input-row spacing" id="postCategory">
+				<span style="padding: 10px 15px;color: #666666;">贴子分类</span>
+					<span id="Category">
+						<span id="Categorytext"></span>
+					<span><i class="fa fa-angle-down angledown" aria-hidden="true"></i></span>
+				</span>					
+			</div>
+			<div id="demo" class="demo" style="display: none;"></div>
+			
+		</div>
+    </div>
+</div>
+
+		<div  class="mui-bar mui-bar-tab jh-bar-comment" id="bottomBox" style="background-color:#F2F2F2;height: 60px;bottom: 0px;display: none;">
+			<div id="bottomBar" class="jh-comment-right" style="float: left;width: 100%;">
+				<a onclick="galleryImgsMaximum()"><i class="mui-icon fa fa-picture-o creat_menu" aria-hidden="true"></i></a>
+				<a id="getcamera" onclick="getImages()"><i class="mui-icon fa fa-camera angledown creat_menu" aria-hidden="true"></i></a>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/mui.zoom.js"></script>
+		<script src="../js/mui.previewimage.js"></script>
+		<script src="../js/common.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/loading.js" ></script>
+		<script src="../js/jhUpload.js"></script>
+		<script src="../js/mui.picker.js"></script>
+		<script src="../js/mui.poppicker.js"></script>
+		<script src="../js/wxHelper.js"></script>
+		<script src="../js/jweixin-1.2.0.js"></script>
+		<script src="../js/creatUpload.js"></script>
+	</body>
+	<script>
+		
+	var oldImageAttachments = [];
+	var deceleration = mui.os.ios ? 0.003 : 0.0009;
+	mui('.mui-scroll-wrapper').scroll({
+		bounce: false,
+		indicators: true, //是否显示滚动条
+		deceleration: deceleration
+	});
+	if(!mui.os.wechat) {
+		mui.previewImage();
+	}
+	creatloadingEL();
+	if(mui.os.wechat) {
+		initWx();
+		wx.ready(function() {
+			wx.checkJsApi({
+				jsApiList: ['chooseImage', 'uploadImage', 'previewImage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+				success: function(res) {
+					// 以键值对的形式返回，可用的api值true，不可用为false
+					// 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+				}
+			});
+		});
+		wx.error(function(res) {
+
+		});
+	}
+	var commenttextarea = document.getElementById("upload-textarea");
+	var Category = document.getElementById("Category");
+	var Categorytext = document.getElementById("Categorytext");
+	var facePop = document.getElementById("facePop");
+	var bottomBar = document.getElementById("bottomBar");
+	var creatBtn = document.getElementById("creat_Btn");
+	var plusimgArea = document.getElementById("imgPop");
+	var imgArea = document.getElementById("demo");
+	var postCategory = document.getElementById('postCategory');
+	var CategoryId = "";
+	var hasThreadCategory;
+	ZYFILE.url = Http_Url + '/Post/UploadFiles';
+
+	window.onload = function() {
+		if(mui.os.wechat) {
+			var currUrl = location.href.split('#')[0];
+			weChatLogin(currUrl)
+		}
+	}
+//	if(mui.os.plus || mui.os.wechat) {
+//		plusimgArea.style.display = 'block'
+//		imgArea.style.display = 'none'
+//	} else {
+//		plusimgArea.style.display = 'none'
+//		imgArea.style.display = 'block'
+//	}
+
+	// H5 plus事件处理
+	function plusReady() {
+
+	}
+	if(window.plus) {
+		plusReady();
+	} else {
+		document.addEventListener('plusready', plusReady, false);
+	}
+	var sectionId;
+	var currid = "";
+	files = [];
+	//获取url中的targetId参数
+	if(mui.os.plus) {
+		mui.plusReady(function() {
+			var self = plus.webview.currentWebview();
+			sectionId = self.sectionId;
+			currid = self.currId;
+			getThreadCategory(sectionId)
+			//关闭等待框
+			plus.nativeUI.closeWaiting();
+			//显示当前页面
+			mui.currentWebview.show();
+		});
+	} else {
+		sectionId = getUrlParam('sectionId');
+		getThreadCategory(sectionId)
+	}
+	var pickdata = [];
+	var picker = new mui.PopPicker();
+
+	function getThreadCategory(id) {
+		var waiting = showWaiting();
+		getData('Post/GetThreadCategory', {
+			sectionId: id
+		}, function(data) {
+			closeWaiting(waiting);
+			if(data.Type == 1) {
+				if(data.Data && data.Data.length != 0) {
+					hasThreadCategory = true;
+					for(var i = 0; i < data.Data.length; i++) {
+						pickdata.push({
+							value: data.Data[i].Id,
+							text: data.Data[i].Name
+						})
+					}
+					picker.setData(pickdata);
+				} else {
+					hasThreadCategory = false;
+					document.getElementById("postCategory").style.display = 'none';
+				}
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(err) {
+			closeWaiting(waiting);
+		})
+	}
+
+	postCategory.addEventListener('tap', function() {
+		picker.show(function(selectItems) {
+			CategoryId = selectItems[0].value;
+			Categorytext.innerHTML = selectItems[0].text;
+		})
+	})
+	commenttextarea.addEventListener('focus', function() {
+		bottomBar.style.marginBottom = '0px'
+	})
+//	creatBtn.addEventListener('tap', function() {
+//		upload()
+//	})
+
+	function CreateThread(title, body, attachmentIds) {
+		var params = {
+			SectionId: sectionId,
+			Subject: title,
+			Body: body,
+			CategoryId: !hasThreadCategory ? 0 : CategoryId,
+			AttachmentIds: attachmentIds
+		};
+		var waitings = showWaiting();
+		postDatawithToken('Post/CreateThread', params, function(data) {
+			closeWaiting(waitings);
+			mui('#creat_Btn').button('reset');
+			if(data.Type == 1) {
+				mui.toast(data.Data);
+				if(mui.os.plus) {
+					var wobj = plus.webview.getWebviewById("postDetail.html");
+					wobj.reload(true);
+					setTimeout(function() {
+						mui.back();
+					}, 1000)
+				} else {
+					window.history.go(-1); //返回上一页
+				}
+			} else if(data.Type == 0) {
+				//登录失败
+				mui.toast("请登录后再进行操作");
+				login();
+				return;
+			} else {
+				//逻辑错误
+				mui.toast(data.Data);
+				return;
+			}
+		}, function(data) {
+			mui('#creat_Btn').button('reset');
+			closeWaiting(waitings);
+		});
+	}
+
+	var title = "";
+	var body = "";
+	var newListTouch = [];
+	// 上传文件
+	function upload() {
+		if(hasThreadCategory && CategoryId == "") {
+			mui.toast("请选择贴子分类")
+			return
+		}
+		title = TrimAll(document.getElementById("title").value);
+		body = TrimAll(commenttextarea.value);
+		if(title == "") {
+			mui.toast("贴子标题不能为空")
+			return
+		}
+		if(body == "") {
+			mui.toast("贴子内容不能为空")
+			return
+		}
+		if(mui.os.plus) {
+			filesUploadforApp('/Post/UploadFiles', function(e) {
+				if(e == '') {
+					CreateThread(title, body, "");
+				} else {
+					CreateThread(title, body, e);
+				}
+			})
+		} else if(mui.os.wechat) {
+			if(imgFiles.length == 0) {
+				CreateThread(title, body, "");
+			} else {
+				var attachmentIds = [];
+				var i = 0;
+				syncUpload(wxIds, 'Post/WeChatUploadFiles', function(e) {
+					i++;
+					attachmentIds.push(e)
+					if(wxIds.length == 0) {
+						CreateThread(title, body, attachmentIds.join(';'));
+					}
+				})
+			}
+		} else {
+			var lengthList = zyUpload.webFiles.length;
+			var touchArray = [];
+			for(var i=0;i<lengthList;i++){
+				touchArray.push(document.getElementsByClassName('creat-img')[i]);
+			}
+			if(touchArray.length > 0){
+				appendFileTouch('/Post/UploadFiles',0,touchArray,function(e){
+					CreateThread(title, body, e);
+				})
+			}else{
+				CreateThread(title, body, "");
+			}					
+
+		}
+
+	}
+
+	function onCompletes(response) {
+		setTimeout(function() {
+			hideLoading()
+		}, 500)
+
+		CreateThread(title, body, attachmentIds.join(';'));
+	}
+
+	function onFailures() {
+		mui.toast('文件上传失败，请重试！');
+		return
+	}
+
+
+	</script>
+
+</html>

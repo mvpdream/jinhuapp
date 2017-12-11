@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>发布投票贴</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--通用样式-->
+    <link rel="stylesheet" href="../css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/icons-extra.css" />
+    <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../css/jinhu.css" />
+
+</head>
+<body>
+    <header class="mui-bar mui-bar-nav">
+        <button class="mui-action-back mui-btn mui-btn-blue mui-btn-link mui-btn-nav mui-pull-left" style="color:#333333">
+            <span class="mui-icon mui-icon-left-nav"></span>发布投票贴
+        </button>
+        <button type="button" class="mui-btn mui-btn-primary mui-pull-right">发布</button>
+    </header>
+    <div class="mui-content jh-publish-vote">
+        <div class="jh-gray-bar"></div>
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                投票标题
+            </li>
+            <li class="mui-table-view-cell">
+                图片选项
+                <div class="mui-switch mui-switch-mini">
+                    <div class="mui-switch-handle"></div>
+                </div>
+            </li>
+            <li class="mui-table-view-cell">
+                <input name="style"type="radio" value="inverted" checked="">
+                可选项数
+                <span class="mui-pull-right mui-icon mui-icon-closeempty"></span>
+            </li>
+            <li class="mui-table-view-cell">
+                <input name="style" type="radio" value="inverted" checked="">
+                可选项数
+                <span class="mui-pull-right mui-icon mui-icon-closeempty"></span>
+            </li>
+            <li class="mui-table-view-cell">
+                图片选项
+                <div class="mui-switch mui-switch-mini mui-active">
+                    <div class="mui-switch-handle"></div>
+                </div>
+            </li>
+            <li class="mui-table-view-cell">
+                <img src="../img/publish-vote-img.jpg"/>
+                可选项数
+                <span class="mui-pull-right mui-icon mui-icon-closeempty"style="margin-top:20px;"></span>
+            </li>
+            <li class="mui-table-view-cell mui-text-center">
+                <sapn class="tn-theme-color">新建投票选项</sapn>
+            </li>
+        </ul>
+        <div class="jh-gray-bar"></div>
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                可选项数
+                <span class="mui-pull-right mui-icon mui-icon-arrowdown"></span>
+            </li>
+            <li class="mui-table-view-cell">
+                详情描述
+            </li>
+            <li class="mui-table-view-cell">
+                起止时间
+                <span class="tn-text-color tn-ml-10">2017-06-30 08:00 —— 18：00 </span>
+                <span class="mui-pull-right mui-icon mui-icon-arrowdown"></span>
+            </li>
+            <li class="mui-table-view-cell">
+                允许用户查看投票结果
+                <div class="mui-switch mui-switch-mini">
+                    <div class="mui-switch-handle"></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <script src="../js/mui.min.js"></script>
+</body>
+</html>
